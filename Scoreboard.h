@@ -21,7 +21,7 @@ private:
      //QPixmap scoreboard;
      //QGraphicsPixmapItem* ppBar;
      QPixmap* ppBar;
-     QGraphicsPixmapItem* topBar;
+     QPixmap* topBar;
      QGraphicsPixmapItem* networkLogo;
      QGraphicsTextItem* homeName;
      QGraphicsTextItem* awayName;

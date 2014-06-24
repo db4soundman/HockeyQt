@@ -3,6 +3,5 @@
         <file alias="Scoreboard.png">images/Scoreboard.png</file>
         <file alias="ppBar.png">images/PPBar.png</file>
         <file alias="statbar.png">images/StatBar.png</file>
-        <file alias="NeutralBar">images/NeutralPPBar.png</file>
     </qresource>
 </RCC>
