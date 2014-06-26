@@ -16,6 +16,7 @@ int main(int argc, char *argv[]) {
 //    scene.addText("Hellow World!");
 
     QGraphicsView view(scene);
+    view.setBackgroundBrush(QColor(0,120,0));
     view.showFullScreen();
     //sb->setScale(1.68);
    // sb->setPos(view.mapToScene(view.width()/2, -200));

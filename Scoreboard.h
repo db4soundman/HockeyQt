@@ -22,11 +22,15 @@ private:
      //QGraphicsPixmapItem* ppBar;
      QPixmap* ppBar;
      QPixmap* topBar;
-     QGraphicsPixmapItem* networkLogo;
+     QPixmap* networkLogo;
      QGraphicsTextItem* homeName;
      QGraphicsTextItem* awayName;
      QGraphicsTextItem* homeScore;
      QGraphicsTextItem* awayScore;
+     QGraphicsTextItem* topBarText;
+     QLinearGradient homeGradient, awayGradient, penaltyGradient;
+     bool awayPP, homePP, neutralPP, penalty, sponsor, scoreText;
+
 
 };
 
