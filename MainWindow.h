@@ -1,14 +1,13 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <QGraphicsScene>
 #include <QMainWindow>
-
-class MainWindow : public QMainWindow
-{
+#include "Scoreboard.h"
+class MainWindow : public QMainWindow {
     Q_OBJECT
-
 public:
-    MainWindow(QWidget *parent = 0);
+    MainWindow(Scoreboard* sb, QWidget *parent = 0);
     ~MainWindow();
 };
 
