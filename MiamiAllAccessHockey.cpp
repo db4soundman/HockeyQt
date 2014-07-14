@@ -65,8 +65,8 @@ MiamiAllAccessHockey::exec() {
 
 
     QDesktopWidget desktop;
-    tv->setGeometry(desktop.screenGeometry(1));
-    tv->setSceneRect(0, 0,1920, 1080);
+    //tv->setGeometry(desktop.screenGeometry(1));
+    tv->setSceneRect(0, 0,1600, 900);
     // Get desktop set up and wizard val later...
     tv->setBackgroundBrush(bg);
     //tv->setFixedSize(1600,900);

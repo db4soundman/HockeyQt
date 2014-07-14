@@ -56,6 +56,7 @@ private:
      void prepareColor();
      Clock* clock;
      Clock* ppClock;
+     QFont defaultSponsorText;
 
 };
 

@@ -2,6 +2,7 @@
 #include <QGraphicsScene>
 #include <QMessageBox>
 #include <QFontMetrics>
+#include <QFontInfo>
 
 #define GRADIENT_LEVEL .5
 #define AWAY_PP 1
@@ -11,6 +12,14 @@
 Scoreboard::Scoreboard(QColor awayCol, QColor homeCol, QString awayTeam, QString homeTeam,
                        QString sponsorText, Clock* clock, QGraphicsItem *parent) :
     QGraphicsPixmapItem(parent), homeColor(homeCol), awayColor(awayCol) {
+    QFont font("Arial", 34, QFont::Bold);
+    QFont sponsorFont("Arial", 22, QFont::Bold);
+#ifdef Q_OS_OSX
+    font.setPointSize(40);
+    sponsorFont.setPointSize(28);
+    #endif
+
+    defaultSponsorText = sponsorFont;
     show = true;
     setPixmap(QPixmap(":/images/Scoreboard.png"));
     ppBar = new QPixmap(":/images/ppBar.png");
@@ -18,16 +27,19 @@ Scoreboard::Scoreboard(QColor awayCol, QColor homeCol, QString awayTeam, QString
     networkLogo = new QPixmap(":/images/M.png");
     awayName = new QGraphicsTextItem(awayTeam);
     homeName = new QGraphicsTextItem(homeTeam);
-    awayName->setFont(QFont("Arial", 40, QFont::Bold));
-    homeName->setFont(QFont("Arial", 40, QFont::Bold));
+    awayName->setFont(font);
+    homeName->setFont(font);
     awayScore = new QGraphicsTextItem("0");
-    awayScore->setFont(QFont("Arial", 40, QFont::Bold));
+    awayScore->setFont(font);
     homeScore = new QGraphicsTextItem("0");
-    homeScore->setFont(QFont("Arial", 40, QFont::Bold));
-
+    homeScore->setFont(font);
+    QFontInfo info(homeName->font());
+    QMessageBox msg;
+    msg.setText(info.family());
+   // msg.exec();
     topBarText = new QGraphicsTextItem(sponsorText);
     this->sponsorText = sponsorText;
-    topBarText->setFont(QFont("Arial", 28, QFont::Bold));
+    topBarText->setFont(defaultSponsorText);
 
     homeGradient.setStart(0, 6);
     awayGradient.setStart(0, 6);
@@ -61,7 +73,7 @@ Scoreboard::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
         painter->drawPixmap(0, 0, this->pixmap());
         painter->drawPixmap(34, 4, 73, 46, *networkLogo);
         //Clock - Game time...draw clock first since default color is black
-        painter->setFont(QFont("Arial", 40, QFont::Bold));
+        painter->setFont(homeName->font());
         if (showPdAndClock) {
             painter->drawText(838, 3, 247, 50, Qt::AlignVCenter, period);
             painter->drawText(833, 3, 242, 50, Qt::AlignRight | Qt::AlignVCenter,
@@ -95,7 +107,7 @@ Scoreboard::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 
         if (showPP) {
             painter->setPen(QColor(255, 255, 255));
-            painter->setFont(QFont("Arial", 32, QFont::Bold));
+            painter->setFont(defaultSponsorText);
             // Away ppbar
             if(awayPP) {
                 painter->drawPixmap(112,52, *ppBar);
@@ -120,7 +132,7 @@ Scoreboard::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
             // Penalty Indicator
             painter->fillRect(833, 52, 247, 38, penaltyGradient);
             painter->setPen(QColor(0,0,0));
-            painter->setFont(QFont("Arial", 32, QFont::Bold));
+            painter->setFont(defaultSponsorText);
             painter->drawText(833,54,247,38, Qt::AlignCenter, "PENALTY");
         }
 
@@ -244,7 +256,7 @@ void
 Scoreboard::changeTopBarText(QString text) {
     topBarText->setPlainText(text);
     int subtraction = 1;
-    topBarText->setFont(QFont("Arial", 32, QFont::Bold));
+    topBarText->setFont(QFont("Arial", 34, QFont::Bold));
     QFontMetrics fontSize(topBarText->font());
     while (fontSize.width(text) > 1092) {
         topBarText->font().setPointSize(34-subtraction);
@@ -259,10 +271,10 @@ void
 Scoreboard::displaySponsor() {
     topBarText->setPlainText(sponsorText);
     int subtraction = 1;
-    topBarText->setFont(QFont("Arial", 28, QFont::Bold));
+    topBarText->setFont(defaultSponsorText);
     QFontMetrics fontSize(topBarText->font());
     while (fontSize.width(sponsorText) > 1092) {
-        topBarText->font().setPointSize(28-subtraction);
+        topBarText->font().setPointSize(defaultSponsorText.pointSize()-subtraction);
         subtraction++;
         QFontMetrics temp(topBarText->font());
         fontSize = temp;
