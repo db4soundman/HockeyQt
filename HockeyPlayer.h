@@ -8,7 +8,7 @@ class HockeyPlayer : public QObject {
 public:
     HockeyPlayer();
     HockeyPlayer(const HockeyPlayer& p);
-    HockeyPlayer& operator = (const HockeyPlayer&);
+    //HockeyPlayer& operator = (const HockeyPlayer&);
 
     QString getName() const;
     void setName(const QString& value);
@@ -82,6 +82,14 @@ public:
     QString getGaavg() const;
     void setGaavg(const QString& value);
 
+    void addSave();
+    void minusSave();
+    void addGa();
+    void minusGa();
+
+    double getSvPct() const;
+    void calcSvPct();
+
 private:
     QString name, uni, year, plusMinus, gaavg;
     int gp, goals, assists, pts, penalties, pim;
@@ -90,6 +98,7 @@ private:
 
     int goalsToday, assistsToday, ptsToday, penaltiesToday,
     pimToday, gaToday, savesToday, shotsFacedToday;
+    double svPct;
 };
 
 #endif // HOCKEYPLAYER_H

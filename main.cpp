@@ -1,18 +1,7 @@
-#include "MainWindow.h"
-#include <QApplication>
-#include <QGraphicsScene>
-#include "Scoreboard.h"
-#include "LowerThird.h"
-#include <QGraphicsView>
-
-#include <QFileDialog>
-#include "HockeyTeam.h"
-#include "SeasonXMLHandler.h"
-#include <QXmlSimpleReader>
-#include <QXmlInputSource>
+#include "MiamiAllAccessHockey.h"
 
 int main(int argc, char *argv[]) {
-    QApplication a(argc, argv);
+    MiamiAllAccessHockey a(argc, argv);
 
 //    HockeyTeam team;
 //    QXmlSimpleReader reader;
@@ -23,25 +12,25 @@ int main(int argc, char *argv[]) {
 //    QXmlInputSource src(&file);
 //    reader.parse(src);
 //    int x = 4+4;
-    Scoreboard* sb = new Scoreboard(QColor(0,124,252), QColor(192,0,29));
-    QGraphicsScene* scene = new QGraphicsScene();
-    scene->addItem(sb);
-    LowerThird* lt = new LowerThird();
-    scene->addItem(lt);
-    lt->setY(740);
-    lt->setX(337);
-    QGraphicsView view(scene);
+//    Scoreboard* sb = new Scoreboard(QColor(0,124,252), QColor(192,0,29));
+//    QGraphicsScene* scene = new QGraphicsScene();
+//    scene->addItem(sb);
+//    LowerThird* lt = new LowerThird();
+//    scene->addItem(lt);
+//    lt->setY(740);
+//    lt->setX(337);
+//    QGraphicsView view(scene);
 
-    view.setFixedSize(1600,900);
-    view.setBackgroundBrush(QColor(0,120,0));
-    //view.showFullScreen();
-    view.setMinimumSize(1600,900);
-    //sb->setScale(1.68);
-   // sb->setPos(view.mapToScene(view.width()/2, -200));
-    sb->setY(80);
-    MainWindow w(sb);
-    view.showFullScreen();
-    w.show();
+//    view.setFixedSize(1600,900);
+//    view.setBackgroundBrush(QColor(0,120,0));
+//    //view.showFullScreen();
+//    view.setMinimumSize(1600,900);
+//    //sb->setScale(1.68);
+//   // sb->setPos(view.mapToScene(view.width()/2, -200));
+//    sb->setY(80);
+//    MainWindow w(sb);
+//    view.showFullScreen();
+//    w.show();
 
     return a.exec();
 }

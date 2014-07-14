@@ -27,29 +27,6 @@ HockeyPlayer::HockeyPlayer(const HockeyPlayer& p) {
     shotsFaced = p.getShotsFaced();
 }
 
-HockeyPlayer&
-HockeyPlayer::operator= (const HockeyPlayer& p) {
-    name = p.getName();
-    uni = p.getUni();
-    year = p.getYear();
-    plusMinus = p.getPlusMinus();
-    gaavg = p.getGaavg();
-    gp = p.getGp();
-    goals = p.getGoals();
-    assists = p.getAssists();
-    pts = p.getPts();
-    penalties = p.getPenalties();
-    pim = p.getPim();
-    ga = p.getGa();
-    saves = p.getSaves();
-    wins = p.getWins();
-    losses = p.getLosses();
-    shotsFaced = p.getShotsFaced();
-    goalsToday = assistsToday = ptsToday = penaltiesToday =
-            pimToday = gaToday = savesToday = shotsFacedToday = 0;
-
-    return *this;
-}
 QString HockeyPlayer::getName() const {
     return name;
 }
@@ -220,6 +197,7 @@ int HockeyPlayer::getShotsFacedToday() const {
 void HockeyPlayer::setShotsFacedToday(int value) {
     shotsFacedToday = value;
 }
+
 QString HockeyPlayer::getGaavg() const
 {
     return gaavg;
@@ -229,4 +207,39 @@ void HockeyPlayer::setGaavg(const QString& value)
 {
     gaavg = value;
 }
+
+void HockeyPlayer::addSave()
+{
+    savesToday++;
+    shotsFacedToday++;
+}
+
+void HockeyPlayer::minusSave()
+{
+    savesToday--;
+    shotsFacedToday--;
+}
+
+void HockeyPlayer::addGa()
+{
+    gaToday++;
+    shotsFacedToday++;
+}
+
+void HockeyPlayer::minusGa()
+{
+    gaToday--;
+    shotsFacedToday--;
+}
+double HockeyPlayer::getSvPct() const
+{
+    return svPct;
+}
+
+void HockeyPlayer::calcSvPct()
+{
+    shotsFaced = ga + saves;
+    svPct = ((double)saves / shotsFaced) * 100;
+}
+
 

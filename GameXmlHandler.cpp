@@ -9,22 +9,23 @@ bool GameXmlHandler::startElement(const QString& namespaceURI,
                                 const QString& qName,
                                 const QXmlAttributes& atts) {
     if (qName == "player") {
-        currPlayer.setName(correctName(atts.value("name")));
-        currPlayer.setUni(atts.value("uni"));
-        currPlayer.setYear("N/A");
-        currPlayer.setPlusMinus("");
-        currPlayer.setGaavg("NG");
-        currPlayer.setGp(-1);
-        currPlayer.setGoals(-1);
-        currPlayer.setAssists(-1);
-        currPlayer.setPts(-1);
-        currPlayer.setPenalties(-1);
-        currPlayer.setPim(-1);
-        currPlayer.setGa(-1);
-        currPlayer.setSaves(-1);
-        currPlayer.setWins(-1);
-        currPlayer.setLosses(-1);
-        currPlayer.setShotsFaced(-1);
+        currPlayer = new HockeyPlayer();
+        currPlayer->setName(correctName(atts.value("name")));
+        currPlayer->setUni(atts.value("uni"));
+        currPlayer->setYear("N/A");
+        currPlayer->setPlusMinus("");
+        currPlayer->setGaavg("NG");
+        currPlayer->setGp(-1);
+        currPlayer->setGoals(-1);
+        currPlayer->setAssists(-1);
+        currPlayer->setPts(-1);
+        currPlayer->setPenalties(-1);
+        currPlayer->setPim(-1);
+        currPlayer->setGa(-1);
+        currPlayer->setSaves(-1);
+        currPlayer->setWins(-1);
+        currPlayer->setLosses(-1);
+        currPlayer->setShotsFaced(-1);
     }
 
     return true;

@@ -25,35 +25,36 @@ bool SeasonXMLHandler::startElement(const QString& namespaceURI,
     }
 
     else if (qName == "player") {
+        currPlayer = new HockeyPlayer();
         inPlayer = true;
-        currPlayer.setName(correctName(atts.value("name")));
-        currPlayer.setUni(atts.value("uni"));
-        currPlayer.setYear(atts.value("year"));
-        currPlayer.setGp(atts.value("gp").toInt());
+        currPlayer->setName(correctName(atts.value("name")));
+        currPlayer->setUni(atts.value("uni"));
+        currPlayer->setYear(atts.value("year"));
+        currPlayer->setGp(atts.value("gp").toInt());
     }
 
     else if (qName == "shots" && inPlayer) {
-        currPlayer.setGoals(atts.value("g").toInt());
-        currPlayer.setAssists(atts.value("a").toInt());
-        currPlayer.setPts(atts.value("pts").toInt());
+        currPlayer->setGoals(atts.value("g").toInt());
+        currPlayer->setAssists(atts.value("a").toInt());
+        currPlayer->setPts(atts.value("pts").toInt());
     }
 
     else if (qName == "penalty" && inPlayer) {
-        currPlayer.setPenalties(atts.value("count").toInt());
-        currPlayer.setPim(atts.value("minutes").toInt());
+        currPlayer->setPenalties(atts.value("count").toInt());
+        currPlayer->setPim(atts.value("minutes").toInt());
     }
 
     else if (qName == "misc" && inPlayer) {
-        currPlayer.setPlusMinus(atts.value("plusminus"));
+        currPlayer->setPlusMinus(atts.value("plusminus"));
     }
 
     else if (qName == "goalie" && inPlayer) {
         foundGoalie = true;
-        currPlayer.setGa(atts.value("ga").toInt());
-        currPlayer.setSaves(atts.value("saves").toInt());
-        currPlayer.setGaavg(atts.value("gaavg"));
-        currPlayer.setWins(atts.value("w").toInt());
-        currPlayer.setLosses(atts.value("l").toInt());
+        currPlayer->setGa(atts.value("ga").toInt());
+        currPlayer->setSaves(atts.value("saves").toInt());
+        currPlayer->setGaavg(atts.value("gaavg"));
+        currPlayer->setWins(atts.value("w").toInt());
+        currPlayer->setLosses(atts.value("l").toInt());
 
     }
 
@@ -63,12 +64,12 @@ bool SeasonXMLHandler::startElement(const QString& namespaceURI,
 bool SeasonXMLHandler::endElement(const QString& namespaceURI, const QString& localName, const QString& qName) {
     if (qName == "player") {
         if (!foundGoalie) {
-            currPlayer.setGa(-1);
-            currPlayer.setSaves(-1);
-            currPlayer.setShotsFaced(-1);
-            currPlayer.setWins(-1);
-            currPlayer.setLosses(-1);
-            currPlayer.setGaavg("NG");
+            currPlayer->setGa(-1);
+            currPlayer->setSaves(-1);
+            currPlayer->setShotsFaced(-1);
+            currPlayer->setWins(-1);
+            currPlayer->setLosses(-1);
+            currPlayer->setGaavg("NG");
         }
         team->addPlayer(currPlayer);
         inPlayer = false;

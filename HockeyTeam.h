@@ -9,8 +9,8 @@ class HockeyTeam : public QObject {
     Q_OBJECT
 public:
     HockeyTeam();
-    const HockeyPlayer& getPlayer(const int i);
-    void addPlayer(const HockeyPlayer player);
+    HockeyPlayer* getPlayer(const int i);
+    void addPlayer(HockeyPlayer* player);
     int getPpg() const;
     void setPpg(int value);
 
@@ -41,6 +41,12 @@ public:
     double getPkPct() const;
     void setPkPct(double value);
 
+    QList<QString> getGuiNames();
+
+    HockeyPlayer* getGoalie();
+
+    bool getPlayerInGoal() const;
+
 signals:
 
 
@@ -50,12 +56,16 @@ public slots:
     void addPkStop();
     void addPkFail();
 
+    void setGoalie(int index);
 
 private:
-    QList<HockeyPlayer> roster;
+    QList<HockeyPlayer*> roster;
     int ppg, ppopp, pk, pkopp,
     ppgToday, ppoppToday, pkToday, pkoppToday;
     double ppPct, pkPct;
+    bool playerInGoal;
+
+    HockeyPlayer* goalie;
     // period data???
     // game history???
 };

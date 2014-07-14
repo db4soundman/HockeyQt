@@ -14,12 +14,25 @@ public:
 
     QString toString();
     QString toStringPP();
-
+    QString getTimeSincePdStarted();
+    QString getTimeSinceOtStarted();
     int getTimeLeft();
+
+    bool isGameClock() const;
+    void setGameClock(bool value);
+
+    int getMinutes() const;
+    void setMinutes(int value);
+
+    int getSeconds() const;
+    void setSeconds(int value);
+
+    int getTenths() const;
+    void setTenths(int value);
 
 public slots:
     void tick();
-    void resetClock(bool ot);
+    void resetClock(bool ot = false);
 
 signals:
     void clockExpired();

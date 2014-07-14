@@ -14,7 +14,8 @@
 class Scoreboard : public QObject, public QGraphicsPixmapItem {
     Q_OBJECT
 public:
-     Scoreboard( QColor awayCol,QColor homeCol, QGraphicsItem* parent = 0);
+     Scoreboard(QColor awayCol, QColor homeCol, QString awayTeam, QString homeTeam,
+                 QString sponsorText, Clock* clock, QGraphicsItem* parent = 0);
      void paint(QPainter * painter,
                 const QStyleOptionGraphicsItem * option, QWidget * widget = 0);
 
@@ -30,7 +31,12 @@ public slots:
      void updatePeriod(int pd);
      void changeTopBarText(QString text);
      void toggleShowBoard();
+     void togglePpClocks();
      void hideBoard();
+     void updateClock();
+     void intermission();
+     void displayClock();
+     void displaySponsor();
 
 private:
      QPixmap* ppBar;
@@ -42,7 +48,7 @@ private:
      QGraphicsTextItem* homeScore;
      QGraphicsTextItem* awayScore;
      QGraphicsTextItem* topBarText;
-     QString ppDescription, period, centeredTimeText;
+     QString ppDescription, period, centeredTimeText, sponsorText;
      QLinearGradient homeGradient, awayGradient, penaltyGradient;
      bool awayPP, homePP, neutralPP, penalty, sponsor,
      scoreText, showPP, show, showPdAndClock, showClock;

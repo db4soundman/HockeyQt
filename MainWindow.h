@@ -3,12 +3,17 @@
 
 #include <QGraphicsScene>
 #include <QMainWindow>
-#include "Scoreboard.h"
+#include "HockeyGame.h"
+#include "ControlPanel.h"
+
 class MainWindow : public QMainWindow {
     Q_OBJECT
 public:
-    MainWindow(Scoreboard* sb, QWidget *parent = 0);
+    MainWindow(HockeyGame* game, QWidget *parent = 0);
     ~MainWindow();
+
+private:
+    ControlPanel panel;
 };
 
 #endif // MAINWINDOW_H

@@ -11,7 +11,9 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = Graphics
 TEMPLATE = app
-
+DEFINES *= QT_USE_QSTRINGBUILDER
+INCLUDEPATH += GUI \
+               Wizard
 
 SOURCES += main.cpp\
         MainWindow.cpp \
@@ -22,7 +24,26 @@ SOURCES += main.cpp\
     HockeyTeam.cpp \
     HockeyPlayer.cpp \
     SeasonXMLHandler.cpp \
-    GameXmlHandler.cpp
+    GameXmlHandler.cpp \
+    MiamiAllAccessHockey.cpp \
+    GUI/ControlPanel.cpp \
+    GUI/DisplayControls.cpp \
+    GUI/PowerPlayUpdaters.cpp \
+    GUI/PenaltyControl.cpp \
+    GUI/SogControl.cpp \
+    GUI/ScoreControl.cpp \
+    GUI/GameInfo.cpp \
+    GUI/ClockControls.cpp \
+    GUI/StatDisplayControls.cpp \
+    GUI/VisitingGameStatControl.cpp \
+    GUI/HomeStatControl.cpp \
+    GUI/GoalDisplayWidget.cpp \
+    GUI/PenaltyDisplay.cpp \
+    GUI/Goalies.cpp \
+    GUI/ClockDialog.cpp \
+    GUI/PpClockDialog.cpp \
+    Wizard/SetupWizard.cpp \
+    Wizard/SetupPage.cpp
 
 HEADERS  += MainWindow.h \
     Scoreboard.h \
@@ -32,7 +53,26 @@ HEADERS  += MainWindow.h \
     HockeyTeam.h \
     HockeyPlayer.h \
     SeasonXMLHandler.h \
-    GameXmlHandler.h
+    GameXmlHandler.h \
+    MiamiAllAccessHockey.h \
+    GUI/ControlPanel.h \
+    GUI/DisplayControls.h \
+    GUI/PowerPlayUpdaters.h \
+    GUI/PenaltyControl.h \
+    GUI/SogControl.h \
+    GUI/ScoreControl.h \
+    GUI/GameInfo.h \
+    GUI/ClockControls.h \
+    GUI/StatDisplayControls.h \
+    GUI/VisitingGameStatControl.h \
+    GUI/HomeStatControl.h \
+    GUI/GoalDisplayWidget.h \
+    GUI/PenaltyDisplay.h \
+    GUI/Goalies.h \
+    GUI/ClockDialog.h \
+    GUI/PpClockDialog.h \
+    Wizard/SetupWizard.h \
+    Wizard/SetupPage.h
 
 
 RESOURCES += \

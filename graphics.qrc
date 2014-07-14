@@ -6,4 +6,7 @@
         <file alias="M.png">images/M.png</file>
         <file alias="LowerThird.png">images/StatsGraphic.png</file>
     </qresource>
+    <qresource prefix="/resources">
+        <file alias="penalties.txt">resources/penalties.txt</file>
+    </qresource>
 </RCC>

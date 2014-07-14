@@ -8,15 +8,16 @@
 #define HOME_PP 2
 #define NEUTRAL 3
 
-Scoreboard::Scoreboard(QColor awayCol, QColor homeCol, QGraphicsItem *parent) :
+Scoreboard::Scoreboard(QColor awayCol, QColor homeCol, QString awayTeam, QString homeTeam,
+                       QString sponsorText, Clock* clock, QGraphicsItem *parent) :
     QGraphicsPixmapItem(parent), homeColor(homeCol), awayColor(awayCol) {
     show = true;
     setPixmap(QPixmap(":/images/Scoreboard.png"));
     ppBar = new QPixmap(":/images/ppBar.png");
     topBar = new QPixmap(":/images/statbar.png");
     networkLogo = new QPixmap(":/images/M.png");
-    awayName = new QGraphicsTextItem("WINDSOR");
-    homeName = new QGraphicsTextItem("MIAMI");
+    awayName = new QGraphicsTextItem(awayTeam);
+    homeName = new QGraphicsTextItem(homeTeam);
     awayName->setFont(QFont("Arial", 40, QFont::Bold));
     homeName->setFont(QFont("Arial", 40, QFont::Bold));
     awayScore = new QGraphicsTextItem("0");
@@ -24,7 +25,8 @@ Scoreboard::Scoreboard(QColor awayCol, QColor homeCol, QGraphicsItem *parent) :
     homeScore = new QGraphicsTextItem("0");
     homeScore->setFont(QFont("Arial", 40, QFont::Bold));
 
-    topBarText = new QGraphicsTextItem("McCullough Hyde Memorial Hospital - IMG Sports Network");
+    topBarText = new QGraphicsTextItem(sponsorText);
+    this->sponsorText = sponsorText;
     topBarText->setFont(QFont("Arial", 28, QFont::Bold));
 
     homeGradient.setStart(0, 6);
@@ -40,9 +42,12 @@ Scoreboard::Scoreboard(QColor awayCol, QColor homeCol, QGraphicsItem *parent) :
     penalty = false;
     showPP = false;
     sponsor = true;
-    showPdAndClock = false;
+    showPdAndClock = true;
     showClock = true;
-    centeredTimeText = "BETA";
+    //centeredTimeText = "BETA";
+
+    this->clock = clock;
+    connect(clock, SIGNAL(clockUpdated()), this, SLOT(updateClock()));
 
 }
 
@@ -104,7 +109,7 @@ Scoreboard::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
                 painter->drawText(474, 52, 331, 38, Qt::AlignRight | Qt::AlignVCenter, ppClock->toStringPP());
             }
             //Neutral
-            else {
+            else if (neutralPP){
                 painter->drawPixmap(833,54,247,38, *ppBar );
                 painter->drawText(841, 54, 247, 38, Qt::AlignLeft | Qt::AlignVCenter, ppDescription);
                 painter->drawText(833, 54, 239, 38, Qt::AlignRight | Qt::AlignVCenter, ppClock->toStringPP());
@@ -153,6 +158,11 @@ Scoreboard::togglePenalty() {
 }
 
 void
+Scoreboard::updateClock() {
+    scene()->update();
+}
+
+void
 Scoreboard::preparePowerplayClock(int pos, Clock *clock, QString description) {
     // Clear off current board.
     awayPP = false;
@@ -168,12 +178,12 @@ Scoreboard::preparePowerplayClock(int pos, Clock *clock, QString description) {
         break;
     case NEUTRAL:
         neutralPP = true;
-    default: break;
+        break;
+    default:
+        break;
     }
     ppDescription = description;
-    if (showPP) {
         scene()->update();
-    }
 }
 
 void
@@ -204,6 +214,7 @@ Scoreboard::updatePeriod(int pd) {
         break;
     case 4:
         period = "OT";
+        showPdAndClock = true;
         break;
     case 5:
         centeredTimeText = "SHOOTOUT";
@@ -233,8 +244,24 @@ void
 Scoreboard::changeTopBarText(QString text) {
     topBarText->setPlainText(text);
     int subtraction = 1;
+    topBarText->setFont(QFont("Arial", 32, QFont::Bold));
     QFontMetrics fontSize(topBarText->font());
     while (fontSize.width(text) > 1092) {
+        topBarText->font().setPointSize(34-subtraction);
+        subtraction++;
+        QFontMetrics temp(topBarText->font());
+        fontSize = temp;
+    }
+    scene()->update();
+}
+
+void
+Scoreboard::displaySponsor() {
+    topBarText->setPlainText(sponsorText);
+    int subtraction = 1;
+    topBarText->setFont(QFont("Arial", 28, QFont::Bold));
+    QFontMetrics fontSize(topBarText->font());
+    while (fontSize.width(sponsorText) > 1092) {
         topBarText->font().setPointSize(28-subtraction);
         subtraction++;
         QFontMetrics temp(topBarText->font());
@@ -249,7 +276,28 @@ Scoreboard::toggleShowBoard() {
     scene()->update();
 }
 
+void Scoreboard::togglePpClocks()
+{
+    showPP = !showPP;
+    scene()->update();
+}
+
 void
 Scoreboard::hideBoard() {
     show = false;
+    scene()->update();
+}
+
+void
+Scoreboard::intermission() {
+    showPdAndClock = true;
+    showClock = false;
+    scene()->update();
+}
+
+void
+Scoreboard::displayClock() {
+    showPdAndClock = true;
+    showClock = true;
+    scene()->update();
 }

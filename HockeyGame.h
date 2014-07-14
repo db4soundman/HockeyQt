@@ -5,11 +5,51 @@
 #include "Clock.h"
 #include <QString>
 #include <QTimer>
+#include "Scoreboard.h"
+#include "LowerThird.h"
+#include "HockeyTeam.h"
+
 
 class HockeyGame : public QObject {
     Q_OBJECT
 public:
-    HockeyGame(QString awayName, QString homeName);
+    HockeyGame(QString awayName, QString homeName, QColor awayColor, QColor homeColor,
+               QString awayXML, QString homeXML, QString sponsor, QString announcers,
+               QString awayRank, QString homeRank);
+
+    Scoreboard* getSb();
+    LowerThird* getLt();
+
+    QString getSponsor() const;
+    void setSponsor(const QString& value);
+
+    QString getAnnouncers() const;
+    void setAnnouncers(const QString& value);
+
+    QString getHomeName() const;
+    void setHomeName(const QString& value);
+
+    QString getAwayName() const;
+    void setAwayName(const QString& value);
+
+    HockeyTeam* getHomeTeam() const;
+
+    HockeyTeam* getAwayTeam() const;
+
+    Clock* getGameClock();
+
+
+    QList<Clock*> getAwayPenalty() const;
+    void setAwayPenalty(const QList<Clock*>& value);
+
+    QList<Clock*> getHomePenalty() const;
+    void setHomePenalty(const QList<Clock*>& value);
+
+    QString getHomeRank() const;
+    void setHomeRank(const QString& value);
+
+    QString getAwayRank() const;
+    void setAwayRank(const QString& value);
 
 public slots:
     void homeGoal();
@@ -27,6 +67,19 @@ public slots:
     void addAwaySOG();
     void subHomeSOG();
     void subAwaySOG();
+    void showAnnouncers();
+    void gatherHomeSeasonStatsLt(int index);
+    void gatherHomeSeasonStatsSb(int index);
+    void gatherHomeGameStatsLt(int index);
+    void gatherAwayStatsLt(int index);
+    void gatherHomeGameStatsSb(int index);
+    void gatherAwayGameStatsSb(int index);
+    void prepareHomeGoalText(int scorer, int a1, int a2);
+    void prepareAwayGoalText(int scorer, int a1, int a2);
+    void prepareHomePenaltyText(int pIndex, QString penalty);
+    void prepareAwayPenaltyText(int pIndex, QString penalty);
+    void determinePpClockForScoreboard();
+    void displayPenaltyEditor();
 
 signals:
     void homeScoreChanged(int score);
@@ -36,20 +89,28 @@ signals:
     void clockIsRunning(bool isRunning);
     void awaySogChanged(int sog);
     void homeSogChanged(int sog);
+    void checkScoreboardPp();
+
+private slots:
 
 
 private:
-    QString homeName, awayName;
+    QString homeName, awayName, sponsor, announcers, timeEventHappened, homeRank,
+    awayRank;
     int awayScore, homeScore, period, homeSOG, awaySOG;
     Clock gameClock;
     QList<Clock*> awayPenalty, homePenalty;
     QTimer timer;
     bool clockRunning;
-    // Teams
+    QColor homeColor, awayColor;
+    HockeyTeam* homeTeam;
+    HockeyTeam* awayTeam;
+    Scoreboard sb;
+    LowerThird lt;
     // GUI is separate class
     // GraphicsVars
 
-    void determinePpClockForScoreboard();
+
     Clock* getLowestPpClock();
 };
 

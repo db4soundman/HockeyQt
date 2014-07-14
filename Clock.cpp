@@ -23,6 +23,8 @@ Clock::setClock(int m, int s, int t) {
     seconds = s;
     tenths = t;
     emit clockUpdated();
+    if (minutes == 0 && seconds == 0 && tenths == 0)
+        emit clockExpired();
 }
 
 int
@@ -43,6 +45,24 @@ QString
 Clock::toStringPP() {
     QTime clock(0, minutes, seconds, tenths);
     return clock.toString("m:ss");
+}
+
+QString Clock::getTimeSincePdStarted()
+{
+    QTime clock(0, minutes, seconds);
+    QTime pd(0, 20);
+    QTime retVal(0,0);
+    retVal = retVal.addSecs(clock.secsTo(pd));
+    return retVal.toString("m:ss");
+}
+
+QString Clock::getTimeSinceOtStarted()
+{
+    QTime clock(0, minutes, seconds);
+    QTime pd(0, 5);
+    QTime retVal(0,0);
+    retVal.addSecs(clock.secsTo(pd));
+    return retVal.toString("m:ss");
 }
 
 void
@@ -73,3 +93,43 @@ Clock::resetClock(bool ot) {
         setClock(otLength, 0, 1);
     }
 }
+int Clock::getTenths() const
+{
+    return tenths;
+}
+
+void Clock::setTenths(int value)
+{
+    tenths = value;
+}
+
+int Clock::getSeconds() const
+{
+    return seconds;
+}
+
+void Clock::setSeconds(int value)
+{
+    seconds = value;
+}
+
+int Clock::getMinutes() const
+{
+    return minutes;
+}
+
+void Clock::setMinutes(int value)
+{
+    minutes = value;
+}
+
+bool Clock::isGameClock() const
+{
+    return gameClock;
+}
+
+void Clock::setGameClock(bool value)
+{
+    gameClock = value;
+}
+

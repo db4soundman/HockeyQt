@@ -2,15 +2,17 @@
 
 HockeyTeam::HockeyTeam() {
     ppgToday = ppoppToday = pkToday = pkoppToday = 0;
+
 }
 
-const HockeyPlayer&
-HockeyTeam::getPlayer(const int i) {
+HockeyPlayer* HockeyTeam::getPlayer(const int i) {
+    if (i > roster.size())
+        return NULL;
     return roster.at(i);
 }
 
 void
-HockeyTeam::addPlayer(const HockeyPlayer player) {
+HockeyTeam::addPlayer(HockeyPlayer* player) {
     roster.append(player);
 }
 
@@ -19,6 +21,27 @@ HockeyTeam::addPkFail() {
     pkopp++;
     pkoppToday++;
 }
+
+HockeyPlayer* HockeyTeam::getGoalie()
+{
+    return goalie;
+}
+
+void HockeyTeam::setGoalie(int index)
+{
+    if (index >= roster.size()) {
+        playerInGoal = false;
+    }
+    else {
+        goalie = getPlayer(index);
+        playerInGoal = true;
+    }
+}
+bool HockeyTeam::getPlayerInGoal() const
+{
+    return playerInGoal;
+}
+
 double HockeyTeam::getPkPct() const
 {
     return pkPct;
@@ -27,6 +50,17 @@ double HockeyTeam::getPkPct() const
 void HockeyTeam::setPkPct(double value)
 {
     pkPct = value;
+}
+
+QList<QString> HockeyTeam::getGuiNames()
+{
+    QList<QString> names;
+    for (int i = 0; i < roster.size(); i++) {
+        names.append(roster.at(i)->getUni() + " - " +
+                     roster.at(i)->getName());
+    }
+
+    return names;
 }
 
 double HockeyTeam::getPpPct() const

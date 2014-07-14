@@ -66,6 +66,7 @@ LowerThird::prepareForDisplay(QString name, QString number, QString year,
     defaultColor = teamColor;
     prepareColor();
     prepareFontSize();
+    showLt();
 }
 
 void
