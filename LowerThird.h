@@ -37,6 +37,7 @@ private:
     void prepareFontSize();
 
     bool show;
+    int fontPointSize;
 };
 
 #endif // LOWERTHIRD_H

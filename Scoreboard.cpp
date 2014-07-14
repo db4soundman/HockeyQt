@@ -13,7 +13,7 @@ Scoreboard::Scoreboard(QColor awayCol, QColor homeCol, QString awayTeam, QString
                        QString sponsorText, Clock* clock, QGraphicsItem *parent) :
     QGraphicsPixmapItem(parent), homeColor(homeCol), awayColor(awayCol) {
     QFont font("Arial", 34, QFont::Bold);
-    QFont sponsorFont("Arial", 22, QFont::Bold);
+    QFont sponsorFont("Arial", 24, QFont::Bold);
 #ifdef Q_OS_OSX
     font.setPointSize(40);
     sponsorFont.setPointSize(28);
@@ -33,10 +33,6 @@ Scoreboard::Scoreboard(QColor awayCol, QColor homeCol, QString awayTeam, QString
     awayScore->setFont(font);
     homeScore = new QGraphicsTextItem("0");
     homeScore->setFont(font);
-    QFontInfo info(homeName->font());
-    QMessageBox msg;
-    msg.setText(info.family());
-   // msg.exec();
     topBarText = new QGraphicsTextItem(sponsorText);
     this->sponsorText = sponsorText;
     topBarText->setFont(defaultSponsorText);

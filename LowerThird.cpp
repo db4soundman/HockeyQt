@@ -7,8 +7,12 @@
 #define STAT_GRADIENT_LEVEL .7
 #define NAME_WIDTH 310
 LowerThird::LowerThird(QGraphicsItem* parent) : QGraphicsPixmapItem(parent),
-    name(""), number("number"), statFont("Arial", 36, QFont::Bold), nameFont("Arial", 36, QFont::Bold) {
-
+    name(""), number("number"), statFont("Arial", 32, QFont::Bold), nameFont("Arial", 32, QFont::Bold) {
+#ifdef Q_OS_OSX
+    statFont.setPointSize(36);
+    nameFont.setPointSize(36);
+    #endif
+    fontPointSize = nameFont.pointSize();
     setPixmap(QPixmap(":/images/LowerThird.png"));
     gradient.setStart(0, 0);
     gradient.setFinalStop(0, 120);
@@ -98,7 +102,7 @@ LowerThird::prepareFontSize() {
     QFontMetrics fontSize(nameFont);
     while (fontSize.width(firstName) > NAME_WIDTH ||
            fontSize.width(lastName) > NAME_WIDTH) {
-        nameFont.setPointSize(36 - subtraction);
+        nameFont.setPointSize(fontPointSize - subtraction);
         subtraction++;
         QFontMetrics temp(nameFont);
         fontSize = temp;
