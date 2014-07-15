@@ -41,6 +41,7 @@ LowerThird::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
         painter->drawText(-370, 0, NAME_WIDTH, 120, Qt::AlignVCenter, firstName + "\n" + lastName);
         painter->drawText(-60, 0, 60, 60, Qt::AlignCenter, number);
         painter->drawText(-60, 60, 60, 60, Qt::AlignCenter, year);
+        painter->setFont(statFont);
 
         // Stat numbers
         int rectWidth = 800/statistics.size();
