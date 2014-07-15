@@ -255,8 +255,9 @@ Scoreboard::changeTopBarText(QString text) {
     topBarText->setFont(QFont("Arial", 34, QFont::Bold));
     QFontMetrics fontSize(topBarText->font());
     while (fontSize.width(text) > 1092) {
-        topBarText->font().setPointSize(34-subtraction);
+        QFont tempFont("Arial", defaultSponsorText.pointSize() - subtraction, QFont::Bold);
         subtraction++;
+        topBarText->setFont(tempFont);
         QFontMetrics temp(topBarText->font());
         fontSize = temp;
     }
@@ -270,8 +271,10 @@ Scoreboard::displaySponsor() {
     topBarText->setFont(defaultSponsorText);
     QFontMetrics fontSize(topBarText->font());
     while (fontSize.width(sponsorText) > 1092) {
-        topBarText->font().setPointSize(defaultSponsorText.pointSize()-subtraction);
+        QFont tempFont("Arial", defaultSponsorText.pointSize() - subtraction, QFont::Bold);
+        //topBarText->font().setPointSize(defaultSponsorText.pointSize()-subtraction);
         subtraction++;
+        topBarText->setFont(tempFont);
         QFontMetrics temp(topBarText->font());
         fontSize = temp;
     }
