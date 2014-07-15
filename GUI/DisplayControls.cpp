@@ -2,7 +2,7 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 
-DisplayControls::DisplayControls(HockeyGame* game) {
+DisplayControls::DisplayControls(HockeyGame* game, StandingsGraphic* graphic) {
     sponsorText = game->getSponsor();
     customtext.setReadOnly(false);
     customtext.setText("");
@@ -41,6 +41,7 @@ DisplayControls::DisplayControls(HockeyGame* game) {
     connect(&customButton, SIGNAL(clicked()), this, SLOT(prepareCustomText()));
     connect(this, SIGNAL(showCustomText(QString)),
             game->getSb(), SLOT(changeTopBarText(QString)));
+    connect(&standingsButton, SIGNAL(clicked()), graphic, SLOT(toggleShow()));
 
     connect(&sbButton, SIGNAL(clicked()),
             game->getSb(), SLOT(toggleShowBoard()));
@@ -50,6 +51,7 @@ DisplayControls::DisplayControls(HockeyGame* game) {
     //hide
     connect(&hideButton, SIGNAL(clicked()), game->getSb(), SLOT(hideBoard()));
     connect(&hideButton, SIGNAL(clicked()), game->getLt(), SLOT(hideLt()));
+    connect(&hideButton, SIGNAL(clicked()), graphic, SLOT(hide()));
 
 }
 

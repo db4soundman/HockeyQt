@@ -4,6 +4,7 @@
 #include <QFile>
 #include "SetupWizard.h"
 #include <QDesktopWidget>
+#include <QAction>
 
 MiamiAllAccessHockey::MiamiAllAccessHockey(int& argc, char* argv[]) :
     QApplication (argc, argv) {
@@ -57,6 +58,7 @@ MiamiAllAccessHockey::exec() {
     scene->addItem(game->getSb());
 
     scene->addItem(game->getLt());
+    scene->addItem(&standings);
     game->getLt()->setX(337 + 409);
     game->getLt()->setY(920);
     game->getSb()->setY(80);
@@ -65,8 +67,8 @@ MiamiAllAccessHockey::exec() {
 
 
     QDesktopWidget desktop;
-    tv->setGeometry(desktop.screenGeometry(1));
-    tv->setSceneRect(0, 0,1920, 1080);
+   // tv->setGeometry(desktop.screenGeometry(1));
+    tv->setSceneRect(0, 0,1600, 900);
     tv->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     tv->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     // Get desktop set up and wizard val later...
@@ -75,7 +77,9 @@ MiamiAllAccessHockey::exec() {
     //tv->show();
     tv->showFullScreen();
 
-    controlPanel = new MainWindow(game);
+    controlPanel = new MainWindow(game, &standings);
     controlPanel->show();
     return QApplication::exec();
 }
+
+

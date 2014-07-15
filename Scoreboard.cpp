@@ -67,7 +67,7 @@ Scoreboard::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     if (show) {
         painter->drawPixmap(0,-49, *topBar);
         painter->drawPixmap(0, 0, this->pixmap());
-        painter->drawPixmap(34, 4, 73, 46, *networkLogo);
+        painter->drawPixmap(34, 4, 66, 50, *networkLogo);
         //Clock - Game time...draw clock first since default color is black
         painter->setFont(homeName->font());
         if (showPdAndClock) {

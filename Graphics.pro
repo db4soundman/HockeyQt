@@ -13,7 +13,8 @@ TARGET = Graphics
 TEMPLATE = app
 DEFINES *= QT_USE_QSTRINGBUILDER
 INCLUDEPATH += GUI \
-               Wizard
+               Wizard \
+            Standings
 
 SOURCES += main.cpp\
         MainWindow.cpp \
@@ -43,7 +44,10 @@ SOURCES += main.cpp\
     GUI/ClockDialog.cpp \
     GUI/PpClockDialog.cpp \
     Wizard/SetupWizard.cpp \
-    Wizard/SetupPage.cpp
+    Wizard/SetupPage.cpp \
+    Standings/StandingsEntry.cpp \
+    Standings/StandingsGraphic.cpp \
+    Standings/StandingsWidget.cpp
 
 HEADERS  += MainWindow.h \
     Scoreboard.h \
@@ -72,7 +76,10 @@ HEADERS  += MainWindow.h \
     GUI/ClockDialog.h \
     GUI/PpClockDialog.h \
     Wizard/SetupWizard.h \
-    Wizard/SetupPage.h
+    Wizard/SetupPage.h \
+    Standings/StandingsEntry.h \
+    Standings/StandingsGraphic.h \
+    Standings/StandingsWidget.h
 
 
 RESOURCES += \

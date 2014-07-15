@@ -2,14 +2,29 @@
 #include <QPushButton>
 #include <QVBoxLayout>
 #include <QWidget>
+#include <QAction>
+#include <QMenu>
+#include <QMenuBar>
 
-
-MainWindow::MainWindow(HockeyGame* game, QWidget *parent)
-    : QMainWindow(parent), panel(game) {
+MainWindow::MainWindow(HockeyGame* game, StandingsGraphic* graphic, QWidget *parent)
+    : QMainWindow(parent), panel(game, graphic), standingsPanel(graphic) {
     setCentralWidget(&panel);
     setMaximumWidth(800);
+
+    QMenu* nchcMenu = new QMenu("NCHC");
+    QAction* standings = new QAction(QIcon(QPixmap(":/images/NCHCmenu.png")), "Edit Standings", NULL);
+    nchcMenu->addAction(standings);
+    connect(standings, SIGNAL(triggered()), &standingsPanel, SLOT(show()));
+    menuBar()->addMenu(nchcMenu);
 }
 
 MainWindow::~MainWindow() {
+
+}
+
+void MainWindow::makeMenu()
+{
+
+
 
 }

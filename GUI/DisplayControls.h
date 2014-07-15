@@ -5,11 +5,12 @@
 #include <QPushButton>
 #include <QLineEdit>
 #include "HockeyGame.h"
+#include "StandingsGraphic.h"
 
 class DisplayControls : public QWidget {
     Q_OBJECT
 public:
-    DisplayControls(HockeyGame* game);
+    DisplayControls(HockeyGame* game, StandingsGraphic* graphic);
 
 public slots:
     void prepareCustomText();
