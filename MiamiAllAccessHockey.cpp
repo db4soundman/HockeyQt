@@ -59,10 +59,14 @@ MiamiAllAccessHockey::exec() {
 
     scene->addItem(game->getLt());
     scene->addItem(&standings);
+    commercial = new CommercialGraphic(game);
+    scene->addItem(commercial);
     game->getLt()->setX(337 + 409);
     game->getLt()->setY(920);
     game->getSb()->setY(80);
     game->getSb()->setX(409);
+    commercial->setY(750);
+    commercial->setX(460);
     tv = new QGraphicsView(scene);
 
 
@@ -77,7 +81,7 @@ MiamiAllAccessHockey::exec() {
     //tv->show();
     tv->showFullScreen();
 
-    controlPanel = new MainWindow(game, &standings);
+    controlPanel = new MainWindow(game, &standings, commercial);
     controlPanel->show();
     return QApplication::exec();
 }

@@ -51,6 +51,24 @@ public:
     QString getAwayRank() const;
     void setAwayRank(const QString& value);
 
+    QColor getHomeColor() const;
+    void setHomeColor(const QColor& value);
+
+    QColor getAwayColor() const;
+    void setAwayColor(const QColor& value);
+
+    int getAwayScore() const;
+    void setAwayScore(int value);
+
+    int getHomeScore() const;
+    void setHomeScore(int value);
+
+    int getPeriod() const;
+    void setPeriod(int value);
+
+    bool getIsFinal() const;
+    void setIsFinal(bool value);
+
 public slots:
     void homeGoal();
     void awayGoal();
@@ -80,6 +98,7 @@ public slots:
     void prepareAwayPenaltyText(int pIndex, QString penalty);
     void determinePpClockForScoreboard();
     void displayPenaltyEditor();
+    void makeFinal();
 
 signals:
     void homeScoreChanged(int score);
@@ -101,7 +120,7 @@ private:
     Clock gameClock;
     QList<Clock*> awayPenalty, homePenalty;
     QTimer timer;
-    bool clockRunning;
+    bool clockRunning, isFinal;
     QColor homeColor, awayColor;
     HockeyTeam* homeTeam;
     HockeyTeam* awayTeam;

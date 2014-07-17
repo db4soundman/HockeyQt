@@ -5,12 +5,12 @@
 #include <QPushButton>
 #include <QLabel>
 #include "HockeyGame.h"
-
+#include "CommercialGraphic.h"
 
 class ClockControls : public QWidget {
     Q_OBJECT
 public:
-    ClockControls(HockeyGame* game);
+    ClockControls(HockeyGame* game, CommercialGraphic* comGraphic);
 
 public slots:
     void updateClockButton(bool clockIsRunning);

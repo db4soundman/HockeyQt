@@ -6,8 +6,8 @@
 #include <QMenu>
 #include <QMenuBar>
 
-MainWindow::MainWindow(HockeyGame* game, StandingsGraphic* graphic, QWidget *parent)
-    : QMainWindow(parent), panel(game, graphic), standingsPanel(graphic) {
+MainWindow::MainWindow(HockeyGame* game, StandingsGraphic* graphic, CommercialGraphic* comGraphic, QWidget *parent)
+    : QMainWindow(parent), panel(game, graphic, comGraphic), standingsPanel(graphic) {
     setCentralWidget(&panel);
     setMaximumWidth(800);
 

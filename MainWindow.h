@@ -7,11 +7,12 @@
 #include "ControlPanel.h"
 #include "StandingsGraphic.h"
 #include "StandingsWidget.h"
+#include "CommercialGraphic.h"
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
 public:
-    MainWindow(HockeyGame* game, StandingsGraphic* graphic, QWidget *parent = 0);
+    MainWindow(HockeyGame* game, StandingsGraphic* graphic, CommercialGraphic* comGraphic, QWidget *parent = 0);
     ~MainWindow();
 
 private:

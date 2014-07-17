@@ -12,12 +12,13 @@
 #include "ClockControls.h"
 #include "StatDisplayControls.h"
 #include "StandingsGraphic.h"
+#include "CommercialGraphic.h"
 
 
 class ControlPanel : public QWidget {
     Q_OBJECT
 public:
-    ControlPanel(HockeyGame* game, StandingsGraphic* graphic);
+    ControlPanel(HockeyGame* game, StandingsGraphic* graphic, CommercialGraphic* comGraphic);
 
 private:
     DisplayControls dispControls;

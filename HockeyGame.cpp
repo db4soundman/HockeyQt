@@ -10,6 +10,7 @@ HockeyGame::HockeyGame(QString awayName, QString homeName, QColor awayColor, QCo
     awayName(awayName), homeName(homeName), sponsor(sponsor), announcers(announcers), awayColor(awayColor),
     homeColor(homeColor), awayRank(awayRank), homeRank(homeRank),
     sb(awayColor, homeColor, awayName, homeName, sponsor, &gameClock) {
+    isFinal = false;
     awayScore = 0;
     homeScore = 0;
     homeSOG = 0;
@@ -375,12 +376,14 @@ HockeyGame::subHomeSOG() {
 void
 HockeyGame::advancePeriod() {
     period++;
+    isFinal = false;
     emit periodChanged(period);
 }
 
 void
 HockeyGame::rewindPeriod() {
     period--;
+    isFinal = false;
     emit periodChanged(period);
 }
 
@@ -484,6 +487,71 @@ void HockeyGame::displayPenaltyEditor()
     PpClockDialog ppDiag(this);
     ppDiag.exec();
 }
+
+void HockeyGame::makeFinal()
+{
+    isFinal = true;
+}
+bool HockeyGame::getIsFinal() const
+{
+    return isFinal;
+}
+
+void HockeyGame::setIsFinal(bool value)
+{
+    isFinal = value;
+}
+
+int HockeyGame::getPeriod() const
+{
+    return period;
+}
+
+void HockeyGame::setPeriod(int value)
+{
+    period = value;
+}
+
+int HockeyGame::getHomeScore() const
+{
+    return homeScore;
+}
+
+void HockeyGame::setHomeScore(int value)
+{
+    homeScore = value;
+}
+
+int HockeyGame::getAwayScore() const
+{
+    return awayScore;
+}
+
+void HockeyGame::setAwayScore(int value)
+{
+    awayScore = value;
+}
+
+QColor HockeyGame::getAwayColor() const
+{
+    return awayColor;
+}
+
+void HockeyGame::setAwayColor(const QColor& value)
+{
+    awayColor = value;
+}
+
+QColor HockeyGame::getHomeColor() const
+{
+    return homeColor;
+}
+
+void HockeyGame::setHomeColor(const QColor& value)
+{
+    homeColor = value;
+}
+
 QString HockeyGame::getAwayRank() const
 {
     return awayRank;

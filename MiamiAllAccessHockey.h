@@ -7,6 +7,7 @@
 #include <QGraphicsScene>
 #include "MainWindow.h"
 #include "StandingsGraphic.h"
+#include "CommercialGraphic.h"
 
 class MiamiAllAccessHockey : public QApplication {
 public:
@@ -32,7 +33,7 @@ private:
     HockeyGame* game;
     MainWindow* controlPanel;
     StandingsGraphic standings;
-
+    CommercialGraphic* commercial;
 };
 
 #endif // MIAMIALLACCESSHOCKEY_H

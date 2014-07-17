@@ -2,7 +2,7 @@
 #include <QVBoxLayout>
 #include "ClockDialog.h"
 
-ClockControls::ClockControls(HockeyGame* game) {
+ClockControls::ClockControls(HockeyGame* game, CommercialGraphic* comGraphic) {
     QVBoxLayout* main = new QVBoxLayout();
     label.setText("Clock Controls");
     run.setText("Run Clock");
@@ -35,8 +35,11 @@ ClockControls::ClockControls(HockeyGame* game) {
     connect(&prevPd, SIGNAL(clicked()), game, SLOT(rewindPeriod()));
     connect(&reset, SIGNAL(clicked()), game->getGameClock(), SLOT(resetClock()));
     connect(&clock, SIGNAL(clicked()), game->getSb(), SLOT(displayClock()));
+    connect(&clock, SIGNAL(clicked()), comGraphic, SLOT(showClock()));
     connect(&intermission, SIGNAL(clicked()), game->getSb(), SLOT(intermission()));
+    connect(&intermission, SIGNAL(clicked()), comGraphic, SLOT(intermissionTime()));
     connect(&final, SIGNAL(clicked()), game->getSb(), SLOT(final()));
+    connect(&final, SIGNAL(clicked()), comGraphic, SLOT(finalTime()));
     setLayout(main);
 
     gameClock = game->getGameClock();

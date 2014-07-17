@@ -6,11 +6,12 @@
 #include <QLineEdit>
 #include "HockeyGame.h"
 #include "StandingsGraphic.h"
+#include "CommercialGraphic.h"
 
 class DisplayControls : public QWidget {
     Q_OBJECT
 public:
-    DisplayControls(HockeyGame* game, StandingsGraphic* graphic);
+    DisplayControls(HockeyGame* game, StandingsGraphic* graphic, CommercialGraphic* comGraphic);
 
 public slots:
     void prepareCustomText();
