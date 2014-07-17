@@ -44,7 +44,7 @@ bool HockeyTeam::getPlayerInGoal() const
 
 double HockeyTeam::getPkPct() const
 {
-    return pkPct;
+    return (double) pk/pkopp;
 }
 
 void HockeyTeam::setPkPct(double value)
@@ -65,7 +65,7 @@ QList<QString> HockeyTeam::getGuiNames()
 
 double HockeyTeam::getPpPct() const
 {
-    return ppPct;
+    return (double)ppg/ppopp;
 }
 
 void HockeyTeam::setPpPct(double value)
