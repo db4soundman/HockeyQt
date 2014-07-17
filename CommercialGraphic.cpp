@@ -35,26 +35,28 @@ CommercialGraphic::CommercialGraphic(HockeyGame* game, QGraphicsItem* parent) :
 
 void CommercialGraphic::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
                               QWidget* widget) {
-    painter->drawPixmap(0, -46, WIDTH, 46, blackBar);
-    painter->setPen(QColor(255, 255, 255));
-    painter->setFont(descriptiveFont);
-    painter->drawText(0, -46, WIDTH, 46, Qt::AlignCenter, maaText);
-    painter->fillRect(0, 0, WIDTH, 60, awayTeamGradient);
-    painter->fillRect(0, 60, WIDTH, 60, homeTeamGradient);
-    painter->setFont(away->font());
-    painter->drawText(10, 0, NAME_WIDTH, 60, Qt::AlignLeft | Qt::AlignVCenter, away->toPlainText());
-    painter->setFont(home->font());
-    painter->drawText(10, 60, NAME_WIDTH, 60, Qt::AlignLeft | Qt::AlignVCenter, home->toPlainText());
-    painter->drawText(NAME_WIDTH, 0, WIDTH - NAME_WIDTH, 60, Qt::AlignCenter, awayScore);
-    painter->drawText(NAME_WIDTH, 60, WIDTH - NAME_WIDTH, 60, Qt::AlignCenter, homeScore);
-    painter->drawPixmap(WIDTH - 400, 120, WIDTH - (WIDTH- 400), 46, blackBar);
-    painter->setFont(descriptiveFont);
-    if (clockStatus == FINAL) {
-        painter->drawText(WIDTH - 400, 120, WIDTH - (WIDTH- 400), 46, Qt::AlignCenter, "FINAL");
-    }
-    else {
-        painter->drawText(WIDTH-410, 120, 200, 46, Qt::AlignLeft, period);
-        painter->drawText(WIDTH-410, 120, 190, 46, Qt::AlignRight, clock);
+    if (show){
+        painter->drawPixmap(0, -60, WIDTH, 60, blackBar);
+        painter->setPen(QColor(255, 255, 255));
+        painter->setFont(descriptiveFont);
+        painter->drawText(0, -60, WIDTH, 60, Qt::AlignCenter, maaText);
+        painter->fillRect(0, 0, WIDTH, 60, awayTeamGradient);
+        painter->fillRect(0, 60, WIDTH, 60, homeTeamGradient);
+        painter->setFont(away->font());
+        painter->drawText(10, 0, NAME_WIDTH, 60, Qt::AlignLeft | Qt::AlignVCenter, away->toPlainText());
+        painter->setFont(home->font());
+        painter->drawText(10, 60, NAME_WIDTH, 60, Qt::AlignLeft | Qt::AlignVCenter, home->toPlainText());
+        painter->drawText(NAME_WIDTH, 0, WIDTH - NAME_WIDTH, 60, Qt::AlignCenter, awayScore);
+        painter->drawText(NAME_WIDTH, 60, WIDTH - NAME_WIDTH, 60, Qt::AlignCenter, homeScore);
+        painter->drawPixmap(WIDTH - 400, 120, WIDTH - (WIDTH- 400), 60, blackBar);
+        painter->setFont(descriptiveFont);
+        if (clockStatus == FINAL) {
+            painter->drawText(WIDTH - 400, 120, WIDTH - (WIDTH- 400), 60, Qt::AlignCenter, "FINAL");
+        }
+        else {
+            painter->drawText(WIDTH- 390, 120, WIDTH - (WIDTH- 400), 60, Qt::AlignLeft, period);
+            painter->drawText(WIDTH-400, 120, WIDTH - (WIDTH- 390), 60, Qt::AlignRight, clock);
+        }
     }
 }
 
@@ -111,21 +113,27 @@ void CommercialGraphic::updateClock()
 
 void CommercialGraphic::showClock() {
     clockStatus = SHOW_CLOCK;
+    if (show)
+        scene()->update();
 }
 
 void CommercialGraphic::intermissionTime()
 {
     clockStatus = INTERMISSION;
+    if (show)
+        scene()->update();
 }
 
 void CommercialGraphic::finalTime()
 {
-    clockStatus = FINAL;
+    if (show)
+        clockStatus = FINAL;
 }
 
 void CommercialGraphic::hide()
 {
     show = false;
+    scene()->update();
 }
 
 void CommercialGraphic::checkAwayFont()
