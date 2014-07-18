@@ -79,6 +79,7 @@ MiamiAllAccessHockey::exec() {
     tv->setBackgroundBrush(bg);
     //tv->setFixedSize(1600,900);
     //tv->show();
+    tv->setFrameShape(QFrame::NoFrame);
     tv->showFullScreen();
 
     controlPanel = new MainWindow(game, &standings, commercial);
