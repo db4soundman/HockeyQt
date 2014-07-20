@@ -82,18 +82,18 @@ LowerThird::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
         painter->drawText(-202, 0, 400, 47, Qt::AlignCenter, awayLabel);
 
 // --------------------------Home graphic-----------------------------------------
-        painter->drawPixmap(1048, 0, 400, 120, this->pixmap());
-        painter->fillRect(1448, 0, 372, 120, homeNameGradient);
-        painter->fillRect(1048, 47, 400, 72, homeStatGradient);
-        painter->fillRect(1048, 47, 400, 72, QColor(0, 0, 0, 60));
+        painter->drawPixmap(1048-746, 0, 400, 120, this->pixmap());
+        painter->fillRect(1448-746, 0, 372, 120, homeNameGradient);
+        painter->fillRect(1048-746, 47, 400, 72, homeStatGradient);
+        painter->fillRect(1048-746, 47, 400, 72, QColor(0, 0, 0, 60));
         painter->setFont(nameFont);
         painter->setPen(QColor(255, 255, 255));
-        painter->drawText(1448, 0, 372, 120, Qt::AlignCenter, homeName);
+        painter->drawText(1448-746, 0, 372, 120, Qt::AlignCenter, homeName);
         painter->setFont(ppFont);
-        painter->drawText(1048, 47, 400, 72, Qt::AlignCenter, homeStat);
+        painter->drawText(1048-746, 47, 400, 72, Qt::AlignCenter, homeStat);
         painter->setFont(statFont);
         painter->setPen(QColor(0, 0, 0));
-        painter->drawText(1048, 0, 400, 47, Qt::AlignCenter, homeLabel);
+        painter->drawText(1048-746, 0, 400, 47, Qt::AlignCenter, homeLabel);
     }
 }
 
@@ -156,6 +156,7 @@ void LowerThird::prepareColors() {
     red = -1*awayTeamMain.red() *NAME_GRADIENT_LEVEL + awayTeamMain.red();
     green = -1*awayTeamMain.green() *NAME_GRADIENT_LEVEL + awayTeamMain.green();
     blue = -1*awayTeamMain.blue() *NAME_GRADIENT_LEVEL + awayTeamMain.blue();
+    end.setRgb(red, green, blue);
     awayNameGradient.setColorAt(0.45, awayTeamMain);
     awayNameGradient.setColorAt(0.55, awayTeamMain);
     awayNameGradient.setColorAt(1, end);
