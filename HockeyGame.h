@@ -96,6 +96,7 @@ public slots:
     void prepareAwayGoalText(int scorer, int a1, int a2);
     void prepareHomePenaltyText(int pIndex, QString penalty);
     void prepareAwayPenaltyText(int pIndex, QString penalty);
+    void gatherPpStats();
     void determinePpClockForScoreboard();
     void displayPenaltyEditor();
     void makeFinal();

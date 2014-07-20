@@ -30,7 +30,7 @@ PowerPlayUpdaters::PowerPlayUpdaters(HockeyGame* game) {
     connect(&homeFail, SIGNAL(clicked()), game->getHomeTeam(), SLOT(addPpFail()));
     connect(&homeFail, SIGNAL(clicked()), game->getAwayTeam(), SLOT(addPkStop()));
 
-
+    connect(&show, SIGNAL(clicked()), game, SLOT(gatherPpStats()));
 
     main->setHorizontalSpacing(3);
     main->setVerticalSpacing(0);

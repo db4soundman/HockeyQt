@@ -48,7 +48,8 @@ SOURCES += main.cpp\
     Standings/StandingsEntry.cpp \
     Standings/StandingsGraphic.cpp \
     Standings/StandingsWidget.cpp \
-    CommercialGraphic.cpp
+    CommercialGraphic.cpp \
+    Wizard/AwayTeamInfo.cpp
 
 HEADERS  += MainWindow.h \
     Scoreboard.h \
@@ -81,7 +82,8 @@ HEADERS  += MainWindow.h \
     Standings/StandingsEntry.h \
     Standings/StandingsGraphic.h \
     Standings/StandingsWidget.h \
-    CommercialGraphic.h
+    CommercialGraphic.h \
+    Wizard/AwayTeamInfo.h
 
 
 RESOURCES += \

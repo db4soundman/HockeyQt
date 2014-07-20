@@ -6,8 +6,9 @@
 #define NAME_GRADIENT_LEVEL .7
 #define STAT_GRADIENT_LEVEL .7
 #define NAME_WIDTH 310
-LowerThird::LowerThird(QGraphicsItem* parent) : QGraphicsPixmapItem(parent),
-    name(""), number("number"), statFont("Arial", 32, QFont::Bold), nameFont("Arial", 32, QFont::Bold) {
+LowerThird::LowerThird(QColor awayColor, QColor homeColor, QGraphicsItem* parent) : QGraphicsPixmapItem(parent),
+    name(""), number("number"), statFont("Arial", 32, QFont::Bold), nameFont("Arial", 32, QFont::Bold),
+    awayTeamMain(awayColor), homeTeamMain(homeColor) {
 #ifdef Q_OS_OSX
     statFont.setPointSize(36);
     nameFont.setPointSize(36);
@@ -16,13 +17,21 @@ LowerThird::LowerThird(QGraphicsItem* parent) : QGraphicsPixmapItem(parent),
     setPixmap(QPixmap(":/images/LowerThird.png"));
     gradient.setStart(0, 0);
     gradient.setFinalStop(0, 120);
-    statGradient.setStart(0, 48);
+    homeNameGradient.setStart(0, 0);
+    homeNameGradient.setFinalStop(0, 120);
+    awayNameGradient.setStart(0, 0);
+    awayNameGradient.setFinalStop(0, 120);
+    statGradient.setStart(0, 47);
     statGradient.setFinalStop(0, 120);
-    defaultColor = QColor(220, 0, 0);
-    prepareColor();
+    homeStatGradient.setStart(0, 47);
+    homeStatGradient.setFinalStop(0, 120);
+    awayStatGradient.setStart(0, 47);
+    awayStatGradient.setFinalStop(0, 120);
+    prepareColors();
     statistics.append("");
     statNames.append("");
     show = false;
+    showPp = false;
 }
 
 void
@@ -54,12 +63,44 @@ LowerThird::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
             painter->drawText(rectWidth * i, 0, rectWidth, 47, Qt::AlignCenter, statNames.at(i));
         }
     }
+    else if (showPp) {
+        painter->drawPixmap(-202, 0, 400, 120, this->pixmap());
+        painter->fillRect(-574, 0, 372, 120, awayNameGradient);
+        painter->fillRect(-202, 47, 400, 72, awayStatGradient);
+        painter->fillRect(-202, 47, 400, 72, QColor(0, 0, 0, 60));
+        painter->setFont(nameFont);
+        painter->setPen(QColor(255, 255, 255));
+        painter->drawText(-574, 0, 372, 120, Qt::AlignCenter, awayName);
+        QFont ppFont("Arial", 22, QFont::Bold);
+#ifdef Q_OS_OSX
+        ppFont.setPointSize(28);
+#endif
+        painter->setFont(ppFont);
+        painter->drawText(-202, 47, 400, 72, Qt::AlignCenter, awayStat);
+        painter->setFont(statFont);
+        painter->setPen(QColor(0, 0, 0));
+        painter->drawText(-202, 0, 400, 47, Qt::AlignCenter, awayLabel);
+
+// --------------------------Home graphic-----------------------------------------
+        painter->drawPixmap(1048, 0, 400, 120, this->pixmap());
+        painter->fillRect(1448, 0, 372, 120, homeNameGradient);
+        painter->fillRect(1048, 47, 400, 72, homeStatGradient);
+        painter->fillRect(1048, 47, 400, 72, QColor(0, 0, 0, 60));
+        painter->setFont(nameFont);
+        painter->setPen(QColor(255, 255, 255));
+        painter->drawText(1448, 0, 372, 120, Qt::AlignCenter, homeName);
+        painter->setFont(ppFont);
+        painter->drawText(1048, 47, 400, 72, Qt::AlignCenter, homeStat);
+        painter->setFont(statFont);
+        painter->setPen(QColor(0, 0, 0));
+        painter->drawText(1048, 0, 400, 47, Qt::AlignCenter, homeLabel);
+    }
 }
 
 void
 LowerThird::prepareForDisplay(QString name, QString number, QString year,
                               QList<QString> statLabels,
-                              QList<QString> statValues, QColor teamColor) {
+                              QList<QString> statValues, bool homeTeam) {
     this->name = name;
     firstName = name.left(name.indexOf(" "));
     QStringRef substr(&name, name.indexOf(" ") + 1, name.length() - (name.indexOf(" ")+1));
@@ -68,33 +109,65 @@ LowerThird::prepareForDisplay(QString name, QString number, QString year,
     this->number = number;
     statNames = statLabels;
     statistics = statValues;
-    defaultColor = teamColor;
-    prepareColor();
+    gradient = homeTeam ? homeNameGradient : awayNameGradient;
+    statGradient = homeTeam ? homeStatGradient : awayStatGradient;
     prepareFontSize();
     showLt();
 }
 
-void
-LowerThird::prepareColor() {
+void LowerThird::prepareForPpComp(QString awayName, QString awayLabel, QString awayStat,
+                                  QString homeName, QString homeLabel, QString homeStat) {
+    this->awayName = awayName;
+    this->awayLabel = awayLabel;
+    this->awayStat = awayStat;
+    this->homeName = homeName;
+    this->homeLabel = homeLabel;
+    this->homeStat = homeStat;
+    firstName = awayName;
+    lastName = "";
+    prepareFontSize();
+    showPpComp();
+
+}
+
+
+void LowerThird::prepareColors() {
     int red, green, blue;
-    red = -1*defaultColor.red() *NAME_GRADIENT_LEVEL + defaultColor.red();
-    green = -1*defaultColor.green() *NAME_GRADIENT_LEVEL + defaultColor.green();
-    blue = -1*defaultColor.blue() *NAME_GRADIENT_LEVEL + defaultColor.blue();
+    red = -1*homeTeamMain.red() *NAME_GRADIENT_LEVEL + homeTeamMain.red();
+    green = -1*homeTeamMain.green() *NAME_GRADIENT_LEVEL + homeTeamMain.green();
+    blue = -1*homeTeamMain.blue() *NAME_GRADIENT_LEVEL + homeTeamMain.blue();
 
     QColor end(red, green, blue);
-    gradient.setColorAt(0.45, defaultColor);
-    gradient.setColorAt(0.55, defaultColor);
-    gradient.setColorAt(1, end);
-    gradient.setColorAt(0, end);
+    homeNameGradient.setColorAt(0.45, homeTeamMain);
+    homeNameGradient.setColorAt(0.55, homeTeamMain);
+    homeNameGradient.setColorAt(1, end);
+    homeNameGradient.setColorAt(0, end);
 
-    red = -1*defaultColor.red() *STAT_GRADIENT_LEVEL + defaultColor.red();
-    green = -1*defaultColor.green() *STAT_GRADIENT_LEVEL + defaultColor.green();
-    blue = -1*defaultColor.blue() *STAT_GRADIENT_LEVEL + defaultColor.blue();
-    QColor end2(red, green, blue);
-    statGradient.setColorAt(.5, defaultColor);
-    statGradient.setColorAt(1, end2);
-    statGradient.setColorAt(0, end2);
+    red = -1*homeTeamMain.red() *STAT_GRADIENT_LEVEL + homeTeamMain.red();
+    green = -1*homeTeamMain.green() *STAT_GRADIENT_LEVEL + homeTeamMain.green();
+    blue = -1*homeTeamMain.blue() *STAT_GRADIENT_LEVEL + homeTeamMain.blue();
+    end.setRgb(red, green, blue);
+    homeStatGradient.setColorAt(.5, homeTeamMain);
+    homeStatGradient.setColorAt(1, end);
+    homeStatGradient.setColorAt(0, end);
 
+// -------------------------------------Away Team--------------------------------
+
+    red = -1*awayTeamMain.red() *NAME_GRADIENT_LEVEL + awayTeamMain.red();
+    green = -1*awayTeamMain.green() *NAME_GRADIENT_LEVEL + awayTeamMain.green();
+    blue = -1*awayTeamMain.blue() *NAME_GRADIENT_LEVEL + awayTeamMain.blue();
+    awayNameGradient.setColorAt(0.45, awayTeamMain);
+    awayNameGradient.setColorAt(0.55, awayTeamMain);
+    awayNameGradient.setColorAt(1, end);
+    awayNameGradient.setColorAt(0, end);
+
+    red = -1*awayTeamMain.red() *STAT_GRADIENT_LEVEL + awayTeamMain.red();
+    green = -1*awayTeamMain.green() *STAT_GRADIENT_LEVEL + awayTeamMain.green();
+    blue = -1*awayTeamMain.blue() *STAT_GRADIENT_LEVEL + awayTeamMain.blue();
+    end.setRgb(red, green, blue);
+    awayStatGradient.setColorAt(.5, awayTeamMain);
+    awayStatGradient.setColorAt(1, end);
+    awayStatGradient.setColorAt(0, end);
 }
 
 void
@@ -115,11 +188,20 @@ LowerThird::prepareFontSize() {
 void
 LowerThird::hideLt() {
     show = false;
+    showPp = false;
     scene()->update();
 }
 
 void
 LowerThird::showLt() {
     show = true;
+    showPp = false;
+    scene()->update();
+}
+
+void LowerThird::showPpComp()
+{
+    showPp = true;
+    show = false;
     scene()->update();
 }

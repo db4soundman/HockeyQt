@@ -9,7 +9,8 @@ HockeyGame::HockeyGame(QString awayName, QString homeName, QColor awayColor, QCo
                        QString awayRank, QString homeRank) :
     awayName(awayName), homeName(homeName), sponsor(sponsor), announcers(announcers), awayColor(awayColor),
     homeColor(homeColor), awayRank(awayRank), homeRank(homeRank),
-    sb(awayColor, homeColor, awayName, homeName, sponsor, &gameClock) {
+    sb(awayColor, homeColor, awayName, homeName, sponsor, &gameClock),
+    lt (awayColor, homeColor) {
     isFinal = false;
     awayScore = 0;
     homeScore = 0;
@@ -131,7 +132,7 @@ void HockeyGame::gatherHomeSeasonStatsLt(int index)
         numbers.append(player->getGaavg());
     }
     lt.prepareForDisplay(player->getName(), player->getUni(), player->getYear(),
-                         labels, numbers, homeColor);
+                         labels, numbers, true);
 }
 
 void HockeyGame::gatherHomeSeasonStatsSb(int index)
@@ -174,7 +175,7 @@ void HockeyGame::gatherHomeGameStatsLt(int index)
         numbers.append(QString::number(player->getShotsFacedToday()));
     }
     lt.prepareForDisplay(player->getName(), player->getUni(), player->getYear(),
-                         labels, numbers, homeColor);
+                         labels, numbers, true);
 }
 
 void HockeyGame::gatherAwayStatsLt(int index)
@@ -200,7 +201,7 @@ void HockeyGame::gatherAwayStatsLt(int index)
         numbers.append(QString::number(player->getShotsFacedToday()));
     }
     lt.prepareForDisplay(player->getName(), player->getUni(), "",
-                         labels, numbers, awayColor);
+                         labels, numbers, false);
 }
 
 void HockeyGame::gatherHomeGameStatsSb(int index)
@@ -285,7 +286,34 @@ void HockeyGame::prepareHomePenaltyText(int pIndex, QString penalty)
 void HockeyGame::prepareAwayPenaltyText(int pIndex, QString penalty)
 {
     sb.changeTopBarText( getAwayName() + " PENALTY: " + awayTeam->getPlayer(pIndex)->getName() + " ("
-            + penalty +") " + timeEventHappened );
+                         + penalty +") " + timeEventHappened );
+}
+
+void HockeyGame::gatherPpStats()
+{
+    QString ppStat, pkStat;
+    if (homePenalty.size() < awayPenalty.size()) {
+        ppStat = QString::number(homeTeam->getPpg()) + "-" + QString::number(homeTeam->getPpopp())
+                + ", " + QString::number(homeTeam->getPpPct(), 'g', 3) +"%";
+        pkStat = QString::number(awayTeam->getPk()) + "-" + QString::number(awayTeam->getPkopp())
+                + ", " + QString::number(awayTeam->getPkPct(), 'g', 3) +"%";
+        if (homeTeam->getPpoppToday() > 0) {
+            ppStat += "\nToday: " + QString::number(homeTeam->getPpgToday()) + "-" + QString::number(homeTeam->getPpoppToday());
+            pkStat += "\nToday: " + QString::number(awayTeam->getPkToday()) + "-" + QString::number(awayTeam->getPkoppToday());
+        }
+        lt.prepareForPpComp(getAwayName(), "PENALTY KILL", pkStat, getHomeName(), "POWERPLAY", ppStat);
+    }
+    else if (homePenalty.size() > awayPenalty.size()) {
+        ppStat = QString::number(awayTeam->getPpg()) + "-" + QString::number(awayTeam->getPpopp())
+                + ", " + QString::number(awayTeam->getPpPct(), 'g', 3) +"%";
+        pkStat = QString::number(homeTeam->getPk()) + "-" + QString::number(homeTeam->getPkopp())
+                + ", " + QString::number(homeTeam->getPkPct(), 'g', 3) +"%";
+        if (awayTeam->getPpoppToday() > 0) {
+            ppStat += "\nToday: " + QString::number(awayTeam->getPpgToday()) + "-" + QString::number(awayTeam->getPpoppToday());
+            pkStat += "\nToday: " + QString::number(homeTeam->getPkToday()) + "-" + QString::number(homeTeam->getPkoppToday());
+        }
+        lt.prepareForPpComp(getAwayName(), "POWERPLAY", ppStat, getHomeName(), "PENALTY KILL", pkStat);
+    }
 }
 
 Clock* HockeyGame::getGameClock()

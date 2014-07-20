@@ -47,6 +47,8 @@ public:
 
     bool getPlayerInGoal() const;
 
+    void setGoalies(QString goalies);
+
 signals:
 
 

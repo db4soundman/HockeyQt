@@ -56,7 +56,7 @@ SetupPage::SetupPage(QString* pAwayName, QString* pHomeName, QString* pAwayFile,
 
     homeNameLine.setText(*homeName);
     announcerLine.setText(*announcer);
-
+    setTitle("Game Information");
 }
 
 bool SetupPage::validatePage()

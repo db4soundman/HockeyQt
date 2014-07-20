@@ -42,9 +42,33 @@ bool HockeyTeam::getPlayerInGoal() const
     return playerInGoal;
 }
 
+void HockeyTeam::setGoalies(QString goalies)
+{
+    int number;
+    QString strNum;
+    while (goalies.contains(" ")) {
+        strNum = goalies.left(goalies.indexOf(" ") - 1);
+        goalies.mid(goalies.indexOf(" ")+1);
+        number = strNum.toInt();
+        for (int i = 0; i < roster.size(); i++) {
+            if (number == getPlayer(i)->getUni().toInt()) {
+                getPlayer(i)->setGaavg("Goalie");
+                break;
+            }
+        }
+    }
+    number = goalies.toInt();
+    for (int i = 0; i < roster.size(); i++) {
+        if (number == getPlayer(i)->getUni().toInt()) {
+            getPlayer(i)->setGaavg("Goalie");
+            break;
+        }
+    }
+}
+
 double HockeyTeam::getPkPct() const
 {
-    return (double) pk/pkopp;
+    return (double) pk/pkopp * 100;
 }
 
 void HockeyTeam::setPkPct(double value)
@@ -65,7 +89,7 @@ QList<QString> HockeyTeam::getGuiNames()
 
 double HockeyTeam::getPpPct() const
 {
-    return (double)ppg/ppopp;
+    return (double)ppg/ppopp * 100;
 }
 
 void HockeyTeam::setPpPct(double value)
