@@ -44,11 +44,12 @@ bool HockeyTeam::getPlayerInGoal() const
 
 void HockeyTeam::setGoalies(QString goalies)
 {
+    QString list = goalies;
     int number;
     QString strNum;
-    while (goalies.contains(" ")) {
-        strNum = goalies.left(goalies.indexOf(" ") - 1);
-        goalies.mid(goalies.indexOf(" ")+1);
+    while (list.contains(" ")) {
+        strNum = list.left(list.indexOf(" "));
+        list = list.mid(list.indexOf(" ")+1);
         number = strNum.toInt();
         for (int i = 0; i < roster.size(); i++) {
             if (number == getPlayer(i)->getUni().toInt()) {
@@ -57,7 +58,7 @@ void HockeyTeam::setGoalies(QString goalies)
             }
         }
     }
-    number = goalies.toInt();
+    number = list.toInt();
     for (int i = 0; i < roster.size(); i++) {
         if (number == getPlayer(i)->getUni().toInt()) {
             getPlayer(i)->setGaavg("Goalie");
