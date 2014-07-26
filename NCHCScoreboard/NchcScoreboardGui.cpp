@@ -31,7 +31,6 @@ NchcScoreboardGui::NchcScoreboardGui(NchcScoreboardGraphic* grph) {
     QPushButton* save = new QPushButton("Save");
     connect(save, SIGNAL(clicked()), this, SLOT(saveGames()));
     QPushButton* submit = new QPushButton("Submit");
-    connect(submit, SIGNAL(clicked()), this, SLOT(hide()));
     QPushButton* display = new QPushButton("Show");
     // connect display to the show() of graphic later...
     buttonLayout->addWidget(load);
