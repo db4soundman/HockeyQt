@@ -14,7 +14,8 @@ TEMPLATE = app
 DEFINES *= QT_USE_QSTRINGBUILDER
 INCLUDEPATH += GUI \
                Wizard \
-            Standings
+            Standings \
+            NCHCScoreboard
 
 SOURCES += main.cpp\
         MainWindow.cpp \
@@ -49,7 +50,11 @@ SOURCES += main.cpp\
     Standings/StandingsGraphic.cpp \
     Standings/StandingsWidget.cpp \
     CommercialGraphic.cpp \
-    Wizard/AwayTeamInfo.cpp
+    Wizard/AwayTeamInfo.cpp \
+    NCHCScoreboard/NchcScoreEntry.cpp \
+    NCHCScoreboard/NchcScoreboardGraphic.cpp \
+    NCHCScoreboard/NchcGameGui.cpp \
+    NCHCScoreboard/NchcScoreboardGui.cpp
 
 HEADERS  += MainWindow.h \
     Scoreboard.h \
@@ -83,7 +88,11 @@ HEADERS  += MainWindow.h \
     Standings/StandingsGraphic.h \
     Standings/StandingsWidget.h \
     CommercialGraphic.h \
-    Wizard/AwayTeamInfo.h
+    Wizard/AwayTeamInfo.h \
+    NCHCScoreboard/NchcScoreEntry.h \
+    NCHCScoreboard/NchcScoreboardGraphic.h \
+    NCHCScoreboard/NchcGameGui.h \
+    NCHCScoreboard/NchcScoreboardGui.h
 
 
 RESOURCES += \

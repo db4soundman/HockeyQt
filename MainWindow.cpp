@@ -6,8 +6,8 @@
 #include <QMenu>
 #include <QMenuBar>
 
-MainWindow::MainWindow(HockeyGame* game, StandingsGraphic* graphic, CommercialGraphic* comGraphic, QWidget *parent)
-    : QMainWindow(parent), panel(game, graphic, comGraphic), standingsPanel(graphic) {
+MainWindow::MainWindow(HockeyGame* game, StandingsGraphic* graphic, CommercialGraphic* comGraphic, NchcScoreboardGraphic* confSbGraphic, QWidget *parent)
+    : QMainWindow(parent), panel(game, graphic, comGraphic), standingsPanel(graphic), nchcGui(confSbGraphic) {
     setCentralWidget(&panel);
     setMaximumWidth(800);
 
@@ -15,6 +15,9 @@ MainWindow::MainWindow(HockeyGame* game, StandingsGraphic* graphic, CommercialGr
     QAction* standings = new QAction(QIcon(QPixmap(":/images/NCHCmenu.png")), "Edit Standings", NULL);
     nchcMenu->addAction(standings);
     connect(standings, SIGNAL(triggered()), &standingsPanel, SLOT(show()));
+    QAction* confSb = new QAction(QIcon(QPixmap(":/images/NCHCmenu.png")), "NCHC Scoreboard", NULL);
+    connect(confSb, SIGNAL(triggered()), &nchcGui, SLOT(show()));
+    nchcMenu->addAction(confSb);
     menuBar()->addMenu(nchcMenu);
 }
 

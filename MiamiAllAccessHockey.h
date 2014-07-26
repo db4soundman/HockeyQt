@@ -8,6 +8,7 @@
 #include "MainWindow.h"
 #include "StandingsGraphic.h"
 #include "CommercialGraphic.h"
+#include "NchcScoreboardGraphic.h"
 
 class MiamiAllAccessHockey : public QApplication {
 public:
@@ -33,6 +34,7 @@ private:
     HockeyGame* game;
     MainWindow* controlPanel;
     StandingsGraphic standings;
+    NchcScoreboardGraphic nchcScoreboard;
     CommercialGraphic* commercial;
 };
 

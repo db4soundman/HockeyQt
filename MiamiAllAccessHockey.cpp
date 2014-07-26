@@ -67,6 +67,7 @@ MiamiAllAccessHockey::exec() {
 
     scene->addItem(game->getLt());
     scene->addItem(&standings);
+    scene->addItem(&nchcScoreboard);
     commercial = new CommercialGraphic(game);
     scene->addItem(commercial);
     game->getLt()->setX(337 + 409);
@@ -90,7 +91,7 @@ MiamiAllAccessHockey::exec() {
     tv->setFrameShape(QFrame::NoFrame);
     tv->showFullScreen();
 
-    controlPanel = new MainWindow(game, &standings, commercial);
+    controlPanel = new MainWindow(game, &standings, commercial, &nchcScoreboard);
     controlPanel->show();
     return QApplication::exec();
 }
