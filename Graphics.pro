@@ -15,7 +15,8 @@ DEFINES *= QT_USE_QSTRINGBUILDER
 INCLUDEPATH += GUI \
                Wizard \
             Standings \
-            NCHCScoreboard
+            NCHCScoreboard \
+            GameStatEditors
 
 SOURCES += main.cpp\
         MainWindow.cpp \
@@ -54,7 +55,8 @@ SOURCES += main.cpp\
     NCHCScoreboard/NchcScoreEntry.cpp \
     NCHCScoreboard/NchcScoreboardGraphic.cpp \
     NCHCScoreboard/NchcGameGui.cpp \
-    NCHCScoreboard/NchcScoreboardGui.cpp
+    NCHCScoreboard/NchcScoreboardGui.cpp \
+    GameStatEditors/PlayerEditor.cpp
 
 HEADERS  += MainWindow.h \
     Scoreboard.h \
@@ -92,7 +94,8 @@ HEADERS  += MainWindow.h \
     NCHCScoreboard/NchcScoreEntry.h \
     NCHCScoreboard/NchcScoreboardGraphic.h \
     NCHCScoreboard/NchcGameGui.h \
-    NCHCScoreboard/NchcScoreboardGui.h
+    NCHCScoreboard/NchcScoreboardGui.h \
+    GameStatEditors/PlayerEditor.h
 
 
 RESOURCES += \

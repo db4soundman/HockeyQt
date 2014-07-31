@@ -59,7 +59,7 @@ void NchcScoreboardGui::submitGamesToGui()
 {
     QList<NchcScoreEntry> friday, saturday;
     for (int i = 0; i < games.size(); i++) {
-        if (!games.at(i)->getAwayScore().isEmpty()) {
+        if (!games.at(i)->getAway().isEmpty()) {
             NchcGameGui* gui = games.at(i);
             NchcScoreEntry game(gui->getAway(), gui->getHome(), gui->getAwayScore(), gui->getHomeScore(), gui->getTimeAndPd(), gui->isConf());
             if (i % 2 == 0) {

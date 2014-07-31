@@ -26,8 +26,10 @@ NchcScoreboardGraphic::paint(QPainter* painter,
         painter->setPen(QColor(255,255,255));
         painter->drawPixmap(0, 0, this->pixmap());
         painter->drawText(0, 0, 1920, 80, Qt::AlignCenter, "NCHC SCOREBOARD");
+        painter->drawText(0, 0, 1920/2, 80, Qt::AlignCenter, "FRIDAY GAMES");
+        painter->drawText(1920/2, 0, 1920/2, 80, Qt::AlignCenter, "SATURDAY GAMES");
         int spacing = (980 - (120*fridayGames.size())) / fridayGames.size();
-        int x = saturdayGames.size() == 0 ? (1920/2 - 300) : 250;
+        int x = 250;
         for (int i = 0; i < fridayGames.size(); i++) {
             // Outer border
             painter->fillRect(x, 80 + (BORDER_HEIGHT + spacing) * i, BORDER_WIDTH, BORDER_HEIGHT, fridayGames.at(i).getConfGame() ?
