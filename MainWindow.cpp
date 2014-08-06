@@ -7,7 +7,7 @@
 #include <QMenuBar>
 
 MainWindow::MainWindow(HockeyGame* game, StandingsGraphic* graphic, CommercialGraphic* comGraphic, NchcScoreboardGraphic* confSbGraphic, QWidget *parent)
-    : QMainWindow(parent), panel(game, graphic, comGraphic), standingsPanel(graphic), nchcGui(confSbGraphic),
+    : QMainWindow(parent), panel(game, graphic, comGraphic, confSbGraphic), standingsPanel(graphic), nchcGui(confSbGraphic),
     awayPlayerEdit(game, false), homePlayerEdit(game, true), awayEdit(game->getAwayTeam()), homeEdit(game->getHomeTeam()) {
     setCentralWidget(&panel);
     setMaximumWidth(800);

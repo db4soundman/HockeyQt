@@ -7,11 +7,12 @@
 #include "HockeyGame.h"
 #include "StandingsGraphic.h"
 #include "CommercialGraphic.h"
+#include "NchcScoreboardGraphic.h"
 
 class DisplayControls : public QWidget {
     Q_OBJECT
 public:
-    DisplayControls(HockeyGame* game, StandingsGraphic* graphic, CommercialGraphic* comGraphic);
+    DisplayControls(HockeyGame* game, StandingsGraphic* graphic, CommercialGraphic* comGraphic, NchcScoreboardGraphic* sbGraphic);
 
 public slots:
     void prepareCustomText();

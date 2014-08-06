@@ -2,7 +2,7 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 
-DisplayControls::DisplayControls(HockeyGame* game, StandingsGraphic* graphic, CommercialGraphic* comGraphic) {
+DisplayControls::DisplayControls(HockeyGame* game, StandingsGraphic* graphic, CommercialGraphic* comGraphic, NchcScoreboardGraphic* sbGraphic) {
     sponsorText = game->getSponsor();
     customtext.setReadOnly(false);
     customtext.setText("");
@@ -44,6 +44,7 @@ DisplayControls::DisplayControls(HockeyGame* game, StandingsGraphic* graphic, Co
     connect(&standingsButton, SIGNAL(clicked()), graphic, SLOT(toggleShow()));
     connect(&commericalButton, SIGNAL(clicked()), comGraphic, SLOT(prepareAndShow()));
     connect(&commericalButton, SIGNAL(clicked()), game->getLt(), SLOT(hideLt()));
+    connect(&commericalButton, SIGNAL(clicked()), game->getSb(), SLOT(hideBoard()));
 
     connect(&sbButton, SIGNAL(clicked()),
             game->getSb(), SLOT(toggleShowBoard()));
@@ -58,6 +59,7 @@ DisplayControls::DisplayControls(HockeyGame* game, StandingsGraphic* graphic, Co
     connect(&hideButton, SIGNAL(clicked()), game->getLt(), SLOT(hideLt()));
     connect(&hideButton, SIGNAL(clicked()), graphic, SLOT(hide()));
     connect(&hideButton, SIGNAL(clicked()), comGraphic, SLOT(hide()));
+    connect(&hideButton, SIGNAL(clicked()), sbGraphic, SLOT(hide()));
 
 }
 

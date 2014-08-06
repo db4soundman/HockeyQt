@@ -8,6 +8,7 @@
 #define AWAY_PP 1
 #define HOME_PP 2
 #define NEUTRAL 3
+#define TEAM_NAME_WIDTH 260
 
 Scoreboard::Scoreboard(QColor awayCol, QColor homeCol, QString awayTeam, QString homeTeam,
                        QString sponsorText, Clock* clock, QGraphicsItem *parent) :
@@ -20,7 +21,7 @@ Scoreboard::Scoreboard(QColor awayCol, QColor homeCol, QString awayTeam, QString
     #endif
 
     defaultSponsorText = sponsorFont;
-    show = true;
+    show = false;
     setPixmap(QPixmap(":/images/Scoreboard.png"));
     ppBar = new QPixmap(":/images/ppBar.png");
     topBar = new QPixmap(":/images/statbar.png");
@@ -56,6 +57,7 @@ Scoreboard::Scoreboard(QColor awayCol, QColor homeCol, QString awayTeam, QString
 
     this->clock = clock;
     connect(clock, SIGNAL(clockUpdated()), this, SLOT(updateClock()));
+    prepareAwayName();
 
 }
 
@@ -79,18 +81,18 @@ Scoreboard::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
             painter->drawText(833, 3, 247, 50, Qt::AlignCenter, centeredTimeText);
         }
         // Away text
-        painter->fillRect(115, 6, 260, 42, awayGradient );
+        painter->fillRect(115, 6, TEAM_NAME_WIDTH, 42, awayGradient );
         painter->setFont(awayName->font());
         painter->setPen(QColor(255, 255, 255));
-        painter->drawText(118, 6, 260, 42, Qt::AlignVCenter, awayName->toPlainText());
+        painter->drawText(118, 6, TEAM_NAME_WIDTH, 42, Qt::AlignVCenter, awayName->toPlainText());
         // Away Score
         painter->setFont(awayScore->font());
         painter->drawText(374, 6, 78, 44, Qt::AlignCenter, awayScore->toPlainText());
 
         // Home Text
-        painter->fillRect(470, 6, 260, 42, homeGradient );
+        painter->fillRect(470, 6, TEAM_NAME_WIDTH, 42, homeGradient );
         painter->setFont(homeName->font());
-        painter->drawText(475, 6, 260, 42, Qt::AlignVCenter, homeName->toPlainText());
+        painter->drawText(475, 6, TEAM_NAME_WIDTH, 42, Qt::AlignVCenter, homeName->toPlainText());
         // Home Score
         painter->setFont(homeScore->font());
         painter->drawText(728, 6, 78, 44, Qt::AlignCenter, homeScore->toPlainText());
@@ -157,6 +159,21 @@ Scoreboard::prepareColor() {
     awayGradient.setColorAt(1, end2);
     awayGradient.setColorAt(0, end2);
 
+}
+
+void Scoreboard::prepareAwayName()
+{
+    int subtraction = 1;
+    int fontPointSize = awayName->font().pointSize();
+    QFontMetrics fontSize(awayName->font());
+    while (fontSize.width(awayName->toPlainText()) > TEAM_NAME_WIDTH) {
+        QFont tempFont("Arial", fontPointSize - subtraction, QFont::Bold);
+        //topBarText->font().setPointSize(defaultSponsorText.pointSize()-subtraction);
+        subtraction++;
+        awayName->setFont(tempFont);
+        QFontMetrics temp(awayName->font());
+        fontSize = temp;
+    }
 }
 
 void

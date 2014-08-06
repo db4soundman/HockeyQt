@@ -2,8 +2,11 @@
 #include <QFontMetrics>
 #include <QGraphicsScene>
 
-#define WIDTH 1000
-#define NAME_WIDTH 900
+#define WIDTH 1920/2
+#define NAME_WIDTH 860
+#define RECT_HEIGHT 120
+#define CENTER_OFFSET 100
+#define BLACK_BAR_HEIGHT 60
 #define GRADIENT_LEVEL .5
 #define SHOW_CLOCK 0
 #define INTERMISSION 1
@@ -12,7 +15,8 @@
 CommercialGraphic::CommercialGraphic(HockeyGame* game, QGraphicsItem* parent) :
     QGraphicsPixmapItem(parent), blackBar(QPixmap(":/images/ppBar.png")) {
     hockeyGame = game;
-    show = inGame  = false;
+    show = true;
+    inGame  = false;
     QFont font("Arial", 38, QFont::Bold);
     QFont sponsorFont("Arial", 36, QFont::Bold);
 #ifdef Q_OS_OSX
@@ -36,26 +40,31 @@ CommercialGraphic::CommercialGraphic(HockeyGame* game, QGraphicsItem* parent) :
 void CommercialGraphic::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
                               QWidget* widget) {
     if (show){
-        painter->drawPixmap(0, -60, WIDTH, 60, blackBar);
+        painter->drawPixmap(WIDTH/2, -BLACK_BAR_HEIGHT, WIDTH, BLACK_BAR_HEIGHT, blackBar);
         painter->setPen(QColor(255, 255, 255));
         painter->setFont(descriptiveFont);
-        painter->drawText(0, -60, WIDTH, 60, Qt::AlignCenter, maaText);
-        painter->fillRect(0, 0, WIDTH, 60, awayTeamGradient);
-        painter->fillRect(0, 60, WIDTH, 60, homeTeamGradient);
+        painter->drawText(0, -BLACK_BAR_HEIGHT, WIDTH, BLACK_BAR_HEIGHT, Qt::AlignCenter, maaText);
+        painter->fillRect(0, 0, WIDTH, RECT_HEIGHT, awayTeamGradient);
+        painter->fillRect(WIDTH, 0, WIDTH, RECT_HEIGHT, homeTeamGradient);
         painter->setFont(away->font());
-        painter->drawText(10, 0, NAME_WIDTH, 60, Qt::AlignLeft | Qt::AlignVCenter, away->toPlainText());
+        painter->drawText(10, 0, NAME_WIDTH, RECT_HEIGHT, Qt::AlignCenter, away->toPlainText());
         painter->setFont(home->font());
-        painter->drawText(10, 60, NAME_WIDTH, 60, Qt::AlignLeft | Qt::AlignVCenter, home->toPlainText());
-        painter->drawText(NAME_WIDTH, 0, WIDTH - NAME_WIDTH, 60, Qt::AlignCenter, awayScore);
-        painter->drawText(NAME_WIDTH, 60, WIDTH - NAME_WIDTH, 60, Qt::AlignCenter, homeScore);
-        painter->drawPixmap(WIDTH - 400, 120, WIDTH - (WIDTH- 400), 60, blackBar);
+        painter->drawText(WIDTH + CENTER_OFFSET, 0, NAME_WIDTH, RECT_HEIGHT, Qt::AlignCenter, home->toPlainText());
+
+        painter->fillRect(WIDTH - CENTER_OFFSET, 0, CENTER_OFFSET * 2, RECT_HEIGHT, QColor(0,0,0, 80));
+
+        painter->drawText(WIDTH - CENTER_OFFSET, 0, CENTER_OFFSET, RECT_HEIGHT, Qt::AlignCenter, awayScore);
+        painter->drawText(WIDTH, 0, CENTER_OFFSET, RECT_HEIGHT, Qt::AlignCenter, homeScore);
+
+
+        painter->drawPixmap(WIDTH - 400, RECT_HEIGHT, WIDTH - (WIDTH- 400), BLACK_BAR_HEIGHT, blackBar);
         painter->setFont(descriptiveFont);
         if (clockStatus == FINAL) {
-            painter->drawText(WIDTH - 400, 120, WIDTH - (WIDTH- 400), 60, Qt::AlignCenter, "FINAL");
+            painter->drawText(WIDTH - 400, RECT_HEIGHT, WIDTH - (WIDTH- 400), BLACK_BAR_HEIGHT, Qt::AlignCenter, "FINAL");
         }
         else {
-            painter->drawText(WIDTH- 390, 120, WIDTH - (WIDTH- 400), 60, Qt::AlignLeft, period);
-            painter->drawText(WIDTH-400, 120, WIDTH - (WIDTH- 390), 60, Qt::AlignRight, clock);
+            painter->drawText(WIDTH- 390, RECT_HEIGHT, WIDTH - (WIDTH- 400), BLACK_BAR_HEIGHT, Qt::AlignLeft, period);
+            painter->drawText(WIDTH-400, RECT_HEIGHT, WIDTH - (WIDTH- 390), BLACK_BAR_HEIGHT, Qt::AlignRight, clock);
         }
     }
 }
@@ -141,7 +150,7 @@ void CommercialGraphic::checkAwayFont()
     int fontPointSize = away->font().pointSize();
     int subtraction = 1;
     QFontMetrics fontSize(away->font());
-    while (fontSize.width(away->toPlainText()) > NAME_WIDTH - 10) {
+    while (fontSize.width(away->toPlainText()) > NAME_WIDTH) {
         QFont tempFont("Arial", fontPointSize - subtraction, QFont::Bold);
         subtraction++;
         away->setFont(tempFont);
@@ -152,10 +161,10 @@ void CommercialGraphic::checkAwayFont()
 
 void CommercialGraphic::prepareGradients(QColor awayColor, QColor homeColor)
 {
-    homeTeamGradient.setStart(0, 60);
+    homeTeamGradient.setStart(0, 0);
     homeTeamGradient.setFinalStop(0, 120);
     awayTeamGradient.setStart(0,0);
-    awayTeamGradient.setFinalStop(0,60);
+    awayTeamGradient.setFinalStop(0, 120);
     int red, green, blue;
     red = -1*homeColor.red() *GRADIENT_LEVEL + homeColor.red();
     green = -1*homeColor.green() *GRADIENT_LEVEL + homeColor.green();

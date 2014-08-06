@@ -54,6 +54,7 @@ private:
      scoreText, showPP, show, showPdAndClock, showClock;
 
      void prepareColor();
+     void prepareAwayName();
      Clock* clock;
      Clock* ppClock;
      QFont defaultSponsorText;
