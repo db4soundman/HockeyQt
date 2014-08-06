@@ -24,6 +24,7 @@ PlayerEditor::PlayerEditor(HockeyGame* game, bool homeTeam) {
 
     connect(&playerSelect, SIGNAL(currentIndexChanged(int)),
             this, SLOT(changePlayer(int)));
+    setWindowTitle("Player Editor");
 }
 
 void PlayerEditor::updateSpinBoxes() {
