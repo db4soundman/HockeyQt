@@ -52,7 +52,7 @@ Scoreboard::Scoreboard(QColor awayCol, QColor homeCol, QString awayTeam, QString
     penaltyGradient.setColorAt(0, QColor(255, 255, 0));
     penaltyGradient.setColorAt(1, QColor(188, 188, 0));
 
-    QFont rankFont("Arial", 34, QFont::Bold);
+    QFont rankFont("Arial", 20, QFont::Bold);
     awayRank = new QGraphicsTextItem(pAwayRank);
     homeRank = new QGraphicsTextItem(pHomeRank);
     awayRank->setFont(rankFont);
@@ -90,10 +90,10 @@ Scoreboard::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
             painter->drawText(833, 3, 247, 50, Qt::AlignCenter, centeredTimeText);
         }
         // Away text
-        painter->fillRect(115, TEAM_BOX_Y, TEAM_NAME_WIDTH, 42, awayGradient );
+        painter->fillRect(115, TEAM_BOX_Y, TEAM_NAME_WIDTH + RANK_WIDTH, 42, awayGradient );
         painter->setFont(awayRank->font());
         painter->setPen(QColor(255, 255, 255));
-        painter->drawText(115, TEAM_BOX_Y, RANK_WIDTH, 42, Qt::AlignHCenter | Qt::AlignBottom,  awayRank->toPlainText());
+        painter->drawText(115, TEAM_BOX_Y, RANK_WIDTH, 42, Qt::AlignCenter,  awayRank->toPlainText());
         painter->setFont(awayName->font());
         painter->drawText(118 + RANK_WIDTH, TEAM_BOX_Y, TEAM_NAME_WIDTH, 42, Qt::AlignVCenter, awayName->toPlainText());
         // Away Score
@@ -101,9 +101,9 @@ Scoreboard::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
         painter->drawText(374, TEAM_BOX_Y, 78, 44, Qt::AlignCenter, awayScore->toPlainText());
 
         // Home Text
-        painter->fillRect(470, TEAM_BOX_Y, TEAM_NAME_WIDTH, 42, homeGradient);
+        painter->fillRect(470, TEAM_BOX_Y, TEAM_NAME_WIDTH + RANK_WIDTH, 42, homeGradient);
         painter->setFont(homeRank->font());
-        painter->drawText(470, TEAM_BOX_Y, RANK_WIDTH, 42, Qt::AlignHCenter | Qt::AlignBottom, homeRank->toPlainText());
+        painter->drawText(470, TEAM_BOX_Y, RANK_WIDTH, 42, Qt::AlignCenter, homeRank->toPlainText());
         painter->setFont(homeName->font());
         painter->drawText(475 + RANK_WIDTH, TEAM_BOX_Y, TEAM_NAME_WIDTH, 42, Qt::AlignVCenter, homeName->toPlainText());
         // Home Score
