@@ -15,7 +15,7 @@ class Scoreboard : public QObject, public QGraphicsPixmapItem {
     Q_OBJECT
 public:
      Scoreboard(QColor awayCol, QColor homeCol, QString awayTeam, QString homeTeam,
-                 QString sponsorText, Clock* clock, QGraphicsItem* parent = 0);
+                 QString sponsorText, Clock* clock, QString pAwayRank, QString pHomeRank, QGraphicsItem* parent = 0);
      void paint(QPainter * painter,
                 const QStyleOptionGraphicsItem * option, QWidget * widget = 0);
 
@@ -48,6 +48,8 @@ private:
      QGraphicsTextItem* homeScore;
      QGraphicsTextItem* awayScore;
      QGraphicsTextItem* topBarText;
+     QGraphicsTextItem* awayRank;
+     QGraphicsTextItem* homeRank;
      QString ppDescription, period, centeredTimeText, sponsorText;
      QLinearGradient homeGradient, awayGradient, penaltyGradient;
      bool awayPP, homePP, neutralPP, penalty, sponsor,

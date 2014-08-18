@@ -9,7 +9,7 @@ HockeyGame::HockeyGame(QString awayName, QString homeName, QColor awayColor, QCo
                        QString awayRank, QString homeRank) :
     awayName(awayName), homeName(homeName), sponsor(sponsor), announcers(announcers), awayColor(awayColor),
     homeColor(homeColor), awayRank(awayRank), homeRank(homeRank),
-    sb(awayColor, homeColor, awayName, homeName, sponsor, &gameClock),
+    sb(awayColor, homeColor, awayName, homeName, sponsor, &gameClock, awayRank, homeRank),
     lt (awayColor, homeColor) {
     isFinal = false;
     awayScore = 0;
