@@ -60,6 +60,7 @@ private:
      Clock* clock;
      Clock* ppClock;
      QFont defaultSponsorText;
+     int homeRankOffset, awayRankOffset;
 
 };
 
