@@ -17,10 +17,10 @@ CommercialGraphic::CommercialGraphic(HockeyGame* game, QGraphicsItem* parent) :
     hockeyGame = game;
     show = true;
     inGame  = false;
-    QFont font("Arial", 38, QFont::Bold);
+    QFont font("Arial", 60, QFont::Bold);
     QFont sponsorFont("Arial", 36, QFont::Bold);
 #ifdef Q_OS_OSX
-    font.setPointSize(44);
+    font.setPointSize(68);
     sponsorFont.setPointSize(40);
     #endif
 
