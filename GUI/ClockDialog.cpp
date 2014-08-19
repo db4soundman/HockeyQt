@@ -5,7 +5,7 @@
 
 ClockDialog::ClockDialog(Clock* clock) {
     setWindowTitle("Set Game Clock");
-    min.setMaximum(20);
+    min.setMaximum(120);
     min.setMinimum(0);
     sec.setMaximum(60);
     sec.setMinimum(0);

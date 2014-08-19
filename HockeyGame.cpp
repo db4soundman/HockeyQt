@@ -54,12 +54,22 @@ HockeyGame::awayGoal() {
     timeEventHappened = period > 3 ? gameClock.getTimeSinceOtStarted() :
                                      gameClock.getTimeSincePdStarted();
     emit awayScoreChanged(awayScore);
+    if (getHomeTeam()->getPlayerInGoal()) {
+        homeTeam->getGoalie()->addGa();
+    }
+    awaySOG++;
+    emit awaySogChanged(awaySOG);
 }
 
 void
 HockeyGame::awayLoseGoal() {
     awayScore --;
     emit awayScoreChanged(awayScore);
+    if (getHomeTeam()->getPlayerInGoal()) {
+        homeTeam->getGoalie()->minusGa();
+    }
+    awaySOG--;
+    emit awaySogChanged(awaySOG);
 }
 
 void
@@ -67,6 +77,11 @@ HockeyGame::homeGoal() {
     homeScore ++;
     timeEventHappened = period > 3 ? gameClock.getTimeSinceOtStarted() :
                                      gameClock.getTimeSincePdStarted();
+    if (getAwayTeam()->getPlayerInGoal()) {
+        awayTeam->getGoalie()->addGa();
+    }
+    homeSOG++;
+    emit homeSogChanged(homeSOG);
     emit homeScoreChanged(homeScore);
 }
 
@@ -74,6 +89,11 @@ void
 HockeyGame::homeLoseGoal() {
     homeScore --;
     emit homeScoreChanged(homeScore);
+    if (getAwayTeam()->getPlayerInGoal()) {
+        awayTeam->getGoalie()->minusGa();
+    }
+    homeSOG--;
+    emit homeSogChanged(homeSOG);
 }
 
 void
