@@ -2,6 +2,7 @@
 #include <QFontMetrics>
 #include <QStringRef>
 #include <QGraphicsScene>
+#include <QRect>
 
 #define NAME_GRADIENT_LEVEL .7
 #define STAT_GRADIENT_LEVEL .7
@@ -15,6 +16,7 @@ LowerThird::LowerThird(QColor awayColor, QColor homeColor, QGraphicsItem* parent
     #endif
     fontPointSize = nameFont.pointSize();
     setPixmap(QPixmap(":/images/LowerThird.png"));
+    statFontPointSize = statFont.pointSize();
     gradient.setStart(0, 0);
     gradient.setFinalStop(0, 120);
     homeNameGradient.setStart(0, 0);
@@ -60,7 +62,7 @@ LowerThird::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
         // Stat Labels
         painter->setPen(QColor(0, 0, 0));
         for (int i = 0; i< statNames.size(); i++) {
-            painter->drawText(rectWidth * i, 0, rectWidth, 47, Qt::AlignCenter, statNames.at(i));
+            painter->drawText(rectWidth * i, 0, rectWidth, 47, Qt::AlignCenter | Qt::TextWordWrap, statNames.at(i));
         }
     }
     else if (showPp) {
@@ -112,6 +114,40 @@ LowerThird::prepareForDisplay(QString name, QString number, QString year,
     gradient = homeTeam ? homeNameGradient : awayNameGradient;
     statGradient = homeTeam ? homeStatGradient : awayStatGradient;
     prepareFontSize();
+    // To ensure font size is returned to normal in the event that
+    // a custom text LT was used.
+    statFont.setPointSize(statFontPointSize);
+    showLt();
+}
+
+void LowerThird::prepareForCustomLt(QString name, QString number, QString year,
+                                    QList<QString> statLabels,
+                                    QList<QString> statValues, bool homeTeam)
+{
+    statFont.setPointSize(statFontPointSize);
+    this->name = name;
+    firstName = name.left(name.indexOf(" "));
+    QStringRef substr(&name, name.indexOf(" ") + 1, name.length() - (name.indexOf(" ")+1));
+    lastName = substr.toString();
+    this->year = year;
+    this->number = number;
+    statNames = statLabels;
+    statistics = statValues;
+    gradient = homeTeam ? homeNameGradient : awayNameGradient;
+    statGradient = homeTeam ? homeStatGradient : awayStatGradient;
+    QRect rect(0, 0, 800, 47);
+
+    int subtraction = 1;
+    QFontMetrics fontSize(statFont);
+    QPainter painter;
+    while (rect != painter.boundingRect(rect, Qt::TextWordWrap, statValues.at(0))) {
+        QFont tempFont("Arial", statFontPointSize - subtraction, QFont::Bold);
+        //nameFont.setPointSize(fontPointSize - subtraction);
+        subtraction++;
+        statFont = tempFont;
+        QFontMetrics temp(statFont);
+        fontSize = temp;
+    }
     showLt();
 }
 

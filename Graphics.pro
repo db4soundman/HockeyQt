@@ -57,7 +57,8 @@ SOURCES += main.cpp\
     NCHCScoreboard/NchcGameGui.cpp \
     NCHCScoreboard/NchcScoreboardGui.cpp \
     GameStatEditors/PlayerEditor.cpp \
-    GameStatEditors/TeamEditor.cpp
+    GameStatEditors/TeamEditor.cpp \
+    LowerThirdCreator.cpp
 
 HEADERS  += MainWindow.h \
     Scoreboard.h \
@@ -97,7 +98,8 @@ HEADERS  += MainWindow.h \
     NCHCScoreboard/NchcGameGui.h \
     NCHCScoreboard/NchcScoreboardGui.h \
     GameStatEditors/PlayerEditor.h \
-    GameStatEditors/TeamEditor.h
+    GameStatEditors/TeamEditor.h \
+    LowerThirdCreator.h
 
 
 RESOURCES += \

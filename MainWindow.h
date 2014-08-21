@@ -12,6 +12,7 @@
 #include "NchcScoreboardGraphic.h"
 #include "PlayerEditor.h"
 #include "TeamEditor.h"
+#include "LowerThirdCreator.h"
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
@@ -25,6 +26,7 @@ private:
     NchcScoreboardGui nchcGui;
     PlayerEditor awayPlayerEdit, homePlayerEdit;
     TeamEditor awayEdit, homeEdit;
+    LowerThirdCreator ltCreator;
 
     void makeMenu(HockeyGame* game);
 };

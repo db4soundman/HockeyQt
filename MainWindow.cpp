@@ -8,7 +8,8 @@
 
 MainWindow::MainWindow(HockeyGame* game, StandingsGraphic* graphic, CommercialGraphic* comGraphic, NchcScoreboardGraphic* confSbGraphic, QWidget *parent)
     : QMainWindow(parent), panel(game, graphic, comGraphic, confSbGraphic), standingsPanel(graphic), nchcGui(confSbGraphic),
-    awayPlayerEdit(game, false), homePlayerEdit(game, true), awayEdit(game->getAwayTeam()), homeEdit(game->getHomeTeam()) {
+    awayPlayerEdit(game, false), homePlayerEdit(game, true), awayEdit(game->getAwayTeam()), homeEdit(game->getHomeTeam()),
+    ltCreator(game->getLt()) {
     setCentralWidget(&panel);
     setMaximumWidth(800);
     makeMenu(game);
@@ -50,9 +51,16 @@ void MainWindow::makeMenu(HockeyGame* game)
     connect(homeTeamEdit, SIGNAL(triggered()), &homeEdit, SLOT(show()));
     homeMenu->addAction(homeTeamEdit);
 
+    QMenu* lowerThirdMenu = new QMenu("Lower Third");
+    QAction* customLtCreator = new QAction("Create custom Lt", this);
+    connect(customLtCreator, SIGNAL(triggered()), &ltCreator, SLOT(show()));
+    customLtCreator->setShortcut(Qt::CTRL + Qt::Key_1);
+    lowerThirdMenu->addAction(customLtCreator);
+
 
     menuBar()->addMenu(awayMenu);
     menuBar()->addMenu(homeMenu);
+    menuBar()->addMenu(lowerThirdMenu);
 
 
 }

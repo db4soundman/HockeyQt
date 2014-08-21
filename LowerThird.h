@@ -26,6 +26,8 @@ public slots:
     void showPpComp();
     void prepareForDisplay(QString name, QString number, QString year, QList<QString> statLabels,
                            QList<QString> statValues, bool homeTeam);
+    void prepareForCustomLt(QString name, QString number, QString year, QList<QString> statLabels,
+                           QList<QString> statValues, bool homeTeam);
     void prepareForPpComp(QString awayName, QString awayLabel, QString awayStat,
                           QString homeName, QString homeLabel, QString homeStat);
 private:
@@ -42,7 +44,7 @@ private:
     void prepareFontSize();
 
     bool show, showPp;
-    int fontPointSize;
+    int fontPointSize, statFontPointSize;
 };
 
 #endif // LOWERTHIRD_H
