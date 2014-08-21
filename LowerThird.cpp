@@ -55,20 +55,23 @@ LowerThird::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
         painter->drawText(-60, 60, 60, 60, Qt::AlignCenter, year);
         painter->setFont(statFont);
 
-        if (statistics.size() == 1 && !checkedFont) {
-            adjustFont(painter);
-        }
-
-        // Stat numbers
         int rectWidth = 800/statistics.size();
-        for (int i = 0; i< statistics.size(); i++) {
-            painter->drawText(rectWidth * i, 47, rectWidth, 72, Qt::AlignCenter, statistics.at(i));
-        }
         // Stat Labels
         painter->setPen(QColor(0, 0, 0));
         for (int i = 0; i< statNames.size(); i++) {
-            painter->drawText(rectWidth * i, 0, rectWidth, 47, Qt::AlignCenter | Qt::TextWordWrap, statNames.at(i));
+            painter->drawText(rectWidth * i, 0, rectWidth, 47, Qt::AlignCenter, statNames.at(i));
         }
+
+        if (statistics.size() == 1 && !checkedFont) {
+            adjustFont(painter);
+        }
+        painter->setPen(QColor(255, 255, 255));
+        // Stat numbers
+
+        for (int i = 0; i< statistics.size(); i++) {
+            painter->drawText(rectWidth * i, 47, rectWidth, 72, Qt::AlignCenter | Qt::TextWordWrap, statistics.at(i));
+        }
+
     }
     else if (showPp) {
         painter->drawPixmap(-202, 0, 400, 120, this->pixmap());
@@ -219,16 +222,16 @@ LowerThird::prepareFontSize() {
 void LowerThird::adjustFont(QPainter* painter)
 {
     QRect rect(0, 0, 800, 47);
-    QRect wordRect = painter->boundingRect(rect, Qt::TextWordWrap, statistics.at(0));
+    QRect wordRect = painter->boundingRect(rect, Qt::AlignCenter | Qt::TextWordWrap, statistics.at(0));
 
     int subtraction = 1;
-    while (rect.width() <= wordRect.width() &&
+    while (
            rect.height() <= wordRect.height()) {
         QFont tempFont("Arial", statFontPointSize - subtraction, QFont::Bold);
         subtraction++;
         statFont = tempFont;
         painter->setFont(statFont);
-        wordRect = painter->boundingRect(rect, Qt::TextWordWrap, statistics.at(0));
+        wordRect = painter->boundingRect(rect, Qt::AlignCenter | Qt::TextWordWrap, statistics.at(0));
     }
     checkedFont = true;
 }
