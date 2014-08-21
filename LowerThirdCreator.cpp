@@ -37,10 +37,10 @@ LowerThirdCreator::LowerThirdCreator(LowerThird* lt) {
 
 void LowerThirdCreator::clearFields()
 {
-    name.clear();
-    num.clear();
-    yr.clear();
-    header.clear();
+    name.setText("");
+    num.setText("");
+    yr.setText("");
+    header.setText("");
     text.clear();
 }
 

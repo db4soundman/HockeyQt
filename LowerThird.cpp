@@ -34,6 +34,7 @@ LowerThird::LowerThird(QColor awayColor, QColor homeColor, QGraphicsItem* parent
     statNames.append("");
     show = false;
     showPp = false;
+    checkedFont = false;
 }
 
 void
@@ -53,6 +54,10 @@ LowerThird::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
         painter->drawText(-60, 0, 60, 60, Qt::AlignCenter, number);
         painter->drawText(-60, 60, 60, 60, Qt::AlignCenter, year);
         painter->setFont(statFont);
+
+        if (statistics.size() == 1 && !checkedFont) {
+            adjustFont(painter);
+        }
 
         // Stat numbers
         int rectWidth = 800/statistics.size();
@@ -135,24 +140,13 @@ void LowerThird::prepareForCustomLt(QString name, QString number, QString year,
     statistics = statValues;
     gradient = homeTeam ? homeNameGradient : awayNameGradient;
     statGradient = homeTeam ? homeStatGradient : awayStatGradient;
-    QRect rect(0, 0, 800, 47);
-
-    int subtraction = 1;
-    QFontMetrics fontSize(statFont);
-    QPainter painter;
-    while (rect != painter.boundingRect(rect, Qt::TextWordWrap, statValues.at(0))) {
-        QFont tempFont("Arial", statFontPointSize - subtraction, QFont::Bold);
-        //nameFont.setPointSize(fontPointSize - subtraction);
-        subtraction++;
-        statFont = tempFont;
-        QFontMetrics temp(statFont);
-        fontSize = temp;
-    }
+    checkedFont = false;
     showLt();
 }
 
 void LowerThird::prepareForPpComp(QString awayName, QString awayLabel, QString awayStat,
                                   QString homeName, QString homeLabel, QString homeStat) {
+    statFont.setPointSize(statFontPointSize);
     this->awayName = awayName;
     this->awayLabel = awayLabel;
     this->awayStat = awayStat;
@@ -220,6 +214,20 @@ LowerThird::prepareFontSize() {
         QFontMetrics temp(nameFont);
         fontSize = temp;
     }
+}
+
+void LowerThird::adjustFont(QPainter* painter)
+{
+    QRect rect(0, 0, 800, 47);
+
+    int subtraction = 1;
+    while (rect != painter->boundingRect(rect, Qt::TextWordWrap, statistics.at(0))) {
+        QFont tempFont("Arial", statFontPointSize - subtraction, QFont::Bold);
+        subtraction++;
+        statFont = tempFont;
+        painter->setFont(statFont);
+    }
+    checkedFont = true;
 }
 
 void
