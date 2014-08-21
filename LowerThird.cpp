@@ -219,13 +219,16 @@ LowerThird::prepareFontSize() {
 void LowerThird::adjustFont(QPainter* painter)
 {
     QRect rect(0, 0, 800, 47);
+    QRect wordRect = painter->boundingRect(rect, Qt::TextWordWrap, statistics.at(0));
 
     int subtraction = 1;
-    while (rect != painter->boundingRect(rect, Qt::TextWordWrap, statistics.at(0))) {
+    while (rect.width() <= wordRect.width() &&
+           rect.height() <= wordRect.height()) {
         QFont tempFont("Arial", statFontPointSize - subtraction, QFont::Bold);
         subtraction++;
         statFont = tempFont;
         painter->setFont(statFont);
+        wordRect = painter->boundingRect(rect, Qt::TextWordWrap, statistics.at(0));
     }
     checkedFont = true;
 }
