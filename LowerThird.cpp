@@ -218,13 +218,13 @@ LowerThird::prepareFontSize() {
 void LowerThird::adjustFont()
 {
     statFont.setPointSize(22);
-//#ifdef Q_OS_OSX
-//    statFont.setPointSize(28);
-//#endif
+#ifdef Q_OS_OSX
+    statFont.setPointSize(28);
+#endif
     int subtraction = 1;
     QFontMetrics fontSize(statFont);
     while (fontSize.width(statistics[0]) > this->pixmap().width() * 2 - 100) {
-        QFont tempFont("Arial", fontPointSize - subtraction, QFont::Bold);
+        QFont tempFont("Arial", statFont.pointSize() - subtraction, QFont::Bold);
         subtraction++;
         statFont = tempFont;
         QFontMetrics temp(statFont);
