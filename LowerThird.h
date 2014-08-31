@@ -42,9 +42,9 @@ private:
 
     void prepareColors();
     void prepareFontSize();
-    void adjustFont(QPainter* painter);
+    void adjustFont();
 
-    bool show, showPp, checkedFont;
+    bool show, showPp;
     int fontPointSize, statFontPointSize;
 };
 

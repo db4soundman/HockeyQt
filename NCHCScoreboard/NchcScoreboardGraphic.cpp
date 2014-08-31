@@ -54,7 +54,7 @@ NchcScoreboardGraphic::paint(QPainter* painter,
                                   QColor(165, 0, 22) : QColor(255, 255, 255));
             if (fridayGames.at(i).getConfGame()) {
                 painter->fillRect(x - IMAGE_WIDTH, 80 + (BORDER_HEIGHT + spacing) * i, IMAGE_WIDTH, BORDER_HEIGHT, fridayGames.at(i).getConfGame() ?
-                                      QColor(165, 0, 22, 200) : QColor(0, 0, 0, 200));
+                                      QColor(165, 0, 22, 200) : QColor(0, 0, 0, 150));
                 painter->drawPixmap(x - IMAGE_WIDTH, 80 + (BORDER_HEIGHT + spacing) * i, IMAGE_WIDTH, BORDER_HEIGHT, QPixmap(":/images/NCHClrg.png"));
             }
         }
@@ -83,7 +83,7 @@ NchcScoreboardGraphic::paint(QPainter* painter,
                                   QColor(165, 0, 22) : QColor(255, 255, 255));
             if (saturdayGames.at(i).getConfGame()) {
                 painter->fillRect(x - IMAGE_WIDTH, 80 + (BORDER_HEIGHT + spacing) * i, IMAGE_WIDTH, BORDER_HEIGHT, fridayGames.at(i).getConfGame() ?
-                                      QColor(165, 0, 22, 200) : QColor(0, 0, 0, 200));
+                                      QColor(165, 0, 22, 200) : QColor(0, 0, 0, 150));
                 painter->drawPixmap(x - IMAGE_WIDTH, 80 + (BORDER_HEIGHT + spacing) * i, IMAGE_WIDTH, BORDER_HEIGHT, QPixmap(":/images/NCHClrg.png"));
             }
         }

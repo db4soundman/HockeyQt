@@ -34,7 +34,6 @@ LowerThird::LowerThird(QColor awayColor, QColor homeColor, QGraphicsItem* parent
     statNames.append("");
     show = false;
     showPp = false;
-    checkedFont = false;
 }
 
 void
@@ -62,9 +61,6 @@ LowerThird::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
             painter->drawText(rectWidth * i, 0, rectWidth, 47, Qt::AlignCenter, statNames.at(i));
         }
 
-        if (statistics.size() == 1 && !checkedFont) {
-            adjustFont(painter);
-        }
         painter->setPen(QColor(255, 255, 255));
         // Stat numbers
 
@@ -143,7 +139,6 @@ void LowerThird::prepareForCustomLt(QString name, QString number, QString year,
     statistics = statValues;
     gradient = homeTeam ? homeNameGradient : awayNameGradient;
     statGradient = homeTeam ? homeStatGradient : awayStatGradient;
-    checkedFont = false;
     showLt();
 }
 
@@ -159,6 +154,7 @@ void LowerThird::prepareForPpComp(QString awayName, QString awayLabel, QString a
     firstName = awayName;
     lastName = "";
     prepareFontSize();
+    adjustFont();
     showPpComp();
 
 }
@@ -219,21 +215,21 @@ LowerThird::prepareFontSize() {
     }
 }
 
-void LowerThird::adjustFont(QPainter* painter)
+void LowerThird::adjustFont()
 {
-    QRect rect(0, 0, 800, 47);
-    QRect wordRect = painter->boundingRect(rect, Qt::AlignCenter | Qt::TextWordWrap, statistics.at(0));
-
+    statFont.setPointSize(22);
+#ifdef Q_OS_OSX
+    statFont.setPointSize(28);
+#endif
     int subtraction = 1;
-    while (
-           rect.height() <= wordRect.height()) {
-        QFont tempFont("Arial", statFontPointSize - subtraction, QFont::Bold);
+    QFontMetrics fontSize(statFont);
+    while (fontSize.width(statistics[0]) > this->pixmap().width() * 2 - 100) {
+        QFont tempFont("Arial", fontPointSize - subtraction, QFont::Bold);
         subtraction++;
         statFont = tempFont;
-        painter->setFont(statFont);
-        wordRect = painter->boundingRect(rect, Qt::AlignCenter | Qt::TextWordWrap, statistics.at(0));
+        QFontMetrics temp(statFont);
+        fontSize = temp;
     }
-    checkedFont = true;
 }
 
 void
