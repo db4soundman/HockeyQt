@@ -139,6 +139,7 @@ void LowerThird::prepareForCustomLt(QString name, QString number, QString year,
     statistics = statValues;
     gradient = homeTeam ? homeNameGradient : awayNameGradient;
     statGradient = homeTeam ? homeStatGradient : awayStatGradient;
+    adjustFont();
     showLt();
 }
 
@@ -154,7 +155,6 @@ void LowerThird::prepareForPpComp(QString awayName, QString awayLabel, QString a
     firstName = awayName;
     lastName = "";
     prepareFontSize();
-    adjustFont();
     showPpComp();
 
 }
