@@ -139,7 +139,10 @@ void LowerThird::prepareForCustomLt(QString name, QString number, QString year,
     statistics = statValues;
     gradient = homeTeam ? homeNameGradient : awayNameGradient;
     statGradient = homeTeam ? homeStatGradient : awayStatGradient;
-    adjustFont();
+    // Resize the font to be two lines ONLY if necessary...
+    QFontMetrics fontSize(statFont);
+    if (fontSize.width(statistics[0]) > this->pixmap().width() - 100)
+        adjustFont();
     showLt();
 }
 
