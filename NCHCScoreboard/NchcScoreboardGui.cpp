@@ -2,6 +2,11 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QPushButton>
+#include <QTextStream>
+#include <QFile>
+#include "MiamiAllAccessHockey.h"
+#include <QDate>
+#include <QFileDialog>
 
 NchcScoreboardGui::NchcScoreboardGui(NchcScoreboardGraphic* grph) {
     graphic = grph;
@@ -47,12 +52,37 @@ NchcScoreboardGui::NchcScoreboardGui(NchcScoreboardGraphic* grph) {
 
 void NchcScoreboardGui::loadGames()
 {
+    QFile file(QFileDialog::getOpenFileName(0, "Select Friday file", MiamiAllAccessHockey::getAppDirPath()));
+    file.open(QFile::ReadOnly);
+    QTextStream reader(&file);
+    for (int i = 0; i < games.size(); i +=2) {
+        NchcGameGui* game = games.at(i);
+        game->updateAwayName(reader.readLine());
+        game->setAwayScore(reader.readLine());
+        game->updateHomeName(reader.readLine());
+        game->setHomeScore(reader.readLine());
+        int isConf;
+        reader >> isConf;
+        game->setConf((bool)isConf);
+        game->setTimeAndPd("F");
+    }
 
 }
 
 void NchcScoreboardGui::saveGames()
 {
-
+    QFile file(MiamiAllAccessHockey::getAppDirPath() + "/" + QDate::currentDate().toString("MMM.dd") + ".maa");
+    file.open(QFile::WriteOnly);
+    QTextStream writer(&file);
+    for (int i = 0; i < games.size(); i +=2) {
+        NchcGameGui* game = games.at(i);
+        writer << game->getAway() << endl;
+        writer << game->getAwayScore() << endl;
+        writer << game->getHome() << endl;
+        writer << game->getHomeScore() << endl;
+        writer << game->isConf() << endl;
+    }
+    file.close();
 }
 
 void NchcScoreboardGui::submitGamesToGui()

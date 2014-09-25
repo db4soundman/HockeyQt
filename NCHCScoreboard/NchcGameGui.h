@@ -17,6 +17,12 @@ public:
     QString getTimeAndPd() const { return timeAndPd.text(); }
     bool isConf() const { return confGame.isChecked(); }
 
+    void setConf(bool pConf);
+    void setTimeAndPd(QString tap);
+    void setAwayScore(QString scr);
+    void setHomeScore(QString scr);
+
+
 signals:
     void awayNameUpdated(QString name);
     void homeNameUpdated(QString home);

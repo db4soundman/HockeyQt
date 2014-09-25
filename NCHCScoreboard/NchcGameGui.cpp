@@ -29,6 +29,26 @@ NchcGameGui::NchcGameGui(bool firstGui) {
     connect(&home, SIGNAL(textChanged(QString)), this, SIGNAL(homeNameUpdated(QString)));
 }
 
+void NchcGameGui::setConf(bool pConf)
+{
+    confGame.setChecked(pConf);
+}
+
+void NchcGameGui::setTimeAndPd(QString tap)
+{
+    timeAndPd.setText(tap);
+}
+
+void NchcGameGui::setAwayScore(QString scr)
+{
+    awayScore.setText(scr);
+}
+
+void NchcGameGui::setHomeScore(QString scr)
+{
+    homeScore.setText(scr);
+}
+
 void NchcGameGui::updateAwayName(QString name)
 {
     away.setText(name);
