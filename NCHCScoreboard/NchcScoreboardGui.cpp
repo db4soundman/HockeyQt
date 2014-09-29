@@ -55,16 +55,17 @@ void NchcScoreboardGui::loadGames()
     QFile file(QFileDialog::getOpenFileName(0, "Select Friday file", MiamiAllAccessHockey::getAppDirPath()));
     file.open(QFile::ReadOnly);
     QTextStream reader(&file);
-    for (int i = 0; i < games.size(); i +=2) {
+    int i = 0;
+    while (!reader.atEnd()) {
         NchcGameGui* game = games.at(i);
         game->updateAwayName(reader.readLine());
         game->setAwayScore(reader.readLine());
         game->updateHomeName(reader.readLine());
         game->setHomeScore(reader.readLine());
-        int isConf;
-        reader >> isConf;
-        game->setConf((bool)isConf);
+        QString conf = reader.readLine();
+        game->setConf(conf == "True");
         game->setTimeAndPd("F");
+        i += 2;
     }
 
 }
@@ -76,11 +77,13 @@ void NchcScoreboardGui::saveGames()
     QTextStream writer(&file);
     for (int i = 0; i < games.size(); i +=2) {
         NchcGameGui* game = games.at(i);
-        writer << game->getAway() << endl;
-        writer << game->getAwayScore() << endl;
-        writer << game->getHome() << endl;
-        writer << game->getHomeScore() << endl;
-        writer << game->isConf() << endl;
+        if (!game->getAway().isEmpty()) {
+            writer << game->getAway() << endl;
+            writer << game->getAwayScore() << endl;
+            writer << game->getHome() << endl;
+            writer << game->getHomeScore() << endl;
+            writer << (game->isConf() ? "True"  : "False") << endl;
+        }
     }
     file.close();
 }
