@@ -84,7 +84,7 @@ NchcScoreboardGraphic::paint(QPainter* painter,
             if (saturdayGames.at(i).getConfGame()) {
                 painter->fillRect(x - IMAGE_WIDTH, 80 + (BORDER_HEIGHT + spacing) * i, IMAGE_WIDTH, BORDER_HEIGHT, fridayGames.at(i).getConfGame() ?
                                       QColor(165, 0, 22, 200) : QColor(0, 0, 0, 150));
-                painter->drawPixmap(x - IMAGE_WIDTH, 80 + (BORDER_HEIGHT + spacing) * i, IMAGE_WIDTH, BORDER_HEIGHT, QPixmap(":/images/NCHClrg.png"));
+                painter->drawPixmap(x - IMAGE_WIDTH, 80 + (BORDER_HEIGHT + spacing) * i, QPixmap(":/images/NCHCsb.png"));
             }
         }
     }

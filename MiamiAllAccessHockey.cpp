@@ -45,10 +45,10 @@ MiamiAllAccessHockey::exec() {
     QColor awayColor, homeColor,  bg;
     int pk, pkopp, ppg, ppopp;
 
-    homeColor.setRgb(192,0,29);
+    homeColor.setRgb(226, 24, 54);
     bg.setRgb(0,120,0);
     announcer = "Tim Bray";
-    sponsor = "McCullough Hyde Memorial Hospital - IMG Sports Network";
+    sponsor = "Miami IMG Sports Network";
     homeName = "MIAMI";
     SetupWizard wizard(&awayName, &homeName, &awayFile, &homeFile, &sponsor,
                        &announcer, &awayRank, &homeRank, &awayColor, &homeColor,
