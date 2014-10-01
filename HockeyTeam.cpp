@@ -6,7 +6,7 @@ HockeyTeam::HockeyTeam() {
 }
 
 HockeyPlayer* HockeyTeam::getPlayer(const int i) {
-    if (i > roster.size())
+    if (i >= roster.size())
         return NULL;
     return roster.at(i);
 }
