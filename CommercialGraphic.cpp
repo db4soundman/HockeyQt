@@ -21,7 +21,7 @@ CommercialGraphic::CommercialGraphic(HockeyGame* game, QGraphicsItem* parent) :
     QFont sponsorFont("Arial", 36, QFont::Bold);
 #ifdef Q_OS_OSX
     font.setPointSize(68);
-    sponsorFont.setPointSize(40);
+    sponsorFont.setPointSize(44);
     #endif
 
     away = new QGraphicsTextItem(game->getAwayName());

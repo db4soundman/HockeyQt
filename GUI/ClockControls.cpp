@@ -14,7 +14,6 @@ ClockControls::ClockControls(HockeyGame* game, CommercialGraphic* comGraphic) {
     intermission.setText("INT");
     final.setText("FINAL");
     penalty.setText("Penalty");
-
     main->addWidget(&label);
     main->addWidget(&run);
     main->addWidget(&set);

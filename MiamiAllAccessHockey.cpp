@@ -47,7 +47,7 @@ MiamiAllAccessHockey::exec() {
 
     homeColor.setRgb(226, 24, 54);
     bg.setRgb(0,120,0);
-    announcer = "Tim Bray";
+    announcer = "Greg Waddell and Drew Davis";
     sponsor = "Miami IMG Sports Network";
     homeName = "MIAMI";
     SetupWizard wizard(&awayName, &homeName, &awayFile, &homeFile, &sponsor,

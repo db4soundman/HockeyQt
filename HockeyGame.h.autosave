@@ -2,7 +2,6 @@
 #define HOCKEYGAME_H
 
 #include <QObject>
-#include <QMutex>
 #include "Clock.h"
 #include <QString>
 #include <QTimer>
@@ -116,7 +115,6 @@ private slots:
 
 
 private:
-    QMutex mutex;
     QString homeName, awayName, sponsor, announcers, timeEventHappened, homeRank,
     awayRank;
     int awayScore, homeScore, period, homeSOG, awaySOG;

@@ -9,7 +9,10 @@ AwayTeamInfo::AwayTeamInfo(int* pkA, int* pkoppA, int* ppgA, int* ppoppA, QStrin
     ppgAddr = ppgA;
     ppoppAddr = ppoppA;
     goaliesAddr = goaliesA;
-
+    pkInput.setMaximum(1000);
+    pkoppInput.setMaximum(1000);
+    ppgInput.setMaximum(1000);
+    ppoppInput.setMaximum(1000);
     QFormLayout* mainLayout = new QFormLayout();
     mainLayout->addRow(new QLabel("Pk"), &pkInput);
     mainLayout->addRow("Pk Opp", &pkoppInput);

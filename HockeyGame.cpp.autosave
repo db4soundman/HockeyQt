@@ -465,27 +465,23 @@ HockeyGame::addAwayPenalty(int time) {
 
 void
 HockeyGame::awayPenaltyExpired() {
-    mutex.lock();
     for (int i = 0; i < awayPenalty.size(); i++) {
         if (awayPenalty.at(i)->getTimeLeft() == 0) {
             delete awayPenalty.at(i);
             awayPenalty.removeAt(i);
         }
     }
-    mutex.unlock();
     determinePpClockForScoreboard();
 }
 
 void
 HockeyGame::homePenaltyExpired() {
-    mutex.lock();
     for (int i = 0; i < homePenalty.size(); i++) {
         if (homePenalty.at(i)->getTimeLeft() == 0) {
             delete homePenalty.at(i);
             homePenalty.removeAt(i);
         }
     }
-    mutex.unlock();
     determinePpClockForScoreboard();
 }
 
@@ -493,12 +489,9 @@ void
 HockeyGame::determinePpClockForScoreboard() {
     int homePlayersOnIce, awayPlayersOnIce, ppPos;
     QString description = "";
-    mutex.lock();
     homePlayersOnIce = 5 - homePenalty.size();
     awayPlayersOnIce = 5 - awayPenalty.size();
-    mutex.unlock();
     QString num;
-    mutex.lock();
     // Neutral
     if (homePlayersOnIce == awayPlayersOnIce && homePlayersOnIce < 5) {
         ppPos = 3;
@@ -532,7 +525,6 @@ HockeyGame::determinePpClockForScoreboard() {
     else {
         ppPos = 0;
     }
-    mutex.unlock();
     Clock* ppClock = getLowestPpClock();
     emit penaltyChanged(ppPos, ppClock, description);
 
@@ -665,7 +657,6 @@ Clock*
 HockeyGame::getLowestPpClock() {
     Clock* homePP = NULL;
     Clock* awayPP = NULL;
-    mutex.lock();
     for (int i = 0; i < homePenalty.size(); i++) {
         if (i == 0 && homePenalty.at(i)->getTimeLeft() > 10) {
             homePP = homePenalty.at(i);
@@ -686,7 +677,6 @@ HockeyGame::getLowestPpClock() {
             }
         }
     }
-    mutex.unlock();
     if (homePP == NULL) {
         return awayPP;
     }
