@@ -444,7 +444,7 @@ HockeyGame::addHomePenalty(int time) {
     connect(&timer, SIGNAL(timeout()),
             pc, SLOT(tick()));
     connect(pc, SIGNAL(clockExpired()),
-            this, SLOT(homePenaltyExpired()));
+            this, SLOT(penaltyExpired()));
     determinePpClockForScoreboard();
 }
 
@@ -458,23 +458,29 @@ HockeyGame::addAwayPenalty(int time) {
     connect(&timer, SIGNAL(timeout()),
             pc, SLOT(tick()));
     connect(pc, SIGNAL(clockExpired()),
-            this, SLOT(awayPenaltyExpired()));
+            this, SLOT(penaltyExpired()));
     determinePpClockForScoreboard();
 
 }
 
 void
-HockeyGame::awayPenaltyExpired() {
+HockeyGame::penaltyExpired() {
     for (int i = 0; i < awayPenalty.size(); i++) {
-        if (awayPenalty.at(i)->getTimeLeft() == 0) {
+        if (awayPenalty.at(i)->getTimeLeft() <= 10) {
             delete awayPenalty.at(i);
             awayPenalty.removeAt(i);
+        }
+    }
+    for (int i = 0; i < homePenalty.size(); i++) {
+        if (homePenalty.at(i)->getTimeLeft() <= 10) {
+            delete homePenalty.at(i);
+            homePenalty.removeAt(i);
         }
     }
     determinePpClockForScoreboard();
 }
 
-void
+/*void
 HockeyGame::homePenaltyExpired() {
     for (int i = 0; i < homePenalty.size(); i++) {
         if (homePenalty.at(i)->getTimeLeft() == 0) {
@@ -484,7 +490,7 @@ HockeyGame::homePenaltyExpired() {
     }
     determinePpClockForScoreboard();
 }
-
+*/
 void
 HockeyGame::determinePpClockForScoreboard() {
     int homePlayersOnIce, awayPlayersOnIce, ppPos;

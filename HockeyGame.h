@@ -78,8 +78,8 @@ public slots:
     void rewindPeriod();
     void addHomePenalty(int time);
     void addAwayPenalty(int time);
-    void homePenaltyExpired();
-    void awayPenaltyExpired();
+    //void homePenaltyExpired();
+    void penaltyExpired();
     void toggleClock();
     void addHomeSOG();
     void addAwaySOG();
