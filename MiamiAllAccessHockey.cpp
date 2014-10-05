@@ -74,7 +74,7 @@ MiamiAllAccessHockey::exec() {
     game->getLt()->setY(920);
     game->getSb()->setY(80);
     game->getSb()->setX(409);
-    commercial->setY(750);
+    commercial->setY(850);
     //commercial->setX(460);
     tv = new QGraphicsView(scene);
 
