@@ -63,25 +63,27 @@ MiamiAllAccessHockey::exec() {
     team->setPpg(ppg);
     team->setPpopp(ppopp);
     team->setGoalies(goalies);
+    QDesktopWidget desktop;
+    QRect graphicsScreen = desktop.screenGeometry(1);
     scene->addItem(game->getSb());
 
     scene->addItem(game->getLt());
     scene->addItem(&standings);
     scene->addItem(&nchcScoreboard);
-    commercial = new CommercialGraphic(game);
+    commercial = new CommercialGraphic(game, graphicsScreen.width());
     scene->addItem(commercial);
-    game->getLt()->setX(337 + 409);
-    game->getLt()->setY(920);
+    game->getLt()->setX((graphicsScreen.width() / 2) - 214);
+    game->getLt()->setY(graphicsScreen.height() - 160);
     game->getSb()->setY(80);
-    game->getSb()->setX(409);
-    commercial->setY(850);
+    game->getSb()->setX((graphicsScreen.width() / 2) - 551);
+    commercial->setY(graphicsScreen.height() - 230);
     //commercial->setX(460);
     tv = new QGraphicsView(scene);
 
 
-    QDesktopWidget desktop;
-    tv->setGeometry(desktop.screenGeometry(1));
-    tv->setSceneRect(0, 0,1920, 1080);
+
+    tv->setGeometry(graphicsScreen);
+    tv->setSceneRect(0, 0,graphicsScreen.width(), graphicsScreen.height());
     tv->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     tv->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     // Get desktop set up and wizard val later...

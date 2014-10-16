@@ -215,9 +215,6 @@ Scoreboard::preparePowerplayClock(int pos, Clock *clock, QString description) {
     homePP = false;
     neutralPP = false;
     ppClock = clock;
-    if (clock == NULL || clock->getTimeLeft() < 10) {
-        pos = 0;
-    }
     switch (pos) {
     case AWAY_PP:
         awayPP = true;

@@ -2,8 +2,8 @@
 #include <QFontMetrics>
 #include <QGraphicsScene>
 
-#define WIDTH 1920/2
-#define NAME_WIDTH 860
+//#define WIDTH 1920/2
+//#define NAME_WIDTH 860
 #define RECT_HEIGHT 120
 #define CENTER_OFFSET 100
 #define BLACK_BAR_HEIGHT 60
@@ -12,10 +12,12 @@
 #define INTERMISSION 1
 #define FINAL 2
 
-CommercialGraphic::CommercialGraphic(HockeyGame* game, QGraphicsItem* parent) :
+CommercialGraphic::CommercialGraphic(HockeyGame* game, int width, QGraphicsItem* parent) :
     QGraphicsPixmapItem(parent), blackBar(QPixmap(":/images/ppBar.png")) {
     hockeyGame = game;
     show = true;
+    WIDTH = width / 2;
+    NAME_WIDTH = WIDTH - 100;
     inGame  = false;
     QFont font("Arial", 60, QFont::Bold);
     QFont sponsorFont("Arial", 36, QFont::Bold);

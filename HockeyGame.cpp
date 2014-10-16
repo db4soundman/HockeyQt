@@ -467,14 +467,17 @@ void
 HockeyGame::penaltyExpired() {
     for (int i = 0; i < awayPenalty.size(); i++) {
         if (awayPenalty.at(i)->getTimeLeft() <= 10) {
-            delete awayPenalty.at(i);
+            Clock* toDelete = awayPenalty.at(i);
             awayPenalty.removeAt(i);
+            delete toDelete;
+
         }
     }
     for (int i = 0; i < homePenalty.size(); i++) {
         if (homePenalty.at(i)->getTimeLeft() <= 10) {
-            delete homePenalty.at(i);
+            Clock* toDelete = homePenalty.at(i);
             homePenalty.removeAt(i);
+            delete toDelete;
         }
     }
     determinePpClockForScoreboard();
@@ -664,21 +667,21 @@ HockeyGame::getLowestPpClock() {
     Clock* homePP = NULL;
     Clock* awayPP = NULL;
     for (int i = 0; i < homePenalty.size(); i++) {
-        if (i == 0 && homePenalty.at(i)->getTimeLeft() > 10) {
+        if (i == 0) {
             homePP = homePenalty.at(i);
         }
         else {
-            if (homePenalty.at(i)->getTimeLeft() < homePP->getTimeLeft() && homePenalty.at(i)->getTimeLeft() > 10) {
+            if (homePenalty.at(i)->getTimeLeft() < homePP->getTimeLeft()) {
                 homePP = homePenalty.at(i);
             }
         }
     }
     for (int i = 0; i < awayPenalty.size(); i++) {
-        if (i == 0 && awayPenalty.at(i)->getTimeLeft() > 10) {
+        if (i == 0) {
             awayPP = awayPenalty.at(i);
         }
         else {
-            if (awayPenalty.at(i)->getTimeLeft() < awayPP->getTimeLeft() && awayPenalty.at(i)->getTimeLeft() > 10) {
+            if (awayPenalty.at(i)->getTimeLeft() < awayPP->getTimeLeft()) {
                 awayPP = awayPenalty.at(i);
             }
         }
