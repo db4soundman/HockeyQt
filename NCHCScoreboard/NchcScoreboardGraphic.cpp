@@ -64,7 +64,7 @@ NchcScoreboardGraphic::paint(QPainter* painter,
             painter->fillRect(x ,80 + (BORDER_HEIGHT + spacing) * i, BORDER_WIDTH, BORDER_HEIGHT, saturdayGames.at(i).getConfGame() ?
                                   QColor(165, 0, 22, 200) : QColor(0, 0, 0, 200));
             // Inner border
-            painter->fillRect(x, 80 + (BORDER_HEIGHT + spacing) * i, BORDER_WIDTH - 100, BORDER_HEIGHT, QColor(0, 0, 0));
+            painter->fillRect(x, 80 + (BORDER_HEIGHT + spacing) * i, BORDER_WIDTH - 150, BORDER_HEIGHT, QColor(0, 0, 0));
             painter->setBrush(QColor(255,255,255));
             painter->setPen(QColor(255,255,255));
             // School

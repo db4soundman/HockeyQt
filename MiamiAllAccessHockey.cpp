@@ -50,21 +50,22 @@ MiamiAllAccessHockey::exec() {
     announcer = "Greg Waddell and Drew Davis";
     sponsor = "Miami IMG Sports Network";
     homeName = "MIAMI";
+    QDesktopWidget desktop;
+    QRect graphicsScreen = desktop.screenGeometry(1);
     SetupWizard wizard(&awayName, &homeName, &awayFile, &homeFile, &sponsor,
                        &announcer, &awayRank, &homeRank, &awayColor, &homeColor,
                        &bg, &pk, &pkopp, &ppg, &ppopp, &goalies);
     wizard.exec();
     game = new HockeyGame(awayName, homeName, awayColor, homeColor,
                           awayFile, homeFile, sponsor, announcer, awayRank,
-                          homeRank);
+                          homeRank, graphicsScreen.width() + 1);
     HockeyTeam* team = game->getAwayTeam();
     team->setPk(pk);
     team->setPkopp(pkopp);
     team->setPpg(ppg);
     team->setPpopp(ppopp);
     team->setGoalies(goalies);
-    QDesktopWidget desktop;
-    QRect graphicsScreen = desktop.screenGeometry(1);
+
     scene->addItem(game->getSb());
 
     scene->addItem(game->getLt());

@@ -6,17 +6,19 @@
 
 HockeyGame::HockeyGame(QString awayName, QString homeName, QColor awayColor, QColor homeColor,
                        QString awayXML, QString homeXML, QString sponsor, QString announcers,
-                       QString awayRank, QString homeRank) :
+                       QString awayRank, QString homeRank, int screenWidth) :
     awayName(awayName), homeName(homeName), sponsor(sponsor), announcers(announcers), awayColor(awayColor),
     homeColor(homeColor), awayRank(awayRank), homeRank(homeRank),
     sb(awayColor, homeColor, awayName, homeName, sponsor, &gameClock, awayRank, homeRank),
-    lt (awayColor, homeColor) {
+    lt (awayColor, homeColor, screenWidth) {
     isFinal = false;
     awayScore = 0;
     homeScore = 0;
     homeSOG = 0;
     awaySOG = 0;
     period = 0;
+    awayPlayersOnIce = 5;
+    homePlayersOnIce = 5;
     timer.setInterval(100);
     clockRunning = false;
 
@@ -425,6 +427,7 @@ void
 HockeyGame::advancePeriod() {
     period++;
     isFinal = false;
+    deleteExpiredPenalties();
     emit periodChanged(period);
 }
 
@@ -432,19 +435,21 @@ void
 HockeyGame::rewindPeriod() {
     period--;
     isFinal = false;
+    deleteExpiredPenalties();
     emit periodChanged(period);
 }
 
 void
 HockeyGame::addHomePenalty(int time) {
     Clock* pc = new Clock(time);
+    homePlayersOnIce --;
     timeEventHappened = period > 3 ? gameClock.getTimeSinceOtStarted() :
                                      gameClock.getTimeSincePdStarted();
     homePenalty.append(pc);
     connect(&timer, SIGNAL(timeout()),
             pc, SLOT(tick()));
     connect(pc, SIGNAL(clockExpired()),
-            this, SLOT(penaltyExpired()));
+            this, SLOT(homePenaltyExpired()));
     determinePpClockForScoreboard();
 }
 
@@ -454,52 +459,53 @@ HockeyGame::addAwayPenalty(int time) {
     Clock* pc = new Clock(time);
     timeEventHappened = period > 3 ? gameClock.getTimeSinceOtStarted() :
                                      gameClock.getTimeSincePdStarted();
+    awayPlayersOnIce --;
     awayPenalty.append(pc);
     connect(&timer, SIGNAL(timeout()),
             pc, SLOT(tick()));
     connect(pc, SIGNAL(clockExpired()),
-            this, SLOT(penaltyExpired()));
+            this, SLOT(awayPenaltyExpired()));
     determinePpClockForScoreboard();
 
 }
 
 void
-HockeyGame::penaltyExpired() {
+HockeyGame::awayPenaltyExpired() {
     for (int i = 0; i < awayPenalty.size(); i++) {
-        if (awayPenalty.at(i)->getTimeLeft() <= 10) {
-            Clock* toDelete = awayPenalty.at(i);
-            awayPenalty.removeAt(i);
-            delete toDelete;
-
+        if (awayPenalty.at(i)->getTimeLeft() == 0) {
+            disconnect(&timer, SIGNAL(timeout()), awayPenalty.at(i), SLOT(tick()));
         }
     }
-    for (int i = 0; i < homePenalty.size(); i++) {
-        if (homePenalty.at(i)->getTimeLeft() <= 10) {
-            Clock* toDelete = homePenalty.at(i);
-            homePenalty.removeAt(i);
-            delete toDelete;
-        }
-    }
+    awayPlayersOnIce++;
     determinePpClockForScoreboard();
 }
 
-/*void
+void
 HockeyGame::homePenaltyExpired() {
+
     for (int i = 0; i < homePenalty.size(); i++) {
         if (homePenalty.at(i)->getTimeLeft() == 0) {
-            delete homePenalty.at(i);
-            homePenalty.removeAt(i);
+            disconnect(&timer, SIGNAL(timeout()), homePenalty.at(i), SLOT(tick()));
         }
     }
+    homePlayersOnIce++;
+
+
+//    for (int i = 0; i < homePenalty.size(); i++) {
+//        if (homePenalty.at(i)->getTimeLeft() == 0) {
+//            delete homePenalty.at(i);
+//            homePenalty.removeAt(i);
+//        }
+//    }
     determinePpClockForScoreboard();
 }
-*/
+
 void
 HockeyGame::determinePpClockForScoreboard() {
-    int homePlayersOnIce, awayPlayersOnIce, ppPos;
+    int ppPos;
     QString description = "";
-    homePlayersOnIce = 5 - homePenalty.size();
-    awayPlayersOnIce = 5 - awayPenalty.size();
+    //homePlayersOnIce = 5 - homePenalty.size();
+    //awayPlayersOnIce = 5 - awayPenalty.size();
     QString num;
     // Neutral
     if (homePlayersOnIce == awayPlayersOnIce && homePlayersOnIce < 5) {
@@ -548,6 +554,27 @@ void HockeyGame::displayPenaltyEditor()
 void HockeyGame::makeFinal()
 {
     isFinal = true;
+}
+
+void HockeyGame::deleteExpiredPenalties()
+{
+        for (int i = 0; i < awayPenalty.size(); i++) {
+        if (awayPenalty.at(i)->getTimeLeft() == 0) {
+            Clock* toDelete = awayPenalty.at(i);
+            awayPenalty.removeAt(i);
+            delete toDelete;
+
+        }
+    }
+    for (int i = 0; i < homePenalty.size(); i++) {
+        if (homePenalty.at(i)->getTimeLeft() == 0) {
+            Clock* toDelete = homePenalty.at(i);
+            homePenalty.removeAt(i);
+            delete toDelete;
+        }
+    }
+    homePlayersOnIce = 5 - homePenalty.size();
+    awayPlayersOnIce = 5 - awayPenalty.size();
 }
 bool HockeyGame::getIsFinal() const
 {
@@ -666,22 +693,28 @@ Clock*
 HockeyGame::getLowestPpClock() {
     Clock* homePP = NULL;
     Clock* awayPP = NULL;
-    for (int i = 0; i < homePenalty.size(); i++) {
-        if (i == 0) {
+    for (int i = 0; i < homePenalty.size() && homePlayersOnIce < 5; i++) {
+        if (i == 0 && homePenalty.at(i)->getTimeLeft() != 0) {
             homePP = homePenalty.at(i);
         }
         else {
-            if (homePenalty.at(i)->getTimeLeft() < homePP->getTimeLeft()) {
+            if (homePenalty.at(i)->getTimeLeft() != 0 && homePP == NULL) {
+                homePP = homePenalty.at(i);
+            }
+            else if (homePP != NULL && homePenalty.at(i)->getTimeLeft() < homePP->getTimeLeft()) {
                 homePP = homePenalty.at(i);
             }
         }
     }
-    for (int i = 0; i < awayPenalty.size(); i++) {
-        if (i == 0) {
+    for (int i = 0; i < awayPenalty.size() && awayPlayersOnIce < 5; i++) {
+        if (i == 0 && awayPenalty.at(i)->getTimeLeft() != 0) {
             awayPP = awayPenalty.at(i);
         }
         else {
-            if (awayPenalty.at(i)->getTimeLeft() < awayPP->getTimeLeft()) {
+            if (awayPenalty.at(i)->getTimeLeft() != 0 && awayPP == NULL) {
+                awayPP = awayPenalty.at(i);
+            }
+            else if (awayPP != NULL && awayPenalty.at(i)->getTimeLeft() < awayPP->getTimeLeft()) {
                 awayPP = awayPenalty.at(i);
             }
         }

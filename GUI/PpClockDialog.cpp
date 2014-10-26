@@ -14,20 +14,26 @@ PpClockDialog::PpClockDialog(HockeyGame* game) {
 
     QList<Clock*> awayPenalties = game->getAwayPenalty();
     QList<Clock*> homePenalties = game->getHomePenalty();
-    for (int i = 0; i < awayPenalties.size(); i++) {
-        clocks->addWidget(new ClockDialog(awayPenalties[i]), i + 1, 0);
+    for (int i = 0, spot = 1; i < awayPenalties.size(); i++) {
+        if (awayPenalties.at(i)->getTimeLeft() != 0) {
+            clocks->addWidget(new ClockDialog(awayPenalties[i]), spot, 0);
+            spot++;
+        }
     }
-    for (int i = 0; i < homePenalties.size(); i++) {
-        clocks->addWidget(new ClockDialog(homePenalties[i]), i + 1, 1);
+    for (int i = 0, spot = 1; i < homePenalties.size(); i++) {
+        if (homePenalties.at(i)->getTimeLeft() != 0) {
+            clocks->addWidget(new ClockDialog(homePenalties[i]), spot, 1);
+            spot++;
+        }
     }
     mainLayout->addLayout(clocks);
-     QPushButton* ok = new QPushButton("Close");
-     mainLayout->addWidget(ok);
-     setLayout(mainLayout);
-     setWindowTitle("Adjust Penalty Clocks");
+    QPushButton* ok = new QPushButton("Close");
+    mainLayout->addWidget(ok);
+    setLayout(mainLayout);
+    setWindowTitle("Adjust Penalty Clocks");
 
-     connect(ok, SIGNAL(clicked()), this, SLOT(reject()));
-     connect(this, SIGNAL(rejected()), game, SLOT(determinePpClockForScoreboard()));
+    connect(ok, SIGNAL(clicked()), this, SLOT(reject()));
+    connect(this, SIGNAL(rejected()), game, SLOT(determinePpClockForScoreboard()));
 
 }
 

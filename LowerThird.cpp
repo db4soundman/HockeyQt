@@ -7,7 +7,7 @@
 #define NAME_GRADIENT_LEVEL .7
 #define STAT_GRADIENT_LEVEL .7
 #define NAME_WIDTH 310
-LowerThird::LowerThird(QColor awayColor, QColor homeColor, QGraphicsItem* parent) : QGraphicsPixmapItem(parent),
+LowerThird::LowerThird(QColor awayColor, QColor homeColor, int screenWidth, QGraphicsItem* parent) : QGraphicsPixmapItem(parent),
     name(""), number("number"), statFont("Arial", 32, QFont::Bold), nameFont("Arial", 32, QFont::Bold),
     awayTeamMain(awayColor), homeTeamMain(homeColor) {
 #ifdef Q_OS_OSX
@@ -32,6 +32,7 @@ LowerThird::LowerThird(QColor awayColor, QColor homeColor, QGraphicsItem* parent
     prepareColors();
     statistics.append("");
     statNames.append("");
+    this->centerPoint = screenWidth / 2;
     show = false;
     showPp = false;
 }
@@ -70,36 +71,37 @@ LowerThird::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 
     }
     else if (showPp) {
-        painter->drawPixmap(-202, 0, 400, 120, this->pixmap());
-        painter->fillRect(-574, 0, 372, 120, awayNameGradient);
-        painter->fillRect(-202, 47, 400, 72, awayStatGradient);
-        painter->fillRect(-202, 47, 400, 72, QColor(0, 0, 0, 60));
+        int availableWidth = centerPoint - 772;
+        painter->drawPixmap(availableWidth / 2 - this->x() + 372, 0, 400, 120, this->pixmap());
+        painter->fillRect(availableWidth / 2 - this->x(), 0, 372, 120, awayNameGradient);
+        painter->fillRect(availableWidth / 2 - this->x() + 372, 47, 400, 72, awayStatGradient);
+        painter->fillRect(availableWidth / 2 - this->x() + 372, 47, 400, 72, QColor(0, 0, 0, 60));
         painter->setFont(nameFont);
         painter->setPen(QColor(255, 255, 255));
-        painter->drawText(-574, 0, 372, 120, Qt::AlignCenter, awayName);
+        painter->drawText(availableWidth / 2 - this->x(), 0, 372, 120, Qt::AlignCenter, awayName);
         QFont ppFont("Arial", 22, QFont::Bold);
 #ifdef Q_OS_OSX
         ppFont.setPointSize(28);
 #endif
         painter->setFont(ppFont);
-        painter->drawText(-202, 47, 400, 72, Qt::AlignCenter, awayStat);
+        painter->drawText(availableWidth / 2 - this->x() + 372, 47, 400, 72, Qt::AlignCenter, awayStat);
         painter->setFont(statFont);
         painter->setPen(QColor(0, 0, 0));
-        painter->drawText(-202, 0, 400, 47, Qt::AlignCenter, awayLabel);
+        painter->drawText(availableWidth / 2 - this->x() + 372, 0, 400, 47, Qt::AlignCenter, awayLabel);
 
 // --------------------------Home graphic-----------------------------------------
-        painter->drawPixmap(1048-746, 0, 400, 120, this->pixmap());
-        painter->fillRect(1448-746, 0, 372, 120, homeNameGradient);
-        painter->fillRect(1048-746, 47, 400, 72, homeStatGradient);
-        painter->fillRect(1048-746, 47, 400, 72, QColor(0, 0, 0, 60));
+        painter->drawPixmap(availableWidth/2+ (centerPoint - this->x()), 0, 400, 120, this->pixmap());
+        painter->fillRect(availableWidth/2+(centerPoint - this->x())+400, 0, 372, 120, homeNameGradient);
+        painter->fillRect(availableWidth/2+(centerPoint - this->x()), 47, 400, 72, homeStatGradient);
+        painter->fillRect(availableWidth/2+(centerPoint - this->x()), 47, 400, 72, QColor(0, 0, 0, 60));
         painter->setFont(nameFont);
         painter->setPen(QColor(255, 255, 255));
-        painter->drawText(1448-746, 0, 372, 120, Qt::AlignCenter, homeName);
+        painter->drawText(availableWidth/2+(centerPoint - this->x())+400, 0, 372, 120, Qt::AlignCenter, homeName);
         painter->setFont(ppFont);
-        painter->drawText(1048-746, 47, 400, 72, Qt::AlignCenter, homeStat);
+        painter->drawText(availableWidth/2+(centerPoint - this->x()), 47, 400, 72, Qt::AlignCenter, homeStat);
         painter->setFont(statFont);
         painter->setPen(QColor(0, 0, 0));
-        painter->drawText(1048-746, 0, 400, 47, Qt::AlignCenter, homeLabel);
+        painter->drawText(availableWidth/2+(centerPoint - this->x()), 0, 400, 47, Qt::AlignCenter, homeLabel);
     }
 }
 

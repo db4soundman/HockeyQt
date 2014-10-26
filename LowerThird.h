@@ -13,7 +13,7 @@
 class LowerThird : public QObject, public QGraphicsPixmapItem {
     Q_OBJECT
 public:
-    LowerThird(QColor awayColor, QColor homeColor, QGraphicsItem* parent = 0);
+    LowerThird(QColor awayColor, QColor homeColor, int screenWidth, QGraphicsItem* parent = 0);
 
     void paint(QPainter * painter,
                const QStyleOptionGraphicsItem * option, QWidget * widget = 0);
@@ -45,7 +45,7 @@ private:
     void adjustFont();
 
     bool show, showPp;
-    int fontPointSize, statFontPointSize;
+    int fontPointSize, statFontPointSize, centerPoint;
 };
 
 #endif // LOWERTHIRD_H
