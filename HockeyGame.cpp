@@ -137,9 +137,9 @@ void HockeyGame::gatherHomeSeasonStatsLt(int index)
         labels.append("A");
         labels.append("PTS");
         labels.append("+/-");
-        numbers.append(QString::number(player->getGoals()));
-        numbers.append(QString::number(player->getAssists()));
-        numbers.append(QString::number(player->getPts()));
+        numbers.append(QString::number(player->getGoals()+ player->getGoalsToday()));
+        numbers.append(QString::number(player->getAssists()+ player->getAssistsToday()));
+        numbers.append(QString::number(player->getPts() + player->getPtsToday()));
         numbers.append(player->getPlusMinus());
     }
     else {
@@ -162,9 +162,9 @@ void HockeyGame::gatherHomeSeasonStatsSb(int index)
     HockeyPlayer* player = getHomeTeam()->getPlayer(index);
     QString text = player->getName() + " (" + getHomeName()+"): ";
     if (player->getGaavg() == "NG") {
-        text += QString::number(player->getGoals()) + " G, ";
-        text += QString::number(player->getAssists()) + " A, ";
-        text += QString::number(player->getPenalties()) + " PTY";
+        text += QString::number(player->getGoals() + player->getGoalsToday()) + " G, ";
+        text += QString::number(player->getAssists() + player->getAssistsToday()) + " A, ";
+        text += QString::number(player->getPenalties() + player->getPenaltiesToday()) + " PTY";
     }
     else {
         text += QString::number(player->getWins()) + "-" + QString::number(player->getLosses())+", ";
@@ -314,7 +314,7 @@ void HockeyGame::prepareAwayPenaltyText(int pIndex, QString penalty)
 void HockeyGame::gatherPpStats()
 {
     QString ppStat, pkStat;
-    if (homePenalty.size() < awayPenalty.size()) {
+    if (homePlayersOnIce > awayPlayersOnIce) {
         ppStat = QString::number(homeTeam->getPpg()) + "-" + QString::number(homeTeam->getPpopp())
                 + ", " + QString::number(homeTeam->getPpPct(), 'g', 3) +"%";
         pkStat = QString::number(awayTeam->getPk()) + "-" + QString::number(awayTeam->getPkopp())
@@ -325,7 +325,7 @@ void HockeyGame::gatherPpStats()
         }
         lt.prepareForPpComp(getAwayName(), "PENALTY KILL", pkStat, getHomeName(), "POWERPLAY", ppStat);
     }
-    else if (homePenalty.size() > awayPenalty.size()) {
+    else if (homePlayersOnIce < awayPlayersOnIce) {
         ppStat = QString::number(awayTeam->getPpg()) + "-" + QString::number(awayTeam->getPpopp())
                 + ", " + QString::number(awayTeam->getPpPct(), 'g', 3) +"%";
         pkStat = QString::number(homeTeam->getPk()) + "-" + QString::number(homeTeam->getPkopp())

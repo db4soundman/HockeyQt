@@ -56,7 +56,7 @@ void CommercialGraphic::paint(QPainter* painter, const QStyleOptionGraphicsItem*
         painter->setFont(home->font());
         painter->drawText(WIDTH + CENTER_OFFSET, 0, NAME_WIDTH, RECT_HEIGHT, Qt::AlignCenter, home->toPlainText());
 
-        painter->fillRect(WIDTH - CENTER_OFFSET, 0, CENTER_OFFSET * 2, RECT_HEIGHT, QColor(0,0,0, 150));
+        painter->fillRect(WIDTH - CENTER_OFFSET, 0, CENTER_OFFSET * 2, RECT_HEIGHT, QColor(0,0,0, 100));
 
         painter->drawText(WIDTH - CENTER_OFFSET, 0, CENTER_OFFSET, RECT_HEIGHT, Qt::AlignCenter, awayScore);
         painter->drawText(WIDTH, 0, CENTER_OFFSET, RECT_HEIGHT, Qt::AlignCenter, homeScore);
@@ -66,18 +66,6 @@ void CommercialGraphic::paint(QPainter* painter, const QStyleOptionGraphicsItem*
         painter->setFont(descriptiveFont);
         if (clockStatus == FINAL) {
             painter->drawText(WIDTH - 200, RECT_HEIGHT, WIDTH - (WIDTH- 400), BLACK_BAR_HEIGHT, Qt::AlignCenter, "FINAL");
-
-            painter->drawPixmap(0, -BLACK_BAR_HEIGHT, WIDTH * 2, BLACK_BAR_HEIGHT, blackBar);
-            painter->setPen(QColor(255, 255, 255));
-            painter->setFont(descriptiveFont);
-            painter->drawText(0, -BLACK_BAR_HEIGHT, WIDTH * 2, BLACK_BAR_HEIGHT, Qt::AlignCenter,
-                              "Stay tuned for Rico Blasi's post game press conference");
-
-
-            painter->drawPixmap(WIDTH/2, 2 * -BLACK_BAR_HEIGHT, WIDTH, BLACK_BAR_HEIGHT, blackBar);
-            painter->setPen(QColor(255, 255, 255));
-            painter->setFont(descriptiveFont);
-            painter->drawText(WIDTH / 2, 2 * -BLACK_BAR_HEIGHT, WIDTH, BLACK_BAR_HEIGHT, Qt::AlignCenter, maaText);
         }
         else {
             painter->drawText(WIDTH- 190, RECT_HEIGHT, WIDTH - (WIDTH- 400), BLACK_BAR_HEIGHT, Qt::AlignLeft, period);
