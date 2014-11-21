@@ -164,7 +164,7 @@ void HockeyGame::gatherHomeSeasonStatsSb(int index)
     if (player->getGaavg() == "NG") {
         text += QString::number(player->getGoals() + player->getGoalsToday()) + " G, ";
         text += QString::number(player->getAssists() + player->getAssistsToday()) + " A, ";
-        text += QString::number(player->getPenalties() + player->getPenaltiesToday()) + " PTY";
+        text += QString::number(player->getPim()+ player->getPimToday()) + " PIM";
     }
     else {
         text += QString::number(player->getWins()) + "-" + QString::number(player->getLosses())+", ";
@@ -182,11 +182,11 @@ void HockeyGame::gatherHomeGameStatsLt(int index)
         labels.append("G");
         labels.append("A");
         labels.append("PTS");
-        labels.append("PTY");
+        labels.append("PIM");
         numbers.append(QString::number(player->getGoalsToday()));
         numbers.append(QString::number(player->getAssistsToday()));
         numbers.append(QString::number(player->getPtsToday()));
-        numbers.append(QString::number(player->getPenaltiesToday()));
+        numbers.append(QString::number(player->getPimToday()));
     }
     else {
         labels.append("GA");
@@ -208,11 +208,11 @@ void HockeyGame::gatherAwayStatsLt(int index)
         labels.append("G");
         labels.append("A");
         labels.append("PTS");
-        labels.append("PTY");
+        labels.append("PIM");
         numbers.append(QString::number(player->getGoalsToday()));
         numbers.append(QString::number(player->getAssistsToday()));
         numbers.append(QString::number(player->getPtsToday()));
-        numbers.append(QString::number(player->getPenaltiesToday()));
+        numbers.append(QString::number(player->getPimToday()));
     }
     else {
         labels.append("GA");
@@ -233,7 +233,7 @@ void HockeyGame::gatherHomeGameStatsSb(int index)
     if (player->getGaavg() == "NG") {
         text += QString::number(player->getGoalsToday()) + " G, ";
         text += QString::number(player->getAssistsToday()) + " A, ";
-        text += QString::number(player->getPenaltiesToday()) + " PTY";
+        text += QString::number(player->getPimToday()) + " PIM";
     }
     else {
         text += QString::number(player->getGaToday()) + " GA, ";
@@ -249,7 +249,7 @@ void HockeyGame::gatherAwayGameStatsSb(int index)
     if (player->getGaavg() == "NG") {
         text += QString::number(player->getGoalsToday()) + " G, ";
         text += QString::number(player->getAssistsToday()) + " A, ";
-        text += QString::number(player->getPenaltiesToday()) + " PTY";
+        text += QString::number(player->getPimToday()) + " PIM";
     }
     else {
         text += QString::number(player->getGaToday()) + " GA, ";

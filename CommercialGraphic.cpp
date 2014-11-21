@@ -43,12 +43,11 @@ void CommercialGraphic::paint(QPainter* painter, const QStyleOptionGraphicsItem*
                               QWidget* widget) {
     if (show){
         painter->setPen(QColor(255, 255, 255));
-        if (clockStatus != FINAL) {
-            painter->drawPixmap(WIDTH/2, -BLACK_BAR_HEIGHT, WIDTH, BLACK_BAR_HEIGHT, blackBar);
+        painter->drawPixmap(WIDTH/2, -BLACK_BAR_HEIGHT, WIDTH, BLACK_BAR_HEIGHT, blackBar);
 
-            painter->setFont(descriptiveFont);
-            painter->drawText(WIDTH / 2, -BLACK_BAR_HEIGHT, WIDTH, BLACK_BAR_HEIGHT, Qt::AlignCenter, maaText);
-        }
+        painter->setFont(descriptiveFont);
+        painter->drawText(WIDTH / 2, -BLACK_BAR_HEIGHT, WIDTH, BLACK_BAR_HEIGHT, Qt::AlignCenter, maaText);
+
         painter->fillRect(0, 0, WIDTH, RECT_HEIGHT, awayTeamGradient);
         painter->fillRect(WIDTH, 0, WIDTH, RECT_HEIGHT, homeTeamGradient);
         painter->setFont(away->font());
