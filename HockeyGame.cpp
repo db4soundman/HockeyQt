@@ -563,7 +563,7 @@ void HockeyGame::deleteExpiredPenalties()
             Clock* toDelete = awayPenalty.at(i);
             awayPenalty.removeAt(i);
             delete toDelete;
-
+            i--;
         }
     }
     for (int i = 0; i < homePenalty.size(); i++) {
@@ -571,6 +571,7 @@ void HockeyGame::deleteExpiredPenalties()
             Clock* toDelete = homePenalty.at(i);
             homePenalty.removeAt(i);
             delete toDelete;
+            i--;
         }
     }
     homePlayersOnIce = 5 - homePenalty.size();

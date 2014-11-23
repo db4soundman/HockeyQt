@@ -11,7 +11,7 @@ MainWindow::MainWindow(HockeyGame* game, StandingsGraphic* graphic, CommercialGr
     awayPlayerEdit(game, false), homePlayerEdit(game, true), awayEdit(game->getAwayTeam()), homeEdit(game->getHomeTeam()),
     ltCreator(game->getLt()) {
     setCentralWidget(&panel);
-    setMaximumWidth(800);
+    //setMaximumWidth(800);
     makeMenu(game);
 
 }
