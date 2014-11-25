@@ -19,6 +19,7 @@ HockeyGame::HockeyGame(QString awayName, QString homeName, QColor awayColor, QCo
     period = 0;
     awayPlayersOnIce = 5;
     homePlayersOnIce = 5;
+    timer.setTimerType(Qt::PreciseTimer);
     timer.setInterval(100);
     clockRunning = false;
 
