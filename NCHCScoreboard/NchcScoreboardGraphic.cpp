@@ -40,7 +40,7 @@ NchcScoreboardGraphic::paint(QPainter* painter,
             painter->setPen(QColor(255,255,255));
             // School
             painter->drawText(x, 80 + (BORDER_HEIGHT + spacing) * i, 500, BORDER_HEIGHT / 2, Qt::AlignLeft, fridayGames.at(i).getAway());
-            painter->drawText(x,80 + (BORDER_HEIGHT + spacing) * i + BORDER_HEIGHT / 2, 500, BORDER_HEIGHT / 2, Qt::AlignLeft, fridayGames.at(i).getHome());
+            painter->drawText(x,80 + (BORDER_HEIGHT + spacing) * i + BORDER_HEIGHT / 2 + 5, 500, BORDER_HEIGHT / 2, Qt::AlignLeft, fridayGames.at(i).getHome());
             QString timePd = fridayGames.at(i).getTimeAndPd();
             timePd = timePd.replace(" ", "\n");
             painter->drawText(x + BORDER_WIDTH - 150, 80 + (BORDER_HEIGHT + spacing) * i, 150, BORDER_HEIGHT, Qt::AlignCenter, timePd);
@@ -49,7 +49,7 @@ NchcScoreboardGraphic::paint(QPainter* painter,
             painter->setBrush(QColor(253,180,26));
             painter->setPen(QColor(253,180,26));
             painter->drawText(x + 500 - 60, 80 + (BORDER_HEIGHT + spacing) * i, 53, BORDER_HEIGHT / 2, Qt::AlignVCenter | Qt::AlignRight, fridayGames.at(i).getAwayScore());
-            painter->drawText(x + 500 - 60, BORDER_HEIGHT / 2 + 80 + (BORDER_HEIGHT + spacing) * i, 53, BORDER_HEIGHT / 2, Qt::AlignVCenter | Qt::AlignRight, fridayGames.at(i).getHomeScore());
+            painter->drawText(x + 500 - 60, BORDER_HEIGHT / 2 + 80 + (BORDER_HEIGHT + spacing) * i + 5, 53, BORDER_HEIGHT / 2, Qt::AlignVCenter | Qt::AlignRight, fridayGames.at(i).getHomeScore());
             painter->fillRect(x, 80 + (BORDER_HEIGHT + spacing) * i + BORDER_HEIGHT / 2 - 5, BORDER_WIDTH - 150, 10, fridayGames.at(i).getConfGame() ?
                                   QColor(165, 0, 22) : QColor(255, 255, 255));
             if (fridayGames.at(i).getConfGame()) {

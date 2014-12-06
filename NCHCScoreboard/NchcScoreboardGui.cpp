@@ -64,6 +64,7 @@ void NchcScoreboardGui::loadGames()
         game->setHomeScore(reader.readLine());
         QString conf = reader.readLine();
         game->setConf(conf == "True");
+        games.at(i+1)->setConf(conf == "True");
         game->setTimeAndPd("F");
         i += 2;
     }
