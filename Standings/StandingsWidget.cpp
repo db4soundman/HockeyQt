@@ -10,7 +10,7 @@ StandingsWidget::StandingsWidget(StandingsGraphic* graphic) {
     teams.append("COLORADO COLLEGE");
     teams.append("MIAMI");
     teams.append("MINNESOTA-DULUTH");
-    teams.append("NEBRASKA-OMAHA");
+    teams.append("OMAHA");
     teams.append("NORTH DAKOTA");
     teams.append("ST. CLOUD STATE");
     teams.append("WESTERN MICHIGAN");
