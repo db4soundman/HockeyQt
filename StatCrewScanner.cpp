@@ -3,7 +3,7 @@ StatCrewScanner::StatCrewScanner(HockeyGame* game, QString fileName)
 {
     statCrew = new GameXmlUpdater(game, game->getAwayTeam(), game->getHomeTeam(), fileName);
     trigger = new QTimer();
-    trigger->setInterval(5000);
+    trigger->setInterval(10000);
     isActive = false;
     connect(trigger, SIGNAL(timeout()), this, SLOT(updateStats()));
     connect(game, SIGNAL(periodChanged(int)), this, SLOT(toggleScanner(int)));
