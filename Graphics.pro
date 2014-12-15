@@ -59,7 +59,8 @@ SOURCES += main.cpp\
     NCHCScoreboard/NchcScoreboardGui.cpp \
     GameStatEditors/PlayerEditor.cpp \
     GameStatEditors/TeamEditor.cpp \
-    LowerThirdCreator.cpp
+    LowerThirdCreator.cpp \
+    GameXmlUpdater.cpp
 
 HEADERS  += MainWindow.h \
     Scoreboard.h \
@@ -100,7 +101,8 @@ HEADERS  += MainWindow.h \
     NCHCScoreboard/NchcScoreboardGui.h \
     GameStatEditors/PlayerEditor.h \
     GameStatEditors/TeamEditor.h \
-    LowerThirdCreator.h
+    LowerThirdCreator.h \
+    GameXmlUpdater.h
 
 
 RESOURCES += \

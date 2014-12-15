@@ -578,6 +578,28 @@ void HockeyGame::deleteExpiredPenalties()
     homePlayersOnIce = 5 - homePenalty.size();
     awayPlayersOnIce = 5 - awayPenalty.size();
 }
+int HockeyGame::getAwaySOG() const
+{
+    return awaySOG;
+}
+
+void HockeyGame::setAwaySOG(int value)
+{
+    awaySOG = value;
+    emit awaySogChanged(awaySOG);
+}
+
+int HockeyGame::getHomeSOG() const
+{
+    return homeSOG;
+}
+
+void HockeyGame::setHomeSOG(int value)
+{
+    homeSOG = value;
+    emit homeSogChanged(homeSOG);
+}
+
 bool HockeyGame::getIsFinal() const
 {
     return isFinal;

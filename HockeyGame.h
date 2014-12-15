@@ -69,6 +69,12 @@ public:
     bool getIsFinal() const;
     void setIsFinal(bool value);
 
+    int getHomeSOG() const;
+    void setHomeSOG(int value);
+
+    int getAwaySOG() const;
+    void setAwaySOG(int value);
+
 public slots:
     void homeGoal();
     void awayGoal();

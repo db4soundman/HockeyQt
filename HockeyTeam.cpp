@@ -11,6 +11,16 @@ HockeyPlayer* HockeyTeam::getPlayer(const int i) {
     return roster.at(i);
 }
 
+HockeyPlayer*HockeyTeam::getPlayerByNumber(const QString num)
+{
+    for (int i = 0; i < roster.size(); i++) {
+        if (roster.at(i)->getUni() == num) {
+            return roster.at(i);
+        }
+    }
+    return NULL;
+}
+
 void
 HockeyTeam::addPlayer(HockeyPlayer* player) {
     roster.append(player);

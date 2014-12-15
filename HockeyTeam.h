@@ -10,6 +10,7 @@ class HockeyTeam : public QObject {
 public:
     HockeyTeam();
     HockeyPlayer* getPlayer(const int i);
+    HockeyPlayer* getPlayerByNumber(const QString i);
     void addPlayer(HockeyPlayer* player);
     int getPpg() const;
     void setPpg(int value);
