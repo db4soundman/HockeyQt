@@ -71,6 +71,8 @@ bool GameXmlUpdater::endElement(const QString& namespaceURI, const QString& loca
 
     else if (qName == "team") {
         inAwayTeam = false;
+        inPlayer = false;
+        curPlayer = NULL;
     }
 
     else if (qName == "player") {

@@ -1,5 +1,4 @@
 #include "StatCrewScanner.h"
-
 StatCrewScanner::StatCrewScanner(HockeyGame* game, QString fileName)
 {
     statCrew = new GameXmlUpdater(game, game->getAwayTeam(), game->getHomeTeam(), fileName);
@@ -37,4 +36,6 @@ void StatCrewScanner::updateStats() {
     r.setErrorHandler(statCrew);
     QXmlInputSource src(statCrew->getFile());
     r.parse(src);
+    //src.reset();
+    statCrew->getFile()->reset();
 }

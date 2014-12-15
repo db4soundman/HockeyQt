@@ -7,6 +7,7 @@
 #include "HockeyGame.h"
 class StatCrewScanner : public QObject
 {
+    Q_OBJECT
 public:
     StatCrewScanner(HockeyGame* game, QString fileName);
 
