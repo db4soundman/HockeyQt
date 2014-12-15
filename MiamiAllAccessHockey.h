@@ -9,6 +9,7 @@
 #include "StandingsGraphic.h"
 #include "CommercialGraphic.h"
 #include "NchcScoreboardGraphic.h"
+#include "StatCrewScanner.h"
 
 class MiamiAllAccessHockey : public QApplication {
 public:
@@ -36,6 +37,7 @@ private:
     StandingsGraphic standings;
     NchcScoreboardGraphic nchcScoreboard;
     CommercialGraphic* commercial;
+    StatCrewScanner* stats;
 };
 
 #endif // MIAMIALLACCESSHOCKEY_H

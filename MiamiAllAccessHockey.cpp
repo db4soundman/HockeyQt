@@ -41,7 +41,7 @@ MiamiAllAccessHockey::exec() {
     scene = new QGraphicsScene();
 
     QString awayName, homeName, awayRank, homeRank, homeFile, awayFile, sponsor, announcer,
-            goalies;
+            goalies, statcrewName;
     QColor awayColor, homeColor,  bg;
     int pk, pkopp, ppg, ppopp;
 
@@ -54,7 +54,7 @@ MiamiAllAccessHockey::exec() {
     QRect graphicsScreen = desktop.screenGeometry(1);
     SetupWizard wizard(&awayName, &homeName, &awayFile, &homeFile, &sponsor,
                        &announcer, &awayRank, &homeRank, &awayColor, &homeColor,
-                       &bg, &pk, &pkopp, &ppg, &ppopp, &goalies);
+                       &bg, &pk, &pkopp, &ppg, &ppopp, &goalies, &statcrewName);
     wizard.exec();
     game = new HockeyGame(awayName, homeName, awayColor, homeColor,
                           awayFile, homeFile, sponsor, announcer, awayRank,
@@ -93,6 +93,9 @@ MiamiAllAccessHockey::exec() {
     //tv->show();
     tv->setFrameShape(QFrame::NoFrame);
     tv->showFullScreen();
+
+    if (!statcrewName.isEmpty())
+        stats = new StatCrewScanner(game, statcrewName);
 
     controlPanel = new MainWindow(game, &standings, commercial, &nchcScoreboard);
     controlPanel->show();

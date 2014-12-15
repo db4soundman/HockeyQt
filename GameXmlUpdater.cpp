@@ -90,3 +90,9 @@ bool GameXmlUpdater::fatalError(const QXmlParseException& exception)
 {
     return false;
 }
+QFile* GameXmlUpdater::getFile()
+{
+    return &file;
+}
+
+

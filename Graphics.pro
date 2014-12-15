@@ -60,7 +60,8 @@ SOURCES += main.cpp\
     GameStatEditors/PlayerEditor.cpp \
     GameStatEditors/TeamEditor.cpp \
     LowerThirdCreator.cpp \
-    GameXmlUpdater.cpp
+    GameXmlUpdater.cpp \
+    StatCrewScanner.cpp
 
 HEADERS  += MainWindow.h \
     Scoreboard.h \
@@ -102,7 +103,8 @@ HEADERS  += MainWindow.h \
     GameStatEditors/PlayerEditor.h \
     GameStatEditors/TeamEditor.h \
     LowerThirdCreator.h \
-    GameXmlUpdater.h
+    GameXmlUpdater.h \
+    StatCrewScanner.h
 
 
 RESOURCES += \

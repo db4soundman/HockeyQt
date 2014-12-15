@@ -11,20 +11,21 @@ class SetupPage : public QWizardPage {
 public:
     SetupPage(QString* pAwayName, QString* pHomeName, QString* pAwayFile, QString* pHomeFile,
               QString* pSponsor, QString* pAnnouncer, QString* pAwayRank, QString* pHomeRank,
-              QColor* pAwayColor, QColor* pHomeColor, QColor* pBg);
+              QColor* pAwayColor, QColor* pHomeColor, QColor* pBg, QString* pStatCrew);
     bool validatePage();
 
 private slots:
     void homeBrowse();
     void awayBrowse();
+    void statCrewBrowse();
     void awayColorDiag();
     void homeColorDiag();
     void bgDiag();
 
 private:
-    QString* awayName, *homeName, *awayRank, *homeRank, *homeFile, *awayFile, *sponsor, *announcer;
+    QString* awayName, *homeName, *awayRank, *homeRank, *homeFile, *awayFile, *sponsor, *announcer, *statCrew;
     QColor* awayColor, *homeColor,  *bg;
-    QPushButton browseAway, browseHome, chooseHColor, chooseAColor, chooseBg;
+    QPushButton browseAway, browseHome, chooseHColor, chooseAColor, chooseBg, browseStatCrew;
     QLineEdit homeNameLine, awayNameLine, awayRankLine, homeRankLine, sponsorLine, announcerLine;
 };
 

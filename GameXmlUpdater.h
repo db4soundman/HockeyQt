@@ -6,7 +6,7 @@
 #include "HockeyGame.h"
 #include "HockeyTeam.h"
 
-class GameXmlUpdater
+class GameXmlUpdater : public QXmlDefaultHandler
 {
 public:
     GameXmlUpdater(HockeyGame* game, HockeyTeam* awayTeam, HockeyTeam* homeTeam, QString fileName);
@@ -17,6 +17,8 @@ public:
                     const QString &qName);
     bool characters(const QString &str);
     bool fatalError(const QXmlParseException &exception);
+
+    QFile* getFile();
 
 private:
     HockeyTeam* awayTeam;

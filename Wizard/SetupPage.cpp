@@ -7,12 +7,13 @@
 SetupPage::SetupPage(QString* pAwayName, QString* pHomeName, QString* pAwayFile,
                      QString* pHomeFile, QString* pSponsor, QString* pAnnouncer,
                      QString* pAwayRank, QString* pHomeRank, QColor* pAwayColor,
-                     QColor* pHomeColor, QColor* pBg) {
+                     QColor* pHomeColor, QColor* pBg, QString* pStatCrew) {
     browseAway.setText("File");
     browseHome.setText("File");
     chooseAColor.setText("Color");
     chooseHColor.setText("Color");
     chooseBg.setText("Background Color");
+    browseStatCrew.setText("File");
     awayName = pAwayName;
     homeName = pHomeName;
     awayFile = pAwayFile;
@@ -23,6 +24,7 @@ SetupPage::SetupPage(QString* pAwayName, QString* pHomeName, QString* pAwayFile,
     homeRank = (pHomeRank);
     awayColor = (pAwayColor);
     homeColor = pHomeColor;
+    statCrew = pStatCrew;
     bg = pBg;
     QGridLayout* mainLayout = new QGridLayout();
     mainLayout->addWidget(new QLabel("Away Team:"), 0, 0);
@@ -45,6 +47,8 @@ SetupPage::SetupPage(QString* pAwayName, QString* pHomeName, QString* pAwayFile,
     mainLayout->addWidget(&sponsorLine, 5, 1);
     mainLayout->addWidget(new QLabel("Announcers"), 6, 0);
     mainLayout->addWidget(&announcerLine, 6, 1);
+    mainLayout->addWidget(new QLabel("StatCrew File"), 7, 0);
+    mainLayout->addWidget(&browseStatCrew, 7, 1);
 
     setLayout(mainLayout);
 
@@ -53,6 +57,7 @@ SetupPage::SetupPage(QString* pAwayName, QString* pHomeName, QString* pAwayFile,
     connect(&chooseAColor, SIGNAL(clicked()), this, SLOT(awayColorDiag()));
     connect(&chooseHColor, SIGNAL(clicked()), this, SLOT(homeColorDiag()));
     connect(&chooseBg, SIGNAL(clicked()), this, SLOT(bgDiag()));
+    connect(&browseStatCrew, SIGNAL(clicked()), this, SLOT(statCrewBrowse()));
 
     homeNameLine.setText(*homeName);
     announcerLine.setText(*announcer);
@@ -82,6 +87,13 @@ void SetupPage::awayBrowse()
     QString file = QFileDialog::getOpenFileName(0, "Away File");
     if (!file.isEmpty())
         *awayFile = file;
+}
+
+void SetupPage::statCrewBrowse()
+{
+    QString file = QFileDialog::getOpenFileName(0, "StatCrew Game File");
+    if (!file.isEmpty())
+        *statCrew = file;
 }
 
 void SetupPage::awayColorDiag()
