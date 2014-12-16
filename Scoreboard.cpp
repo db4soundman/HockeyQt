@@ -205,7 +205,16 @@ Scoreboard::togglePenalty() {
 
 void
 Scoreboard::updateClock() {
-    scene()->update();
+    scene()->update(this->x() + 833, this->y() + 3, 242, 50);
+    if (awayPP) {
+        scene()->update(this->x() + 112, this->y() + 54, 350, 38);
+    }
+    else if (homePP) {
+        scene()->update(this->x() + 474, this->y() + 54, 350, 38);
+    }
+    else if (neutralPP) {
+        scene()->update(this->x() + 833, this->y() + 54, 247, 38);
+    }
 }
 
 void
