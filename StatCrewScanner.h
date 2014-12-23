@@ -22,6 +22,7 @@ private:
     GameXmlUpdater* statCrew;
     QTimer* trigger;
     bool isActive;
+    QString statFile;
 };
 
 #endif // STATCREWSCANNER_H

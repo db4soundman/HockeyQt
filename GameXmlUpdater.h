@@ -9,7 +9,7 @@
 class GameXmlUpdater : public QXmlDefaultHandler
 {
 public:
-    GameXmlUpdater(HockeyGame* game, HockeyTeam* awayTeam, HockeyTeam* homeTeam, QString fileName);
+    GameXmlUpdater(HockeyGame* game, HockeyTeam* awayTeam, HockeyTeam* homeTeam);
 
     bool startElement(const QString &namespaceURI, const QString &localName,
                       const QString &qName, const QXmlAttributes &atts);
@@ -18,13 +18,10 @@ public:
     bool characters(const QString &str);
     bool fatalError(const QXmlParseException &exception);
 
-    QFile* getFile();
-
 private:
     HockeyTeam* awayTeam;
     HockeyTeam* homeTeam;
     HockeyGame* game;
-    QFile file;
     HockeyPlayer* curPlayer;
 
     bool inTotals, inPlayer, inAwayTeam;

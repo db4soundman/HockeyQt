@@ -1,7 +1,6 @@
 #include "GameXmlUpdater.h"
 
-GameXmlUpdater::GameXmlUpdater(HockeyGame* game, HockeyTeam* awayTeam, HockeyTeam* homeTeam, QString fileName) :
-    file(fileName) {
+GameXmlUpdater::GameXmlUpdater(HockeyGame* game, HockeyTeam* awayTeam, HockeyTeam* homeTeam) {
     this->game = game;
     this->awayTeam = awayTeam;
     this->homeTeam = homeTeam;
@@ -91,10 +90,6 @@ bool GameXmlUpdater::characters(const QString& str)
 bool GameXmlUpdater::fatalError(const QXmlParseException& exception)
 {
     return false;
-}
-QFile* GameXmlUpdater::getFile()
-{
-    return &file;
 }
 
 
