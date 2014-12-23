@@ -110,9 +110,15 @@ LowerThird::prepareForDisplay(QString name, QString number, QString year,
                               QList<QString> statLabels,
                               QList<QString> statValues, bool homeTeam) {
     this->name = name;
-    firstName = name.left(name.indexOf(" "));
-    QStringRef substr(&name, name.indexOf(" ") + 1, name.length() - (name.indexOf(" ")+1));
-    lastName = substr.toString();
+    if (name.contains(" ")) {
+        firstName = name.left(name.indexOf(" "));
+        QStringRef substr(&name, name.indexOf(" ") + 1, name.length() - (name.indexOf(" ")+1));
+        lastName = substr.toString();
+    }
+    else {
+        firstName = name;
+        lastName = "";
+    }
     this->year = year;
     this->number = number;
     statNames = statLabels;
@@ -132,9 +138,15 @@ void LowerThird::prepareForCustomLt(QString name, QString number, QString year,
 {
     statFont.setPointSize(statFontPointSize);
     this->name = name;
-    firstName = name.left(name.indexOf(" "));
-    QStringRef substr(&name, name.indexOf(" ") + 1, name.length() - (name.indexOf(" ")+1));
-    lastName = substr.toString();
+    if (name.contains(" ")) {
+        firstName = name.left(name.indexOf(" "));
+        QStringRef substr(&name, name.indexOf(" ") + 1, name.length() - (name.indexOf(" ")+1));
+        lastName = substr.toString();
+    }
+    else {
+        firstName = name;
+        lastName = "";
+    }
     this->year = year;
     this->number = number;
     statNames = statLabels;
