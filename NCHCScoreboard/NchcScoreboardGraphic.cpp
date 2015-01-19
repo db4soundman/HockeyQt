@@ -117,8 +117,10 @@ void NchcScoreboardGraphic::showImg()
 
 void NchcScoreboardGraphic::hide()
 {
-    show = false;
-    scene()->update();
+    if (show) {
+        show = false;
+        scene()->update();
+    }
 }
 
 

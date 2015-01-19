@@ -146,8 +146,10 @@ void CommercialGraphic::finalTime()
 
 void CommercialGraphic::hide()
 {
-    show = false;
-    scene()->update();
+    if (show) {
+        show = false;
+        scene()->update();
+    }
 }
 
 void CommercialGraphic::checkAwayFont()

@@ -44,18 +44,19 @@ MiamiAllAccessHockey::exec() {
             goalies, statcrewName;
     QColor awayColor, homeColor,  bg;
     int pk, pkopp, ppg, ppopp;
-
+    bool usingTricaster = true;
     homeColor.setRgb(226, 24, 54);
     bg.setRgb(0,120,0);
     announcer = "Greg Waddell and Drew Davis";
     sponsor = "Miami IMG Sports Network";
     homeName = "MIAMI";
     QDesktopWidget desktop;
-    QRect graphicsScreen = desktop.screenGeometry(1);
+
     SetupWizard wizard(&awayName, &homeName, &awayFile, &homeFile, &sponsor,
                        &announcer, &awayRank, &homeRank, &awayColor, &homeColor,
-                       &bg, &pk, &pkopp, &ppg, &ppopp, &goalies, &statcrewName);
+                       &bg, &pk, &pkopp, &ppg, &ppopp, &goalies, &statcrewName, &usingTricaster);
     wizard.exec();
+    QRect graphicsScreen = usingTricaster ? QRect(0,0,1920,1080) : desktop.screenGeometry(1);
     game = new HockeyGame(awayName, homeName, awayColor, homeColor,
                           awayFile, homeFile, sponsor, announcer, awayRank,
                           homeRank, graphicsScreen.width() + 1);
@@ -92,13 +93,18 @@ MiamiAllAccessHockey::exec() {
     //tv->setFixedSize(1600,900);
     //tv->show();
     tv->setFrameShape(QFrame::NoFrame);
-    tv->showFullScreen();
 
     if (!statcrewName.isEmpty())
         stats = new StatCrewScanner(game, statcrewName);
 
     controlPanel = new MainWindow(game, &standings, commercial, &nchcScoreboard);
     controlPanel->show();
+    if (!usingTricaster)
+        tv->showFullScreen();
+    else {
+        tricaster = new TricasterHandler(tv, bg);
+        //connect(scene, SIGNAL(changed(QList<QRectF>)), tricaster, SLOT(srun()));
+    }
     return QApplication::exec();
 }
 

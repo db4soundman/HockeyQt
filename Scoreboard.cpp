@@ -277,6 +277,7 @@ Scoreboard::updatePeriod(int pd) {
         break;
     default:
         period = "";
+        showPdAndClock = false;
         break;
     }
     scene()->update();
@@ -330,7 +331,7 @@ Scoreboard::displaySponsor() {
 
 void
 Scoreboard::toggleShowBoard() {
-    show = !show;
+    show = true;
     scene()->update();
 }
 
@@ -342,8 +343,10 @@ void Scoreboard::togglePpClocks()
 
 void
 Scoreboard::hideBoard() {
-    show = false;
-    scene()->update();
+    if (show) {
+        show = false;
+        scene()->update();
+    }
 }
 
 void

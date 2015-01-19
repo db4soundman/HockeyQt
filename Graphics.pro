@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui network
 QT += xml
 QMAKE_MAC_SDK = macosx10.9
 
@@ -61,7 +61,8 @@ SOURCES += main.cpp\
     GameStatEditors/TeamEditor.cpp \
     LowerThirdCreator.cpp \
     GameXmlUpdater.cpp \
-    StatCrewScanner.cpp
+    StatCrewScanner.cpp \
+    TricasterHandler.cpp
 
 HEADERS  += MainWindow.h \
     Scoreboard.h \
@@ -104,8 +105,14 @@ HEADERS  += MainWindow.h \
     GameStatEditors/TeamEditor.h \
     LowerThirdCreator.h \
     GameXmlUpdater.h \
-    StatCrewScanner.h
+    StatCrewScanner.h \
+    TricasterHandler.h \
+    AirSend_api.h
 
 
 RESOURCES += \
     graphics.qrc
+
+INCLUDEPATH += $$PWD/
+DEPENDPATH += $$PWD/
+unix|win32: LIBS += -L$$PWD/ -lProcessingAirSendx86
