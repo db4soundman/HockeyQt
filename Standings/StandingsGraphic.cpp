@@ -27,10 +27,10 @@ void StandingsGraphic::paint(QPainter* painter, const QStyleOptionGraphicsItem* 
         for (int i = 0; i < nchcStandings.size(); i++) {
             painter->fillRect(0, 200 + (100*i), 1920, 50, QColor(165, 0, 22, 200));
             painter->drawText(0, 200 + (100*i), 700, 50, Qt::AlignRight | Qt::AlignVCenter, nchcStandings.at(i).getTeamName());
-            painter->drawText(1100, 200 + (100*i), 140, 100, Qt::AlignRight | Qt::AlignVCenter, QString::number(nchcStandings.at(i).getWins()));
-            painter->drawText(1240, 200 + (100*i), 140, 100, Qt::AlignRight | Qt::AlignVCenter, QString::number(nchcStandings.at(i).getLosses()));
-            painter->drawText(1380, 200 + (100*i), 140, 100, Qt::AlignRight | Qt::AlignVCenter, QString::number(nchcStandings.at(i).getTies()));
-            painter->drawText(1520, 200 + (100*i), 140, 100, Qt::AlignRight | Qt::AlignVCenter, QString::number(nchcStandings.at(i).getPoints()));
+            painter->drawText(1100, 200 + (100*i), 140, 50, Qt::AlignRight | Qt::AlignVCenter, QString::number(nchcStandings.at(i).getWins()));
+            painter->drawText(1240, 200 + (100*i), 140, 50, Qt::AlignRight | Qt::AlignVCenter, QString::number(nchcStandings.at(i).getLosses()));
+            painter->drawText(1380, 200 + (100*i), 140, 50, Qt::AlignRight | Qt::AlignVCenter, QString::number(nchcStandings.at(i).getTies()));
+            painter->drawText(1520, 200 + (100*i), 140, 50, Qt::AlignRight | Qt::AlignVCenter, QString::number(nchcStandings.at(i).getPoints()));
         }
     }
 }
