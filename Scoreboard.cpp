@@ -14,8 +14,8 @@
 
 Scoreboard::Scoreboard(QColor awayCol, QColor homeCol, QString awayTeam, QString homeTeam,
                        QString sponsorText, Clock* clock, QString pAwayRank, QString pHomeRank,
-                       QGraphicsItem *parent) :
-    QGraphicsPixmapItem(parent), homeColor(homeCol), awayColor(awayCol) {
+                       bool useTransparency) :
+    useTransparency(useTransparency), homeColor(homeCol), awayColor(awayCol) {
     QFont font("Arial", 34, QFont::Bold);
     QFont sponsorFont("Arial", 24, QFont::Bold);
 #ifdef Q_OS_OSX
@@ -84,11 +84,13 @@ Scoreboard::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     Q_UNUSED(option);
     Q_UNUSED(widget);
     if (show) {
+        if (!useTransparency)
         painter->drawPixmap(0,-49, *topBar);
         painter->drawPixmap(0, 0, this->pixmap());
         painter->drawPixmap(34, 4, 66, 50, *networkLogo);
         //Clock - Game time...draw clock first since default color is black
         painter->setFont(homeName->font());
+        painter->setPen(QColor(1,1,1));
         if (showPdAndClock) {
             painter->drawText(838, 3, 247, 50, Qt::AlignVCenter, period);
             painter->drawText(833, 3, 242, 50, Qt::AlignRight | Qt::AlignVCenter,
@@ -150,7 +152,7 @@ Scoreboard::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
         if (penalty) {
             // Penalty Indicator
             painter->fillRect(833, 52, 247, 38, penaltyGradient);
-            painter->setPen(QColor(0,0,0));
+            painter->setPen(QColor(1,1,1));
             painter->setFont(defaultSponsorText);
             painter->drawText(833,54,247,38, Qt::AlignCenter, "PENALTY");
         }
@@ -166,6 +168,8 @@ Scoreboard::prepareColor() {
     blue = -1*homeColor.blue() *GRADIENT_LEVEL + homeColor.blue();
 
     QColor end(red, green, blue);
+    if (end == QColor(0,0,0))
+        end = (1,1,1);
     homeGradient.setColorAt(.4, homeColor);
     homeGradient.setColorAt(.6, homeColor);
     homeGradient.setColorAt(1, end);
@@ -175,6 +179,8 @@ Scoreboard::prepareColor() {
     green = -1*awayColor.green() *GRADIENT_LEVEL + awayColor.green();
     blue = -1*awayColor.blue() *GRADIENT_LEVEL + awayColor.blue();
     QColor end2(red, green, blue);
+    if (end2 == QColor(0,0,0))
+        end2 = (1,1,1);
     awayGradient.setColorAt(.4, awayColor);
     awayGradient.setColorAt(.6, awayColor);
     awayGradient.setColorAt(1, end2);
@@ -328,10 +334,22 @@ Scoreboard::displaySponsor() {
     }
     scene()->update();
 }
+bool Scoreboard::getUseTransparency() const
+{
+    return useTransparency;
+}
+
+void Scoreboard::setUseTransparency(bool value)
+{
+    useTransparency = value;
+}
+
 
 void
 Scoreboard::toggleShowBoard() {
     show = true;
+    if (useTransparency)
+        emit transparentField( x(), y() -49, 1102, 49);
     scene()->update();
 }
 
@@ -345,6 +363,7 @@ void
 Scoreboard::hideBoard() {
     if (show) {
         show = false;
+        emit removeTransparentField(x(), y() -49, 1102, 49);
         scene()->update();
     }
 }

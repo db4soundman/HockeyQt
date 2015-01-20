@@ -24,13 +24,18 @@ public slots:
     void srun();
     void ensureUpdate();
     void updatePortion(int x, int y, int w, int h);
-private:
+    void updatePortion(QList<QRectF> rects);
+    void addAlphaRect(int x, int y, int w, int h);
+    void removeAlphaRect(int x, int y, int w, int h);
 
+private:
+    void drawTransparentRectangle();
     void* tricaster;
     QGraphicsView* screen;
     const QColor alphaBlack;
     BYTE* pixels;
     QImage view;
+    QList<QRect> transparentRects;
 };
 
 #endif // TRICASTERHANDLER_H

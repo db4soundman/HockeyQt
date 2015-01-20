@@ -57,7 +57,7 @@ LowerThird::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 
         int rectWidth = 800/statistics.size();
         // Stat Labels
-        painter->setPen(QColor(0, 0, 0));
+        painter->setPen(QColor(1, 1, 1));
         for (int i = 0; i< statNames.size(); i++) {
             painter->drawText(rectWidth * i, 0, rectWidth, 47, Qt::AlignCenter, statNames.at(i));
         }
@@ -86,7 +86,7 @@ LowerThird::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
         painter->setFont(ppFont);
         painter->drawText(availableWidth / 2 - this->x() + 372, 47, 400, 72, Qt::AlignCenter, awayStat);
         painter->setFont(statFont);
-        painter->setPen(QColor(0, 0, 0));
+        painter->setPen(QColor(1, 1, 1));
         painter->drawText(availableWidth / 2 - this->x() + 372, 0, 400, 47, Qt::AlignCenter, awayLabel);
 
 // --------------------------Home graphic-----------------------------------------
@@ -100,7 +100,7 @@ LowerThird::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
         painter->setFont(ppFont);
         painter->drawText(availableWidth/2+(centerPoint - this->x()), 47, 400, 72, Qt::AlignCenter, homeStat);
         painter->setFont(statFont);
-        painter->setPen(QColor(0, 0, 0));
+        painter->setPen(QColor(1, 1, 1));
         painter->drawText(availableWidth/2+(centerPoint - this->x()), 0, 400, 47, Qt::AlignCenter, homeLabel);
     }
 }
@@ -184,6 +184,8 @@ void LowerThird::prepareColors() {
     blue = -1*homeTeamMain.blue() *NAME_GRADIENT_LEVEL + homeTeamMain.blue();
 
     QColor end(red, green, blue);
+    if (end == QColor(0,0,0))
+        end = (1,1,1);
     homeNameGradient.setColorAt(0.45, homeTeamMain);
     homeNameGradient.setColorAt(0.55, homeTeamMain);
     homeNameGradient.setColorAt(1, end);
@@ -203,6 +205,8 @@ void LowerThird::prepareColors() {
     green = -1*awayTeamMain.green() *NAME_GRADIENT_LEVEL + awayTeamMain.green();
     blue = -1*awayTeamMain.blue() *NAME_GRADIENT_LEVEL + awayTeamMain.blue();
     end.setRgb(red, green, blue);
+    if (end == QColor(0,0,0))
+        end = (1,1,1);
     awayNameGradient.setColorAt(0.45, awayTeamMain);
     awayNameGradient.setColorAt(0.55, awayTeamMain);
     awayNameGradient.setColorAt(1, end);

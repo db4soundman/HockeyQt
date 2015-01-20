@@ -15,7 +15,7 @@
 CommercialGraphic::CommercialGraphic(HockeyGame* game, int width, QGraphicsItem* parent) :
     QGraphicsPixmapItem(parent), blackBar(QPixmap(":/images/ppBar.png")) {
     hockeyGame = game;
-    show = true;
+    show = false;
     WIDTH = width / 2;
     NAME_WIDTH = WIDTH - 100;
     inGame  = false;
@@ -105,6 +105,7 @@ void CommercialGraphic::prepareAndShow()
     }
     show = true;
     updateClock();
+    scene()->update();
 }
 
 void CommercialGraphic::updateClock()
@@ -112,6 +113,7 @@ void CommercialGraphic::updateClock()
     if (show) {
         if (clockStatus == SHOW_CLOCK) {
             clock = hockeyGame->getGameClock()->toString();
+            scene()->update(x() + WIDTH - 200, y() + RECT_HEIGHT, WIDTH - (WIDTH- 400), BLACK_BAR_HEIGHT);
         }
         else if (clockStatus == INTERMISSION) {
             clock = "INT";
@@ -120,28 +122,31 @@ void CommercialGraphic::updateClock()
             clock = "FINAL";
         }
 
-        scene()->update();
+
     }
 }
 
 void CommercialGraphic::showClock() {
     clockStatus = SHOW_CLOCK;
+    updateClock();
     if (show)
-        scene()->update();
+        scene()->update(x() + WIDTH - 200, y() + RECT_HEIGHT, WIDTH - (WIDTH- 400), BLACK_BAR_HEIGHT);
 }
 
 void CommercialGraphic::intermissionTime()
 {
     clockStatus = INTERMISSION;
+    updateClock();
     if (show)
-        scene()->update();
+        scene()->update(x() + WIDTH - 200, y() + RECT_HEIGHT, WIDTH - (WIDTH- 400), BLACK_BAR_HEIGHT);
 }
 
 void CommercialGraphic::finalTime()
 {
     clockStatus = FINAL;
+    updateClock();
     if (show)
-        scene()->update();
+        scene()->update(x() + WIDTH - 200, y() + RECT_HEIGHT, WIDTH - (WIDTH- 400), BLACK_BAR_HEIGHT);
 }
 
 void CommercialGraphic::hide()

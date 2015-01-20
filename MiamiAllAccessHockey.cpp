@@ -103,7 +103,10 @@ MiamiAllAccessHockey::exec() {
         tv->showFullScreen();
     else {
         tricaster = new TricasterHandler(tv, bg);
-        //connect(scene, SIGNAL(changed(QList<QRectF>)), tricaster, SLOT(srun()));
+        game->getSb()->setUseTransparency(true);
+        connect(scene, SIGNAL(changed(QList<QRectF>)), tricaster, SLOT(updatePortion(QList<QRectF>)));
+        connect(game->getSb(), SIGNAL(transparentField(int,int,int,int)), tricaster, SLOT(addAlphaRect(int,int,int,int)));
+        connect(game->getSb(), SIGNAL(removeTransparentField(int,int,int,int)), tricaster, SLOT(removeAlphaRect(int,int,int,int)));
     }
     return QApplication::exec();
 }
