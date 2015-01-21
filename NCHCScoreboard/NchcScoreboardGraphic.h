@@ -29,6 +29,7 @@ public slots:
 
 private:
     QList<NchcScoreEntry> fridayGames, saturdayGames;
+    QPixmap* nchcLogo;
     bool show;
 };
 
