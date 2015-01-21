@@ -185,7 +185,7 @@ void LowerThird::prepareColors() {
 
     QColor end(red, green, blue);
     if (end == QColor(0,0,0))
-        end = (1,1,1);
+        end = QColor(1,1,1);
     homeNameGradient.setColorAt(0.45, homeTeamMain);
     homeNameGradient.setColorAt(0.55, homeTeamMain);
     homeNameGradient.setColorAt(1, end);
@@ -195,6 +195,8 @@ void LowerThird::prepareColors() {
     green = -1*homeTeamMain.green() *STAT_GRADIENT_LEVEL + homeTeamMain.green();
     blue = -1*homeTeamMain.blue() *STAT_GRADIENT_LEVEL + homeTeamMain.blue();
     end.setRgb(red, green, blue);
+    if (end == QColor(0,0,0))
+        end = QColor(1,1,1);
     homeStatGradient.setColorAt(.5, homeTeamMain);
     homeStatGradient.setColorAt(1, end);
     homeStatGradient.setColorAt(0, end);
@@ -206,7 +208,7 @@ void LowerThird::prepareColors() {
     blue = -1*awayTeamMain.blue() *NAME_GRADIENT_LEVEL + awayTeamMain.blue();
     end.setRgb(red, green, blue);
     if (end == QColor(0,0,0))
-        end = (1,1,1);
+        end = QColor(1,1,1);
     awayNameGradient.setColorAt(0.45, awayTeamMain);
     awayNameGradient.setColorAt(0.55, awayTeamMain);
     awayNameGradient.setColorAt(1, end);
@@ -216,6 +218,8 @@ void LowerThird::prepareColors() {
     green = -1*awayTeamMain.green() *STAT_GRADIENT_LEVEL + awayTeamMain.green();
     blue = -1*awayTeamMain.blue() *STAT_GRADIENT_LEVEL + awayTeamMain.blue();
     end.setRgb(red, green, blue);
+    if (end == QColor(0,0,0))
+        end = QColor(1,1,1);
     awayStatGradient.setColorAt(.5, awayTeamMain);
     awayStatGradient.setColorAt(1, end);
     awayStatGradient.setColorAt(0, end);

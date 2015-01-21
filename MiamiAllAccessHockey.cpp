@@ -41,7 +41,7 @@ MiamiAllAccessHockey::exec() {
     scene = new QGraphicsScene();
 
     QString awayName, homeName, awayRank, homeRank, homeFile, awayFile, sponsor, announcer,
-            goalies, statcrewName;
+            goalies, statcrewName, awayLogo;
     QColor awayColor, homeColor,  bg;
     int pk, pkopp, ppg, ppopp;
     bool usingTricaster = true;
@@ -54,12 +54,14 @@ MiamiAllAccessHockey::exec() {
 
     SetupWizard wizard(&awayName, &homeName, &awayFile, &homeFile, &sponsor,
                        &announcer, &awayRank, &homeRank, &awayColor, &homeColor,
-                       &bg, &pk, &pkopp, &ppg, &ppopp, &goalies, &statcrewName, &usingTricaster);
+                       &bg, &pk, &pkopp, &ppg, &ppopp, &goalies, &statcrewName, &usingTricaster, &awayLogo);
     wizard.exec();
     QRect graphicsScreen = usingTricaster ? QRect(0,0,1920,1080) : desktop.screenGeometry(1);
     game = new HockeyGame(awayName, homeName, awayColor, homeColor,
                           awayFile, homeFile, sponsor, announcer, awayRank,
-                          homeRank, graphicsScreen.width() + 1);
+                          homeRank, graphicsScreen.width() + 1, awayLogo);
+    if (usingTricaster)
+        bg.setRgb(0,0,0);
     HockeyTeam* team = game->getAwayTeam();
     team->setPk(pk);
     team->setPkopp(pkopp);
@@ -77,7 +79,7 @@ MiamiAllAccessHockey::exec() {
     game->getLt()->setX((graphicsScreen.width() / 2) - 214);
     game->getLt()->setY(graphicsScreen.height() - 160);
     game->getSb()->setY(80);
-    game->getSb()->setX((graphicsScreen.width() / 2) - 551);
+    game->getSb()->setX((graphicsScreen.width() / 2) - 551 - (93/2));
     commercial->setY(graphicsScreen.height() - 230);
     //commercial->setX(460);
     tv = new QGraphicsView(scene);

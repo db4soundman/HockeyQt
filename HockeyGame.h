@@ -15,7 +15,7 @@ class HockeyGame : public QObject {
 public:
     HockeyGame(QString awayName, QString homeName, QColor awayColor, QColor homeColor,
                QString awayXML, QString homeXML, QString sponsor, QString announcers,
-               QString awayRank, QString homeRank, int screenWidth);
+               QString awayRank, QString homeRank, int screenWidth, QString awayLogo);
 
     Scoreboard* getSb();
     LowerThird* getLt();

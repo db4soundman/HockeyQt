@@ -13,9 +13,8 @@
 #define TEAM_BOX_Y 6
 
 Scoreboard::Scoreboard(QColor awayCol, QColor homeCol, QString awayTeam, QString homeTeam,
-                       QString sponsorText, Clock* clock, QString pAwayRank, QString pHomeRank,
-                       bool useTransparency) :
-    useTransparency(useTransparency), homeColor(homeCol), awayColor(awayCol) {
+                       QString sponsorText, Clock* clock, QString pAwayRank, QString pHomeRank, QString pawayLogo) :
+    homeColor(homeCol), awayColor(awayCol) {
     QFont font("Arial", 34, QFont::Bold);
     QFont sponsorFont("Arial", 24, QFont::Bold);
 #ifdef Q_OS_OSX
@@ -28,7 +27,20 @@ Scoreboard::Scoreboard(QColor awayCol, QColor homeCol, QString awayTeam, QString
     setPixmap(QPixmap(":/images/Scoreboard.png"));
     ppBar = new QPixmap(":/images/ppBar.png");
     topBar = new QPixmap(":/images/statbar.png");
-    networkLogo = new QPixmap(":/images/M.png");
+    homeLogo = new QPixmap(":/images/M.png");
+    awayLogo = new QPixmap(pawayLogo);
+
+    *homeLogo = homeLogo->scaledToHeight(43, Qt::SmoothTransformation);
+    if (homeLogo->width() > 50)
+        *homeLogo = homeLogo->scaledToWidth(50, Qt::SmoothTransformation);
+    homeLogoOffset = (43 - homeLogo->height()) / 2;
+
+    *awayLogo = awayLogo->scaledToHeight(43, Qt::SmoothTransformation);
+    if (awayLogo->width() > 50)
+        *awayLogo = awayLogo->scaledToWidth(50, Qt::SmoothTransformation);
+    awayLogoOffset = (43 - awayLogo->height()) / 2;
+
+
     awayName = new QGraphicsTextItem(awayTeam);
     homeName = new QGraphicsTextItem(homeTeam);
     awayName->setFont(font);
@@ -45,6 +57,14 @@ Scoreboard::Scoreboard(QColor awayCol, QColor homeCol, QString awayTeam, QString
     awayGradient.setStart(0, TEAM_BOX_Y);
     homeGradient.setFinalStop(0,43);
     awayGradient.setFinalStop(0,43);
+    mainGradient.setStart(0,0);
+    mainGradient.setFinalStop(0, 54);
+    clockGradient.setStart(0,3);
+    clockGradient.setFinalStop(0, 51);
+    ppGradient.setStart(0, 54);
+    ppGradient.setFinalStop(0, 92);
+    scoreGradient.setStart(0, TEAM_BOX_Y);
+    scoreGradient.setFinalStop(0, TEAM_BOX_Y + 44);
     prepareColor();
     // penalty gradient
     penaltyGradient.setStart(0, 54);
@@ -58,14 +78,14 @@ Scoreboard::Scoreboard(QColor awayCol, QColor homeCol, QString awayTeam, QString
     awayRank->setFont(rankFont);
     homeRank->setFont(rankFont);
     awayRankOffset = homeRankOffset = RANK_WIDTH;
-    if (awayRank->toPlainText().isEmpty()) {
+    /*if (awayRank->toPlainText().isEmpty()) {
         awayRankOffset = 0;
     }
 
     if (homeRank->toPlainText().isEmpty()) {
         homeRankOffset = 0;
     }
-
+    */
     penalty = false;
     showPP = false;
     sponsor = true;
@@ -85,45 +105,61 @@ Scoreboard::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     Q_UNUSED(widget);
     if (show) {
         if (!useTransparency)
-        painter->drawPixmap(0,-49, *topBar);
-        painter->drawPixmap(0, 0, this->pixmap());
-        painter->drawPixmap(34, 4, 66, 50, *networkLogo);
+            painter->drawPixmap(93,-49,1102-93,49, *topBar);
+        //painter->drawPixmap(0, 0, this->pixmap());
+        painter->fillRect(93,0,1102-93, 54, mainGradient);
+        //painter->drawPixmap(34, 4, 66, 50, *homeLogo);
         //Clock - Game time...draw clock first since default color is black
         painter->setFont(homeName->font());
         painter->setPen(QColor(1,1,1));
+        painter->fillRect(833, 3, 247,48, clockGradient);
         if (showPdAndClock) {
-            painter->drawText(838, 3, 247, 50, Qt::AlignVCenter, period);
-            painter->drawText(833, 3, 242, 50, Qt::AlignRight | Qt::AlignVCenter,
+            painter->drawText(838, 3, 247, 48, Qt::AlignVCenter, period);
+            painter->drawText(833, 3, 242, 48, Qt::AlignRight | Qt::AlignVCenter,
                               showClock? clock->toString() : "INT");
         }
         else {
-            painter->drawText(833, 3, 247, 50, Qt::AlignCenter, centeredTimeText);
+            painter->drawText(833, 3, 247, 51, Qt::AlignCenter, centeredTimeText);
         }
         // Away text
+        painter->setPen(QColor(255,255,255));
+        painter->drawRect(115 - 1, TEAM_BOX_Y - 1, TEAM_NAME_WIDTH + 79, 43);
         painter->fillRect(115, TEAM_BOX_Y, TEAM_NAME_WIDTH, 42, awayGradient );
+        // Away logo
+        painter->setOpacity(.99);
+        painter->drawPixmap(115, TEAM_BOX_Y + awayLogoOffset, *awayLogo);
+        painter->setOpacity(1);
         painter->setFont(awayRank->font());
         painter->setPen(QColor(255, 255, 255));
         painter->drawText(115, TEAM_BOX_Y, awayRankOffset, 42, Qt::AlignCenter,  awayRank->toPlainText());
         painter->setFont(awayName->font());
         painter->drawText(118 + awayRankOffset, TEAM_BOX_Y, TEAM_NAME_WIDTH, 42, Qt::AlignVCenter, awayName->toPlainText());
         // Away Score
+        painter->fillRect(375, TEAM_BOX_Y, 78, 42, scoreGradient);
         painter->setFont(awayScore->font());
-        painter->drawText(374, TEAM_BOX_Y, 78, 44, Qt::AlignCenter, awayScore->toPlainText());
+        painter->drawText(375, TEAM_BOX_Y, 78, 42, Qt::AlignCenter, awayScore->toPlainText());
 
         // Home Text
+        painter->setPen(QColor(255,255,255));
+        painter->drawRect(470 - 1, TEAM_BOX_Y - 1, TEAM_NAME_WIDTH + 79, 43);
         painter->fillRect(470, TEAM_BOX_Y, TEAM_NAME_WIDTH, 42, homeGradient);
+        // Home logo
+        painter->setOpacity(.99);
+        painter->drawPixmap(470, TEAM_BOX_Y + homeLogoOffset, *homeLogo);
+        painter->setOpacity(1);
         painter->setFont(homeRank->font());
         painter->drawText(470, TEAM_BOX_Y, homeRankOffset, 42, Qt::AlignCenter, homeRank->toPlainText());
         painter->setFont(homeName->font());
         painter->drawText(475 + homeRankOffset, TEAM_BOX_Y, TEAM_NAME_WIDTH, 42, Qt::AlignVCenter, homeName->toPlainText());
         // Home Score
+        painter->fillRect(730, TEAM_BOX_Y, 78, 42, scoreGradient);
         painter->setFont(homeScore->font());
-        painter->drawText(728, TEAM_BOX_Y, 78, 44, Qt::AlignCenter, homeScore->toPlainText());
+        painter->drawText(730, TEAM_BOX_Y, 78, 42, Qt::AlignCenter, homeScore->toPlainText());
         if (sponsor) {
             //StatBarText
             painter->setPen(QColor(255, 255, 255));
             painter->setFont(topBarText->font());
-            painter->drawText(0, -49, 1102, 49, Qt::AlignCenter, topBarText->toPlainText());
+            painter->drawText(93, -49, 1102-93, 49, Qt::AlignCenter, topBarText->toPlainText());
         }
 
         if (showPP) {
@@ -131,19 +167,22 @@ Scoreboard::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
             painter->setFont(defaultSponsorText);
             // Away ppbar
             if(awayPP) {
-                painter->drawPixmap(112,52, *ppBar);
-                painter->drawText(120, 52, 345, 38, Qt::AlignLeft | Qt::AlignVCenter, ppDescription);
-                painter->drawText(120, 52, 331, 38, Qt::AlignRight | Qt::AlignVCenter, ppClock->toStringPP());
+                painter->fillRect(112, 54, 345, 38, ppGradient);
+               // painter->drawPixmap(112,52, *ppBar);
+                painter->drawText(120, 54, 345, 38, Qt::AlignLeft | Qt::AlignVCenter, ppDescription);
+                painter->drawText(120, 54, 331, 38, Qt::AlignRight | Qt::AlignVCenter, ppClock->toStringPP());
             }
             //Home ppbar
             else if (homePP) {
-                painter->drawPixmap(466,52, *ppBar);
-                painter->drawText(474, 52, 345, 38, Qt::AlignLeft | Qt::AlignVCenter, ppDescription);
-                painter->drawText(474, 52, 331, 38, Qt::AlignRight | Qt::AlignVCenter, ppClock->toStringPP());
+                painter->fillRect(466, 54, 345, 38, ppGradient);
+                //painter->drawPixmap(466,52, *ppBar);
+                painter->drawText(474, 54, 345, 38, Qt::AlignLeft | Qt::AlignVCenter, ppDescription);
+                painter->drawText(474, 54, 331, 38, Qt::AlignRight | Qt::AlignVCenter, ppClock->toStringPP());
             }
             //Neutral
             else if (neutralPP){
-                painter->drawPixmap(833,54,247,38, *ppBar );
+                painter->fillRect(833, 54, 247, 38, ppGradient);
+                //painter->drawPixmap(833,54,247,38, *ppBar );
                 painter->drawText(841, 54, 247, 38, Qt::AlignLeft | Qt::AlignVCenter, ppDescription);
                 painter->drawText(833, 54, 239, 38, Qt::AlignRight | Qt::AlignVCenter, ppClock->toStringPP());
             }
@@ -169,7 +208,7 @@ Scoreboard::prepareColor() {
 
     QColor end(red, green, blue);
     if (end == QColor(0,0,0))
-        end = (1,1,1);
+        end = QColor(1,1,1);
     homeGradient.setColorAt(.4, homeColor);
     homeGradient.setColorAt(.6, homeColor);
     homeGradient.setColorAt(1, end);
@@ -180,11 +219,32 @@ Scoreboard::prepareColor() {
     blue = -1*awayColor.blue() *GRADIENT_LEVEL + awayColor.blue();
     QColor end2(red, green, blue);
     if (end2 == QColor(0,0,0))
-        end2 = (1,1,1);
+        end2 = QColor(1,1,1);
     awayGradient.setColorAt(.4, awayColor);
     awayGradient.setColorAt(.6, awayColor);
     awayGradient.setColorAt(1, end2);
     awayGradient.setColorAt(0, end2);
+
+    //mainGradient, clockGradient, ppGradient, scoreGradient
+    mainGradient.setColorAt(0, QColor(1,1,1));
+    mainGradient.setColorAt(1, QColor(1,1,1));
+    mainGradient.setColorAt(.4, QColor(156,0,0));
+    mainGradient.setColorAt(.6, QColor(156,0,0));
+
+    clockGradient.setColorAt(0, QColor(255,255,255));
+    clockGradient.setColorAt(1, QColor(255,255,255));
+    clockGradient.setColorAt(.45, QColor(180,180,180));
+    clockGradient.setColorAt(.55, QColor(180,180,180));
+
+    ppGradient.setColorAt(0, QColor(1,1,1));
+    ppGradient.setColorAt(1, QColor(1,1,1));
+    ppGradient.setColorAt(.45, QColor(50,50,50));
+    ppGradient.setColorAt(.55, QColor(50,50,50));
+
+    scoreGradient.setColorAt(0, QColor(1,1,1));
+    scoreGradient.setColorAt(1, QColor(1,1,1));
+    scoreGradient.setColorAt(.45, QColor(50,50,50));
+    scoreGradient.setColorAt(.55, QColor(50,50,50));
 
 }
 

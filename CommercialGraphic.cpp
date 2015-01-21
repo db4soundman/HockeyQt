@@ -183,6 +183,8 @@ void CommercialGraphic::prepareGradients(QColor awayColor, QColor homeColor)
     blue = -1*homeColor.blue() *GRADIENT_LEVEL + homeColor.blue();
 
     QColor end(red, green, blue);
+    if (end == QColor(0,0,0))
+        end = QColor(1,1,1);
     homeTeamGradient.setColorAt(.4, homeColor);
     homeTeamGradient.setColorAt(.6, homeColor);
     homeTeamGradient.setColorAt(1, end);
@@ -192,6 +194,8 @@ void CommercialGraphic::prepareGradients(QColor awayColor, QColor homeColor)
     green = -1*awayColor.green() *GRADIENT_LEVEL + awayColor.green();
     blue = -1*awayColor.blue() *GRADIENT_LEVEL + awayColor.blue();
     QColor end2(red, green, blue);
+    if (end2 == QColor(0,0,0))
+        end2 = QColor(1,1,1);
     awayTeamGradient.setColorAt(.4, awayColor);
     awayTeamGradient.setColorAt(.6, awayColor);
     awayTeamGradient.setColorAt(1, end2);
