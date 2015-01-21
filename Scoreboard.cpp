@@ -135,7 +135,8 @@ Scoreboard::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
         painter->setFont(awayName->font());
         painter->drawText(118 + awayRankOffset, TEAM_BOX_Y, TEAM_NAME_WIDTH, 42, Qt::AlignVCenter, awayName->toPlainText());
         // Away Score
-        painter->fillRect(375, TEAM_BOX_Y, 78, 42, scoreGradient);
+        //painter->fillRect(375, TEAM_BOX_Y, 78, 42, scoreGradient);
+        painter->drawPixmap(375, TEAM_BOX_Y, 78, 42, *ppBar);
         painter->setFont(awayScore->font());
         painter->drawText(375, TEAM_BOX_Y, 78, 42, Qt::AlignCenter, awayScore->toPlainText());
 
@@ -152,7 +153,8 @@ Scoreboard::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
         painter->setFont(homeName->font());
         painter->drawText(475 + homeRankOffset, TEAM_BOX_Y, TEAM_NAME_WIDTH, 42, Qt::AlignVCenter, homeName->toPlainText());
         // Home Score
-        painter->fillRect(730, TEAM_BOX_Y, 78, 42, scoreGradient);
+//        painter->fillRect(730, TEAM_BOX_Y, 78, 42, scoreGradient);
+        painter->drawPixmap(730, TEAM_BOX_Y, 78, 42, *ppBar);
         painter->setFont(homeScore->font());
         painter->drawText(730, TEAM_BOX_Y, 78, 42, Qt::AlignCenter, homeScore->toPlainText());
         if (sponsor) {
@@ -167,22 +169,22 @@ Scoreboard::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
             painter->setFont(defaultSponsorText);
             // Away ppbar
             if(awayPP) {
-                painter->fillRect(112, 54, 345, 38, ppGradient);
-               // painter->drawPixmap(112,52, *ppBar);
+               // painter->fillRect(112, 54, 345, 38, ppGradient);
+                painter->drawPixmap(112,54, *ppBar);
                 painter->drawText(120, 54, 345, 38, Qt::AlignLeft | Qt::AlignVCenter, ppDescription);
                 painter->drawText(120, 54, 331, 38, Qt::AlignRight | Qt::AlignVCenter, ppClock->toStringPP());
             }
             //Home ppbar
             else if (homePP) {
-                painter->fillRect(466, 54, 345, 38, ppGradient);
-                //painter->drawPixmap(466,52, *ppBar);
+               // painter->fillRect(466, 54, 345, 38, ppGradient);
+                painter->drawPixmap(466,54, *ppBar);
                 painter->drawText(474, 54, 345, 38, Qt::AlignLeft | Qt::AlignVCenter, ppDescription);
                 painter->drawText(474, 54, 331, 38, Qt::AlignRight | Qt::AlignVCenter, ppClock->toStringPP());
             }
             //Neutral
             else if (neutralPP){
-                painter->fillRect(833, 54, 247, 38, ppGradient);
-                //painter->drawPixmap(833,54,247,38, *ppBar );
+                //painter->fillRect(833, 54, 247, 38, ppGradient);
+                painter->drawPixmap(833,54,247,38, *ppBar );
                 painter->drawText(841, 54, 247, 38, Qt::AlignLeft | Qt::AlignVCenter, ppDescription);
                 painter->drawText(833, 54, 239, 38, Qt::AlignRight | Qt::AlignVCenter, ppClock->toStringPP());
             }
