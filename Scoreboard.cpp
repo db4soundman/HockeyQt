@@ -129,9 +129,9 @@ Scoreboard::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
         painter->setOpacity(.99);
         painter->drawPixmap(115, TEAM_BOX_Y + awayLogoOffset, *awayLogo);
         painter->setOpacity(1);
-        painter->setFont(awayRank->font());
+       // painter->setFont(awayRank->font());
         painter->setPen(QColor(255, 255, 255));
-        painter->drawText(115, TEAM_BOX_Y, awayRankOffset, 42, Qt::AlignCenter,  awayRank->toPlainText());
+       // painter->drawText(115, TEAM_BOX_Y, awayRankOffset, 42, Qt::AlignCenter,  awayRank->toPlainText());
         painter->setFont(awayName->font());
         painter->drawText(118 + awayRankOffset, TEAM_BOX_Y, TEAM_NAME_WIDTH, 42, Qt::AlignVCenter, awayName->toPlainText());
         // Away Score
@@ -148,8 +148,8 @@ Scoreboard::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
         painter->setOpacity(.99);
         painter->drawPixmap(470, TEAM_BOX_Y + homeLogoOffset, *homeLogo);
         painter->setOpacity(1);
-        painter->setFont(homeRank->font());
-        painter->drawText(470, TEAM_BOX_Y, homeRankOffset, 42, Qt::AlignCenter, homeRank->toPlainText());
+       // painter->setFont(homeRank->font());
+        //painter->drawText(470, TEAM_BOX_Y, homeRankOffset, 42, Qt::AlignCenter, homeRank->toPlainText());
         painter->setFont(homeName->font());
         painter->drawText(475 + homeRankOffset, TEAM_BOX_Y, TEAM_NAME_WIDTH, 42, Qt::AlignVCenter, homeName->toPlainText());
         // Home Score
