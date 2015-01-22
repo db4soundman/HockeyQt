@@ -411,7 +411,7 @@ void
 Scoreboard::toggleShowBoard() {
     show = true;
     if (useTransparency)
-        emit transparentField( x(), y() -49, 1102, 49);
+        emit transparentField(x() + 93, y() -49,1102-93,49);
     scene()->update();
 }
 
@@ -425,7 +425,7 @@ void
 Scoreboard::hideBoard() {
     if (show) {
         show = false;
-        emit removeTransparentField(x(), y() -49, 1102, 49);
+        emit removeTransparentField(x() + 93, y() -49,1102-93,499);
         scene()->update();
     }
 }

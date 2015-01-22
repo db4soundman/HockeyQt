@@ -35,9 +35,9 @@ NchcScoreboardGraphic::paint(QPainter* painter,
         for (int i = 0; i < fridayGames.size(); i++) {
             // Outer border
             painter->fillRect(x, 80 + (BORDER_HEIGHT + spacing) * i, BORDER_WIDTH, BORDER_HEIGHT, fridayGames.at(i).getConfGame() ?
-                                  QColor(165, 0, 22, 200) : QColor(0, 0, 0, 200));
+                                  QColor(165, 0, 22, 200) : QColor(1, 1, 1, 200));
             // Inner border
-            painter->fillRect(x, 80 + (BORDER_HEIGHT + spacing) * i, BORDER_WIDTH - 150, BORDER_HEIGHT, QColor(0, 0, 0));
+            painter->fillRect(x, 80 + (BORDER_HEIGHT + spacing) * i, BORDER_WIDTH - 150, BORDER_HEIGHT, QColor(1, 1, 1));
             painter->setBrush(QColor(255,255,255));
             painter->setPen(QColor(255,255,255));
             // School
@@ -56,7 +56,7 @@ NchcScoreboardGraphic::paint(QPainter* painter,
                                   QColor(165, 0, 22) : QColor(255, 255, 255));
             if (fridayGames.at(i).getConfGame()) {
                 painter->fillRect(x - IMAGE_WIDTH, 80 + (BORDER_HEIGHT + spacing) * i, IMAGE_WIDTH, BORDER_HEIGHT, fridayGames.at(i).getConfGame() ?
-                                      QColor(165, 0, 22, 200) : QColor(0, 0, 0, 150));
+                                      QColor(165, 0, 22, 200) : QColor(1, 1, 1, 150));
                 painter->drawPixmap(x - IMAGE_WIDTH, 80 + (BORDER_HEIGHT + spacing) * i, IMAGE_WIDTH, BORDER_HEIGHT, *nchcLogo);
             }
         }
@@ -64,9 +64,9 @@ NchcScoreboardGraphic::paint(QPainter* painter,
         for (int i = 0; i < saturdayGames.size(); i++) {
             // Outer border
             painter->fillRect(x ,80 + (BORDER_HEIGHT + spacing) * i, BORDER_WIDTH, BORDER_HEIGHT, saturdayGames.at(i).getConfGame() ?
-                                  QColor(165, 0, 22, 200) : QColor(0, 0, 0, 200));
+                                  QColor(165, 0, 22, 200) : QColor(1, 1, 1, 200));
             // Inner border
-            painter->fillRect(x, 80 + (BORDER_HEIGHT + spacing) * i, BORDER_WIDTH - 150, BORDER_HEIGHT, QColor(0, 0, 0));
+            painter->fillRect(x, 80 + (BORDER_HEIGHT + spacing) * i, BORDER_WIDTH - 150, BORDER_HEIGHT, QColor(1, 1, 1));
             painter->setBrush(QColor(255,255,255));
             painter->setPen(QColor(255,255,255));
             // School
@@ -85,7 +85,7 @@ NchcScoreboardGraphic::paint(QPainter* painter,
                                   QColor(165, 0, 22) : QColor(255, 255, 255));
             if (saturdayGames.at(i).getConfGame()) {
                 painter->fillRect(x - IMAGE_WIDTH, 80 + (BORDER_HEIGHT + spacing) * i, IMAGE_WIDTH, BORDER_HEIGHT, fridayGames.at(i).getConfGame() ?
-                                      QColor(165, 0, 22, 200) : QColor(0, 0, 0, 150));
+                                      QColor(165, 0, 22, 200) : QColor(1, 1, 1, 150));
                 painter->drawPixmap(x - IMAGE_WIDTH, 80 + (BORDER_HEIGHT + spacing) * i, *nchcLogo);
             }
         }
