@@ -74,12 +74,12 @@ MiamiAllAccessHockey::exec() {
     scene->addItem(game->getLt());
     scene->addItem(&standings);
     scene->addItem(&nchcScoreboard);
-    commercial = new CommercialGraphic(game, graphicsScreen.width());
+    commercial = new CommercialGraphic(game, graphicsScreen.width(), awayLogo);
     scene->addItem(commercial);
     game->getLt()->setX((graphicsScreen.width() / 2) - 214);
     game->getLt()->setY(graphicsScreen.height() - 160);
     game->getSb()->setY(80);
-    game->getSb()->setX((graphicsScreen.width() / 2) - 551 - (93/2));
+    game->getSb()->setX((graphicsScreen.width() / 2) - (1073/2));
     commercial->setY(graphicsScreen.height() - 230);
     //commercial->setX(460);
     tv = new QGraphicsView(scene);
