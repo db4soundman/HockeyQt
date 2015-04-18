@@ -3,32 +3,48 @@
 StatCrewScanner::StatCrewScanner(HockeyGame* game, QString fileName)
 {
     statCrew = new GameXmlUpdater(game, game->getAwayTeam(), game->getHomeTeam());
-    trigger = new QTimer();
+    inGame = new QTimer();
+    breakTime = new QTimer();
+    breakTime->setInterval(1000 * 10);
     statFile = fileName;
-    trigger->setInterval(10000);
+    inGame->setInterval(1000 * 120);
     isActive = false;
-    connect(trigger, SIGNAL(timeout()), this, SLOT(updateStats()));
+    connect(inGame, SIGNAL(timeout()), this, SLOT(updateStats()));
+    connect(breakTime, SIGNAL(timeout()), this, SLOT(updateStats()));
     connect(game, SIGNAL(periodChanged(int)), this, SLOT(toggleScanner(int)));
+    connect(game, SIGNAL(clockIsRunning(bool)), this, SLOT(toggleScanner(bool)));
 }
 
 void StatCrewScanner::toggleScanner() {
     if (!isActive) {
-        trigger->start();
+        inGame->start();
     }
     else {
-        trigger->stop();
+        inGame->stop();
     }
 }
 
 void StatCrewScanner::toggleScanner(int pd)
 {
     if (pd == 0) {
-        trigger->stop();
+        inGame->stop();
+        breakTime->stop();
         isActive = false;
     }
     else if (pd == 1) {
-        trigger->start();
+        inGame->start();
         isActive = true;
+    }
+}
+
+void StatCrewScanner::toggleScanner(bool clockStatus) {
+    if (!clockStatus) {
+        breakTime->start();
+        inGame->stop();
+    }
+    else {
+        breakTime->stop();
+        inGame->start();
     }
 }
 

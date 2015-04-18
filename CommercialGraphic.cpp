@@ -14,7 +14,7 @@
 
 CommercialGraphic::CommercialGraphic(HockeyGame* game, int width, QString pawayLogo, QGraphicsItem* parent) :
     QGraphicsPixmapItem(parent), blackBar(QPixmap(":/images/ppBar.png")),
-    blockText(QPixmap(":/images/MiamiBlock.png")) {
+    blockText(QPixmap(":/images/M.png")) {
     hockeyGame = game;
     show = false;
     WIDTH = width / 2;
@@ -45,6 +45,7 @@ CommercialGraphic::CommercialGraphic(HockeyGame* game, int width, QString pawayL
   /*  if (awayLogo->width() > 1919) {
        *awayLogo =  awayLogo->scaledToWidth(800, Qt::SmoothTransformation);
     }*/
+   blockText = blockText.scaledToHeight(120, Qt::SmoothTransformation);
 }
 
 void CommercialGraphic::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
@@ -58,14 +59,16 @@ void CommercialGraphic::paint(QPainter* painter, const QStyleOptionGraphicsItem*
 
         painter->fillRect(0, 0, WIDTH, RECT_HEIGHT, awayTeamGradient);
         painter->fillRect(WIDTH, 0, WIDTH, RECT_HEIGHT, homeTeamGradient);
-        painter->setFont(away->font());
+       // painter->setFont(away->font());
         //painter->drawText(10, 0, NAME_WIDTH, RECT_HEIGHT, Qt::AlignCenter, away->toPlainText());
         //painter->drawPixmap(WIDTH - CENTER_OFFSET - 100 - awayLogo.width(), 20, awayLogo);
+
         painter->setOpacity(.996);
         painter->drawPixmap(WIDTH - CENTER_OFFSET - 100 - awayLogo->width(), 0, *awayLogo);
+
         painter->setFont(home->font());
         //painter->drawText(WIDTH + CENTER_OFFSET, 0, NAME_WIDTH, RECT_HEIGHT, Qt::AlignCenter, home->toPlainText());
-        painter->drawPixmap(WIDTH + CENTER_OFFSET + 100, 20, blockText);
+        painter->drawPixmap(WIDTH + CENTER_OFFSET + 100, 0, blockText);
         painter->fillRect(WIDTH - CENTER_OFFSET, 0, CENTER_OFFSET * 2, RECT_HEIGHT, QColor(0,0,0, 100));
         painter->setOpacity(1);
         painter->drawText(WIDTH - CENTER_OFFSET, 0, CENTER_OFFSET, RECT_HEIGHT, Qt::AlignCenter, awayScore);

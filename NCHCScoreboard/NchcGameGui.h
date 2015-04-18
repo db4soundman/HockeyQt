@@ -26,10 +26,12 @@ public:
 signals:
     void awayNameUpdated(QString name);
     void homeNameUpdated(QString home);
+    void confGameUpdated(bool isConfGame);
 
 public slots:
     void updateAwayName(QString name);
     void updateHomeName(QString name);
+    void updateConfGame(bool isConfGame);
 
 private:
     QLineEdit away, home, awayScore, homeScore, timeAndPd;

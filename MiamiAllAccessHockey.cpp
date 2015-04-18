@@ -41,7 +41,7 @@ MiamiAllAccessHockey::exec() {
     scene = new QGraphicsScene();
 
     QString awayName, homeName, awayRank, homeRank, homeFile, awayFile, sponsor, announcer,
-            goalies, statcrewName, awayLogo;
+            goalies, statcrewName, awayLogo, tricasterIp;
     QColor awayColor, homeColor,  bg;
     int pk, pkopp, ppg, ppopp;
     bool usingTricaster = true;
@@ -54,7 +54,7 @@ MiamiAllAccessHockey::exec() {
 
     SetupWizard wizard(&awayName, &homeName, &awayFile, &homeFile, &sponsor,
                        &announcer, &awayRank, &homeRank, &awayColor, &homeColor,
-                       &bg, &pk, &pkopp, &ppg, &ppopp, &goalies, &statcrewName, &usingTricaster, &awayLogo);
+                       &bg, &pk, &pkopp, &ppg, &ppopp, &goalies, &statcrewName, &usingTricaster, &awayLogo, &tricasterIp);
     wizard.exec();
     QRect graphicsScreen = usingTricaster ? QRect(0,0,1920,1080) : desktop.screenGeometry(1);
     game = new HockeyGame(awayName, homeName, awayColor, homeColor,
@@ -104,7 +104,7 @@ MiamiAllAccessHockey::exec() {
     if (!usingTricaster)
         tv->showFullScreen();
     else {
-        tricaster = new TricasterHandler(tv, bg);
+        tricaster = new TricasterHandler(tricasterIp, tv, bg);
         game->getSb()->setUseTransparency(true);
         connect(scene, SIGNAL(changed(QList<QRectF>)), tricaster, SLOT(updatePortion(QList<QRectF>)));
         connect(game->getSb(), SIGNAL(transparentField(int,int,int,int)), tricaster, SLOT(addAlphaRect(int,int,int,int)));

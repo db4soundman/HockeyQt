@@ -22,6 +22,8 @@ NchcScoreboardGui::NchcScoreboardGui(NchcScoreboardGraphic* grph) {
                 sat, SLOT(updateAwayName(QString)));
         connect(fri, SIGNAL(homeNameUpdated(QString)),
                 sat, SLOT(updateHomeName(QString)));
+        connect(fri, SIGNAL(confGameUpdated(bool)),
+                sat, SLOT(updateConfGame(bool)));
         friday->addWidget(fri);
         saturday->addWidget(sat);
         games.append(fri);

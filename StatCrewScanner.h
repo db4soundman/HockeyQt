@@ -12,6 +12,7 @@ public:
     StatCrewScanner(HockeyGame* game, QString fileName);
 
 public slots:
+    void toggleScanner(bool clockStatus);
     void toggleScanner(int pd);
     void toggleScanner();
 
@@ -20,7 +21,7 @@ private slots:
 
 private:
     GameXmlUpdater* statCrew;
-    QTimer* trigger;
+    QTimer* inGame, *breakTime;
     bool isActive;
     QString statFile;
 };

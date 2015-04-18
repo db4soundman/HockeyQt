@@ -27,6 +27,7 @@ NchcGameGui::NchcGameGui(bool firstGui) {
 
     connect(&away, SIGNAL(textChanged(QString)), this, SIGNAL(awayNameUpdated(QString)));
     connect(&home, SIGNAL(textChanged(QString)), this, SIGNAL(homeNameUpdated(QString)));
+    connect(&confGame, SIGNAL(toggled(bool)), this, SIGNAL(confGameUpdated(bool)));
 }
 
 void NchcGameGui::setConf(bool pConf)
@@ -57,4 +58,9 @@ void NchcGameGui::updateAwayName(QString name)
 void NchcGameGui::updateHomeName(QString name)
 {
     home.setText(name);
+}
+
+void NchcGameGui::updateConfGame(bool isConfGame)
+{
+    confGame.setChecked(isConfGame);
 }

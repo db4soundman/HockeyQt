@@ -28,8 +28,8 @@ NchcScoreboardGraphic::paint(QPainter* painter,
         painter->setPen(QColor(255,255,255));
         painter->drawPixmap(0, 0, this->pixmap());
         //painter->drawText(0, 0, 1920, 80, Qt::AlignCenter, "NCHC SCOREBOARD");
-        painter->drawText(0, 0, 1920/2, 80, Qt::AlignCenter, "FRIDAY GAMES");
-        painter->drawText(1920/2, 0, 1920/2, 80, Qt::AlignCenter, "SATURDAY GAMES");
+        painter->drawText(0, 0, 1920/2, 80, Qt::AlignCenter, "FRIDAY'S GAMES");
+        painter->drawText(1920/2, 0, 1920/2, 80, Qt::AlignCenter, "SATURDAY'S GAMES");
         int spacing = (980 - (120*fridayGames.size())) / fridayGames.size();
         int x = 200;
         for (int i = 0; i < fridayGames.size(); i++) {
@@ -84,7 +84,7 @@ NchcScoreboardGraphic::paint(QPainter* painter,
             painter->fillRect(x, BORDER_HEIGHT / 2 - 5 + 80 + (BORDER_HEIGHT + spacing) * i, BORDER_WIDTH - 150, 10, saturdayGames.at(i).getConfGame() ?
                                   QColor(165, 0, 22) : QColor(255, 255, 255));
             if (saturdayGames.at(i).getConfGame()) {
-                painter->fillRect(x - IMAGE_WIDTH, 80 + (BORDER_HEIGHT + spacing) * i, IMAGE_WIDTH, BORDER_HEIGHT, fridayGames.at(i).getConfGame() ?
+                painter->fillRect(x - IMAGE_WIDTH, 80 + (BORDER_HEIGHT + spacing) * i, IMAGE_WIDTH, BORDER_HEIGHT, saturdayGames.at(i).getConfGame() ?
                                       QColor(165, 0, 22, 200) : QColor(1, 1, 1, 150));
                 painter->drawPixmap(x - IMAGE_WIDTH, 80 + (BORDER_HEIGHT + spacing) * i, *nchcLogo);
             }
