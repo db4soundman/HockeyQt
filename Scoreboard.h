@@ -21,6 +21,7 @@ public:
 
      bool getUseTransparency() const;
      void setUseTransparency(bool value);
+     int getRealWidth();
 
 signals:
      void sceneUpdated(int x, int y, int w, int h);

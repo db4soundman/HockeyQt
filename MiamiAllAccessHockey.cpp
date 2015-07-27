@@ -48,7 +48,7 @@ MiamiAllAccessHockey::exec() {
     homeColor.setRgb(226, 24, 54);
     bg.setRgb(0,120,0);
     announcer = "Greg Waddell and Drew Davis";
-    sponsor = "Miami IMG Sports Network";
+    sponsor = "Miami IMG Sports Network | NCHC.tv";
     homeName = "MIAMI";
     QDesktopWidget desktop;
 
@@ -78,8 +78,8 @@ MiamiAllAccessHockey::exec() {
     scene->addItem(commercial);
     game->getLt()->setX((graphicsScreen.width() / 2) - 214);
     game->getLt()->setY(graphicsScreen.height() - 160);
-    game->getSb()->setY(80);
-    game->getSb()->setX((graphicsScreen.width() / 2) - (1073/2));
+    game->getSb()->setY(60);
+    game->getSb()->setX((graphicsScreen.width() / 2) - (game->getSb()->getRealWidth()/2));
     commercial->setY(graphicsScreen.height() - 230);
     //commercial->setX(460);
     tv = new QGraphicsView(scene);
