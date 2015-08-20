@@ -12,13 +12,13 @@
 #define TEAM_NAME_WIDTH 310
 #define RANK_WIDTH 50
 #define TEAM_BOX_Y 2
-#define TEAM_BOX_HEIGHT 40
-#define V_TEAM_BOX_STARTX 20
-#define H_TEAM_BOX_STARTX 420
+#define TEAM_BOX_HEIGHT 41
+#define V_TEAM_BOX_STARTX 25
+#define H_TEAM_BOX_STARTX 425
 #define LOGO_WIDTH 50
 #define SCOREBOARD_WIDTH 1060
-#define CLOCK_FIELD_X 810
-#define CLOCK_FIELD_WIDTH 245
+#define CLOCK_FIELD_X 815
+#define CLOCK_FIELD_WIDTH 240
 #define SCOREBOARD_HEIGHT 44
 #define PP_BAR_HEIGHT 38
 #define TOP_BAR_WIDTH (SCOREBOARD_WIDTH - 40)
@@ -199,10 +199,10 @@ Scoreboard::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
             }
             //Neutral
             else if (neutralPP){
-                painter->fillRect(CLOCK_FIELD_X, SCOREBOARD_HEIGHT, CLOCK_FIELD_WIDTH, PP_BAR_HEIGHT, QBrush(QColor(20,20,20)));
+                painter->fillRect(CLOCK_FIELD_X, SCOREBOARD_HEIGHT, CLOCK_FIELD_WIDTH-20, PP_BAR_HEIGHT, QBrush(QColor(20,20,20)));
                // painter->drawPixmap(CLOCK_FIELD_X,SCOREBOARD_HEIGHT,CLOCK_FIELD_WIDTH,PP_BAR_HEIGHT, *ppBar );
                 painter->drawText(CLOCK_FIELD_X + 8, SCOREBOARD_HEIGHT, CLOCK_FIELD_WIDTH, PP_BAR_HEIGHT, Qt::AlignLeft | Qt::AlignVCenter, ppDescription);
-                painter->drawText(CLOCK_FIELD_X, SCOREBOARD_HEIGHT, 239, PP_BAR_HEIGHT, Qt::AlignRight | Qt::AlignVCenter, ppClock->toStringPP());
+                painter->drawText(CLOCK_FIELD_X, SCOREBOARD_HEIGHT, 214, PP_BAR_HEIGHT, Qt::AlignRight | Qt::AlignVCenter, ppClock->toStringPP());
             }
         }
 

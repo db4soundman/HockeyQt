@@ -34,9 +34,9 @@ private:
     QList<QString> statNames;
     QList<QString> statistics;
     QString name, number, year, firstName, lastName;
-    QFont statFont, nameFont;
+    QFont statFont, nameFont, labelFont;
     QLinearGradient gradient, statGradient, homeNameGradient, awayNameGradient, homeStatGradient, awayStatGradient;
-    QColor homeTeamMain, awayTeamMain;
+    QColor homeTeamMain, awayTeamMain, stats;
 
     QString homeName, awayName, homeLabel, awayLabel, homeStat, awayStat;
 

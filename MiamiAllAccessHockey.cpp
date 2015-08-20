@@ -76,7 +76,7 @@ MiamiAllAccessHockey::exec() {
     scene->addItem(&nchcScoreboard);
     commercial = new CommercialGraphic(game, graphicsScreen.width(), awayLogo);
     scene->addItem(commercial);
-    game->getLt()->setX((graphicsScreen.width() / 2) - 214);
+    game->getLt()->setX((graphicsScreen.width() / 2) - 500);
     game->getLt()->setY(graphicsScreen.height() - 160);
     game->getSb()->setY(60);
     game->getSb()->setX((graphicsScreen.width() / 2) - (game->getSb()->getRealWidth()/2));
