@@ -4,6 +4,7 @@
 #include <QGraphicsPixmapItem>
 #include <QLinearGradient>
 #include <QPainter>
+#include <QPixmap>
 #include <QObject>
 #include <QList>
 #include <QString>
@@ -13,7 +14,7 @@
 class LowerThird : public QObject, public QGraphicsPixmapItem {
     Q_OBJECT
 public:
-    LowerThird(QColor awayColor, QColor homeColor, int screenWidth, QGraphicsItem* parent = 0);
+    LowerThird(QColor awayColor, QColor homeColor, int screenWidth, QString pawayLogo, QGraphicsItem* parent = 0);
 
     void paint(QPainter * painter,
                const QStyleOptionGraphicsItem * option, QWidget * widget = 0);
@@ -37,7 +38,7 @@ private:
     QFont statFont, nameFont, labelFont;
     QLinearGradient gradient, statGradient, homeNameGradient, awayNameGradient, homeStatGradient, awayStatGradient;
     QColor homeTeamMain, awayTeamMain, stats;
-
+    QPixmap* homeLogo, *awayLogo;
     QString homeName, awayName, homeLabel, awayLabel, homeStat, awayStat;
 
     void prepareColors();

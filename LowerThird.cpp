@@ -8,7 +8,7 @@
 #define STAT_GRADIENT_LEVEL .1
 #define NAME_WIDTH 460
 #define BOX_HEIGHT 38
-LowerThird::LowerThird(QColor awayColor, QColor homeColor, int screenWidth, QGraphicsItem* parent) : QGraphicsPixmapItem(parent),
+LowerThird::LowerThird(QColor awayColor, QColor homeColor, int screenWidth, QString pawayLogo, QGraphicsItem* parent) : QGraphicsPixmapItem(parent),
     name(""), number("number"), statFont("Arial", 22, QFont::Bold), nameFont("Arial", 28, QFont::Bold), labelFont("Arial", 18, QFont::Bold),
     awayTeamMain(awayColor), homeTeamMain(homeColor) {
 #ifdef Q_OS_OSX
@@ -36,6 +36,11 @@ LowerThird::LowerThird(QColor awayColor, QColor homeColor, int screenWidth, QGra
     this->centerPoint = screenWidth / 2;
     show = false;
     showPp = false;
+    homeLogo = new QPixmap(":/images/M.png");
+    awayLogo = new QPixmap(pawayLogo);
+
+    *homeLogo = homeLogo->scaledToHeight(BOX_HEIGHT, Qt::SmoothTransformation);
+    *awayLogo = awayLogo->scaledToHeight(BOX_HEIGHT, Qt::SmoothTransformation);
 }
 
 void
@@ -71,37 +76,18 @@ LowerThird::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 
     }
     else if (showPp) {
-        int availableWidth = centerPoint - 772;
-        painter->drawPixmap(availableWidth / 2 - this->x() + 372, 0, 400, 120, this->pixmap());
-        painter->fillRect(availableWidth / 2 - this->x(), 0, 372, 120, awayNameGradient);
-        painter->fillRect(availableWidth / 2 - this->x() + 372, 47, 400, 72, awayStatGradient);
-        painter->fillRect(availableWidth / 2 - this->x() + 372, 47, 400, 72, QColor(0, 0, 0, 60));
+        //int availableWidth = centerPoint - 772;
+        //painter->drawPixmap(availableWidth / 2 - this->x() + 372, 0, 400, 120, this->pixmap());
+        painter->fillRect(0, 0, awayStat.contains("Today") ? 800 : 600, BOX_HEIGHT, awayNameGradient);
+        painter->fillRect(0, BOX_HEIGHT, awayStat.contains("Today") ? 800 : 600, BOX_HEIGHT, homeStatGradient);
+        painter->drawPixmap(1, 0,*awayLogo);
+        painter->drawPixmap(1, BOX_HEIGHT,*homeLogo);
         painter->setFont(nameFont);
         painter->setPen(QColor(255, 255, 255));
-        painter->drawText(availableWidth / 2 - this->x(), 0, 372, 120, Qt::AlignCenter, awayName);
-        QFont ppFont("Arial", 22, QFont::Bold);
-#ifdef Q_OS_OSX
-        ppFont.setPointSize(28);
-#endif
-        painter->setFont(ppFont);
-        painter->drawText(availableWidth / 2 - this->x() + 372, 47, 400, 72, Qt::AlignCenter, awayStat);
-        painter->setFont(statFont);
-        painter->setPen(QColor(1, 1, 1));
-        painter->drawText(availableWidth / 2 - this->x() + 372, 0, 400, 47, Qt::AlignCenter, awayLabel);
-
-// --------------------------Home graphic-----------------------------------------
-        painter->drawPixmap(availableWidth/2+ (centerPoint - this->x()), 0, 400, 120, this->pixmap());
-        painter->fillRect(availableWidth/2+(centerPoint - this->x())+400, 0, 372, 120, homeNameGradient);
-        painter->fillRect(availableWidth/2+(centerPoint - this->x()), 47, 400, 72, homeStatGradient);
-        painter->fillRect(availableWidth/2+(centerPoint - this->x()), 47, 400, 72, QColor(0, 0, 0, 60));
-        painter->setFont(nameFont);
-        painter->setPen(QColor(255, 255, 255));
-        painter->drawText(availableWidth/2+(centerPoint - this->x())+400, 0, 372, 120, Qt::AlignCenter, homeName);
-        painter->setFont(ppFont);
-        painter->drawText(availableWidth/2+(centerPoint - this->x()), 47, 400, 72, Qt::AlignCenter, homeStat);
-        painter->setFont(statFont);
-        painter->setPen(QColor(1, 1, 1));
-        painter->drawText(availableWidth/2+(centerPoint - this->x()), 0, 400, 47, Qt::AlignCenter, homeLabel);
+        painter->drawText(100, 0, 400, BOX_HEIGHT, Qt::AlignVCenter, awayLabel);
+        painter->drawText(400, 0, 400, BOX_HEIGHT, Qt::AlignVCenter, awayStat);
+        painter->drawText(100, BOX_HEIGHT, 400, BOX_HEIGHT, Qt::AlignVCenter, homeLabel);
+        painter->drawText(400, BOX_HEIGHT, 400, BOX_HEIGHT, Qt::AlignVCenter, homeStat);
     }
 }
 
@@ -186,8 +172,8 @@ void LowerThird::prepareColors() {
     QColor end(red, green, blue);
     if (end == QColor(0,0,0))
         end = QColor(1,1,1);
-    homeNameGradient.setColorAt(0.45, homeTeamMain);
-    homeNameGradient.setColorAt(0.55, homeTeamMain);
+    homeNameGradient.setColorAt(.4, homeTeamMain);
+    homeNameGradient.setColorAt(.6, homeTeamMain);
     homeNameGradient.setColorAt(1, end);
     homeNameGradient.setColorAt(0, end);
 
@@ -197,7 +183,8 @@ void LowerThird::prepareColors() {
     end.setRgb(red, green, blue);
     if (end == QColor(0,0,0))
         end = QColor(1,1,1);
-    homeStatGradient.setColorAt(.5, homeTeamMain);
+    homeStatGradient.setColorAt(.4, homeTeamMain);
+    homeStatGradient.setColorAt(.6, homeTeamMain);
     homeStatGradient.setColorAt(1, end);
     homeStatGradient.setColorAt(0, end);
 
@@ -258,7 +245,7 @@ void LowerThird::adjustFont()
 #endif
     int subtraction = 1;
     QFontMetrics fontSize(statFont);
-    while (fontSize.width(statistics[0]) > this->pixmap().width() * 2 - 100) {
+    while (fontSize.width(statistics[0]) > 1000 - 10) {
         QFont tempFont("Arial", statFont.pointSize() - subtraction, QFont::Bold);
         subtraction++;
         statFont = tempFont;
