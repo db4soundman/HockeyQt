@@ -116,14 +116,16 @@ Scoreboard::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     Q_UNUSED(option);
     Q_UNUSED(widget);
     if (show) {
+
         painter->setBrush(*(new QBrush(mainGradient)));
         if (!useTransparency)
             //painter->drawPixmap(0,-49,SCOREBOARD_WIDTH,49, *topBar);
             painter->fillRect(20,TOP_BAR_Y,TOP_BAR_WIDTH, TOP_BAR_Y * -1, QBrush(QColor(20,20,20)));
         //painter->drawPixmap(0, 0, this->pixmap());
         //painter->fillRect(0,0,SCOREBOARD_WIDTH, SCOREBOARD_HEIGHT, mainGradient);
-
+        painter->setRenderHint(QPainter::Antialiasing);
         painter->drawRoundRect(0,0,SCOREBOARD_WIDTH, SCOREBOARD_HEIGHT,5, 100);
+        painter->setRenderHint(QPainter::Antialiasing, false);
         //painter->drawPixmap(34, 4, 66, 50, *homeLogo);
         //Clock - Game time...draw clock first since default color is black
         painter->setFont(homeName->font());

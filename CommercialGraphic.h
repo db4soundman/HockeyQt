@@ -12,7 +12,7 @@
 class CommercialGraphic : public QObject, public QGraphicsPixmapItem {
     Q_OBJECT
 public:
-    CommercialGraphic(HockeyGame* game, int width, QString pawayLogo, QGraphicsItem *parent = 0);
+    CommercialGraphic(HockeyGame* game, QString pawayLogo, QGraphicsItem *parent = 0);
 
     void paint(QPainter * painter,
                const QStyleOptionGraphicsItem * option, QWidget * widget = 0);
@@ -29,16 +29,16 @@ public slots:
 
 private:
     QPixmap blackBar;
-    QLinearGradient homeTeamGradient, awayTeamGradient;
+    QLinearGradient homeTeamGradient, awayTeamGradient, clockGradient, bgGradient;
     HockeyGame* hockeyGame;
     bool show, inGame;
     QGraphicsTextItem* away, *home;
-    QString homeScore, awayScore, maaText, period, clock;
+    QString homeScore, awayScore, networkText, period, clock;
     QFont descriptiveFont;
-    int clockStatus, WIDTH, NAME_WIDTH;
+    int clockStatus;
     void checkAwayFont();
     void prepareGradients(QColor awayColor, QColor homeColor);
-    QPixmap blockText, *awayLogo;
+    QPixmap homeLogo, *awayLogo;
     // yep, a test
 };
 
