@@ -10,15 +10,17 @@
 #define HOME_PP 2
 #define NEUTRAL 3
 #define TEAM_NAME_WIDTH 310
+#define SCORE_WIDTH 78
+#define TEAM_WIDTH (TEAM_NAME_WIDTH + SCORE_WIDTH)
 #define RANK_WIDTH 50
 #define TEAM_BOX_Y 2
 #define TEAM_BOX_HEIGHT 41
-#define V_TEAM_BOX_STARTX 25
-#define H_TEAM_BOX_STARTX 425
+#define V_TEAM_BOX_STARTX 12
+#define H_TEAM_BOX_STARTX (V_TEAM_BOX_STARTX + TEAM_WIDTH + 10)
 #define LOGO_WIDTH 50
-#define SCOREBOARD_WIDTH 1060
-#define CLOCK_FIELD_X 815
-#define CLOCK_FIELD_WIDTH 240
+#define SCOREBOARD_WIDTH 1047
+#define CLOCK_FIELD_X 809
+#define CLOCK_FIELD_WIDTH 227
 #define SCOREBOARD_HEIGHT 44
 #define PP_BAR_HEIGHT 38
 #define TOP_BAR_WIDTH (SCOREBOARD_WIDTH - 40)
@@ -81,8 +83,8 @@ Scoreboard::Scoreboard(QColor awayCol, QColor homeCol, QString awayTeam, QString
     // penalty gradient
     penaltyGradient.setStart(0, SCOREBOARD_HEIGHT);
     penaltyGradient.setFinalStop(0, SCOREBOARD_HEIGHT + PP_BAR_HEIGHT);
-    penaltyGradient.setColorAt(0, QColor(255, 255, 0));
-    penaltyGradient.setColorAt(1, QColor(188, 188, 0));
+    penaltyGradient.setColorAt(1, QColor(255, 255, 0));
+    penaltyGradient.setColorAt(0, QColor(188, 188, 0));
 
     QFont rankFont("Arial", 20, QFont::Bold);
     awayRank = new QGraphicsTextItem(pAwayRank);
@@ -123,14 +125,15 @@ Scoreboard::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
             painter->fillRect(20,TOP_BAR_Y,TOP_BAR_WIDTH, TOP_BAR_Y * -1, QBrush(QColor(20,20,20)));
         //painter->drawPixmap(0, 0, this->pixmap());
         //painter->fillRect(0,0,SCOREBOARD_WIDTH, SCOREBOARD_HEIGHT, mainGradient);
-        painter->setRenderHint(QPainter::Antialiasing);
-        painter->drawRoundRect(0,0,SCOREBOARD_WIDTH, SCOREBOARD_HEIGHT,5, 100);
+        //painter->setRenderHint(QPainter::Antialiasing);
+        //painter->drawRoundRect(0,0,SCOREBOARD_WIDTH, SCOREBOARD_HEIGHT,5, 100);
+         painter->fillRect(0,0,SCOREBOARD_WIDTH, SCOREBOARD_HEIGHT,bgGradient);
         painter->setRenderHint(QPainter::Antialiasing, false);
         //painter->drawPixmap(34, 4, 66, 50, *homeLogo);
         //Clock - Game time...draw clock first since default color is black
         painter->setFont(homeName->font());
         painter->setPen(QColor(255,255,255));
-        //painter->fillRect(CLOCK_FIELD_X, 3, CLOCK_FIELD_WIDTH,48, clockGradient);
+        painter->fillRect(CLOCK_FIELD_X, 1, CLOCK_FIELD_WIDTH,SCOREBOARD_HEIGHT-2, mainGradient);
         if (showPdAndClock) {
             painter->drawText(CLOCK_FIELD_X + 10, 0, CLOCK_FIELD_WIDTH, SCOREBOARD_HEIGHT, Qt::AlignVCenter, period);
             painter->drawText(CLOCK_FIELD_X, 0, CLOCK_FIELD_WIDTH-10, SCOREBOARD_HEIGHT, Qt::AlignRight | Qt::AlignVCenter,
@@ -141,8 +144,8 @@ Scoreboard::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
         }
         // Away text
         painter->setPen(QColor(255,255,255));
-        painter->drawRect(V_TEAM_BOX_STARTX - 1, TEAM_BOX_Y - 1, TEAM_NAME_WIDTH + 79, TEAM_BOX_HEIGHT+1);
-        painter->fillRect(V_TEAM_BOX_STARTX, TEAM_BOX_Y, TEAM_NAME_WIDTH+ 78, TEAM_BOX_HEIGHT, awayGradient );
+        //painter->drawRect(V_TEAM_BOX_STARTX - 1, TEAM_BOX_Y - 1, TEAM_WIDTH + 1, TEAM_BOX_HEIGHT+1);
+        painter->fillRect(V_TEAM_BOX_STARTX, TEAM_BOX_Y, TEAM_WIDTH, TEAM_BOX_HEIGHT, awayGradient );
         // Away logo
         painter->setOpacity(.99);
         painter->drawPixmap(V_TEAM_BOX_STARTX, TEAM_BOX_Y + awayLogoOffset, *awayLogo);
@@ -156,12 +159,12 @@ Scoreboard::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
         //painter->fillRect(375, TEAM_BOX_Y, 78, 42, scoreGradient);
         //painter->drawPixmap(V_TEAM_BOX_STARTX + TEAM_NAME_WIDTH, TEAM_BOX_Y, 78, 42, *ppBar);
         painter->setFont(awayScore->font());
-        painter->drawText(V_TEAM_BOX_STARTX + TEAM_NAME_WIDTH, TEAM_BOX_Y, 78, TEAM_BOX_HEIGHT, Qt::AlignCenter, awayScore->toPlainText());
+        painter->drawText(V_TEAM_BOX_STARTX + TEAM_NAME_WIDTH, TEAM_BOX_Y, SCORE_WIDTH, TEAM_BOX_HEIGHT, Qt::AlignCenter, awayScore->toPlainText());
 
         // Home Text
         painter->setPen(QColor(255,255,255));
-        painter->drawRect(H_TEAM_BOX_STARTX - 1, TEAM_BOX_Y - 1, TEAM_NAME_WIDTH + 79, TEAM_BOX_HEIGHT + 1);
-        painter->fillRect(H_TEAM_BOX_STARTX, TEAM_BOX_Y, TEAM_NAME_WIDTH + 78, TEAM_BOX_HEIGHT, homeGradient);
+       // painter->drawRect(H_TEAM_BOX_STARTX - 1, TEAM_BOX_Y - 1,TEAM_WIDTH+1, TEAM_BOX_HEIGHT + 1);
+        painter->fillRect(H_TEAM_BOX_STARTX, TEAM_BOX_Y, TEAM_WIDTH, TEAM_BOX_HEIGHT, homeGradient);
         // Home logo
         painter->setOpacity(.99);
         painter->drawPixmap(H_TEAM_BOX_STARTX, TEAM_BOX_Y + homeLogoOffset, *homeLogo);
@@ -174,7 +177,7 @@ Scoreboard::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 //        painter->fillRect(730, TEAM_BOX_Y, 78, 42, scoreGradient);
         //painter->drawPixmap(H_TEAM_BOX_STARTX + TEAM_NAME_WIDTH, TEAM_BOX_Y, 78, 42, *ppBar);
         painter->setFont(homeScore->font());
-        painter->drawText(H_TEAM_BOX_STARTX + TEAM_NAME_WIDTH, TEAM_BOX_Y, 78, TEAM_BOX_HEIGHT, Qt::AlignCenter, homeScore->toPlainText());
+        painter->drawText(H_TEAM_BOX_STARTX + TEAM_NAME_WIDTH, TEAM_BOX_Y, SCORE_WIDTH, TEAM_BOX_HEIGHT, Qt::AlignCenter, homeScore->toPlainText());
         if (sponsor) {
             //StatBarText
             painter->setPen(QColor(255, 255, 255));
@@ -210,10 +213,10 @@ Scoreboard::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 
         if (penalty) {
             // Penalty Indicator
-            painter->fillRect(CLOCK_FIELD_X, 52, CLOCK_FIELD_WIDTH, PP_BAR_HEIGHT, penaltyGradient);
+            painter->fillRect(CLOCK_FIELD_X,SCOREBOARD_HEIGHT, CLOCK_FIELD_WIDTH - 10, PP_BAR_HEIGHT, penaltyGradient);
             painter->setPen(QColor(1,1,1));
             painter->setFont(defaultSponsorText);
-            painter->drawText(CLOCK_FIELD_X,SCOREBOARD_HEIGHT,CLOCK_FIELD_WIDTH,PP_BAR_HEIGHT, Qt::AlignCenter, "PENALTY");
+            painter->drawText(CLOCK_FIELD_X,SCOREBOARD_HEIGHT,CLOCK_FIELD_WIDTH - 10,PP_BAR_HEIGHT, Qt::AlignCenter, "PENALTY");
         }
 
     }
@@ -271,6 +274,12 @@ Scoreboard::prepareColor() {
     scoreGradient.setColorAt(1, QColor(1,1,1));
     scoreGradient.setColorAt(.45, QColor(50,50,50));
     scoreGradient.setColorAt(.55, QColor(50,50,50));
+
+    bgGradient.setStart(0,0);
+    bgGradient.setFinalStop(0,SCOREBOARD_HEIGHT);
+    bgGradient.setColorAt(0, QColor(1,1,1));
+    bgGradient.setColorAt(1, QColor(1,1,1));
+    bgGradient.setColorAt(.5, QColor(50,50,50));
 
 }
 
