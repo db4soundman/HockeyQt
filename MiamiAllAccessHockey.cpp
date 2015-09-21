@@ -5,6 +5,7 @@
 #include "SetupWizard.h"
 #include <QDesktopWidget>
 #include <QAction>
+#include "GraphicChooser.txt"
 
 MiamiAllAccessHockey::MiamiAllAccessHockey(int& argc, char* argv[]) :
     QApplication (argc, argv) {
@@ -15,7 +16,6 @@ QString
 MiamiAllAccessHockey::getAppDirPath() {
     return QStandardPaths::writableLocation(QStandardPaths::DataLocation);
 }
-
 QString
 MiamiAllAccessHockey::getPenaltiesFilePath() {
     return QStandardPaths::writableLocation(QStandardPaths::DataLocation)
@@ -48,7 +48,7 @@ MiamiAllAccessHockey::exec() {
     homeColor.setRgb(226, 24, 54);
     bg.setRgb(0,120,0);
     announcer = "Greg Waddell and Drew Davis";
-    sponsor = "Miami IMG Sports Network";
+    sponsor = "Miami IMG Sports Network | NCHC.tv";
     homeName = "MIAMI";
     QDesktopWidget desktop;
 
@@ -74,12 +74,19 @@ MiamiAllAccessHockey::exec() {
     scene->addItem(game->getLt());
     scene->addItem(&standings);
     scene->addItem(&nchcScoreboard);
+#ifdef GRADIENT_LOOK
     commercial = new CommercialGraphic(game, graphicsScreen.width(), awayLogo);
-    scene->addItem(commercial);
     game->getLt()->setX((graphicsScreen.width() / 2) - 214);
+#else
+    commercial = new CommercialGraphic(game, awayLogo);
+    commercial->setX(graphicsScreen.width() / 2 - 500);
+    game->getLt()->setX((graphicsScreen.width() / 2) - 500);
+#endif
+    scene->addItem(commercial);
+
     game->getLt()->setY(graphicsScreen.height() - 160);
-    game->getSb()->setY(80);
-    game->getSb()->setX((graphicsScreen.width() / 2) - (1073/2));
+    game->getSb()->setY(60);
+    game->getSb()->setX((graphicsScreen.width() / 2) - (game->getSb()->getRealWidth()/2));
     commercial->setY(graphicsScreen.height() - 230);
     //commercial->setX(460);
     tv = new QGraphicsView(scene);
@@ -112,5 +119,3 @@ MiamiAllAccessHockey::exec() {
     }
     return QApplication::exec();
 }
-
-

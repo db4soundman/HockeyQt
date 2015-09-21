@@ -116,3 +116,6 @@ RESOURCES += \
 INCLUDEPATH += $$PWD/
 DEPENDPATH += $$PWD/
 unix|win32: LIBS += -L$$PWD/ -lProcessingAirSendx86
+
+DISTFILES += \
+    GraphicChooser.txt

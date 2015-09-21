@@ -3,6 +3,7 @@
 #include "GameXmlHandler.h"
 #include "ClockDialog.h"
 #include "PpClockDialog.h"
+#include "GraphicChooser.txt"
 
 HockeyGame::HockeyGame(QString awayName, QString homeName, QColor awayColor, QColor homeColor,
                        QString awayXML, QString homeXML, QString sponsor, QString announcers,
@@ -10,7 +11,12 @@ HockeyGame::HockeyGame(QString awayName, QString homeName, QColor awayColor, QCo
     awayName(awayName), homeName(homeName), sponsor(sponsor), announcers(announcers), awayColor(awayColor),
     homeColor(homeColor), awayRank(awayRank), homeRank(homeRank),
     sb(awayColor, homeColor, awayName, homeName, sponsor, &gameClock, awayRank, homeRank, awayLogo),
-    lt (awayColor, homeColor, screenWidth) {
+    #ifdef GRADIENT_LOOK
+    lt (awayColor, homeColor, screenWidth)
+    #else
+    lt(awayColor, homeColor, screenWidth, awayLogo)
+  #endif
+{
     isFinal = false;
     awayScore = 0;
     homeScore = 0;
@@ -311,7 +317,7 @@ void HockeyGame::prepareAwayPenaltyText(int pIndex, QString penalty)
     sb.changeTopBarText( getAwayName() + " PENALTY: " + awayTeam->getPlayer(pIndex)->getName() + " ("
                          + penalty +") " + timeEventHappened );
 }
-
+#ifdef GRADIENT_LOOK
 void HockeyGame::gatherPpStats()
 {
     QString ppStat, pkStat;
@@ -338,6 +344,30 @@ void HockeyGame::gatherPpStats()
         lt.prepareForPpComp(getAwayName(), "POWERPLAY", ppStat, getHomeName(), "PENALTY KILL", pkStat);
     }
 }
+#else
+void HockeyGame::gatherPpStats()
+{
+    QString ppStat, pkStat;
+    if (homePlayersOnIce > awayPlayersOnIce) {
+        ppStat = QString::number(homeTeam->getPpPct(), 'g', 3) +"%";
+        pkStat = QString::number(awayTeam->getPkPct(), 'g', 3) +"%";
+        if (homeTeam->getPpoppToday() > 0) {
+            ppStat += "\t\tToday: " + QString::number(homeTeam->getPpgToday()) + "-" + QString::number(homeTeam->getPpoppToday());
+            pkStat += "\t\tToday: " + QString::number(awayTeam->getPkToday()) + "-" + QString::number(awayTeam->getPkoppToday());
+        }
+        lt.prepareForPpComp(getAwayName(), "PENALTY KILL", pkStat, getHomeName(), "POWERPLAY", ppStat);
+    }
+    else if (homePlayersOnIce < awayPlayersOnIce) {
+        ppStat = QString::number(awayTeam->getPpPct(), 'g', 3) +"%";
+        pkStat = QString::number(homeTeam->getPkPct(), 'g', 3) +"%";
+        if (awayTeam->getPpoppToday() > 0) {
+            ppStat += "\tToday: " + QString::number(awayTeam->getPpgToday()) + "-" + QString::number(awayTeam->getPpoppToday());
+            pkStat += "\tToday: " + QString::number(homeTeam->getPkToday()) + "-" + QString::number(homeTeam->getPkoppToday());
+        }
+        lt.prepareForPpComp(getAwayName(), "POWERPLAY", ppStat, getHomeName(), "PENALTY KILL", pkStat);
+    }
+}
+#endif
 
 Clock* HockeyGame::getGameClock()
 {
