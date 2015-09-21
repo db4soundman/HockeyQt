@@ -66,9 +66,10 @@ void CommercialGraphic::paint(QPainter* painter, const QStyleOptionGraphicsItem*
         painter->setOpacity(.996);
         painter->drawPixmap(5, AWAY_Y, *awayLogo);
         painter->drawPixmap(5, HOME_Y, homeLogo);
-        painter->setFont(home->font());
+        painter->setFont(away->font());
         painter->setOpacity(1);
         painter->drawText(100, AWAY_Y, NAME_WIDTH, RECT_HEIGHT, Qt::AlignVCenter, away->toPlainText());
+        painter->setFont(home->font());
         painter->drawText(100, HOME_Y, NAME_WIDTH, RECT_HEIGHT, Qt::AlignVCenter, home->toPlainText());
         painter->drawText(GRAPHIC_WIDTH - 100, AWAY_Y, 100, RECT_HEIGHT, Qt::AlignCenter, awayScore);
         painter->drawText(GRAPHIC_WIDTH - 100, HOME_Y, 100, RECT_HEIGHT, Qt::AlignCenter, homeScore);
@@ -118,6 +119,7 @@ void CommercialGraphic::prepareAndShow()
     }
     show = true;
     updateClock();
+    checkAwayFont();
     scene()->update();
 }
 

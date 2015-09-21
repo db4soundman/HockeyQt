@@ -34,7 +34,7 @@ Scoreboard::Scoreboard(QColor awayCol, QColor homeCol, QString awayTeam, QString
 #ifdef Q_OS_OSX
     font.setPointSize(40);
     sponsorFont.setPointSize(28);
-    #endif
+#endif
 
     defaultSponsorText = sponsorFont;
     show = false;
@@ -73,8 +73,8 @@ Scoreboard::Scoreboard(QColor awayCol, QColor homeCol, QString awayTeam, QString
     awayGradient.setFinalStop(0,TEAM_BOX_HEIGHT);
     mainGradient.setStart(0,0);
     mainGradient.setFinalStop(0, SCOREBOARD_HEIGHT);
-    clockGradient.setStart(0,3);
-    clockGradient.setFinalStop(0, SCOREBOARD_HEIGHT - 3);
+    clockGradient.setStart(0,1);
+    clockGradient.setFinalStop(0, SCOREBOARD_HEIGHT - 2);
     ppGradient.setStart(0, SCOREBOARD_HEIGHT);
     ppGradient.setFinalStop(0, 92);
     scoreGradient.setStart(0, TEAM_BOX_Y);
@@ -127,7 +127,7 @@ Scoreboard::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
         //painter->fillRect(0,0,SCOREBOARD_WIDTH, SCOREBOARD_HEIGHT, mainGradient);
         //painter->setRenderHint(QPainter::Antialiasing);
         //painter->drawRoundRect(0,0,SCOREBOARD_WIDTH, SCOREBOARD_HEIGHT,5, 100);
-         painter->fillRect(0,0,SCOREBOARD_WIDTH, SCOREBOARD_HEIGHT,bgGradient);
+        painter->fillRect(0,0,SCOREBOARD_WIDTH, SCOREBOARD_HEIGHT,bgGradient);
         painter->setRenderHint(QPainter::Antialiasing, false);
         //painter->drawPixmap(34, 4, 66, 50, *homeLogo);
         //Clock - Game time...draw clock first since default color is black
@@ -163,7 +163,7 @@ Scoreboard::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 
         // Home Text
         painter->setPen(QColor(255,255,255));
-       // painter->drawRect(H_TEAM_BOX_STARTX - 1, TEAM_BOX_Y - 1,TEAM_WIDTH+1, TEAM_BOX_HEIGHT + 1);
+        // painter->drawRect(H_TEAM_BOX_STARTX - 1, TEAM_BOX_Y - 1,TEAM_WIDTH+1, TEAM_BOX_HEIGHT + 1);
         painter->fillRect(H_TEAM_BOX_STARTX, TEAM_BOX_Y, TEAM_WIDTH, TEAM_BOX_HEIGHT, homeGradient);
         // Home logo
         painter->setOpacity(.99);
@@ -174,7 +174,7 @@ Scoreboard::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
         painter->setFont(homeName->font());
         painter->drawText(H_TEAM_BOX_STARTX + 5 + homeRankOffset, TEAM_BOX_Y, TEAM_NAME_WIDTH, TEAM_BOX_HEIGHT, Qt::AlignVCenter, homeName->toPlainText());
         // Home Score
-//        painter->fillRect(730, TEAM_BOX_Y, 78, 42, scoreGradient);
+        //        painter->fillRect(730, TEAM_BOX_Y, 78, 42, scoreGradient);
         //painter->drawPixmap(H_TEAM_BOX_STARTX + TEAM_NAME_WIDTH, TEAM_BOX_Y, 78, 42, *ppBar);
         painter->setFont(homeScore->font());
         painter->drawText(H_TEAM_BOX_STARTX + TEAM_NAME_WIDTH, TEAM_BOX_Y, SCORE_WIDTH, TEAM_BOX_HEIGHT, Qt::AlignCenter, homeScore->toPlainText());
@@ -198,14 +198,14 @@ Scoreboard::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
             //Home ppbar
             else if (homePP) {
                 painter->fillRect(H_TEAM_BOX_STARTX, SCOREBOARD_HEIGHT, 345, PP_BAR_HEIGHT, QBrush(QColor(20,20,20)));
-               // painter->drawPixmap(H_TEAM_BOX_STARTX - 4,SCOREBOARD_HEIGHT, *ppBar);
+                // painter->drawPixmap(H_TEAM_BOX_STARTX - 4,SCOREBOARD_HEIGHT, *ppBar);
                 painter->drawText(H_TEAM_BOX_STARTX + 4, SCOREBOARD_HEIGHT, 345, PP_BAR_HEIGHT, Qt::AlignLeft | Qt::AlignVCenter, ppDescription);
                 painter->drawText(H_TEAM_BOX_STARTX + 4, SCOREBOARD_HEIGHT, 331, PP_BAR_HEIGHT, Qt::AlignRight | Qt::AlignVCenter, ppClock->toStringPP());
             }
             //Neutral
             else if (neutralPP){
                 painter->fillRect(CLOCK_FIELD_X, SCOREBOARD_HEIGHT, CLOCK_FIELD_WIDTH-20, PP_BAR_HEIGHT, QBrush(QColor(20,20,20)));
-               // painter->drawPixmap(CLOCK_FIELD_X,SCOREBOARD_HEIGHT,CLOCK_FIELD_WIDTH,PP_BAR_HEIGHT, *ppBar );
+                // painter->drawPixmap(CLOCK_FIELD_X,SCOREBOARD_HEIGHT,CLOCK_FIELD_WIDTH,PP_BAR_HEIGHT, *ppBar );
                 painter->drawText(CLOCK_FIELD_X + 8, SCOREBOARD_HEIGHT, CLOCK_FIELD_WIDTH, PP_BAR_HEIGHT, Qt::AlignLeft | Qt::AlignVCenter, ppDescription);
                 painter->drawText(CLOCK_FIELD_X, SCOREBOARD_HEIGHT, 214, PP_BAR_HEIGHT, Qt::AlignRight | Qt::AlignVCenter, ppClock->toStringPP());
             }
@@ -260,8 +260,8 @@ Scoreboard::prepareColor() {
     mainGradient.setColorAt(0, end3);
     mainGradient.setColorAt(1, sbRed);
 
-    clockGradient.setColorAt(0, QColor(255,255,255));
-    clockGradient.setColorAt(1, QColor(255,255,255));
+    clockGradient.setColorAt(0, QColor(200,200,200));
+    clockGradient.setColorAt(1, QColor(200,200,200));
     clockGradient.setColorAt(.45, QColor(180,180,180));
     clockGradient.setColorAt(.55, QColor(180,180,180));
 
