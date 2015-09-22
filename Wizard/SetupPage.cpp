@@ -8,7 +8,8 @@ SetupPage::SetupPage(QString* pAwayName, QString* pHomeName, QString* pAwayFile,
                      QString* pHomeFile, QString* pSponsor, QString* pAnnouncer,
                      QString* pAwayRank, QString* pHomeRank, QColor* pAwayColor,
                      QColor* pHomeColor, QColor* pBg, QString* pStatCrew,
-                     bool *pUsingTricaster, QString* pawayLogo, QString* tricasterIp) {
+                     bool *pUsingTricaster, QString* pawayLogo, QString* tricasterIp,
+                     QString* aSname, QString* hSname) {
     browseAway.setText("File");
     browseHome.setText("File");
     chooseAColor.setText("Color");
@@ -27,6 +28,8 @@ SetupPage::SetupPage(QString* pAwayName, QString* pHomeName, QString* pAwayFile,
     awayColor = (pAwayColor);
     homeColor = pHomeColor;
     statCrew = pStatCrew;
+    awayShort = aSname;
+    homeShort = hSname;
     bg = pBg;
     usingTricaster = pUsingTricaster;
     awayLogo = pawayLogo;
@@ -45,8 +48,12 @@ SetupPage::SetupPage(QString* pAwayName, QString* pHomeName, QString* pAwayFile,
 
     mainLayout->addWidget(new QLabel("Away Team Rank:"), 2, 0);
     mainLayout->addWidget(&awayRankLine, 2, 1);
+    mainLayout->addWidget(new QLabel("Away Team Short Name:"), 2, 2);
+    mainLayout->addWidget(&awayShortLine, 2, 3);
     mainLayout->addWidget(new QLabel("Home Team Rank:"), 3, 0);
     mainLayout->addWidget(&homeRankLine, 3, 1);
+    mainLayout->addWidget(new QLabel("Home Team Short Name:"), 3, 2);
+    mainLayout->addWidget(&homeShortLine, 3, 3);
     mainLayout->addWidget(&chooseBg, 4, 0);
     sponsorLine.setText(*sponsor);
     mainLayout->addWidget(new QLabel("Sponsor:"), 5, 0);

@@ -6,7 +6,6 @@
 
 QT       += core gui network
 QT += xml
-QMAKE_MAC_SDK = macosx10.9
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -17,7 +16,8 @@ INCLUDEPATH += GUI \
                Wizard \
             Standings \
             NCHCScoreboard \
-            GameStatEditors
+            GameStatEditors \
+            Profiles
 
 SOURCES += main.cpp\
         MainWindow.cpp \
@@ -62,7 +62,8 @@ SOURCES += main.cpp\
     LowerThirdCreator.cpp \
     GameXmlUpdater.cpp \
     StatCrewScanner.cpp \
-    TricasterHandler.cpp
+    TricasterHandler.cpp \
+    Profiles/Profile.cpp
 
 HEADERS  += MainWindow.h \
     Scoreboard.h \
@@ -107,7 +108,8 @@ HEADERS  += MainWindow.h \
     GameXmlUpdater.h \
     StatCrewScanner.h \
     TricasterHandler.h \
-    AirSend_api.h
+    AirSend_api.h \
+    Profiles/Profile.h
 
 
 RESOURCES += \

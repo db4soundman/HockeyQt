@@ -12,7 +12,7 @@ class SetupPage : public QWizardPage {
 public:
     SetupPage(QString* pAwayName, QString* pHomeName, QString* pAwayFile, QString* pHomeFile,
               QString* pSponsor, QString* pAnnouncer, QString* pAwayRank, QString* pHomeRank,
-              QColor* pAwayColor, QColor* pHomeColor, QColor* pBg, QString* pStatCrew, bool *pUsingTricaster, QString *pawayLogo, QString *tricasterIp);
+              QColor* pAwayColor, QColor* pHomeColor, QColor* pBg, QString* pStatCrew, bool *pUsingTricaster, QString *pawayLogo, QString *tricasterIp, QString *aSname, QString *hSname);
     bool validatePage();
 
 private slots:
@@ -25,10 +25,10 @@ private slots:
     void logoBrowse();
 
 private:
-    QString* awayName, *homeName, *awayRank, *homeRank, *homeFile, *awayFile, *sponsor, *announcer, *statCrew, *awayLogo, *tricasterIp;
+    QString* awayName, *homeName, *awayRank, *homeRank, *homeFile, *awayFile, *sponsor, *announcer, *statCrew, *awayLogo, *tricasterIp, *awayShort, *homeShort;
     QColor* awayColor, *homeColor,  *bg;
     QPushButton browseAway, browseHome, chooseHColor, chooseAColor, chooseBg, browseStatCrew, browseLogo;
-    QLineEdit homeNameLine, awayNameLine, awayRankLine, homeRankLine, sponsorLine, announcerLine, tricasterIpLine;
+    QLineEdit homeNameLine, awayNameLine, awayRankLine, homeRankLine, sponsorLine, announcerLine, tricasterIpLine, awayShortLine, homeShortLine;
     QCheckBox* tricasterBox;
     bool* usingTricaster;
 };

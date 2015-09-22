@@ -260,7 +260,7 @@ CommercialGraphic::CommercialGraphic(HockeyGame* game, QString pawayLogo, QGraph
     clockStatus = SHOW_CLOCK;
     connect(game->getGameClock(), SIGNAL(clockUpdated()), this, SLOT(updateClock()));
     awayLogo = new QPixmap(pawayLogo);
-    if (awayLogo->height() > 120) {
+    if (awayLogo->height() > RECT_HEIGHT) {
         *awayLogo = awayLogo->scaledToHeight(RECT_HEIGHT, Qt::SmoothTransformation);
     }
   /*  if (awayLogo->width() > 1919) {

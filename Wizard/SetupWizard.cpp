@@ -5,10 +5,10 @@ SetupWizard::SetupWizard(QString* pAwayName, QString* pHomeName, QString* pAwayF
                          QString* pAwayRank, QString* pHomeRank, QColor* pAwayColor,
                          QColor* pHomeColor, QColor* pBg, int* pk, int* pkopp,
                          int* ppg, int* ppopp, QString* goalies, QString* statcrewName,
-                         bool *usingTricaster, QString* awayLogo, QString* tricasterIp) :
+                         bool *usingTricaster, QString* awayLogo, QString* tricasterIp, QString *aSname, QString *hSname) :
     wizpage(pAwayName, pHomeName, pAwayFile, pHomeFile, pSponsor, pAnnouncer,
             pAwayRank, pHomeRank, pAwayColor, pHomeColor, pBg, statcrewName,
-            usingTricaster, awayLogo, tricasterIp),
+            usingTricaster, awayLogo, tricasterIp, aSname, hSname),
     ati (pk, pkopp, ppg, ppopp, goalies){
     addPage(&wizpage);
     addPage(&ati);

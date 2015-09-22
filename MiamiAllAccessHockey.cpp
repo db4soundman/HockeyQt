@@ -31,6 +31,12 @@ MiamiAllAccessHockey::checkAppDirectory() {
         penaltiesFile.copy(QStandardPaths::writableLocation(QStandardPaths::DataLocation)
                            + "/penalties.txt");
     }
+//    QDir teamDir(QStandardPaths::writableLocation(QStandardPaths::DataLocation) +"/TeamProfiles");
+//    if (!teamDir.exists()) {
+//        teamDir.mkdir(teamDir.absolutePath());
+//        QFile profiles(":/resources/profiles.txt");
+//        profiles.copy(QStandardPaths::writableLocation(QStandardPaths::DataLocation) +"/TeamProfiles/profiles.txt");
+//    }
 }
 
 int
@@ -41,7 +47,7 @@ MiamiAllAccessHockey::exec() {
     scene = new QGraphicsScene();
 
     QString awayName, homeName, awayRank, homeRank, homeFile, awayFile, sponsor, announcer,
-            goalies, statcrewName, awayLogo, tricasterIp;
+            goalies, statcrewName, awayLogo, tricasterIp, awayShort, homeShort;
     QColor awayColor, homeColor,  bg;
     int pk, pkopp, ppg, ppopp;
     bool usingTricaster = true;
@@ -54,7 +60,7 @@ MiamiAllAccessHockey::exec() {
 
     SetupWizard wizard(&awayName, &homeName, &awayFile, &homeFile, &sponsor,
                        &announcer, &awayRank, &homeRank, &awayColor, &homeColor,
-                       &bg, &pk, &pkopp, &ppg, &ppopp, &goalies, &statcrewName, &usingTricaster, &awayLogo, &tricasterIp);
+                       &bg, &pk, &pkopp, &ppg, &ppopp, &goalies, &statcrewName, &usingTricaster, &awayLogo, &tricasterIp, &awayShort, &homeShort);
     wizard.exec();
     QRect graphicsScreen = usingTricaster ? QRect(0,0,1920,1080) : desktop.screenGeometry(1);
     game = new HockeyGame(awayName, homeName, awayColor, homeColor,
