@@ -22,6 +22,12 @@ MiamiAllAccessHockey::getPenaltiesFilePath() {
             + "/penalties.txt";
 }
 
+QString
+MiamiAllAccessHockey::getProfilesFilePath() {
+    return QStandardPaths::writableLocation(QStandardPaths::DataLocation)
+            + "/TeamProfiles";
+}
+
 void
 MiamiAllAccessHockey::checkAppDirectory() {
     QDir appDir(QStandardPaths::writableLocation(QStandardPaths::DataLocation));
@@ -31,12 +37,12 @@ MiamiAllAccessHockey::checkAppDirectory() {
         penaltiesFile.copy(QStandardPaths::writableLocation(QStandardPaths::DataLocation)
                            + "/penalties.txt");
     }
-//    QDir teamDir(QStandardPaths::writableLocation(QStandardPaths::DataLocation) +"/TeamProfiles");
-//    if (!teamDir.exists()) {
-//        teamDir.mkdir(teamDir.absolutePath());
-//        QFile profiles(":/resources/profiles.txt");
-//        profiles.copy(QStandardPaths::writableLocation(QStandardPaths::DataLocation) +"/TeamProfiles/profiles.txt");
-//    }
+    QDir teamDir(QStandardPaths::writableLocation(QStandardPaths::DataLocation) +"/TeamProfiles");
+    if (!teamDir.exists()) {
+        teamDir.mkdir(teamDir.absolutePath());
+        QFile profiles(":/resources/profiles.txt");
+        profiles.copy(QStandardPaths::writableLocation(QStandardPaths::DataLocation) +"/TeamProfiles/profiles.txt");
+    }
 }
 
 int
@@ -56,6 +62,7 @@ MiamiAllAccessHockey::exec() {
     announcer = "Greg Waddell and Drew Davis";
     sponsor = "Miami IMG Sports Network | NCHC.tv";
     homeName = "MIAMI";
+    homeShort = "MIAMI";
     QDesktopWidget desktop;
 
     SetupWizard wizard(&awayName, &homeName, &awayFile, &homeFile, &sponsor,

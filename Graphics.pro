@@ -63,7 +63,8 @@ SOURCES += main.cpp\
     GameXmlUpdater.cpp \
     StatCrewScanner.cpp \
     TricasterHandler.cpp \
-    Profiles/Profile.cpp
+    Profiles/Profile.cpp \
+    Profiles/ProfileWidget.cpp
 
 HEADERS  += MainWindow.h \
     Scoreboard.h \
@@ -109,7 +110,8 @@ HEADERS  += MainWindow.h \
     StatCrewScanner.h \
     TricasterHandler.h \
     AirSend_api.h \
-    Profiles/Profile.h
+    Profiles/Profile.h \
+    Profiles/ProfileWidget.h
 
 
 RESOURCES += \

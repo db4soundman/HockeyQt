@@ -24,6 +24,8 @@ public:
      */
     static QString getAppDirPath();
 
+    static QString getProfilesFilePath();
+
     static QString getPenaltiesFilePath();
 
     void checkAppDirectory();

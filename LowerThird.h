@@ -14,7 +14,7 @@
 class LowerThird : public QObject, public QGraphicsPixmapItem {
     Q_OBJECT
 public:
-#ifdef GRAPHIC_LOOK
+#ifdef GRADIENT_LOOK
     LowerThird(QColor awayColor, QColor homeColor, int screenWidth, QGraphicsItem* parent = 0);
 #else
     LowerThird(QColor awayColor, QColor homeColor, int screenWidth, QString pawayLogo, QGraphicsItem* parent = 0);

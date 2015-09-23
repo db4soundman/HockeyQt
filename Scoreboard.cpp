@@ -391,7 +391,7 @@ void
 Scoreboard::changeTopBarText(QString text) {
     topBarText->setPlainText(text);
     int subtraction = 1;
-    topBarText->setFont(QFont("Arial", 34, QFont::Bold));
+    topBarText->setFont(QFont("Arial", 20, QFont::Bold));
     QFontMetrics fontSize(topBarText->font());
     while (fontSize.width(text) > SCOREBOARD_WIDTH - 10) {
         QFont tempFont("Arial", defaultSponsorText.pointSize() - subtraction, QFont::Bold);

@@ -16,7 +16,7 @@
 
 CommercialGraphic::CommercialGraphic(HockeyGame* game, int width, QString pawayLogo, QGraphicsItem* parent) :
     QGraphicsPixmapItem(parent), blackBar(QPixmap(":/images/ppBar.png")),
-    blockText(QPixmap(":/images/M.png")) {
+    homeLogo(QPixmap(":/images/M.png")) {
     hockeyGame = game;
     show = false;
     WIDTH = width / 2;
@@ -37,7 +37,7 @@ CommercialGraphic::CommercialGraphic(HockeyGame* game, int width, QString pawayL
 
     descriptiveFont = sponsorFont;
     prepareGradients(game->getAwayColor(), game->getHomeColor());
-    maaText = "NCHC.tv";
+    networkText = "NCHC.tv";
     clockStatus = SHOW_CLOCK;
     connect(game->getGameClock(), SIGNAL(clockUpdated()), this, SLOT(updateClock()));
     awayLogo = new QPixmap(pawayLogo);
@@ -47,7 +47,7 @@ CommercialGraphic::CommercialGraphic(HockeyGame* game, int width, QString pawayL
   /*  if (awayLogo->width() > 1919) {
        *awayLogo =  awayLogo->scaledToWidth(800, Qt::SmoothTransformation);
     }*/
-   blockText = blockText.scaledToHeight(120, Qt::SmoothTransformation);
+   homeLogo = homeLogo.scaledToHeight(120, Qt::SmoothTransformation);
 }
 
 void CommercialGraphic::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
@@ -57,7 +57,7 @@ void CommercialGraphic::paint(QPainter* painter, const QStyleOptionGraphicsItem*
         painter->drawPixmap(WIDTH/2, -BLACK_BAR_HEIGHT, WIDTH, BLACK_BAR_HEIGHT, blackBar);
 
         painter->setFont(descriptiveFont);
-        painter->drawText(WIDTH / 2, -BLACK_BAR_HEIGHT, WIDTH, BLACK_BAR_HEIGHT, Qt::AlignCenter, maaText);
+        painter->drawText(WIDTH / 2, -BLACK_BAR_HEIGHT, WIDTH, BLACK_BAR_HEIGHT, Qt::AlignCenter, networkText);
 
         painter->fillRect(0, 0, WIDTH, RECT_HEIGHT, awayTeamGradient);
         painter->fillRect(WIDTH, 0, WIDTH, RECT_HEIGHT, homeTeamGradient);
@@ -70,7 +70,7 @@ void CommercialGraphic::paint(QPainter* painter, const QStyleOptionGraphicsItem*
 
         painter->setFont(home->font());
         //painter->drawText(WIDTH + CENTER_OFFSET, 0, NAME_WIDTH, RECT_HEIGHT, Qt::AlignCenter, home->toPlainText());
-        painter->drawPixmap(WIDTH + CENTER_OFFSET + 100, 0, blockText);
+        painter->drawPixmap(WIDTH + CENTER_OFFSET + 100, 0, homeLogo);
         painter->fillRect(WIDTH - CENTER_OFFSET, 0, CENTER_OFFSET * 2, RECT_HEIGHT, QColor(0,0,0, 100));
         painter->setOpacity(1);
         painter->drawText(WIDTH - CENTER_OFFSET, 0, CENTER_OFFSET, RECT_HEIGHT, Qt::AlignCenter, awayScore);

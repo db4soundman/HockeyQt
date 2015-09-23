@@ -42,6 +42,9 @@ private:
     void checkAwayFont();
     void prepareGradients(QColor awayColor, QColor homeColor);
     QPixmap homeLogo, *awayLogo;
+#ifdef GRADIENT_LOOK
+    int WIDTH, NAME_WIDTH;
+#endif
     // yep, a test
 };
 
