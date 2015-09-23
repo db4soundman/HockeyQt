@@ -18,7 +18,7 @@
 #define TEAM_NAME_WIDTH 310
 #define SCORE_WIDTH 78
 #define TEAM_WIDTH (TEAM_NAME_WIDTH + SCORE_WIDTH)
-#define RANK_WIDTH 50
+#define RANK_WIDTH 30
 #define TEAM_BOX_Y 2
 #define TEAM_BOX_HEIGHT 41
 #define V_TEAM_BOX_STARTX 12
@@ -91,7 +91,7 @@ Scoreboard::Scoreboard(QColor awayCol, QColor homeCol, QString awayTeam, QString
     penaltyGradient.setFinalStop(0, SCOREBOARD_HEIGHT + PP_BAR_HEIGHT);
 
 
-    QFont rankFont("Arial", 20, QFont::Bold);
+    QFont rankFont("Arial", 14, QFont::Bold);
     awayRank = new QGraphicsTextItem(pAwayRank);
     homeRank = new QGraphicsTextItem(pHomeRank);
     awayRank->setFont(rankFont);
