@@ -100,9 +100,19 @@ bool SeasonXMLHandler::fatalError(const QXmlParseException& exception)
 QString
 SeasonXMLHandler::correctName(QString name) {
     if (!name.contains(",")) {
-        return name.toUpper();
+        name = name.toUpper();
     }
-    QString goodName = (name.mid(name.indexOf(",")) + " " +
-                        name.left(name.indexOf(",")));
-    return goodName.toUpper().trimmed();
+    else if (name.contains(", ")){
+        std::string goodName = name.toStdString();
+        QString firstName = QString::fromStdString(goodName.substr(goodName.find(" ") + 1, goodName.length()));
+        QString lastName = QString::fromStdString(goodName.substr(0, goodName.find(",")));
+        name = firstName.toUpper() + " " + lastName.toUpper();
+    }
+    else if (name.contains(",")) {
+        std::string goodName = name.toStdString();
+        QString firstName = QString::fromStdString(goodName.substr(goodName.find(",") + 1, goodName.length()));
+        QString lastName = QString::fromStdString(goodName.substr(0, goodName.find(",")));
+        name = firstName.toUpper() + " " + lastName.toUpper();
+    }
+    return name;
 }
