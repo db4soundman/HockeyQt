@@ -59,8 +59,8 @@ private:
      QGraphicsTextItem* homeRank;
      QString ppDescription, period, centeredTimeText, sponsorText;
      QLinearGradient homeGradient, awayGradient, penaltyGradient, mainGradient, clockGradient, ppGradient, scoreGradient, bgGradient;
-     bool awayPP, homePP, neutralPP, penalty, sponsor,
-     scoreText, showPP, show, showPdAndClock, showClock, useTransparency;
+     bool awayPP, homePP, neutralPP, penalty, sponsor, useClock,
+     scoreText, showPP, show, showPdAndClockFields, showClock, useTransparency;
 
      void prepareColor();
      void prepareAwayName();

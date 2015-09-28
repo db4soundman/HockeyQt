@@ -36,7 +36,9 @@ Scoreboard::Scoreboard(QColor awayCol, QColor homeCol, QString awayTeam, QString
                        QString sponsorText, Clock* clock, QString pAwayRank, QString pHomeRank, QString pawayLogo) :
     homeColor(homeCol), awayColor(awayCol) {
     QFont font("Arial", 28, QFont::Bold);
+    font.setCapitalization(QFont::SmallCaps);
     QFont sponsorFont("Arial", 20, QFont::Bold);
+    sponsorFont.setCapitalization(QFont::SmallCaps);
 #ifdef Q_OS_OSX
     font.setPointSize(40);
     sponsorFont.setPointSize(28);
@@ -60,7 +62,7 @@ Scoreboard::Scoreboard(QColor awayCol, QColor homeCol, QString awayTeam, QString
         *awayLogo = awayLogo->scaledToWidth(LOGO_WIDTH, Qt::SmoothTransformation);
     awayLogoOffset = (TEAM_BOX_HEIGHT - awayLogo->height()) / 2;
 
-
+    useClock = true;
     awayName = new QGraphicsTextItem(awayTeam);
     homeName = new QGraphicsTextItem(homeTeam);
     awayName->setFont(font);
@@ -108,7 +110,7 @@ Scoreboard::Scoreboard(QColor awayCol, QColor homeCol, QString awayTeam, QString
     penalty = false;
     showPP = false;
     sponsor = true;
-    showPdAndClock = true;
+    showPdAndClockFields = true;
     showClock = true;
 
     this->clock = clock;
@@ -326,24 +328,40 @@ Scoreboard::updatePeriod(int pd) {
     switch (pd) {
     case 1:
         period = "1st";
+        if (!useClock) {
+            centeredTimeText = period + " PD";
+            showPdAndClockFields = false;
+        }
         break;
     case 2:
         period = "2nd";
+        if (!useClock) {
+            centeredTimeText = period + " PD";
+            showPdAndClockFields = false;
+        }
         break;
     case 3:
         period = "3rd";
+        if (!useClock) {
+            centeredTimeText = period + " PD";
+            showPdAndClockFields = false;
+        }
         break;
     case 4:
         period = "OT";
-        showPdAndClock = true;
+        showPdAndClockFields = true;
+        if (!useClock) {
+            centeredTimeText = "OVERTIME";
+            showPdAndClockFields = false;
+        }
         break;
     case 5:
         centeredTimeText = "SHOOTOUT";
-        showPdAndClock = false;
+        showPdAndClockFields = false;
         break;
     default:
         period = "";
-        showPdAndClock = false;
+        showPdAndClockFields = false;
         break;
     }
     scene()->update(x() + CLOCK_FIELD_X, y(), CLOCK_FIELD_WIDTH, SCOREBOARD_HEIGHT);
@@ -490,13 +508,13 @@ Scoreboard::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
         //painter->setRenderHint(QPainter::Antialiasing);
         //painter->drawRoundRect(0,0,SCOREBOARD_WIDTH, SCOREBOARD_HEIGHT,5, 100);
         painter->fillRect(0,0,SCOREBOARD_WIDTH, SCOREBOARD_HEIGHT,bgGradient);
-        painter->setRenderHint(QPainter::Antialiasing, false);
+        //painter->setRenderHint(QPainter::Antialiasing, false);
         //painter->drawPixmap(34, 4, 66, 50, *homeLogo);
         //Clock - Game time...draw clock first since default color is black
         painter->setFont(homeName->font());
         painter->setPen(QColor(255,255,255));
         painter->fillRect(CLOCK_FIELD_X, 1, CLOCK_FIELD_WIDTH,SCOREBOARD_HEIGHT-2, mainGradient);
-        if (showPdAndClock) {
+        if (showPdAndClockFields) {
             painter->drawText(CLOCK_FIELD_X + 10, 0, CLOCK_FIELD_WIDTH, SCOREBOARD_HEIGHT, Qt::AlignVCenter, period);
             painter->drawText(CLOCK_FIELD_X, 0, CLOCK_FIELD_WIDTH-10, SCOREBOARD_HEIGHT, Qt::AlignRight | Qt::AlignVCenter,
                               showClock? clock->toString() : "INT");
@@ -724,24 +742,40 @@ Scoreboard::updatePeriod(int pd) {
     switch (pd) {
     case 1:
         period = "1st";
+        if (!useClock) {
+            centeredTimeText = period + " PD";
+            showPdAndClockFields = false;
+        }
         break;
     case 2:
         period = "2nd";
+        if (!useClock) {
+            centeredTimeText = period + " PD";
+            showPdAndClockFields = false;
+        }
         break;
     case 3:
         period = "3rd";
+        if (!useClock) {
+            centeredTimeText = period + " PD";
+            showPdAndClockFields = false;
+        }
         break;
     case 4:
         period = "OT";
-        showPdAndClock = true;
+        showPdAndClockFields = true;
+        if (!useClock) {
+            centeredTimeText = "OVERTIME";
+            showPdAndClockFields = false;
+        }
         break;
     case 5:
         centeredTimeText = "SHOOTOUT";
-        showPdAndClock = false;
+        showPdAndClockFields = false;
         break;
     default:
         period = "";
-        showPdAndClock = false;
+        showPdAndClockFields = false;
         break;
     }
     scene()->update(x() + CLOCK_FIELD_X, y(), CLOCK_FIELD_WIDTH, SCOREBOARD_HEIGHT);
@@ -749,13 +783,13 @@ Scoreboard::updatePeriod(int pd) {
 
 void
 Scoreboard::showPd() {
-    showPdAndClock = true;
+    showPdAndClockFields = true;
     scene()->update(x() + CLOCK_FIELD_X, y(), CLOCK_FIELD_WIDTH, SCOREBOARD_HEIGHT);
 }
 
 void
 Scoreboard::final() {
-    showPdAndClock = false;
+    showPdAndClockFields = false;
     centeredTimeText = "FINAL";
     scene()->update(x() + CLOCK_FIELD_X, y(), CLOCK_FIELD_WIDTH, SCOREBOARD_HEIGHT);
 }
@@ -764,10 +798,14 @@ void
 Scoreboard::changeTopBarText(QString text) {
     topBarText->setPlainText(text);
     int subtraction = 1;
-    topBarText->setFont(QFont("Arial", 20, QFont::Bold));
+    QFont f("Arial", 20, QFont::Bold);
+    f.setCapitalization(QFont::SmallCaps);
+    topBarText->setFont(f);
+    topBarText->font().setCapitalization(QFont::SmallCaps);
     QFontMetrics fontSize(topBarText->font());
     while (fontSize.width(text) > TOP_BAR_WIDTH - 10) {
         QFont tempFont("Arial", defaultSponsorText.pointSize() - subtraction, QFont::Bold);
+        tempFont.setCapitalization(QFont::SmallCaps);
         subtraction++;
         topBarText->setFont(tempFont);
         QFontMetrics temp(topBarText->font());
@@ -834,14 +872,14 @@ Scoreboard::hideBoard() {
 
 void
 Scoreboard::intermission() {
-    showPdAndClock = true;
+    showPdAndClockFields = true;
     showClock = false;
     scene()->update(x() + CLOCK_FIELD_X, y(), CLOCK_FIELD_WIDTH, SCOREBOARD_HEIGHT);
 }
 
 void
 Scoreboard::displayClock() {
-    showPdAndClock = true;
+    showPdAndClockFields = true;
     showClock = true;
     scene()->update(x() + CLOCK_FIELD_X, y(), CLOCK_FIELD_WIDTH, SCOREBOARD_HEIGHT);
 }

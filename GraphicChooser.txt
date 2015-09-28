@@ -1,1 +1,1 @@
-#define GRADIENT_LOOK
+//#define GRADIENT_LOOK
