@@ -14,10 +14,11 @@ HockeyGame::HockeyGame(QString awayName, QString homeName, QColor awayColor, QCo
     awayShortName(asName),
     #ifdef GRADIENT_LOOK
     lt (awayColor, homeColor, screenWidth)
-    #else
+  #else
     lt(awayColor, homeColor, screenWidth, awayLogo)
   #endif
 {
+    useClock = true;
     isFinal = false;
     awayScore = 0;
     homeScore = 0;
@@ -61,8 +62,9 @@ HockeyGame::HockeyGame(QString awayName, QString homeName, QColor awayColor, QCo
 void
 HockeyGame::awayGoal() {
     awayScore ++;
-    timeEventHappened = period > 3 ? gameClock.getTimeSinceOtStarted() :
-                                     gameClock.getTimeSincePdStarted();
+    if (useClock)
+        timeEventHappened = period > 3 ? gameClock.getTimeSinceOtStarted() :
+                                         gameClock.getTimeSincePdStarted();
     emit awayScoreChanged(awayScore);
     if (getHomeTeam()->getPlayerInGoal()) {
         homeTeam->getGoalie()->addGa();
@@ -85,8 +87,9 @@ HockeyGame::awayLoseGoal() {
 void
 HockeyGame::homeGoal() {
     homeScore ++;
-    timeEventHappened = period > 3 ? gameClock.getTimeSinceOtStarted() :
-                                     gameClock.getTimeSincePdStarted();
+    if (useClock)
+        timeEventHappened = period > 3 ? gameClock.getTimeSinceOtStarted() :
+                                         gameClock.getTimeSincePdStarted();
     if (getAwayTeam()->getPlayerInGoal()) {
         awayTeam->getGoalie()->addGa();
     }
@@ -475,8 +478,9 @@ void
 HockeyGame::addHomePenalty(int time) {
     Clock* pc = new Clock(time);
     homePlayersOnIce --;
-    timeEventHappened = period > 3 ? gameClock.getTimeSinceOtStarted() :
-                                     gameClock.getTimeSincePdStarted();
+    if (useClock)
+        timeEventHappened = period > 3 ? gameClock.getTimeSinceOtStarted() :
+                                         gameClock.getTimeSincePdStarted();
     homePenalty.append(pc);
     connect(&timer, SIGNAL(timeout()),
             pc, SLOT(tick()));
@@ -489,8 +493,9 @@ void
 HockeyGame::addAwayPenalty(int time) {
 
     Clock* pc = new Clock(time);
-    timeEventHappened = period > 3 ? gameClock.getTimeSinceOtStarted() :
-                                     gameClock.getTimeSincePdStarted();
+    if (useClock)
+        timeEventHappened = period > 3 ? gameClock.getTimeSinceOtStarted() :
+                                         gameClock.getTimeSincePdStarted();
     awayPlayersOnIce --;
     awayPenalty.append(pc);
     connect(&timer, SIGNAL(timeout()),
@@ -523,12 +528,12 @@ HockeyGame::homePenaltyExpired() {
     homePlayersOnIce++;
 
 
-//    for (int i = 0; i < homePenalty.size(); i++) {
-//        if (homePenalty.at(i)->getTimeLeft() == 0) {
-//            delete homePenalty.at(i);
-//            homePenalty.removeAt(i);
-//        }
-//    }
+    //    for (int i = 0; i < homePenalty.size(); i++) {
+    //        if (homePenalty.at(i)->getTimeLeft() == 0) {
+    //            delete homePenalty.at(i);
+    //            homePenalty.removeAt(i);
+    //        }
+    //    }
     determinePpClockForScoreboard();
 }
 
@@ -590,7 +595,7 @@ void HockeyGame::makeFinal()
 
 void HockeyGame::deleteExpiredPenalties()
 {
-        for (int i = 0; i < awayPenalty.size(); i++) {
+    for (int i = 0; i < awayPenalty.size(); i++) {
         if (awayPenalty.at(i)->getTimeLeft() == 0) {
             Clock* toDelete = awayPenalty.at(i);
             awayPenalty.removeAt(i);

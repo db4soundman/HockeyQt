@@ -238,6 +238,7 @@ CommercialGraphic::CommercialGraphic(HockeyGame* game, QString pawayLogo, QGraph
     QGraphicsPixmapItem(parent), blackBar(QPixmap(":/images/ppBar.png")),
     homeLogo(QPixmap(":/images/M.png")) {
     setPixmap(QPixmap(":/images/Standings.png"));
+    useClock = true;
     hockeyGame = game;
     show = false;
     inGame  = false;
@@ -347,7 +348,12 @@ void CommercialGraphic::updateClock()
 {
     if (show) {
         if (clockStatus == SHOW_CLOCK) {
+            if (useClock) {
             clock = hockeyGame->getGameClock()->toString();
+            }
+            else {
+                clock = "PERIOD";
+            }
             scene()->update(x() + GRAPHIC_WIDTH, y(), CLOCK_WIDTH, RECT_HEIGHT*2);
         }
         else if (clockStatus == INTERMISSION) {

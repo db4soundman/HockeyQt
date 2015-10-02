@@ -128,7 +128,7 @@ private:
     Clock gameClock;
     QList<Clock*> awayPenalty, homePenalty;
     QTimer timer;
-    bool clockRunning, isFinal;
+    bool clockRunning, isFinal, useClock;
     QColor homeColor, awayColor;
     HockeyTeam* homeTeam;
     HockeyTeam* awayTeam;

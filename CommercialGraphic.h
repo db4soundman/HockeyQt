@@ -34,7 +34,7 @@ private:
     QPixmap blackBar;
     QLinearGradient homeTeamGradient, awayTeamGradient, clockGradient, bgGradient;
     HockeyGame* hockeyGame;
-    bool show, inGame;
+    bool show, inGame, useClock;
     QGraphicsTextItem* away, *home;
     QString homeScore, awayScore, networkText, period, clock;
     QFont descriptiveFont;

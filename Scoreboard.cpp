@@ -135,7 +135,7 @@ Scoreboard::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
         painter->setFont(homeName->font());
         painter->setPen(QColor(1,1,1));
         painter->fillRect(CLOCK_FIELD_X, 1, CLOCK_FIELD_WIDTH,SCOREBOARD_HEIGHT-2, clockGradient);
-        if (showPdAndClock) {
+        if (useClock && showPdAndClock) {
             painter->drawText(CLOCK_FIELD_X + 10, 0, CLOCK_FIELD_WIDTH, SCOREBOARD_HEIGHT, Qt::AlignVCenter, period);
             painter->drawText(CLOCK_FIELD_X, 0, CLOCK_FIELD_WIDTH-10, SCOREBOARD_HEIGHT, Qt::AlignRight | Qt::AlignVCenter,
                               showClock? clock->toString() : "INT");
@@ -474,8 +474,13 @@ Scoreboard::hideBoard() {
 
 void
 Scoreboard::intermission() {
-    showPdAndClock = true;
-    showClock = false;
+    if (useClock) {
+        showPdAndClockFields = true;
+        showClock = false;
+    }
+    else {
+        centeredTimeText = period + " " + "INT";
+    }
     scene()->update(x() + CLOCK_FIELD_X, y(), CLOCK_FIELD_WIDTH, SCOREBOARD_HEIGHT);
 }
 
@@ -514,7 +519,7 @@ Scoreboard::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
         painter->setFont(homeName->font());
         painter->setPen(QColor(255,255,255));
         painter->fillRect(CLOCK_FIELD_X, 1, CLOCK_FIELD_WIDTH,SCOREBOARD_HEIGHT-2, mainGradient);
-        if (showPdAndClockFields) {
+        if (useClock && showPdAndClockFields) {
             painter->drawText(CLOCK_FIELD_X + 10, 0, CLOCK_FIELD_WIDTH, SCOREBOARD_HEIGHT, Qt::AlignVCenter, period);
             painter->drawText(CLOCK_FIELD_X, 0, CLOCK_FIELD_WIDTH-10, SCOREBOARD_HEIGHT, Qt::AlignRight | Qt::AlignVCenter,
                               showClock? clock->toString() : "INT");
@@ -584,7 +589,7 @@ Scoreboard::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
             }
             //Neutral
             else if (neutralPP){
-                painter->fillRect(CLOCK_FIELD_X, SCOREBOARD_HEIGHT, CLOCK_FIELD_WIDTH-20, PP_BAR_HEIGHT, QBrush(QColor(20,20,20)));
+                painter->fillRect(CLOCK_FIELD_X, SCOREBOARD_HEIGHT, CLOCK_FIELD_WIDTH, PP_BAR_HEIGHT, QBrush(QColor(20,20,20)));
                 // painter->drawPixmap(CLOCK_FIELD_X,SCOREBOARD_HEIGHT,CLOCK_FIELD_WIDTH,PP_BAR_HEIGHT, *ppBar );
                 painter->drawText(CLOCK_FIELD_X + 8, SCOREBOARD_HEIGHT, CLOCK_FIELD_WIDTH, PP_BAR_HEIGHT, Qt::AlignLeft | Qt::AlignVCenter, ppDescription);
                 painter->drawText(CLOCK_FIELD_X, SCOREBOARD_HEIGHT, 214, PP_BAR_HEIGHT, Qt::AlignRight | Qt::AlignVCenter, ppClock->toStringPP());
@@ -739,6 +744,7 @@ Scoreboard::updateHomeScore(int score) {
 
 void
 Scoreboard::updatePeriod(int pd) {
+    this->pd=pd;
     switch (pd) {
     case 1:
         period = "1st";
@@ -872,14 +878,24 @@ Scoreboard::hideBoard() {
 
 void
 Scoreboard::intermission() {
+    if (useClock) {
     showPdAndClockFields = true;
     showClock = false;
+    }
+    else {
+       centeredTimeText = period + " " + "INT";
+    }
     scene()->update(x() + CLOCK_FIELD_X, y(), CLOCK_FIELD_WIDTH, SCOREBOARD_HEIGHT);
 }
 
 void
 Scoreboard::displayClock() {
+    if (useClock) {
     showPdAndClockFields = true;
+    }
+    else {
+        updatePeriod(pd);
+    }
     showClock = true;
     scene()->update(x() + CLOCK_FIELD_X, y(), CLOCK_FIELD_WIDTH, SCOREBOARD_HEIGHT);
 }
