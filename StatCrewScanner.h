@@ -5,7 +5,8 @@
 #include <QTimer>
 #include "GameXmlUpdater.h"
 #include "HockeyGame.h"
-class StatCrewScanner : public QObject
+#include <QThread>
+class StatCrewScanner : public QThread
 {
     Q_OBJECT
 public:
@@ -15,6 +16,7 @@ public slots:
     void toggleScanner(bool clockStatus);
     void toggleScanner(int pd);
     void toggleScanner();
+    void run();
 
 private slots:
     void updateStats();

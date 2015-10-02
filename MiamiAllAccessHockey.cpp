@@ -72,7 +72,7 @@ MiamiAllAccessHockey::exec() {
     QRect graphicsScreen = usingTricaster ? QRect(0,0,1920,1080) : desktop.screenGeometry(1);
     game = new HockeyGame(awayName, homeName, awayColor, homeColor,
                           awayFile, homeFile, sponsor, announcer, awayRank,
-                          homeRank, graphicsScreen.width() + 1, awayLogo);
+                          homeRank, graphicsScreen.width() + 1, awayLogo, homeShort, awayShort);
     if (usingTricaster)
         bg.setRgb(0,0,0);
     HockeyTeam* team = game->getAwayTeam();

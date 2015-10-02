@@ -15,7 +15,8 @@ class HockeyGame : public QObject {
 public:
     HockeyGame(QString awayName, QString homeName, QColor awayColor, QColor homeColor,
                QString awayXML, QString homeXML, QString sponsor, QString announcers,
-               QString awayRank, QString homeRank, int screenWidth, QString awayLogo);
+               QString awayRank, QString homeRank, int screenWidth, QString awayLogo,
+               QString hsName, QString asName);
 
     Scoreboard* getSb();
     LowerThird* getLt();
@@ -121,7 +122,7 @@ private slots:
     void deleteExpiredPenalties();
 
 private:
-    QString homeName, awayName, sponsor, announcers, timeEventHappened, homeRank,
+    QString homeName, homeShortName, awayName, awayShortName, sponsor, announcers, timeEventHappened, homeRank,
     awayRank;
     int awayScore, homeScore, period, homeSOG, awaySOG, homePlayersOnIce, awayPlayersOnIce;
     Clock gameClock;

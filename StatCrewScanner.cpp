@@ -7,10 +7,10 @@ StatCrewScanner::StatCrewScanner(HockeyGame* game, QString fileName)
     breakTime = new QTimer();
     breakTime->setInterval(1000 * 10);
     statFile = fileName;
-    inGame->setInterval(1000 * 120);
+    inGame->setInterval(1000 * 5);
     isActive = false;
-    connect(inGame, SIGNAL(timeout()), this, SLOT(updateStats()));
-    connect(breakTime, SIGNAL(timeout()), this, SLOT(updateStats()));
+    connect(inGame, SIGNAL(timeout()), this, SLOT(start()));
+    connect(breakTime, SIGNAL(timeout()), this, SLOT(start()));
     connect(game, SIGNAL(periodChanged(int)), this, SLOT(toggleScanner(int)));
     connect(game, SIGNAL(clockIsRunning(bool)), this, SLOT(toggleScanner(bool)));
 }
@@ -22,6 +22,11 @@ void StatCrewScanner::toggleScanner() {
     else {
         inGame->stop();
     }
+}
+
+void StatCrewScanner::run()
+{
+    updateStats();
 }
 
 void StatCrewScanner::toggleScanner(int pd)
