@@ -16,7 +16,7 @@ GameInfo::GameInfo(HockeyGame* game) {
     clock = game->getGameClock();
     time.setText(clock->toString());
     main->addWidget(&time, 2, 1);
-
+    useClock = true;
     connect(clock, SIGNAL(clockUpdated()), this, SLOT(updateTime()));
     connect(game, SIGNAL(awayScoreChanged(int)), this, SLOT(updateAwayScore(int)));
     connect(game, SIGNAL(homeScoreChanged(int)), this, SLOT(updateHomeScore(int)));

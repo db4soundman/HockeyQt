@@ -135,7 +135,7 @@ Scoreboard::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
         painter->setFont(homeName->font());
         painter->setPen(QColor(1,1,1));
         painter->fillRect(CLOCK_FIELD_X, 1, CLOCK_FIELD_WIDTH,SCOREBOARD_HEIGHT-2, clockGradient);
-        if (useClock && showPdAndClock) {
+        if (useClock && showPdAndClockFields) {
             painter->drawText(CLOCK_FIELD_X + 10, 0, CLOCK_FIELD_WIDTH, SCOREBOARD_HEIGHT, Qt::AlignVCenter, period);
             painter->drawText(CLOCK_FIELD_X, 0, CLOCK_FIELD_WIDTH-10, SCOREBOARD_HEIGHT, Qt::AlignRight | Qt::AlignVCenter,
                               showClock? clock->toString() : "INT");
@@ -325,26 +325,25 @@ Scoreboard::updateHomeScore(int score) {
 
 void
 Scoreboard::updatePeriod(int pd) {
+    this->pd=pd;
     switch (pd) {
     case 1:
         period = "1st";
+        showPdAndClockFields = true;
         if (!useClock) {
             centeredTimeText = period + " PD";
-            showPdAndClockFields = false;
         }
         break;
     case 2:
         period = "2nd";
         if (!useClock) {
             centeredTimeText = period + " PD";
-            showPdAndClockFields = false;
         }
         break;
     case 3:
         period = "3rd";
         if (!useClock) {
             centeredTimeText = period + " PD";
-            showPdAndClockFields = false;
         }
         break;
     case 4:
@@ -352,7 +351,6 @@ Scoreboard::updatePeriod(int pd) {
         showPdAndClockFields = true;
         if (!useClock) {
             centeredTimeText = "OVERTIME";
-            showPdAndClockFields = false;
         }
         break;
     case 5:
@@ -394,13 +392,13 @@ Scoreboard::preparePowerplayClock(int pos, Clock *clock, QString description) {
 
 void
 Scoreboard::showPd() {
-    showPdAndClock = true;
+    showPdAndClockFields = true;
     scene()->update(x() + CLOCK_FIELD_X, y(), CLOCK_FIELD_WIDTH, SCOREBOARD_HEIGHT);
 }
 
 void
 Scoreboard::final() {
-    showPdAndClock = false;
+    showPdAndClockFields = false;
     centeredTimeText = "FINAL";
     scene()->update(x() + CLOCK_FIELD_X, y(), CLOCK_FIELD_WIDTH, SCOREBOARD_HEIGHT);
 }
@@ -486,7 +484,7 @@ Scoreboard::intermission() {
 
 void
 Scoreboard::displayClock() {
-    showPdAndClock = true;
+    showPdAndClockFields = true;
     showClock = true;
     scene()->update(x() + CLOCK_FIELD_X, y(), CLOCK_FIELD_WIDTH, SCOREBOARD_HEIGHT);
 }
@@ -837,11 +835,7 @@ Scoreboard::displaySponsor() {
     scene()->update(x(), y()+TOP_BAR_Y,SCOREBOARD_WIDTH,TOP_BAR_Y*-1);
 }
 
-void Scoreboard::changeUseClock(bool uc)
-{
-    useClock = uc;
-    updatePeriod(pd);
-}
+
 bool Scoreboard::getUseTransparency() const
 {
     return useTransparency;
@@ -906,3 +900,8 @@ Scoreboard::displayClock() {
     scene()->update(x() + CLOCK_FIELD_X, y(), CLOCK_FIELD_WIDTH, SCOREBOARD_HEIGHT);
 }
 #endif
+void Scoreboard::changeUseClock(bool uc)
+{
+    useClock = uc;
+    updatePeriod(pd);
+}

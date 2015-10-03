@@ -128,8 +128,12 @@ void CommercialGraphic::updateClock()
 {
     if (show) {
         if (clockStatus == SHOW_CLOCK) {
+            if (useClock) {
             clock = hockeyGame->getGameClock()->toString();
-            scene()->update(x() + WIDTH - 200, y() + RECT_HEIGHT, WIDTH - (WIDTH- 400), BLACK_BAR_HEIGHT);
+            }
+            else {
+                clock = "PERIOD";
+            }
         }
         else if (clockStatus == INTERMISSION) {
             clock = "INT";
@@ -396,14 +400,6 @@ void CommercialGraphic::hide()
     }
 }
 
-void CommercialGraphic::changeUseClock(bool uc)
-{
-    useClock = uc;
-    if (show) {
-        updateClock();
-    }
-}
-
 void CommercialGraphic::checkAwayFont()
 {
     int fontPointSize = away->font().pointSize();
@@ -469,3 +465,11 @@ void CommercialGraphic::prepareGradients(QColor awayColor, QColor homeColor)
     bgGradient.setColorAt(.5, QColor(50,50,50));
 }
 #endif
+
+void CommercialGraphic::changeUseClock(bool uc)
+{
+    useClock = uc;
+    if (show) {
+        updateClock();
+    }
+}
