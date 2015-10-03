@@ -171,7 +171,7 @@ void HockeyGame::gatherHomeSeasonStatsLt(int index)
 void HockeyGame::gatherHomeSeasonStatsSb(int index)
 {
     HockeyPlayer* player = getHomeTeam()->getPlayer(index);
-    QString text = player->getName() + " (" + getHomeName()+"): ";
+    QString text = player->getName() + " (" + getHomeTri()+"): ";
     if (player->getGaavg() == "NG") {
         text += QString::number(player->getGoals() + player->getGoalsToday()) + " G, ";
         text += QString::number(player->getAssists() + player->getAssistsToday()) + " A, ";
@@ -240,7 +240,7 @@ void HockeyGame::gatherAwayStatsLt(int index)
 void HockeyGame::gatherHomeGameStatsSb(int index)
 {
     HockeyPlayer* player = getHomeTeam()->getPlayer(index);
-    QString text = player->getName() + " (" + getHomeName()+"): ";
+    QString text = player->getName() + " (" + getHomeTri()+"): ";
     if (player->getGaavg() == "NG") {
         text += QString::number(player->getGoalsToday()) + " G, ";
         text += QString::number(player->getAssistsToday()) + " A, ";
@@ -256,7 +256,7 @@ void HockeyGame::gatherHomeGameStatsSb(int index)
 void HockeyGame::gatherAwayGameStatsSb(int index)
 {
     HockeyPlayer* player = getAwayTeam()->getPlayer(index);
-    QString text = player->getName() + " (" + getAwayName()+"): ";
+    QString text = player->getName() + " (" + getAwayTri()+"): ";
     if (player->getGaavg() == "NG") {
         text += QString::number(player->getGoalsToday()) + " G, ";
         text += QString::number(player->getAssistsToday()) + " A, ";
@@ -274,7 +274,7 @@ void HockeyGame::prepareHomeGoalText(int scorer, int a1, int a2)
     HockeyPlayer* goalScorer = homeTeam->getPlayer(scorer);
     HockeyPlayer* ast1 = homeTeam->getPlayer(a1);
     HockeyPlayer* ast2 = homeTeam->getPlayer(a2);
-    QString text = getHomeName() + " GOAL: " + goalScorer->getName() + " ";
+    QString text = getHomeTri() + " GOAL: " + goalScorer->getName() + " ";
     if (ast1 != NULL) {
         text += "(" + ast1->getName().mid(ast1->getName().indexOf(" ")+1);
         if (ast2 != NULL) {
@@ -295,7 +295,7 @@ void HockeyGame::prepareAwayGoalText(int scorer, int a1, int a2)
     HockeyPlayer* goalScorer = awayTeam->getPlayer(scorer);
     HockeyPlayer* ast1 = awayTeam->getPlayer(a1);
     HockeyPlayer* ast2 = awayTeam->getPlayer(a2);
-    QString text = getAwayName() + " GOAL: " + goalScorer->getName() + " ";
+    QString text = getAwayTri() + " GOAL: " + goalScorer->getName() + " ";
     if (ast1 != NULL) {
         text += "(" + ast1->getName().mid(ast1->getName().indexOf(" ")+1);
         if (ast2 != NULL) {
@@ -312,13 +312,13 @@ void HockeyGame::prepareAwayGoalText(int scorer, int a1, int a2)
 
 void HockeyGame::prepareHomePenaltyText(int pIndex, QString penalty)
 {
-    sb.changeTopBarText( getHomeName() + " PENALTY: " + homeTeam->getPlayer(pIndex)->getName() + " ("
+    sb.changeTopBarText( getHomeTri() + " PENALTY: " + homeTeam->getPlayer(pIndex)->getName() + " ("
                          + penalty +") " + timeEventHappened );
 }
 
 void HockeyGame::prepareAwayPenaltyText(int pIndex, QString penalty)
 {
-    sb.changeTopBarText( getAwayName() + " PENALTY: " + awayTeam->getPlayer(pIndex)->getName() + " ("
+    sb.changeTopBarText( getAwayTri() + " PENALTY: " + awayTeam->getPlayer(pIndex)->getName() + " ("
                          + penalty +") " + timeEventHappened );
 }
 #ifdef GRADIENT_LOOK
@@ -628,6 +628,16 @@ void HockeyGame::setAwaySOG(int value)
 {
     awaySOG = value;
     emit awaySogChanged(awaySOG);
+}
+
+QString HockeyGame::getAwayTri() const
+{
+    return awayName.length() > 6 ? awayShortName : awayName;
+}
+
+QString HockeyGame::getHomeTri() const
+{
+    return homeName.length() > 6 ? homeShortName : homeName;
 }
 
 int HockeyGame::getHomeSOG() const

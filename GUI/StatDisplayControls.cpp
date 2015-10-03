@@ -5,12 +5,12 @@ StatDisplayControls::StatDisplayControls(HockeyGame* game) :
     awayStats(game), homePenalty(game, true), awayPenalty(game, false),
     goalies(game) {
     addTab(&goalies, "Goalies");
-    addTab(&awayStats, game->getAwayName() + " Game Stats");
-    addTab(&awayGoal, game->getAwayName()+ " Goal");
-    addTab(&awayPenalty, game->getAwayName() + " Penalty");
-    addTab(&homeStats, game->getHomeName() + " Stats");
-    addTab(&homeGoal, game->getHomeName() + " Goal");
-    addTab(&homePenalty, game->getHomeName() + " Penalty");
+    addTab(&awayStats, game->getAwayTri() + " Game Stats");
+    addTab(&awayGoal, game->getAwayTri()+ " Goal");
+    addTab(&awayPenalty, game->getAwayTri() + " Penalty");
+    addTab(&homeStats, game->getHomeTri() + " Stats");
+    addTab(&homeGoal, game->getHomeTri() + " Goal");
+    addTab(&homePenalty, game->getHomeTri() + " Penalty");
 
 
 }

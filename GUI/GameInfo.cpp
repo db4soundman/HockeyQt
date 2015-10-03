@@ -3,9 +3,9 @@
 
 GameInfo::GameInfo(HockeyGame* game) {
     QGridLayout* main = new QGridLayout();
-    awayTeamName.setText(game->getAwayName());
+    awayTeamName.setText(game->getAwayTri());
     main->addWidget(&awayTeamName, 0, 0);
-    homeTeamName.setText(game->getHomeName());
+    homeTeamName.setText(game->getHomeTri());
     main->addWidget(&homeTeamName, 1, 0);
     awayTeamScore.setText("0");
     main->addWidget(&awayTeamScore, 0, 1);

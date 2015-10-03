@@ -3,8 +3,8 @@
 
 PenaltyControl::PenaltyControl(HockeyGame* game) {
     QGridLayout* main = new QGridLayout();
-    awayLabel.setText(game->getAwayName());
-    homeLabel.setText(game->getHomeName());
+    awayLabel.setText(game->getAwayTri());
+    homeLabel.setText(game->getHomeTri());
     ap2.setText("+ 2");
     ap4.setText("+ 4");
     ap5.setText("+ 5");

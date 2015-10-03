@@ -76,6 +76,9 @@ public:
     int getAwaySOG() const;
     void setAwaySOG(int value);
 
+    QString getAwayTri() const;
+    QString getHomeTri() const;
+
 public slots:
     void homeGoal();
     void awayGoal();

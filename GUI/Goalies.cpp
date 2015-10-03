@@ -6,7 +6,7 @@
 Goalies::Goalies(HockeyGame* game) {
     QHBoxLayout* main = new QHBoxLayout();
     QVBoxLayout* away = new QVBoxLayout();
-    away->addWidget(new QLabel(game->getAwayName()));
+    away->addWidget(new QLabel(game->getAwayTri()));
     awayGoalie.addItems(game->getAwayTeam()->getGuiNames());
     awayGoalie.addItem("EMPTY NET");
     away->addWidget(&awayGoalie);
@@ -16,7 +16,7 @@ Goalies::Goalies(HockeyGame* game) {
     away->addWidget(&awaySB);
 
     QVBoxLayout* home = new QVBoxLayout();
-    home->addWidget(new QLabel(game->getHomeName()));
+    home->addWidget(new QLabel(game->getHomeTri()));
     homeGoalie.addItems(game->getHomeTeam()->getGuiNames());
     homeGoalie.addItem("EMPTY NET");
     home->addWidget(&homeGoalie);

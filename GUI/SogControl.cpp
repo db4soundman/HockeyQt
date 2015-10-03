@@ -4,8 +4,8 @@
 
 SogControl::SogControl(HockeyGame* game) {
     QGridLayout* main = new QGridLayout();
-    awayName = game->getAwayName();
-    homeName = game->getHomeName();
+    awayName = game->getAwayTri();
+    homeName = game->getHomeTri();
     awayLabel.setText(awayName + " SOG: 0");
     homeLabel.setText(homeName + " SOG: 0");
     ap1.setText("+ 1");

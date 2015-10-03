@@ -9,8 +9,8 @@
 PpClockDialog::PpClockDialog(HockeyGame* game) {
     QVBoxLayout* mainLayout = new QVBoxLayout();
     QGridLayout* clocks = new QGridLayout();
-    clocks->addWidget(new QLabel(game->getAwayName()), 0, 0);
-    clocks->addWidget(new QLabel(game->getHomeName()), 0, 1);
+    clocks->addWidget(new QLabel(game->getAwayTri()), 0, 0);
+    clocks->addWidget(new QLabel(game->getHomeTri()), 0, 1);
 
     QList<Clock*> awayPenalties = game->getAwayPenalty();
     QList<Clock*> homePenalties = game->getHomePenalty();

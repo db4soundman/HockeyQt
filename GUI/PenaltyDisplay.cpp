@@ -13,7 +13,7 @@ PenaltyDisplay::PenaltyDisplay(HockeyGame* game, bool homeTeam) {
     QTextStream textStream(&file);
 
     while (!textStream.atEnd())
-        penaltySelector.addItem(textStream.readLine());
+        penaltySelector.addItem(textStream.readLine().toUpper());
 
     show.setText("Show Penalty Text");
 
