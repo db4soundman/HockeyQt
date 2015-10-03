@@ -33,8 +33,12 @@ public slots:
                            QList<QString> statValues, bool homeTeam);
     void prepareForCustomLt(QString name, QString number, QString year, QList<QString> statLabels,
                            QList<QString> statValues, bool homeTeam);
+#ifdef GRADIENT_LOOK
     void prepareForPpComp(QString awayName, QString awayLabel, QString awayStat,
                           QString homeName, QString homeLabel, QString homeStat);
+#else
+    void prepareForPpComp(QString awayName, QString awayLabel, QString homeName, QString homeLabel, QList<QString> stats);
+#endif
 private:
     QList<QString> statNames;
     QList<QString> statistics;

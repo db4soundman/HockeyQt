@@ -351,24 +351,29 @@ void HockeyGame::gatherPpStats()
 #else
 void HockeyGame::gatherPpStats()
 {
+    // Order: Away season, home season, away today, home today.
+    QList<QString> stats;
     QString ppStat, pkStat;
     if (homePlayersOnIce > awayPlayersOnIce) {
         ppStat = QString::number(homeTeam->getPpPct(), 'g', 3) +"%";
         pkStat = QString::number(awayTeam->getPkPct(), 'g', 3) +"%";
+        stats.append(pkStat);
+        stats.append(ppStat);
         if (homeTeam->getPpoppToday() > 0) {
-            ppStat += "\t\tToday: " + QString::number(homeTeam->getPpgToday()) + "-" + QString::number(homeTeam->getPpoppToday());
-            pkStat += "\t\tToday: " + QString::number(awayTeam->getPkToday()) + "-" + QString::number(awayTeam->getPkoppToday());
+            stats.append("Today: " + QString::number(awayTeam->getPkToday()) + "-" + QString::number(awayTeam->getPkoppToday()));
+            stats.append("Today: " + QString::number(homeTeam->getPpgToday()) + "-" + QString::number(homeTeam->getPpoppToday()));
+
         }
-        lt.prepareForPpComp(getAwayName(), "PENALTY KILL", pkStat, getHomeName(), "POWERPLAY", ppStat);
+        lt.prepareForPpComp(getAwayName(), "PENALTY KILL", getHomeName(), "POWERPLAY", stats);
     }
     else if (homePlayersOnIce < awayPlayersOnIce) {
-        ppStat = QString::number(awayTeam->getPpPct(), 'g', 3) +"%";
-        pkStat = QString::number(homeTeam->getPkPct(), 'g', 3) +"%";
+        stats.append(QString::number(awayTeam->getPpPct(), 'g', 3) +"%");
+        stats.append(QString::number(homeTeam->getPkPct(), 'g', 3) +"%");
         if (awayTeam->getPpoppToday() > 0) {
-            ppStat += "\tToday: " + QString::number(awayTeam->getPpgToday()) + "-" + QString::number(awayTeam->getPpoppToday());
-            pkStat += "\tToday: " + QString::number(homeTeam->getPkToday()) + "-" + QString::number(homeTeam->getPkoppToday());
+            stats.append("Today: " + QString::number(awayTeam->getPpgToday()) + "-" + QString::number(awayTeam->getPpoppToday()));
+            stats.append("Today: " + QString::number(homeTeam->getPkToday()) + "-" + QString::number(homeTeam->getPkoppToday()));
         }
-        lt.prepareForPpComp(getAwayName(), "POWERPLAY", ppStat, getHomeName(), "PENALTY KILL", pkStat);
+        lt.prepareForPpComp(getAwayName(), "POWERPLAY", getHomeName(), "PENALTY KILL", stats);
     }
 }
 #endif

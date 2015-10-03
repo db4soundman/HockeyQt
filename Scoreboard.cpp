@@ -666,6 +666,9 @@ Scoreboard::prepareColor() {
     bgGradient.setColorAt(1, QColor(1,1,1));
     bgGradient.setColorAt(.5, QColor(50,50,50));
 
+    penaltyGradient.setColorAt(1, QColor(255, 255, 0));
+    penaltyGradient.setColorAt(0, QColor(188, 188, 0));
+
 }
 
 void Scoreboard::prepareAwayName()

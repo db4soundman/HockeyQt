@@ -241,6 +241,23 @@ void LowerThird::adjustFont()
         fontSize = temp;
     }
 }
+
+void LowerThird::prepareForPpComp(QString awayName, QString awayLabel, QString awayStat,
+                                  QString homeName, QString homeLabel, QString homeStat) {
+    statFont.setPointSize(statFontPointSize);
+    this->awayName = awayName;
+    this->awayLabel = awayLabel;
+    this->awayStat = awayStat;
+    this->homeName = homeName;
+    this->homeLabel = homeLabel;
+    this->homeStat = homeStat;
+    firstName = awayName;
+    lastName = "";
+    prepareFontSize();
+    showPpComp();
+
+}
+
 #else
 #define NAME_GRADIENT_LEVEL .1
 #define STAT_GRADIENT_LEVEL .1
@@ -316,16 +333,20 @@ LowerThird::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     else if (showPp) {
         //int availableWidth = centerPoint - 772;
         //painter->drawPixmap(availableWidth / 2 - this->x() + 372, 0, 400, 120, this->pixmap());
-        painter->fillRect(0, 0, awayStat.contains("Today") ? 800 : 600, BOX_HEIGHT, awayNameGradient);
-        painter->fillRect(0, BOX_HEIGHT, awayStat.contains("Today") ? 800 : 600, BOX_HEIGHT, homeStatGradient);
+        painter->fillRect(0, 0, statistics.size() > 2 ? 800 : 600, BOX_HEIGHT, awayNameGradient);
+        painter->fillRect(0, BOX_HEIGHT, statistics.size() > 2 ? 800 : 600, BOX_HEIGHT, homeStatGradient);
         painter->drawPixmap(1, 0,*awayLogo);
         painter->drawPixmap(1, BOX_HEIGHT,*homeLogo);
         painter->setFont(nameFont);
         painter->setPen(QColor(255, 255, 255));
         painter->drawText(100, 0, 400, BOX_HEIGHT, Qt::AlignVCenter, awayLabel);
-        painter->drawText(400, 0, 400, BOX_HEIGHT, Qt::AlignVCenter, awayStat);
+        painter->drawText(400, 0, 200, BOX_HEIGHT, Qt::AlignVCenter, statistics.at(0));
         painter->drawText(100, BOX_HEIGHT, 400, BOX_HEIGHT, Qt::AlignVCenter, homeLabel);
-        painter->drawText(400, BOX_HEIGHT, 400, BOX_HEIGHT, Qt::AlignVCenter, homeStat);
+        painter->drawText(400, BOX_HEIGHT, 200, BOX_HEIGHT, Qt::AlignVCenter, statistics.at(1));
+        if (statistics.size() > 2) {
+            painter->drawText(600, 0, 200 ,BOX_HEIGHT, Qt::AlignVCenter, statistics.at(2));
+            painter->drawText(600, BOX_HEIGHT, 200 ,BOX_HEIGHT, Qt::AlignVCenter, statistics.at(3));
+        }
     }
 }
 
@@ -473,22 +494,21 @@ void LowerThird::adjustFont()
         fontSize = temp;
     }
 }
-#endif
-void LowerThird::prepareForPpComp(QString awayName, QString awayLabel, QString awayStat,
-                                  QString homeName, QString homeLabel, QString homeStat) {
-    statFont.setPointSize(statFontPointSize);
-    this->awayName = awayName;
-    this->awayLabel = awayLabel;
-    this->awayStat = awayStat;
-    this->homeName = homeName;
-    this->homeLabel = homeLabel;
-    this->homeStat = homeStat;
-    firstName = awayName;
-    lastName = "";
-    prepareFontSize();
-    showPpComp();
 
-}
+void LowerThird::prepareForPpComp(QString awayName, QString awayLabel,
+                                   QString homeName, QString homeLabel, QList<QString> stats) {
+     statFont.setPointSize(statFontPointSize);
+     this->awayName = awayName;
+     this->awayLabel = awayLabel;
+     this->homeName = homeName;
+     this->homeLabel = homeLabel;
+     statistics=stats;
+     prepareFontSize();
+     showPpComp();
+
+ }
+#endif
+
 
 void
 LowerThird::hideLt() {
