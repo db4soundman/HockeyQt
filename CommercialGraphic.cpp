@@ -396,6 +396,14 @@ void CommercialGraphic::hide()
     }
 }
 
+void CommercialGraphic::changeUseClock(bool uc)
+{
+    useClock = uc;
+    if (show) {
+        updateClock();
+    }
+}
+
 void CommercialGraphic::checkAwayFont()
 {
     int fontPointSize = away->font().pointSize();

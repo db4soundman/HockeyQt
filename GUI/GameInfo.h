@@ -17,10 +17,12 @@ public slots:
     void updateHomeScore(int score);
     void updateAwayScore(int score);
     void updatePeriod(int newPd);
+    void changeUseClock(bool uc);
 
 private:
     QLabel awayTeamName, awayTeamScore, homeTeamName, homeTeamScore, pd, time;
     Clock* clock;
+    bool useClock;
 
 };
 

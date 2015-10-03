@@ -751,23 +751,21 @@ Scoreboard::updatePeriod(int pd) {
     switch (pd) {
     case 1:
         period = "1st";
+        showPdAndClockFields = true;
         if (!useClock) {
             centeredTimeText = period + " PD";
-            showPdAndClockFields = false;
         }
         break;
     case 2:
         period = "2nd";
         if (!useClock) {
             centeredTimeText = period + " PD";
-            showPdAndClockFields = false;
         }
         break;
     case 3:
         period = "3rd";
         if (!useClock) {
             centeredTimeText = period + " PD";
-            showPdAndClockFields = false;
         }
         break;
     case 4:
@@ -775,7 +773,6 @@ Scoreboard::updatePeriod(int pd) {
         showPdAndClockFields = true;
         if (!useClock) {
             centeredTimeText = "OVERTIME";
-            showPdAndClockFields = false;
         }
         break;
     case 5:
@@ -838,6 +835,12 @@ Scoreboard::displaySponsor() {
         fontSize = temp;
     }
     scene()->update(x(), y()+TOP_BAR_Y,SCOREBOARD_WIDTH,TOP_BAR_Y*-1);
+}
+
+void Scoreboard::changeUseClock(bool uc)
+{
+    useClock = uc;
+    updatePeriod(pd);
 }
 bool Scoreboard::getUseTransparency() const
 {

@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QPushButton>
 #include <QLabel>
+#include <QCheckBox>
 #include "HockeyGame.h"
 #include "CommercialGraphic.h"
 
@@ -19,6 +20,7 @@ public slots:
 private:
     QLabel label;
     QPushButton run, reset, set, nextPd, prevPd, clock, intermission, final, penalty;
+    QCheckBox useClock;
     Clock* gameClock;
 };
 

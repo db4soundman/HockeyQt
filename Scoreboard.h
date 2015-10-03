@@ -44,6 +44,7 @@ public slots:
      void intermission();
      void displayClock();
      void displaySponsor();
+     void changeUseClock(bool uc);
 
 private:
      QPixmap* ppBar;

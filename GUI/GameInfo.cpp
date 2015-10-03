@@ -21,13 +21,15 @@ GameInfo::GameInfo(HockeyGame* game) {
     connect(game, SIGNAL(awayScoreChanged(int)), this, SLOT(updateAwayScore(int)));
     connect(game, SIGNAL(homeScoreChanged(int)), this, SLOT(updateHomeScore(int)));
     connect(game, SIGNAL(periodChanged(int)), this, SLOT(updatePeriod(int)));
+    connect(game, SIGNAL(clockInUse(bool)), this, SLOT(changeUseClock(bool)));
 
     setLayout(main);
 }
 
 void
 GameInfo::updateTime() {
-    time.setText(clock->toString());
+    if (Q_LIKELY(useClock))
+        time.setText(clock->toString());
 }
 
 void GameInfo::updateHomeScore(int score) {
@@ -40,4 +42,12 @@ void GameInfo::updateAwayScore(int score) {
 
 void GameInfo::updatePeriod(int newPd) {
     pd.setText("Pd: " + QString::number(newPd));
+}
+
+void GameInfo::changeUseClock(bool uc)
+{
+    useClock = uc;
+    if (useClock)
+        updateTime();
+    else time.setText( "PD");
 }

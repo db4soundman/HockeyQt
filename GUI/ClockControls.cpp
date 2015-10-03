@@ -4,6 +4,8 @@
 
 ClockControls::ClockControls(HockeyGame* game, CommercialGraphic* comGraphic) {
     QVBoxLayout* main = new QVBoxLayout();
+    useClock.setText("Use Clock");
+    useClock.setChecked(true);
     label.setText("Clock Controls");
     run.setText("Run Clock");
     set.setText("Set Clock");
@@ -24,6 +26,8 @@ ClockControls::ClockControls(HockeyGame* game, CommercialGraphic* comGraphic) {
     main->addWidget(&clock);
     main->addWidget(&intermission);
     main->addWidget(&final);
+    main->addSpacing(50);
+    main->addWidget(&useClock);
 
     connect(&run, SIGNAL(clicked()), game, SLOT(toggleClock()));
     connect(game, SIGNAL(clockIsRunning(bool)),
@@ -39,6 +43,9 @@ ClockControls::ClockControls(HockeyGame* game, CommercialGraphic* comGraphic) {
     connect(&intermission, SIGNAL(clicked()), comGraphic, SLOT(intermissionTime()));
     connect(&final, SIGNAL(clicked()), game->getSb(), SLOT(final()));
     connect(&final, SIGNAL(clicked()), comGraphic, SLOT(finalTime()));
+    connect(&useClock, SIGNAL(toggled(bool)), game->getSb(), SLOT(changeUseClock(bool)));
+    connect(&useClock, SIGNAL(toggled(bool)), game, SLOT(changeUseClock(bool)));
+    connect(&useClock, SIGNAL(toggled(bool)), comGraphic, SLOT(changeUseClock(bool)));
     setLayout(main);
 
     gameClock = game->getGameClock();

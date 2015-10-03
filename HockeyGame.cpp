@@ -598,6 +598,12 @@ void HockeyGame::makeFinal()
     isFinal = true;
 }
 
+void HockeyGame::changeUseClock(bool uc)
+{
+    useClock = uc;
+    emit clockInUse(useClock);
+}
+
 void HockeyGame::deleteExpiredPenalties()
 {
     for (int i = 0; i < awayPenalty.size(); i++) {

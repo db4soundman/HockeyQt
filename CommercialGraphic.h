@@ -29,6 +29,7 @@ public slots:
     void intermissionTime();
     void finalTime();
     void hide();
+    void changeUseClock(bool uc);
 
 private:
     QPixmap blackBar;

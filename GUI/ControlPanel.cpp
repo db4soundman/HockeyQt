@@ -22,7 +22,7 @@ ControlPanel::ControlPanel(HockeyGame* game, StandingsGraphic* graphic, Commerci
     QVBoxLayout* rightColumn = new QVBoxLayout();
     rightColumn->addWidget(&hud);
     rightColumn->addWidget(&clockControls);
-    rightColumn->addSpacing(125);
+    rightColumn->addSpacing(0);
 
 
     mainLayout->addLayout(leftColumn, 1);

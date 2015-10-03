@@ -110,6 +110,7 @@ public slots:
     void determinePpClockForScoreboard();
     void displayPenaltyEditor();
     void makeFinal();
+    void changeUseClock(bool uc);
 
 signals:
     void homeScoreChanged(int score);
@@ -120,6 +121,7 @@ signals:
     void awaySogChanged(int sog);
     void homeSogChanged(int sog);
     void checkScoreboardPp();
+    void clockInUse(bool uc);
 
 private slots:
     void deleteExpiredPenalties();
