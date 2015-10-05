@@ -79,6 +79,8 @@ public:
     QString getAwayTri() const;
     QString getHomeTri() const;
 
+    QTimer* getTricasterRefresh();
+
 public slots:
     void homeGoal();
     void awayGoal();
@@ -134,7 +136,7 @@ private:
     int awayScore, homeScore, period, homeSOG, awaySOG, homePlayersOnIce, awayPlayersOnIce;
     Clock gameClock;
     QList<Clock*> awayPenalty, homePenalty;
-    QTimer timer;
+    QTimer timer, tricasterRefresh;
     bool clockRunning, isFinal, useClock;
     QColor homeColor, awayColor;
     HockeyTeam* homeTeam;

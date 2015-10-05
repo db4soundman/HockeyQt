@@ -130,6 +130,7 @@ MiamiAllAccessHockey::exec() {
         connect(scene, SIGNAL(changed(QList<QRectF>)), tricaster, SLOT(updatePortion(QList<QRectF>)));
         connect(game->getSb(), SIGNAL(transparentField(int,int,int,int)), tricaster, SLOT(addAlphaRect(int,int,int,int)));
         connect(game->getSb(), SIGNAL(removeTransparentField(int,int,int,int)), tricaster, SLOT(removeAlphaRect(int,int,int,int)));
+        connect(game->getTricasterRefresh(), SIGNAL(timeout()), tricaster, SLOT(start()));
     }
     return QApplication::exec();
 }

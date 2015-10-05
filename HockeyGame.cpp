@@ -29,6 +29,7 @@ HockeyGame::HockeyGame(QString awayName, QString homeName, QColor awayColor, QCo
     homePlayersOnIce = 5;
     timer.setTimerType(Qt::PreciseTimer);
     timer.setInterval(100);
+    tricasterRefresh.setInterval(1000*30);
     clockRunning = false;
 
     connect(&gameClock, SIGNAL(clockExpired()),
@@ -602,6 +603,10 @@ void HockeyGame::changeUseClock(bool uc)
 {
     useClock = uc;
     emit clockInUse(useClock);
+    if (!uc)
+        tricasterRefresh.start();
+    else
+        tricasterRefresh.stop();
 }
 
 void HockeyGame::removeFirstHomePenalty()
@@ -647,6 +652,11 @@ void HockeyGame::deleteExpiredPenalties()
     homePlayersOnIce = 5 - homePenalty.size();
     awayPlayersOnIce = 5 - awayPenalty.size();
 }
+QTimer *HockeyGame::getTricasterRefresh()
+{
+    return &tricasterRefresh;
+}
+
 int HockeyGame::getAwaySOG() const
 {
     return awaySOG;
