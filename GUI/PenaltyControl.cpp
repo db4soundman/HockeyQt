@@ -69,7 +69,7 @@ void PenaltyControl::changeUseClock(bool uc)
         hp4.setEnabled(false);
         ap5.setEnabled(false);
         hp5.setEnabled(false);
-        show.setEnabled(false);
+        //show.setEnabled(false);
         set.setEnabled(false);
     }
 }
