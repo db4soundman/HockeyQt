@@ -66,9 +66,18 @@ void NchcScoreboardGui::loadGames()
         game->setHomeScore(reader.readLine());
         QString conf = reader.readLine();
         game->setConf(conf == "True");
-        games.at(i+1)->setConf(conf == "True");
-        game->setTimeAndPd("F");
-        i += 2;
+        game->setTimeAndPd(reader.readLine());
+        i ++;
+        game = games.at(i);
+        game->updateAwayName(reader.readLine());
+        game->setAwayScore(reader.readLine());
+        game->updateHomeName(reader.readLine());
+        game->setHomeScore(reader.readLine());
+        conf = reader.readLine();
+        game->setConf(conf == "True");
+        game->setTimeAndPd(reader.readLine());
+        i ++;
+
     }
 
 }
@@ -78,7 +87,7 @@ void NchcScoreboardGui::saveGames()
     QFile file(MiamiAllAccessHockey::getAppDirPath() + "/" + QDate::currentDate().toString("MMM.dd") + ".maa");
     file.open(QFile::WriteOnly);
     QTextStream writer(&file);
-    for (int i = 0; i < games.size(); i +=2) {
+    for (int i = 0; i < games.size(); i ++) {
         NchcGameGui* game = games.at(i);
         if (!game->getAway().isEmpty()) {
             writer << game->getAway() << endl;
@@ -86,6 +95,7 @@ void NchcScoreboardGui::saveGames()
             writer << game->getHome() << endl;
             writer << game->getHomeScore() << endl;
             writer << (game->isConf() ? "True"  : "False") << endl;
+            writer << game->getTimeAndPd() << endl;
         }
     }
     file.close();

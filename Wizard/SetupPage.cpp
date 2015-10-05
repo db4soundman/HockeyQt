@@ -75,6 +75,7 @@ SetupPage::SetupPage(QString* pAwayName, QString* pHomeName, QString* pAwayFile,
     tricasterBox = new QCheckBox("Using Tricaster");
     tricasterBox->setChecked(true);
     mainLayout->addWidget(tricasterBox, 8, 0);
+    tricasterIpLine.setText(*tricasterIp);
     mainLayout->addWidget(&tricasterIpLine, 8, 1);
 
     setLayout(mainLayout);

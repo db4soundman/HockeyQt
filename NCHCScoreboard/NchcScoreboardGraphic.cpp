@@ -19,7 +19,7 @@ NchcScoreboardGraphic::paint(QPainter* painter,
     Q_UNUSED(option);
     Q_UNUSED(widget);
     if (show) {
-        int fontSize = 34;
+        int fontSize = 28;
 #ifdef Q_OS_OSX
         fontSize = 40;
 #endif
@@ -41,8 +41,8 @@ NchcScoreboardGraphic::paint(QPainter* painter,
             painter->setBrush(QColor(255,255,255));
             painter->setPen(QColor(255,255,255));
             // School
-            painter->drawText(x, 80 + (BORDER_HEIGHT + spacing) * i, 500, BORDER_HEIGHT / 2, Qt::AlignLeft, fridayGames.at(i).getAway());
-            painter->drawText(x,80 + (BORDER_HEIGHT + spacing) * i + BORDER_HEIGHT / 2 + 5, 500, BORDER_HEIGHT / 2 - 5, Qt::AlignLeft, fridayGames.at(i).getHome());
+            painter->drawText(x, 80 + (BORDER_HEIGHT + spacing) * i, 500, BORDER_HEIGHT / 2, Qt::AlignLeft | Qt::AlignVCenter, fridayGames.at(i).getAway());
+            painter->drawText(x,80 + (BORDER_HEIGHT + spacing) * i + BORDER_HEIGHT / 2 + 5, 500, BORDER_HEIGHT / 2 - 5, Qt::AlignLeft | Qt::AlignVCenter, fridayGames.at(i).getHome());
             QString timePd = fridayGames.at(i).getTimeAndPd();
             timePd = timePd.replace(" ", "\n");
             painter->drawText(x + BORDER_WIDTH - 150, 80 + (BORDER_HEIGHT + spacing) * i, 150, BORDER_HEIGHT, Qt::AlignCenter, timePd);
@@ -70,8 +70,8 @@ NchcScoreboardGraphic::paint(QPainter* painter,
             painter->setBrush(QColor(255,255,255));
             painter->setPen(QColor(255,255,255));
             // School
-            painter->drawText(x, 80 + (BORDER_HEIGHT + spacing) * i, 500, BORDER_HEIGHT / 2, Qt::AlignLeft, saturdayGames.at(i).getAway());
-            painter->drawText(x, BORDER_HEIGHT / 2 + 80 + (BORDER_HEIGHT + spacing) * i + 5, 500, BORDER_HEIGHT / 2 - 5, Qt::AlignLeft, saturdayGames.at(i).getHome());
+            painter->drawText(x, 80 + (BORDER_HEIGHT + spacing) * i, 500, BORDER_HEIGHT / 2, Qt::AlignLeft | Qt::AlignVCenter, saturdayGames.at(i).getAway());
+            painter->drawText(x, BORDER_HEIGHT / 2 + 80 + (BORDER_HEIGHT + spacing) * i + 5, 500, BORDER_HEIGHT / 2 - 5, Qt::AlignLeft | Qt::AlignVCenter, saturdayGames.at(i).getHome());
             QString timePd = saturdayGames.at(i).getTimeAndPd();
             timePd = timePd.replace(" ", "\n");
             painter->drawText(x + BORDER_WIDTH - 150, 80 + (BORDER_HEIGHT + spacing) * i, 150, BORDER_HEIGHT, Qt::AlignCenter, timePd);

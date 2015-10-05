@@ -63,6 +63,7 @@ MiamiAllAccessHockey::exec() {
     sponsor = "Miami IMG Sports Network | NCHC.tv";
     homeName = "MIAMI";
     homeShort = "MIAMI";
+    tricasterIp = "10.44.65.157";
     QDesktopWidget desktop;
 
     SetupWizard wizard(&awayName, &homeName, &awayFile, &homeFile, &sponsor,
