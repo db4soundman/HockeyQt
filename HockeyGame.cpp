@@ -604,6 +604,28 @@ void HockeyGame::changeUseClock(bool uc)
     emit clockInUse(useClock);
 }
 
+void HockeyGame::removeFirstHomePenalty()
+{
+    for (int i = 0; i < homePenalty.size(); i++) {
+        if (homePenalty.at(i)->getTimeLeft() != 0) {
+            Clock* toDelete = homePenalty.at(i);
+            toDelete->setClock(0,0,0);
+            break;
+        }
+    }
+}
+
+void HockeyGame::removeFirstAwayPenalty()
+{
+    for (int i = 0; i < awayPenalty.size(); i++) {
+        if (awayPenalty.at(i)->getTimeLeft() != 0) {
+            Clock* toDelete = awayPenalty.at(i);
+            toDelete->setClock(0,0,0);
+            break;
+        }
+    }
+}
+
 void HockeyGame::deleteExpiredPenalties()
 {
     for (int i = 0; i < awayPenalty.size(); i++) {

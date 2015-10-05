@@ -111,6 +111,8 @@ public slots:
     void displayPenaltyEditor();
     void makeFinal();
     void changeUseClock(bool uc);
+    void removeFirstHomePenalty();
+    void removeFirstAwayPenalty();
 
 signals:
     void homeScoreChanged(int score);

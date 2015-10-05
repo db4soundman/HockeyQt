@@ -194,13 +194,15 @@ Scoreboard::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
                // painter->fillRect(112, SCOREBOARD_HEIGHT, 345, PP_BAR_HEIGHT, ppGradient);
                 painter->drawPixmap(V_TEAM_BOX_STARTX,SCOREBOARD_HEIGHT, *ppBar);
                 painter->drawText(V_TEAM_BOX_STARTX + 5, SCOREBOARD_HEIGHT, 345, PP_BAR_HEIGHT, Qt::AlignLeft | Qt::AlignVCenter, ppDescription);
-                               painter->drawText(V_TEAM_BOX_STARTX, SCOREBOARD_HEIGHT, 331, PP_BAR_HEIGHT, Qt::AlignRight | Qt::AlignVCenter, ppClock->toStringPP());
+                if (useClock)
+                painter->drawText(V_TEAM_BOX_STARTX, SCOREBOARD_HEIGHT, 331, PP_BAR_HEIGHT, Qt::AlignRight | Qt::AlignVCenter, ppClock->toStringPP());
             }
             //Home ppbar
             else if (homePP) {
                // painter->fillRect(466, SCOREBOARD_HEIGHT, 345, PP_BAR_HEIGHT, ppGradient);
                 painter->drawPixmap(H_TEAM_BOX_STARTX,SCOREBOARD_HEIGHT, *ppBar);
                 painter->drawText(H_TEAM_BOX_STARTX + 5, SCOREBOARD_HEIGHT, 345, PP_BAR_HEIGHT, Qt::AlignLeft | Qt::AlignVCenter, ppDescription);
+                if (useClock)
                 painter->drawText(H_TEAM_BOX_STARTX, SCOREBOARD_HEIGHT, 331, PP_BAR_HEIGHT, Qt::AlignRight | Qt::AlignVCenter, ppClock->toStringPP());
             }
             //Neutral
@@ -208,7 +210,8 @@ Scoreboard::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
                 //painter->fillRect(833, SCOREBOARD_HEIGHT, CLOCK_FIELD_WIDTH, PP_BAR_HEIGHT, ppGradient);
                 painter->drawPixmap(CLOCK_FIELD_X,SCOREBOARD_HEIGHT,CLOCK_FIELD_WIDTH,PP_BAR_HEIGHT, *ppBar );
                 painter->drawText(CLOCK_FIELD_X + 8, SCOREBOARD_HEIGHT, CLOCK_FIELD_WIDTH, PP_BAR_HEIGHT, Qt::AlignLeft | Qt::AlignVCenter, ppDescription);
-                               painter->drawText(CLOCK_FIELD_X, SCOREBOARD_HEIGHT, 214, PP_BAR_HEIGHT, Qt::AlignRight | Qt::AlignVCenter, ppClock->toStringPP());
+                if (useClock)
+                    painter->drawText(CLOCK_FIELD_X, SCOREBOARD_HEIGHT, 214, PP_BAR_HEIGHT, Qt::AlignRight | Qt::AlignVCenter, ppClock->toStringPP());
             }
         }
 
@@ -576,21 +579,24 @@ Scoreboard::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
                 painter->fillRect(V_TEAM_BOX_STARTX, SCOREBOARD_HEIGHT, 345, PP_BAR_HEIGHT, QBrush(QColor(20,20,20)));
                 //painter->drawPixmap(V_TEAM_BOX_STARTX - 3,SCOREBOARD_HEIGHT, *ppBar);
                 painter->drawText(V_TEAM_BOX_STARTX + 5, SCOREBOARD_HEIGHT, 345, PP_BAR_HEIGHT, Qt::AlignLeft | Qt::AlignVCenter, ppDescription);
-                painter->drawText(V_TEAM_BOX_STARTX, SCOREBOARD_HEIGHT, 331, PP_BAR_HEIGHT, Qt::AlignRight | Qt::AlignVCenter, ppClock->toStringPP());
+                if (useClock)
+                    painter->drawText(V_TEAM_BOX_STARTX, SCOREBOARD_HEIGHT, 331, PP_BAR_HEIGHT, Qt::AlignRight | Qt::AlignVCenter, ppClock->toStringPP());
             }
             //Home ppbar
             else if (homePP) {
                 painter->fillRect(H_TEAM_BOX_STARTX, SCOREBOARD_HEIGHT, 345, PP_BAR_HEIGHT, QBrush(QColor(20,20,20)));
                 // painter->drawPixmap(H_TEAM_BOX_STARTX - 4,SCOREBOARD_HEIGHT, *ppBar);
                 painter->drawText(H_TEAM_BOX_STARTX + 4, SCOREBOARD_HEIGHT, 345, PP_BAR_HEIGHT, Qt::AlignLeft | Qt::AlignVCenter, ppDescription);
-                painter->drawText(H_TEAM_BOX_STARTX + 4, SCOREBOARD_HEIGHT, 331, PP_BAR_HEIGHT, Qt::AlignRight | Qt::AlignVCenter, ppClock->toStringPP());
+                if (useClock)
+                    painter->drawText(H_TEAM_BOX_STARTX + 4, SCOREBOARD_HEIGHT, 331, PP_BAR_HEIGHT, Qt::AlignRight | Qt::AlignVCenter, ppClock->toStringPP());
             }
             //Neutral
             else if (neutralPP){
                 painter->fillRect(CLOCK_FIELD_X, SCOREBOARD_HEIGHT, CLOCK_FIELD_WIDTH, PP_BAR_HEIGHT, QBrush(QColor(20,20,20)));
                 // painter->drawPixmap(CLOCK_FIELD_X,SCOREBOARD_HEIGHT,CLOCK_FIELD_WIDTH,PP_BAR_HEIGHT, *ppBar );
                 painter->drawText(CLOCK_FIELD_X + 8, SCOREBOARD_HEIGHT, CLOCK_FIELD_WIDTH, PP_BAR_HEIGHT, Qt::AlignLeft | Qt::AlignVCenter, ppDescription);
-                painter->drawText(CLOCK_FIELD_X, SCOREBOARD_HEIGHT, 214, PP_BAR_HEIGHT, Qt::AlignRight | Qt::AlignVCenter, ppClock->toStringPP());
+                if (useClock)
+                    painter->drawText(CLOCK_FIELD_X, SCOREBOARD_HEIGHT, 214, PP_BAR_HEIGHT, Qt::AlignRight | Qt::AlignVCenter, ppClock->toStringPP());
             }
         }
 
@@ -815,7 +821,7 @@ Scoreboard::changeTopBarText(QString text) {
         QFontMetrics temp(topBarText->font());
         fontSize = temp;
     }
-    scene()->update(x(), y()+TOP_BAR_Y,SCOREBOARD_WIDTH,TOP_BAR_Y*-1);
+    scene()->update(x()+10, y()+TOP_BAR_Y,TOP_BAR_WIDTH,TOP_BAR_Y*-1);
 }
 
 void
@@ -832,7 +838,7 @@ Scoreboard::displaySponsor() {
         QFontMetrics temp(topBarText->font());
         fontSize = temp;
     }
-    scene()->update(x(), y()+TOP_BAR_Y,SCOREBOARD_WIDTH,TOP_BAR_Y*-1);
+    scene()->update(x()+10, y()+TOP_BAR_Y,TOP_BAR_WIDTH,TOP_BAR_Y*-1);
 }
 
 
@@ -856,7 +862,7 @@ void
 Scoreboard::toggleShowBoard() {
     show = true;
     if (useTransparency)
-        emit transparentField(x()+10, y()-49,TOP_BAR_WIDTH,49);
+        emit transparentField(x()+20,y()+TOP_BAR_Y,TOP_BAR_WIDTH,TOP_BAR_Y*-1);
     scene()->update();
 }
 
@@ -871,7 +877,7 @@ void
 Scoreboard::hideBoard() {
     if (show) {
         show = false;
-        emit removeTransparentField(x(), y()-49,SCOREBOARD_WIDTH,49);
+        emit removeTransparentField(x()+20,y()+TOP_BAR_Y,TOP_BAR_WIDTH,TOP_BAR_Y*-1);
         scene()->update();
     }
 }

@@ -46,6 +46,7 @@ ClockControls::ClockControls(HockeyGame* game, CommercialGraphic* comGraphic) {
     connect(&useClock, SIGNAL(toggled(bool)), game->getSb(), SLOT(changeUseClock(bool)));
     connect(&useClock, SIGNAL(toggled(bool)), game, SLOT(changeUseClock(bool)));
     connect(&useClock, SIGNAL(toggled(bool)), comGraphic, SLOT(changeUseClock(bool)));
+    connect(&useClock, SIGNAL(toggled(bool)), &run, SLOT(setEnabled(bool)));
     setLayout(main);
 
     gameClock = game->getGameClock();

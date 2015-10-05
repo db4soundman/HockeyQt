@@ -27,6 +27,8 @@ public:
 
     QString toString();
 
+    inline bool operator<(const Profile& rhs) {return getTitle() < rhs.getTitle();}
+
 private:
     QString title, fullName, shortName, logoPath;
     QColor color;

@@ -2,7 +2,7 @@
 #include <QGridLayout>
 
 PenaltyControl::PenaltyControl(HockeyGame* game) {
-    QGridLayout* main = new QGridLayout();
+    clockLayout = new QGridLayout();
     awayLabel.setText(game->getAwayTri());
     homeLabel.setText(game->getHomeTri());
     ap2.setText("+ 2");
@@ -13,33 +13,65 @@ PenaltyControl::PenaltyControl(HockeyGame* game) {
     hp5.setText("+ 5");
     show.setText("Show");
     set.setText("Change Timers");
+    awayPenEnd.setText("Penalty -");
+    homePenEnd.setText("Penalty -");
 
-    main->addWidget(&awayLabel, 0, 0);
-    main->addWidget(&homeLabel, 0, 1);
-    main->addWidget(&ap2, 1, 0);
-    main->addWidget(&hp2, 1,1);
-    main->addWidget(&ap4, 2,0);
-    main->addWidget(&hp4, 2,1);
-    main->addWidget(&ap5, 3, 0);
-    main->addWidget(&hp5, 3, 1);
-    main->addWidget(&show, 4, 0);
-    main->addWidget(&set, 4, 1);
-    main->setHorizontalSpacing(3);
-    main->setVerticalSpacing(0);
-    setLayout(main);
+    clockLayout->addWidget(&awayLabel, 0, 0);
+    clockLayout->addWidget(&homeLabel, 0, 1);
+    clockLayout->addWidget(&ap2, 1, 0);
+    clockLayout->addWidget(&hp2, 1,1);
+    clockLayout->addWidget(&ap4, 2,0);
+    clockLayout->addWidget(&hp4, 2,1);
+    clockLayout->addWidget(&ap5, 3, 0);
+    clockLayout->addWidget(&hp5, 3, 1);
+    clockLayout->addWidget(&awayPenEnd,4,0);
+    clockLayout->addWidget(&homePenEnd,4,1);
+    clockLayout->addWidget(&show, 5, 0);
+    clockLayout->addWidget(&set, 5, 1);
+    clockLayout->setHorizontalSpacing(3);
+    clockLayout->setVerticalSpacing(0);
+    setLayout(clockLayout);
 
 
     connect(&ap2, SIGNAL(clicked()), this, SLOT(awayTwo()));
     connect(&ap4, SIGNAL(clicked()), this, SLOT(awayFour()));
+    connect(&awayPenEnd, SIGNAL(clicked()), game, SLOT(removeFirstAwayPenalty()));
     connect(&ap5, SIGNAL(clicked()), this, SLOT(awayFive()));
     connect(&hp2, SIGNAL(clicked()), this, SLOT(homeTwo()));
     connect(&hp4, SIGNAL(clicked()), this, SLOT(homeFour()));
+    connect(&homePenEnd, SIGNAL(clicked()), game, SLOT(removeFirstHomePenalty()));
     connect(&hp5, SIGNAL(clicked()), this, SLOT(homeFive()));
     connect(&show, SIGNAL(clicked()), game->getSb(), SLOT(togglePpClocks()));
     connect(&set, SIGNAL(clicked()), this, SIGNAL(editPenalties()));
     connect(this, SIGNAL(editPenalties()), game, SLOT(displayPenaltyEditor()));
     connect(this, SIGNAL(awayPenalty(int)), game, SLOT(addAwayPenalty(int)));
     connect(this, SIGNAL(homePenalty(int)), game, SLOT(addHomePenalty(int)));
+    connect(game, SIGNAL(clockInUse(bool)), this, SLOT(changeUseClock(bool)));
+}
+
+void PenaltyControl::changeUseClock(bool uc)
+{
+
+    if (uc) {
+        ap2.setText("+ 2");
+        ap4.setEnabled(true);
+        hp2.setText("+ 2");
+        hp4.setEnabled(true);
+        ap5.setEnabled(true);
+        hp5.setEnabled(true);
+        show.setEnabled(true);
+        set.setEnabled(true);
+    }
+    else {
+        ap2.setText("Penalty +");
+        hp2.setText("Penalty +");
+        ap4.setEnabled(false);
+        hp4.setEnabled(false);
+        ap5.setEnabled(false);
+        hp5.setEnabled(false);
+        show.setEnabled(false);
+        set.setEnabled(false);
+    }
 }
 
 void PenaltyControl::awayTwo()
