@@ -16,12 +16,12 @@ SetupPage::SetupPage(QString* pAwayName, QString* pHomeName, QString* pAwayFile,
     awayColorBox = new QLabel();
     homeColorBox->setPixmap(homeColorPrev);
     awayColorBox->setPixmap(awayColorPrev);
-    browseAway.setText("File");
-    browseHome.setText("File");
+    browseAway.setText("StatFile (Game)");
+    browseHome.setText("StatFile (Season)");
     chooseAColor.setText("Color");
     chooseHColor.setText("Color");
     chooseBg.setText("Background Color");
-    browseStatCrew.setText("File");
+    browseStatCrew.setText("GameFile");
     browseLogo.setText("Logo");
     profileDialog.setText("Load Profile");
     awayName = pAwayName;

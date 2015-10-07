@@ -51,13 +51,16 @@ HockeyGame::HockeyGame(QString awayName, QString homeName, QColor awayColor, QCo
     QFile file(homeXML);
     QXmlInputSource src(&file);
     r.parse(src);
-
+    HockeyPlayer* empty = new HockeyPlayer();
+    empty->setName("No NAME");
+    homeTeam->addPlayer(empty);
     GameXmlHandler roadHandler(awayTeam);
     r.setContentHandler(&roadHandler);
     r.setErrorHandler(&roadHandler);
     QFile f2(awayXML);
     QXmlInputSource src2(&f2);
     r.parse(src2);
+    awayTeam->addPlayer(empty);
 }
 
 void
