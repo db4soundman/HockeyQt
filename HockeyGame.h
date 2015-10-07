@@ -116,6 +116,7 @@ public slots:
     void removeFirstHomePenalty();
     void removeFirstAwayPenalty();
 
+
 signals:
     void homeScoreChanged(int score);
     void awayScoreChanged(int score);
@@ -126,6 +127,8 @@ signals:
     void homeSogChanged(int sog);
     void checkScoreboardPp();
     void clockInUse(bool uc);
+    void statusOfStatCrew(bool on);
+    void toggleStatCrew();
 
 private slots:
     void deleteExpiredPenalties();

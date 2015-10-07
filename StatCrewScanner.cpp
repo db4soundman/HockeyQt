@@ -13,6 +13,9 @@ StatCrewScanner::StatCrewScanner(HockeyGame* game, QString fileName)
     connect(breakTime, SIGNAL(timeout()), this, SLOT(start()));
     connect(game, SIGNAL(periodChanged(int)), this, SLOT(toggleScanner(int)));
     connect(game, SIGNAL(clockIsRunning(bool)), this, SLOT(toggleScanner(bool)));
+    connect(game, SIGNAL(toggleStatCrew()), this, SLOT(toggleEnabled()));
+    connect(this, SIGNAL(statCrewStatus(bool)), game, SIGNAL(statusOfStatCrew(bool)));
+    enabled = true;
 }
 
 void StatCrewScanner::toggleScanner() {
@@ -26,7 +29,14 @@ void StatCrewScanner::toggleScanner() {
 
 void StatCrewScanner::run()
 {
+    if (enabled)
     updateStats();
+}
+
+void StatCrewScanner::toggleEnabled()
+{
+    enabled = !enabled;
+    emit statCrewStatus(enabled);
 }
 
 void StatCrewScanner::toggleScanner(int pd)

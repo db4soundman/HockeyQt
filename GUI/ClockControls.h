@@ -7,6 +7,7 @@
 #include <QCheckBox>
 #include "HockeyGame.h"
 #include "CommercialGraphic.h"
+#include "CheckboxWidget.h"
 
 class ClockControls : public QWidget {
     Q_OBJECT
@@ -22,6 +23,7 @@ private:
     QPushButton run, reset, set, nextPd, prevPd, clock, intermission, final, penalty;
     QCheckBox useClock;
     Clock* gameClock;
+    CheckBoxWidget statCrewControl;
 };
 
 #endif // CLOCKCONTROLS_H

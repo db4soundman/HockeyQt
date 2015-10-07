@@ -64,7 +64,8 @@ SOURCES += main.cpp\
     StatCrewScanner.cpp \
     TricasterHandler.cpp \
     Profiles/Profile.cpp \
-    Profiles/ProfileWidget.cpp
+    Profiles/ProfileWidget.cpp \
+    GUI/CheckboxWidget.cpp
 
 HEADERS  += MainWindow.h \
     Scoreboard.h \
@@ -111,7 +112,8 @@ HEADERS  += MainWindow.h \
     TricasterHandler.h \
     AirSend_api.h \
     Profiles/Profile.h \
-    Profiles/ProfileWidget.h
+    Profiles/ProfileWidget.h \
+    GUI/CheckboxWidget.h
 
 
 RESOURCES += \

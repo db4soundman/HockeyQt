@@ -17,6 +17,10 @@ public slots:
     void toggleScanner(int pd);
     void toggleScanner();
     void run();
+    void toggleEnabled();
+
+signals:
+    void statCrewStatus(bool on);
 
 private slots:
     void updateStats();
@@ -24,7 +28,7 @@ private slots:
 private:
     GameXmlUpdater* statCrew;
     QTimer* inGame, *breakTime;
-    bool isActive;
+    bool isActive, enabled;
     QString statFile;
 };
 

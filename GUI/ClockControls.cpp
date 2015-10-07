@@ -2,7 +2,7 @@
 #include <QVBoxLayout>
 #include "ClockDialog.h"
 
-ClockControls::ClockControls(HockeyGame* game, CommercialGraphic* comGraphic) {
+ClockControls::ClockControls(HockeyGame* game, CommercialGraphic* comGraphic) : statCrewControl(game) {
     QVBoxLayout* main = new QVBoxLayout();
     useClock.setText("Use Clock");
     useClock.setChecked(true);
@@ -28,6 +28,7 @@ ClockControls::ClockControls(HockeyGame* game, CommercialGraphic* comGraphic) {
     main->addWidget(&final);
     main->addSpacing(50);
     main->addWidget(&useClock);
+    main->addWidget(&statCrewControl);
 
     connect(&run, SIGNAL(clicked()), game, SLOT(toggleClock()));
     connect(game, SIGNAL(clockIsRunning(bool)),
