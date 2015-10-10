@@ -419,7 +419,7 @@ Scoreboard::changeTopBarText(QString text) {
         QFontMetrics temp(topBarText->font());
         fontSize = temp;
     }
-    scene()->update(x(), y()+TOP_BAR_Y,SCOREBOARD_WIDTH,TOP_BAR_Y*-1);
+    scene()->update(x()+20, y()+TOP_BAR_Y,SCOREBOARD_WIDTH,TOP_BAR_Y*-1);
 }
 
 void
@@ -436,7 +436,7 @@ Scoreboard::displaySponsor() {
         QFontMetrics temp(topBarText->font());
         fontSize = temp;
     }
-    scene()->update(x(), y()+TOP_BAR_Y,SCOREBOARD_WIDTH,TOP_BAR_Y*-1);
+    scene()->update(x()+20, y()+TOP_BAR_Y,SCOREBOARD_WIDTH,TOP_BAR_Y*-1);
 }
 bool Scoreboard::getUseTransparency() const
 {
@@ -821,7 +821,7 @@ Scoreboard::changeTopBarText(QString text) {
         QFontMetrics temp(topBarText->font());
         fontSize = temp;
     }
-    scene()->update(x()+10, y()+TOP_BAR_Y,TOP_BAR_WIDTH,TOP_BAR_Y*-1);
+    scene()->update(x()+20, y()+TOP_BAR_Y,TOP_BAR_WIDTH,TOP_BAR_Y*-1);
 }
 
 void
@@ -838,7 +838,7 @@ Scoreboard::displaySponsor() {
         QFontMetrics temp(topBarText->font());
         fontSize = temp;
     }
-    scene()->update(x()+10, y()+TOP_BAR_Y,TOP_BAR_WIDTH,TOP_BAR_Y*-1);
+    scene()->update(x()+20, y()+TOP_BAR_Y,TOP_BAR_WIDTH,TOP_BAR_Y*-1);
 }
 
 
