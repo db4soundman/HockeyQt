@@ -99,7 +99,7 @@ MiamiAllAccessHockey::exec() {
     scene->addItem(commercial);
 
     game->getLt()->setY(graphicsScreen.height() - 160);
-    game->getSb()->setY(60);
+    game->getSb()->setY(60 - 39);
     game->getSb()->setX((graphicsScreen.width() / 2) - (game->getSb()->getRealWidth()/2));
     commercial->setY(graphicsScreen.height() - 230);
     //commercial->setX(460);
