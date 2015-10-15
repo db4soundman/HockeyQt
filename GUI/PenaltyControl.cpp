@@ -3,8 +3,8 @@
 
 PenaltyControl::PenaltyControl(HockeyGame* game) {
     clockLayout = new QGridLayout();
-    awayLabel.setText(game->getAwayTri());
-    homeLabel.setText(game->getHomeTri());
+    awayLabel.setText(game->getAwayTri() + " PENALTY");
+    homeLabel.setText(game->getHomeTri() + " PENALTY");
     ap2.setText("+ 2");
     ap4.setText("+ 4");
     ap5.setText("+ 5");
