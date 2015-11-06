@@ -9,13 +9,13 @@
 class HomeStatControl : public QWidget {
     Q_OBJECT
 public:
-    HomeStatControl(HockeyGame* game);
+    HomeStatControl(HockeyGame* game, bool phome);
 
 signals:
-    void requestSeasonLt(int index);
-    void requestSeasonSb(int index);
-    void requestGameSb(int index);
-    void requestGameLt(int index);
+    void requestSeasonLt(int index, bool home);
+    void requestSeasonSb(int index, bool home);
+    void requestGameSb(int index, bool home);
+    void requestGameLt(int index, bool home);
 
 private slots:
     void requestSeasonLt();
@@ -26,6 +26,7 @@ private slots:
 private:
     QComboBox playerSelector;
     QPushButton seasonLt, gameLt, seasonBar, gameBar;
+    bool home;
 };
 
 #endif // HOMESTATCONTROL_H

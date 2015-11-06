@@ -98,12 +98,12 @@ public slots:
     void subHomeSOG();
     void subAwaySOG();
     void showAnnouncers();
-    void gatherHomeSeasonStatsLt(int index);
-    void gatherHomeSeasonStatsSb(int index);
-    void gatherHomeGameStatsLt(int index);
-    void gatherAwayStatsLt(int index);
-    void gatherHomeGameStatsSb(int index);
-    void gatherAwayGameStatsSb(int index);
+    void gatherSeasonStatsLt(int index, bool home);
+    void gatherSeasonStatsSb(int index, bool home);
+    void gatherGameStatsLt(int index, bool home);
+    //void gatherAwayStatsLt(int index);
+    void gatherGameStatsSb(int index, bool home);
+    //void gatherAwayGameStatsSb(int index);
     void prepareHomeGoalText(int scorer, int a1, int a2);
     void prepareAwayGoalText(int scorer, int a1, int a2);
     void prepareHomePenaltyText(int pIndex, QString penalty);

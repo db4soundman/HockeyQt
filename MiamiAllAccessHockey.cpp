@@ -76,12 +76,12 @@ MiamiAllAccessHockey::exec() {
                           homeRank, graphicsScreen.width() + 1, awayLogo, homeShort, awayShort);
     if (usingTricaster)
         bg.setRgb(0,0,0);
-    HockeyTeam* team = game->getAwayTeam();
-    team->setPk(pk);
-    team->setPkopp(pkopp);
-    team->setPpg(ppg);
-    team->setPpopp(ppopp);
-    team->setGoalies(goalies);
+//    HockeyTeam* team = game->getAwayTeam();
+//    team->setPk(pk);
+//    team->setPkopp(pkopp);
+//    team->setPpg(ppg);
+//    team->setPpopp(ppopp);
+//    team->setGoalies(goalies);
 
     scene->addItem(game->getSb());
 

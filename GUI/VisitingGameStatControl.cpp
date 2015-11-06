@@ -14,18 +14,18 @@ VisitingGameStatControl::VisitingGameStatControl(HockeyGame* game) {
     connect(&displayLt, SIGNAL(clicked()), this, SLOT(requestLt()));
     connect(&displayBar, SIGNAL(clicked()), this, SLOT(requestSb()));
 
-    connect(this, SIGNAL(requestLt(int)), game, SLOT(gatherAwayStatsLt(int)));
-    connect(this, SIGNAL(requestSb(int)), game, SLOT(gatherAwayGameStatsSb(int)));
+    connect(this, SIGNAL(requestLt(int)), game, SLOT(gatherStatsLt(int,bool)));
+    connect(this, SIGNAL(requestSb(int)), game, SLOT(gatherGameStatsSb(int,bool)));
 
     setLayout(main);
 }
 
 void VisitingGameStatControl::requestLt()
 {
-    emit requestLt(playerSelector.currentIndex());
+    emit requestLt(playerSelector.currentIndex(), false);
 }
 
 void VisitingGameStatControl::requestSb()
 {
-    emit requestSb(playerSelector.currentIndex());
+    emit requestSb(playerSelector.currentIndex(), false);
 }

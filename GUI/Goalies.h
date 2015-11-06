@@ -12,10 +12,10 @@ public:
     Goalies(HockeyGame* game);
 
 signals:
-    void requestHomeLt(int player);
-    void requestAwayLt(int player);
-    void requestHomeSb(int player);
-    void requestAwaySb(int player);
+    void requestHomeLt(int player, bool home);
+    void requestAwayLt(int player, bool home);
+    void requestHomeSb(int player, bool home);
+    void requestAwaySb(int player, bool home);
 
 private slots:
     void getHomeLt();

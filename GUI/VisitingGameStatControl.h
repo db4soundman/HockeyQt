@@ -12,8 +12,8 @@ public:
     VisitingGameStatControl(HockeyGame* game);
 
 signals:
-    void requestLt(int index);
-    void requestSb(int index);
+    void requestLt(int index, bool home);
+    void requestSb(int index, bool home);
 
 private slots:
     void requestLt();

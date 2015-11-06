@@ -16,8 +16,8 @@ public:
 
 private:
     GoalDisplayWidget homeGoal, awayGoal;
-    HomeStatControl homeStats;
-    VisitingGameStatControl awayStats;
+    HomeStatControl homeStats, awayStats;
+    //VisitingGameStatControl awayStats;
     PenaltyDisplay homePenalty, awayPenalty;
     Goalies goalies;
 

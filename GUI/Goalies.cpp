@@ -39,10 +39,10 @@ Goalies::Goalies(HockeyGame* game) {
     connect(&homeSB, SIGNAL(clicked()), this, SLOT(getHomeSb()));
     connect(&awaySB, SIGNAL(clicked()), this, SLOT(getAwaySb()));
 
-    connect(this, SIGNAL(requestAwayLt(int)), game, SLOT(gatherAwayStatsLt(int)));
-    connect(this, SIGNAL(requestHomeLt(int)), game, SLOT(gatherHomeGameStatsLt(int)));
-    connect(this, SIGNAL(requestAwaySb(int)), game, SLOT(gatherAwayGameStatsSb(int)));
-    connect(this, SIGNAL(requestHomeSb(int)), game, SLOT(gatherHomeGameStatsSb(int)));
+    connect(this, SIGNAL(requestAwayLt(int, bool)), game, SLOT(gatherGameStatsLt(int, bool)));
+    connect(this, SIGNAL(requestHomeLt(int, bool)), game, SLOT(gatherGameStatsLt(int, bool)));
+    connect(this, SIGNAL(requestAwaySb(int, bool)), game, SLOT(gatherGameStatsSb(int, bool)));
+    connect(this, SIGNAL(requestHomeSb(int, bool)), game, SLOT(gatherGameStatsSb(int, bool)));
 
     emit awayGoalie.currentIndexChanged(0);
     emit homeGoalie.currentIndexChanged(0);
@@ -51,20 +51,20 @@ Goalies::Goalies(HockeyGame* game) {
 
 void Goalies::getHomeLt()
 {
-    emit requestHomeLt(homeGoalie.currentIndex());
+    emit requestHomeLt(homeGoalie.currentIndex(), true);
 }
 
 void Goalies::getAwayLt()
 {
-    emit requestAwayLt(awayGoalie.currentIndex());
+    emit requestAwayLt(awayGoalie.currentIndex(), false);
 }
 
 void Goalies::getHomeSb()
 {
-    emit requestHomeSb(homeGoalie.currentIndex());
+    emit requestHomeSb(homeGoalie.currentIndex(), true);
 }
 
 void Goalies::getAwaySb()
 {
-    emit requestAwaySb(awayGoalie.currentIndex());
+    emit requestAwaySb(awayGoalie.currentIndex(), false);
 }
