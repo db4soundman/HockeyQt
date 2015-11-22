@@ -9,7 +9,7 @@
 #define GRADIENT_LEVEL .5
 
 #define TEAM_GRADIENT_LEVEL .1
-#define SCOREBOARD_GRADIENT_LEVEL .3
+#define SCOREBOARD_GRADIENT_LEVEL .9
 
 
 #define AWAY_PP 1
@@ -79,9 +79,9 @@ Scoreboard::Scoreboard(QColor awayCol, QColor homeCol, QString awayTeam, QString
     awayGradient.setStart(0, TOP_BAR_HEIGHT + TEAM_BOX_Y);
     homeGradient.setFinalStop(0,TOP_BAR_HEIGHT + TEAM_BOX_HEIGHT);
     awayGradient.setFinalStop(0,TOP_BAR_HEIGHT + TEAM_BOX_HEIGHT);
-    mainGradient.setStart(0,0);
+    mainGradient.setStart(0,TOP_BAR_HEIGHT);
     mainGradient.setFinalStop(0, TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT);
-    clockGradient.setStart(0,1);
+    clockGradient.setStart(0,1 + TOP_BAR_HEIGHT);
     clockGradient.setFinalStop(0, TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT - 2);
     ppGradient.setStart(0, TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT);
     ppGradient.setFinalStop(0, TOP_BAR_HEIGHT + 92);
@@ -513,13 +513,13 @@ Scoreboard::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
         //painter->fillRect(0,0,SCOREBOARD_WIDTH, SCOREBOARD_HEIGHT, mainGradient);
         //painter->setRenderHint(QPainter::Antialiasing);
         //painter->drawRoundRect(0,0,SCOREBOARD_WIDTH, SCOREBOARD_HEIGHT,5, 100);
-        painter->fillRect(0,TOP_BAR_HEIGHT,SCOREBOARD_WIDTH, SCOREBOARD_HEIGHT,bgGradient);
+        painter->fillRect(0,TOP_BAR_HEIGHT,SCOREBOARD_WIDTH, SCOREBOARD_HEIGHT,mainGradient);
         //painter->setRenderHint(QPainter::Antialiasing, false);
         //painter->drawPixmap(34, 4, 66, 50, *homeLogo);
         //Clock - Game time...draw clock first since default color is black
         painter->setFont(homeName->font());
-        painter->setPen(QColor(255,255,255));
-        painter->fillRect(CLOCK_FIELD_X, 1 + TOP_BAR_HEIGHT, CLOCK_FIELD_WIDTH,SCOREBOARD_HEIGHT-2, mainGradient);
+        painter->setPen(QColor(1,1,1));
+        painter->fillRect(CLOCK_FIELD_X, 1 + TOP_BAR_HEIGHT, CLOCK_FIELD_WIDTH,SCOREBOARD_HEIGHT-2, clockGradient);
         if (useClock && showPdAndClockFields) {
             painter->drawText(CLOCK_FIELD_X + 10, TOP_BAR_HEIGHT, CLOCK_FIELD_WIDTH, SCOREBOARD_HEIGHT, Qt::AlignVCenter, period);
             painter->drawText(CLOCK_FIELD_X, TOP_BAR_HEIGHT, CLOCK_FIELD_WIDTH-10, SCOREBOARD_HEIGHT, Qt::AlignRight | Qt::AlignVCenter,
@@ -638,7 +638,7 @@ Scoreboard::prepareColor() {
     awayGradient.setColorAt(0, end2);
 
     //mainGradient, clockGradient, ppGradient, scoreGradient
-    QColor sbRed(156,0,0);
+    QColor sbRed(20,20,20);
     red = -1*sbRed.red() *SCOREBOARD_GRADIENT_LEVEL + sbRed.red();
     green = -1*sbRed.green() *SCOREBOARD_GRADIENT_LEVEL + sbRed.green();
     blue = -1*sbRed.blue() *SCOREBOARD_GRADIENT_LEVEL + sbRed.blue();
@@ -646,13 +646,14 @@ Scoreboard::prepareColor() {
     QColor end3(red, green, blue);
     if (end3 == QColor(0,0,0))
         end3 = QColor(1,1,1);
-    mainGradient.setColorAt(0, end3);
+    mainGradient.setColorAt(0, sbRed);
+    mainGradient.setColorAt(.5, sbRed);
     mainGradient.setColorAt(1, sbRed);
 
-    clockGradient.setColorAt(0, QColor(200,200,200));
-    clockGradient.setColorAt(1, QColor(200,200,200));
-    clockGradient.setColorAt(.45, QColor(180,180,180));
-    clockGradient.setColorAt(.55, QColor(180,180,180));
+    clockGradient.setColorAt(0, QColor(250,250,250));
+    clockGradient.setColorAt(1, QColor(250,250,250));
+    clockGradient.setColorAt(.45, QColor(220,220,220));
+    clockGradient.setColorAt(.55, QColor(220,220,220));
 
     ppGradient.setColorAt(0, QColor(1,1,1));
     ppGradient.setColorAt(1, QColor(1,1,1));
@@ -666,8 +667,8 @@ Scoreboard::prepareColor() {
 
     bgGradient.setStart(0,0);
     bgGradient.setFinalStop(0,SCOREBOARD_HEIGHT);
-    bgGradient.setColorAt(0, QColor(1,1,1));
-    bgGradient.setColorAt(1, QColor(1,1,1));
+    bgGradient.setColorAt(0, QColor(45,45,45));
+    bgGradient.setColorAt(1, QColor(45,45,45));
     bgGradient.setColorAt(.5, QColor(50,50,50));
 
     penaltyGradient.setColorAt(1, QColor(255, 255, 0));

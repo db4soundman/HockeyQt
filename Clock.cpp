@@ -61,7 +61,7 @@ QString Clock::getTimeSinceOtStarted()
     QTime clock(0, minutes, seconds);
     QTime pd(0, 5);
     QTime retVal(0,0);
-    retVal.addSecs(clock.secsTo(pd));
+    retVal = retVal.addSecs(clock.secsTo(pd));
     return retVal.toString("m:ss");
 }
 
