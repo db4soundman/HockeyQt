@@ -9,7 +9,8 @@ SetupPage::SetupPage(QString* pAwayName, QString* pHomeName, QString* pAwayFile,
                      QString* pAwayRank, QString* pHomeRank, QColor* pAwayColor,
                      QColor* pHomeColor, QColor* pBg, QString* pStatCrew,
                      bool *pUsingTricaster, QString* pawayLogo, QString* tricasterIp,
-                     QString* aSname, QString* hSname): homeColorPrev(16,16), awayColorPrev(16,16) {
+                     QString* aSname, QString* hSname, int *portNum): homeColorPrev(16,16),
+    awayColorPrev(16,16) {
     homeColorPrev.fill(*pHomeColor);
     awayColorPrev.fill(*pAwayColor);
     homeColorBox = new QLabel();
@@ -41,6 +42,7 @@ SetupPage::SetupPage(QString* pAwayName, QString* pHomeName, QString* pAwayFile,
     usingTricaster = pUsingTricaster;
     awayLogo = pawayLogo;
     this->tricasterIp = tricasterIp;
+    port = portNum;
     QGridLayout* mainLayout = new QGridLayout();
     mainLayout->addWidget(new QLabel("Away Team:"), 0, 0);
     mainLayout->addWidget(&awayNameLine, 0, 1);
@@ -77,6 +79,12 @@ SetupPage::SetupPage(QString* pAwayName, QString* pHomeName, QString* pAwayFile,
     mainLayout->addWidget(tricasterBox, 8, 0);
     tricasterIpLine.setText(*tricasterIp);
     mainLayout->addWidget(&tricasterIpLine, 8, 1);
+    mainLayout->addWidget(new QLabel("Net Input"),8, 2);
+    portSelector = new QComboBox();
+    mainLayout->addWidget(portSelector,8, 3);
+
+    portSelector->addItem("1");
+    portSelector->addItem("2");
 
     setLayout(mainLayout);
 
@@ -108,6 +116,7 @@ bool SetupPage::validatePage()
     *tricasterIp = tricasterIpLine.text();
     *awayShort = awayShortLine.text().toUpper();
     *homeShort = homeShortLine.text().toUpper();
+    *port = portSelector->currentIndex() + 7000;
     return true;
 }
 

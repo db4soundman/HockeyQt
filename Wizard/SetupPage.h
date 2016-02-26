@@ -8,13 +8,15 @@
 #include <QCheckBox>
 #include <QPixmap>
 #include <QLabel>
+#include <QComboBox>
 #include "ProfileWidget.h"
 class SetupPage : public QWizardPage {
     Q_OBJECT
 public:
     SetupPage(QString* pAwayName, QString* pHomeName, QString* pAwayFile, QString* pHomeFile,
               QString* pSponsor, QString* pAnnouncer, QString* pAwayRank, QString* pHomeRank,
-              QColor* pAwayColor, QColor* pHomeColor, QColor* pBg, QString* pStatCrew, bool *pUsingTricaster, QString *pawayLogo, QString *tricasterIp, QString *aSname, QString *hSname);
+              QColor* pAwayColor, QColor* pHomeColor, QColor* pBg, QString* pStatCrew, bool *pUsingTricaster,
+              QString *pawayLogo, QString *tricasterIp, QString *aSname, QString *hSname, int* portNum);
     bool validatePage();
 
 private slots:
@@ -34,9 +36,11 @@ private:
     QLineEdit homeNameLine, awayNameLine, awayRankLine, homeRankLine, sponsorLine, announcerLine, tricasterIpLine, awayShortLine, homeShortLine;
     QCheckBox* tricasterBox;
     QPixmap homeColorPrev, awayColorPrev;
+    QComboBox* portSelector;
     QLabel *homeColorBox, *awayColorBox;
     bool* usingTricaster;
     ProfileWidget profileSelector;
+    int *port;
 };
 
 #endif // SETUPPAGE_H

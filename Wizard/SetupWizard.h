@@ -13,7 +13,7 @@ public:
                 QString* pSponsor, QString* pAnnouncer, QString* pAwayRank, QString* pHomeRank,
                 QColor* pAwayColor, QColor* pHomeColor, QColor* pBg, int* pk, int* pkopp,
                 int* ppg, int* ppopp, QString* goalies, QString* statcrewName, bool* usingTricaster,
-                QString *awayLogo, QString *tricasterIp, QString* aSname, QString* hSname);
+                QString *awayLogo, QString *tricasterIp, QString* aSname, QString* hSname, int *port);
 
 private:
     SetupPage wizpage;
