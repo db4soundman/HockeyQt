@@ -1,7 +1,7 @@
 #ifndef LOWERTHIRD_H
 #define LOWERTHIRD_H
 
-#include <QGraphicsPixmapItem>
+#include <QGraphicsRectItem>
 #include <QLinearGradient>
 #include <QPainter>
 #include <QObject>
@@ -11,13 +11,13 @@
 #include <QColor>
 #include "GraphicChooser.txt"
 
-class LowerThird : public QObject, public QGraphicsPixmapItem {
+class LowerThird : public QObject, public QGraphicsRectItem {
     Q_OBJECT
 public:
 #ifdef GRADIENT_LOOK
     LowerThird(QColor awayColor, QColor homeColor, int screenWidth, QGraphicsItem* parent = 0);
 #else
-    LowerThird(QColor awayColor, QColor homeColor, int screenWidth, QString pawayLogo, QGraphicsItem* parent = 0);
+    LowerThird(QColor awayColor, QColor homeColor, int screenWidth, QPixmap pawayLogo, QGraphicsItem* parent = 0);
 #endif
 
     void paint(QPainter * painter,

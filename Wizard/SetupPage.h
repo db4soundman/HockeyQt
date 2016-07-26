@@ -9,7 +9,7 @@
 #include <QPixmap>
 #include <QLabel>
 #include <QComboBox>
-#include "ProfileWidget.h"
+#include "Profile.h"
 class SetupPage : public QWizardPage {
     Q_OBJECT
 public:
@@ -27,7 +27,8 @@ private slots:
     void homeColorDiag();
     void bgDiag();
     void logoBrowse();
-    void applyProfile(Profile p);
+    void applyProfile();
+    void profileBrowse();
 
 private:
     QString* awayName, *homeName, *awayRank, *homeRank, *homeFile, *awayFile, *sponsor, *announcer, *statCrew, *awayLogo, *tricasterIp, *awayShort, *homeShort;
@@ -36,11 +37,12 @@ private:
     QLineEdit homeNameLine, awayNameLine, awayRankLine, homeRankLine, sponsorLine, announcerLine, tricasterIpLine, awayShortLine, homeShortLine;
     QCheckBox* tricasterBox;
     QPixmap homeColorPrev, awayColorPrev;
-    QComboBox* portSelector;
+    QComboBox* portSelector, *swatchSelector;
     QLabel *homeColorBox, *awayColorBox;
     bool* usingTricaster;
-    ProfileWidget profileSelector;
+    //ProfileWidget profileSelector;
     int *port;
+    Profile activeProfile;
 };
 
 #endif // SETUPPAGE_H

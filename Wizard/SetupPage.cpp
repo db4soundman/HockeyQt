@@ -2,6 +2,8 @@
 #include <QGridLayout>
 #include <QFileDialog>
 #include <QColorDialog>
+#include <QStandardPaths>
+#include <QTextStream>
 
 
 SetupPage::SetupPage(QString* pAwayName, QString* pHomeName, QString* pAwayFile,
@@ -11,14 +13,17 @@ SetupPage::SetupPage(QString* pAwayName, QString* pHomeName, QString* pAwayFile,
                      bool *pUsingTricaster, QString* pawayLogo, QString* tricasterIp,
                      QString* aSname, QString* hSname, int *portNum): homeColorPrev(16,16),
     awayColorPrev(16,16) {
+    swatchSelector = new QComboBox();
+    swatchSelector->addItem("1");
+    swatchSelector->addItem("2");
     homeColorPrev.fill(*pHomeColor);
     awayColorPrev.fill(*pAwayColor);
     homeColorBox = new QLabel();
     awayColorBox = new QLabel();
     homeColorBox->setPixmap(homeColorPrev);
     awayColorBox->setPixmap(awayColorPrev);
-    browseAway.setText("StatFile (Game)");
-    browseHome.setText("StatFile (Season)");
+    browseAway.setText("Stat File");
+    browseHome.setText("Stat File");
     chooseAColor.setText("Color");
     chooseHColor.setText("Color");
     chooseBg.setText("Background Color");
@@ -48,9 +53,10 @@ SetupPage::SetupPage(QString* pAwayName, QString* pHomeName, QString* pAwayFile,
     mainLayout->addWidget(&awayNameLine, 0, 1);
     mainLayout->addWidget(&chooseAColor, 0, 2);
     mainLayout->addWidget(awayColorBox,0,3);
-    mainLayout->addWidget(&browseAway, 0, 4);
-    mainLayout->addWidget(&browseLogo, 0, 5);
-    mainLayout->addWidget(&profileDialog, 0,6);
+    mainLayout->addWidget(swatchSelector, 0, 4);
+    mainLayout->addWidget(&browseAway, 0, 5);
+    mainLayout->addWidget(&browseLogo, 0, 6);
+    mainLayout->addWidget(&profileDialog, 0,7);
 
     mainLayout->addWidget(new QLabel("Home Team:"), 1, 0);
     mainLayout->addWidget(&homeNameLine, 1, 1);
@@ -95,13 +101,13 @@ SetupPage::SetupPage(QString* pAwayName, QString* pHomeName, QString* pAwayFile,
     connect(&chooseBg, SIGNAL(clicked()), this, SLOT(bgDiag()));
     connect(&browseStatCrew, SIGNAL(clicked()), this, SLOT(statCrewBrowse()));
     connect(&browseLogo, SIGNAL(clicked()), this, SLOT(logoBrowse()));
-    connect(&profileDialog, SIGNAL(clicked()), &profileSelector, SLOT(exec()));
+    connect(&profileDialog, SIGNAL(clicked()), this, SLOT(profileBrowse()));
 
     homeNameLine.setText(*homeName);
     announcerLine.setText(*announcer);
     homeShortLine.setText(*homeShort);
     setTitle("Game Information");
-    connect(&profileSelector, SIGNAL(closed(Profile)), this, SLOT(applyProfile(Profile)));
+    //connect(&profileSelector, SIGNAL(closed(Profile)), this, SLOT(applyProfile(Profile)));
 }
 
 bool SetupPage::validatePage()
@@ -175,12 +181,41 @@ void SetupPage::logoBrowse() {
         *awayLogo = file;
 }
 
-void SetupPage::applyProfile(Profile p)
+void SetupPage::profileBrowse() {
+    QString file = QFileDialog::getOpenFileName(0, "Away Profile",QStandardPaths::writableLocation(QStandardPaths::PicturesLocation)+"/IMS Images/Logos_Keyable");
+    if (!file.isEmpty()) {
+        QFile csv(QStandardPaths::writableLocation(QStandardPaths::PicturesLocation)+"/IMS Images/Profiles.csv");
+        csv.open(QIODevice::ReadOnly);
+        QTextStream stream(&csv);
+        while (!stream.atEnd()) {
+            QStringList data = stream.readLine().split(',');
+            QString name = file.mid(file.lastIndexOf('/')+1).split('.')[0];
+            if (data[4] == name) {
+                Profile p(data[1], data[2], data[3], data[0], file, QStandardPaths::writableLocation(QStandardPaths::PicturesLocation)+"/IMS Images/Swatches/"+data[4]+".PNG");
+                activeProfile = p;
+                applyProfile();
+                csv.close();
+                break;
+            }
+        }
+    }
+}
+
+void SetupPage::applyProfile()
 {
-    awayNameLine.setText(p.getFullName());
-    *awayColor = p.getColor();
-    awayColorPrev.fill(p.getColor());
-    awayColorBox->setPixmap(awayColorPrev);
-    *awayLogo = p.getLogoPath();
-    awayShortLine.setText(p.getShortName());
+    if (!activeProfile.getLogoPath().isEmpty()) {
+        awayNameLine.setText(activeProfile.getFullName());
+        QImage swatch(activeProfile.getSwatchPath());
+        switch (swatchSelector->currentIndex()) {
+        case 0:
+            *awayColor = swatch.pixel(0,10);
+            break;
+        default:
+            *awayColor = swatch.pixel(0,14);
+        }
+        awayColorPrev.fill(*awayColor);
+        awayColorBox->setPixmap(awayColorPrev);
+        *awayLogo = activeProfile.getLogoPath();
+        awayShortLine.setText(activeProfile.getShortName());
+    }
 }

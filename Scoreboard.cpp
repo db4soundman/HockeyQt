@@ -8,7 +8,7 @@
 // Flat look
 #define GRADIENT_LEVEL .5
 
-#define TEAM_GRADIENT_LEVEL .1
+#define TEAM_GRADIENT_LEVEL .5
 #define SCOREBOARD_GRADIENT_LEVEL .9
 
 
@@ -33,7 +33,7 @@
 #define TOP_BAR_HEIGHT 39
 
 Scoreboard::Scoreboard(QColor awayCol, QColor homeCol, QString awayTeam, QString homeTeam,
-                       QString sponsorText, Clock* clock, QString pAwayRank, QString pHomeRank, QString pawayLogo) :
+                       QString sponsorText, Clock* clock, QString pAwayRank, QString pHomeRank, QPixmap pawayLogo) :
     homeColor(homeCol), awayColor(awayCol) {
     QFont font("Arial", 28, QFont::Bold);
     font.setCapitalization(QFont::SmallCaps);
@@ -46,7 +46,7 @@ Scoreboard::Scoreboard(QColor awayCol, QColor homeCol, QString awayTeam, QString
 
     defaultSponsorText = sponsorFont;
     show = false;
-    setPixmap(QPixmap(":/images/Scoreboard.png"));
+    setRect(0,0,SCOREBOARD_WIDTH, TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT + TOP_BAR_HEIGHT + 5);
     ppBar = new QPixmap(":/images/ppBar.png");
     topBar = new QPixmap(":/images/ppBar.png");
     homeLogo = new QPixmap(":/images/M.png");
@@ -646,14 +646,16 @@ Scoreboard::prepareColor() {
     QColor end3(red, green, blue);
     if (end3 == QColor(0,0,0))
         end3 = QColor(1,1,1);
-    mainGradient.setColorAt(0, sbRed);
-    mainGradient.setColorAt(.5, sbRed);
-    mainGradient.setColorAt(1, sbRed);
 
-    clockGradient.setColorAt(0, QColor(250,250,250));
-    clockGradient.setColorAt(1, QColor(250,250,250));
-    clockGradient.setColorAt(.45, QColor(220,220,220));
-    clockGradient.setColorAt(.55, QColor(220,220,220));
+    mainGradient.setColorAt(0, QColor(1,1,1));
+    mainGradient.setColorAt(1, QColor(1,1,1));
+    mainGradient.setColorAt(.4, QColor(30,30,30));
+    //mainGradient.setColorAt(.6, QColor(50,50,50));
+
+    clockGradient.setColorAt(0, QColor(255,255,255));
+    clockGradient.setColorAt(1, QColor(255,255,255));
+    clockGradient.setColorAt(.45, QColor(180,180,180));
+    clockGradient.setColorAt(.55, QColor(180,180,180));
 
     ppGradient.setColorAt(0, QColor(1,1,1));
     ppGradient.setColorAt(1, QColor(1,1,1));
@@ -732,8 +734,8 @@ Scoreboard::preparePowerplayClock(int pos, Clock *clock, QString description) {
         break;
     }
     ppDescription = description;
-    scene()->update(this->x() + V_TEAM_BOX_STARTX - 3, this->y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT,
-                    SCOREBOARD_WIDTH - V_TEAM_BOX_STARTX, PP_BAR_HEIGHT);
+    scene()->update(this->x(), this->y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT,
+                    SCOREBOARD_WIDTH, PP_BAR_HEIGHT);
 }
 
 void
@@ -870,8 +872,8 @@ Scoreboard::toggleShowBoard() {
 void Scoreboard::togglePpClocks()
 {
     showPP = !showPP;
-    scene()->update(this->x() + V_TEAM_BOX_STARTX - 3, this->y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT,
-                    SCOREBOARD_WIDTH - V_TEAM_BOX_STARTX, PP_BAR_HEIGHT);
+    scene()->update(this->x(), this->y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT,
+                    SCOREBOARD_WIDTH , PP_BAR_HEIGHT);
 }
 
 void

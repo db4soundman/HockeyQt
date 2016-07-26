@@ -263,7 +263,7 @@ void LowerThird::prepareForPpComp(QString awayName, QString awayLabel, QString a
 #define STAT_GRADIENT_LEVEL .1
 #define NAME_WIDTH 460
 #define BOX_HEIGHT 38
-LowerThird::LowerThird(QColor awayColor, QColor homeColor, int screenWidth, QString pawayLogo, QGraphicsItem* parent) : QGraphicsPixmapItem(parent),
+LowerThird::LowerThird(QColor awayColor, QColor homeColor, int screenWidth, QPixmap pawayLogo, QGraphicsItem* parent) :
     name(""), number("number"), statFont("Arial", 22, QFont::Bold), nameFont("Arial", 28, QFont::Bold), labelFont("Arial", 18, QFont::Bold),
     awayTeamMain(awayColor), homeTeamMain(homeColor) {
 #ifdef Q_OS_OSX
@@ -271,7 +271,8 @@ LowerThird::LowerThird(QColor awayColor, QColor homeColor, int screenWidth, QStr
     nameFont.setPointSize(36);
     #endif
     fontPointSize = nameFont.pointSize();
-    setPixmap(QPixmap(":/images/LowerThird.png"));
+    //setPixmap(QPixmap(":/images/LowerThird.png"));
+    setRect(0,0,1200, BOX_HEIGHT*3);
     statFontPointSize = statFont.pointSize();
     gradient.setStart(0, 0);
     gradient.setFinalStop(0, BOX_HEIGHT);
@@ -400,7 +401,7 @@ void LowerThird::prepareForCustomLt(QString name, QString number, QString year,
     //statGradient = homeTeam ? homeStatGradient : awayStatGradient;
     // Resize the font to be two lines ONLY if necessary...
     QFontMetrics fontSize(statFont);
-    if (fontSize.width(statistics[0]) > this->pixmap().width() - 100)
+    if (fontSize.width(statistics[0]) > this->rect().width() - 100)
         adjustFont();
     showLt();
 }

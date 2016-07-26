@@ -5,9 +5,11 @@
 #include "Clock.h"
 #include <QString>
 #include <QTimer>
+#include <QPixmap>
 #include "Scoreboard.h"
 #include "LowerThird.h"
 #include "HockeyTeam.h"
+#include "SerialConsole.h"
 
 
 class HockeyGame : public QObject {
@@ -15,11 +17,13 @@ class HockeyGame : public QObject {
 public:
     HockeyGame(QString awayName, QString homeName, QColor awayColor, QColor homeColor,
                QString awayXML, QString homeXML, QString sponsor, QString announcers,
-               QString awayRank, QString homeRank, int screenWidth, QString awayLogo,
+               QString awayRank, QString homeRank, int screenWidth, QPixmap awayLogo,
                QString hsName, QString asName);
 
     Scoreboard* getSb();
     LowerThird* getLt();
+
+    void connectWithSerialHandler(SerialConsole* console);
 
     QString getSponsor() const;
     void setSponsor(const QString& value);

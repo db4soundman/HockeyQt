@@ -6,7 +6,8 @@
 class Profile
 {
 public:
-    Profile(QString title, QString fullName, QString shortName, QColor color, QString logoPath);
+    Profile();
+    Profile(QString title, QString nickname, QString fullName, QString shortName, QString logoPath, QString swatchPath);
     ~Profile();
 
 
@@ -29,8 +30,14 @@ public:
 
     inline bool operator<(const Profile& rhs) {return getTitle() < rhs.getTitle();}
 
+    QString getNickname() const;
+    void setNickname(const QString &value);
+
+    QString getSwatchPath() const;
+    void setSwatchPath(const QString &value);
+
 private:
-    QString title, fullName, shortName, logoPath;
+    QString title, nickname, fullName, shortName, logoPath, swatchPath;
     QColor color;
 };
 

@@ -4,20 +4,20 @@
 #
 #-------------------------------------------------
 
-QT       += core gui network
+QT       += core gui network serialport widgets
 QT += xml
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = Graphics
 TEMPLATE = app
-DEFINES *= QT_USE_QSTRINGBUILDER
 INCLUDEPATH += GUI \
                Wizard \
             Standings \
             NCHCScoreboard \
             GameStatEditors \
-            Profiles
+            Profiles \
+            SerialHandler
 
 SOURCES += main.cpp\
         MainWindow.cpp \
@@ -64,8 +64,10 @@ SOURCES += main.cpp\
     StatCrewScanner.cpp \
     TricasterHandler.cpp \
     Profiles/Profile.cpp \
-    Profiles/ProfileWidget.cpp \
-    GUI/CheckboxWidget.cpp
+    GUI/CheckboxWidget.cpp \
+    SerialHandler/console.cpp \
+    SerialHandler/SerialConsole.cpp \
+    SerialHandler/settingsdialog.cpp
 
 HEADERS  += MainWindow.h \
     Scoreboard.h \
@@ -112,12 +114,15 @@ HEADERS  += MainWindow.h \
     TricasterHandler.h \
     AirSend_api.h \
     Profiles/Profile.h \
-    Profiles/ProfileWidget.h \
-    GUI/CheckboxWidget.h
+    GUI/CheckboxWidget.h \
+    SerialHandler/console.h \
+    SerialHandler/SerialConsole.h \
+    SerialHandler/settingsdialog.h
 
 
 RESOURCES += \
-    graphics.qrc
+    graphics.qrc \
+    terminal.qrc
 
 INCLUDEPATH += $$PWD/
 DEPENDPATH += $$PWD/
@@ -125,3 +130,7 @@ unix|win32: LIBS += -L$$PWD/ -lProcessingAirSendx86
 
 DISTFILES += \
     GraphicChooser.txt
+
+FORMS += \
+    SerialHandler/SerialConsole.ui \
+    SerialHandler/settingsdialog.ui

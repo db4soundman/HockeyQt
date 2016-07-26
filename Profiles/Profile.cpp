@@ -1,6 +1,11 @@
 #include "Profile.h"
-Profile::Profile(QString title, QString fullName, QString shortName, QColor color, QString logoPath):
-    title(title), fullName(fullName), shortName(shortName), logoPath(logoPath), color(color)
+Profile::Profile()
+{
+
+}
+
+Profile::Profile(QString title, QString nickname, QString fullName, QString shortName, QString logoPath, QString swatchPath):
+    title(title), fullName(fullName), shortName(shortName), logoPath(logoPath), nickname(nickname), swatchPath(swatchPath)
 {
 
 }
@@ -60,6 +65,26 @@ QString Profile::toString()
     return fullName +"|" + fullName+"|"+shortName+"|"+QString::number(color.red())+","+QString::number(color.green())+
             ","+QString::number(color.blue())+"|"+logoPath;
 }
+QString Profile::getNickname() const
+{
+    return nickname;
+}
+
+void Profile::setNickname(const QString &value)
+{
+    nickname = value;
+}
+QString Profile::getSwatchPath() const
+{
+    return swatchPath;
+}
+
+void Profile::setSwatchPath(const QString &value)
+{
+    swatchPath = value;
+}
+
+
 
 
 

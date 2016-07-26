@@ -238,7 +238,7 @@ void CommercialGraphic::prepareGradients(QColor awayColor, QColor homeColor)
 #define AWAY_Y 4
 #define HOME_Y (AWAY_Y * 2 + RECT_HEIGHT - 1)
 
-CommercialGraphic::CommercialGraphic(HockeyGame* game, QString pawayLogo, QGraphicsItem* parent) :
+CommercialGraphic::CommercialGraphic(HockeyGame* game, QPixmap pawayLogo, QGraphicsItem* parent) :
     QGraphicsPixmapItem(parent), blackBar(QPixmap(":/images/ppBar.png")),
     homeLogo(QPixmap(":/images/M.png")) {
     setPixmap(QPixmap(":/images/Standings.png"));
