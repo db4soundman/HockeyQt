@@ -11,6 +11,7 @@
 #include "NchcScoreboardGraphic.h"
 #include "StatCrewScanner.h"
 #include "TricasterHandler.h"
+#include "Params.h"
 #include <QImage>
 
 class MiamiAllAccessHockey : public QApplication {
@@ -24,8 +25,6 @@ public:
      * directory.
      */
     static QString getAppDirPath();
-
-    static QString getProfilesFilePath();
 
     static QString getPenaltiesFilePath();
 
@@ -45,6 +44,7 @@ private:
     CommercialGraphic* commercial;
     StatCrewScanner* stats;
     TricasterHandler* tricaster;
+    Params params;
     bool usingTricaster;
 };
 

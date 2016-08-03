@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QString>
+#include <QTime>
 
 class Clock : public QObject {
     Q_OBJECT
@@ -11,6 +12,7 @@ public:
     Clock(int minutes);
 
     void setClock(int m, int s, int t);
+    void setClock(QString serialString);
 
     QString toString();
     QString toStringPP();
@@ -33,6 +35,8 @@ public:
 public slots:
     void tick();
     void resetClock(bool ot = false);
+    void usingSerialClock();
+    void noLongerUsingSerialClock();
 
 signals:
     void clockExpired();
@@ -42,7 +46,8 @@ private:
     int minutes, seconds, tenths;
     int regulationLength;
     int otLength;
-    bool gameClock;
+    bool gameClock, useSerial;
+    QTime serial;
 };
 
 #endif // CLOCK_H

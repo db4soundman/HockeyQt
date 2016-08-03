@@ -11,7 +11,7 @@
 
 MiamiAllAccessHockey::MiamiAllAccessHockey(int& argc, char* argv[]) :
     QApplication (argc, argv) {
-    setApplicationName("Miami All-Access Hockey");
+    setApplicationName("Miami Hockey");
 }
 
 MiamiAllAccessHockey::~MiamiAllAccessHockey()
@@ -23,29 +23,27 @@ MiamiAllAccessHockey::~MiamiAllAccessHockey()
 
 QString
 MiamiAllAccessHockey::getAppDirPath() {
-    return QStandardPaths::writableLocation(QStandardPaths::DataLocation);
+    return QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + "/" + applicationName().replace(" ", "");
 }
 QString
 MiamiAllAccessHockey::getPenaltiesFilePath() {
-    return QStandardPaths::writableLocation(QStandardPaths::DataLocation)
+    return QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)
             + "/penalties.txt";
-}
-
-QString
-MiamiAllAccessHockey::getProfilesFilePath() {
-    return QStandardPaths::writableLocation(QStandardPaths::DataLocation)
-            + "/TeamProfiles";
 }
 
 void
 MiamiAllAccessHockey::checkAppDirectory() {
-    QDir appDir(QStandardPaths::writableLocation(QStandardPaths::DataLocation));
+    QDir appDir(getAppDirPath());
     if (!appDir.exists()) {
-        appDir.mkdir(QStandardPaths::writableLocation(QStandardPaths::DataLocation));
+        appDir.mkdir(getAppDirPath());
         QFile penaltiesFile(":/resources/penalties.txt");
-        penaltiesFile.copy(QStandardPaths::writableLocation(QStandardPaths::DataLocation)
-                           + "/penalties.txt");
+        penaltiesFile.copy(getAppDirPath() + "/penalties.txt");
+        QFile settings(":/resources/settings");
+        settings.copy(getAppDirPath()+"/settings.txt");
+
+
     }
+    params = Params((getAppDirPath() + "/settings.txt").toStdString());
 }
 
 int
@@ -62,11 +60,11 @@ MiamiAllAccessHockey::exec() {
     usingTricaster = true;
     homeColor.setRgb(226, 24, 54);
     bg.setRgb(0,120,0);
-    announcer = "Greg Waddell and Drew Davis";
-    sponsor = "Miami IMG Sports Network | NCHC.tv";
+    announcer = params.stringValue("ANNOUNCER");
+    sponsor = params.stringValue("SPONSOR");
     homeName = "MIAMI";
     homeShort = "MIAMI";
-    tricasterIp = "10.44.65.157";
+    tricasterIp = params.stringValue("IP");
     QDesktopWidget desktop;
 
     SetupWizard wizard(&awayName, &homeName, &awayFile, &homeFile, &sponsor,
@@ -144,6 +142,10 @@ MiamiAllAccessHockey::exec() {
 
 QImage MiamiAllAccessHockey::getTrimmedLogo(QString filePath)
 {
+    if (filePath.endsWith("NOESPN")) {
+        filePath = filePath.left(filePath.indexOf("NOESPN"));
+        return QImage(filePath);
+    }
     int tX, tY, bX, bY;
     tX = (tY = (bX = (bY = -1)));
     QImage src(filePath);

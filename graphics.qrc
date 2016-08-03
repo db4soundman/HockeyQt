@@ -14,5 +14,6 @@
     <qresource prefix="/resources">
         <file alias="penalties.txt">resources/penalties.txt</file>
         <file alias="profiles.txt">resources/profiles.txt</file>
+        <file alias="settings">settings.txt</file>
     </qresource>
 </RCC>

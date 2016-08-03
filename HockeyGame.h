@@ -6,6 +6,7 @@
 #include <QString>
 #include <QTimer>
 #include <QPixmap>
+#include <QByteArray>
 #include "Scoreboard.h"
 #include "LowerThird.h"
 #include "HockeyTeam.h"
@@ -119,6 +120,7 @@ public slots:
     void changeUseClock(bool uc);
     void removeFirstHomePenalty();
     void removeFirstAwayPenalty();
+    void parseAllSportCG(QByteArray data);
 
 
 signals:

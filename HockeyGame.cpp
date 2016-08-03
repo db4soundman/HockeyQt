@@ -403,6 +403,101 @@ LowerThird* HockeyGame::getLt()
     return &lt;
 }
 
+void HockeyGame::connectWithSerialHandler(SerialConsole *console)
+{
+    connect(console, SIGNAL(serialConnected()), this->getGameClock(), SLOT(usingSerialClock()));
+    connect(console, SIGNAL(dataReceived(QByteArray)), this, SLOT(parseAllSportCG(QByteArray)));
+    connect(console, SIGNAL(serialDisconnected()), this->getGameClock(), SLOT(noLongerUsingSerialClock()));
+}
+
+void HockeyGame::parseAllSportCG(QByteArray data)
+{
+    QString clock = data.mid(1, 7);
+    int homeScore = data.mid(8,2).trimmed().toInt();
+    int awayScore = data.mid(10,2).trimmed().toInt();
+    int homeTol = data.mid(12,1).toInt();
+    int awayTol = data.mid(13,1).toInt();
+    int hSog = data.mid(14,2).toInt();
+    int aSog = data.mid(16,2).toInt();
+
+    /*
+    // --------------------------------------------
+    int colonLoc = data.indexOf(':');
+    int lastColonLoc = data.lastIndexOf(':');
+    int periodLoc = data.indexOf('.');
+    bool special = false;
+    if (colonLoc != lastColonLoc) {
+        if (!data.contains('s')) gameClock.tick();
+        return;
+    }
+    if (colonLoc <= 4 && colonLoc >= 1) {
+        offset = colonLoc - 2;
+    }
+    else if (colonLoc == -1 && periodLoc != -1 && data[periodLoc - 2] == ' ') {
+        special = true;
+    }
+    else{
+        if (!data.contains('s')) gameClock.tick();
+        return;
+    }
+    QString clock;
+    if (Q_LIKELY (!special)) {
+    clock = offset > -1 ? (data.mid(offset +0,7)) :
+                          (data.mid(0, 7 + offset));
+    }
+    else {
+        clock = data.mid(periodLoc - 1, 3);
+    }
+    // --------------------------------------------
+    gameClock.setClock(clock.trimmed());
+    QString nshotClock = data.mid(offset +8, 2);
+    if (nshotClock != shotClock) {
+        shotClock = nshotClock.trimmed();
+        emit shotClockUpdated(shotClock);
+    }
+    int homeScoreS, awayScoreS, homeFoulS, awayFoulS, awayToS, homeToS;
+    homeScoreS = data.mid(offset +12,3).trimmed().toInt();
+    if (homeScore != homeScoreS) {
+        homeScore = homeScoreS;
+        emit homeScoreChanged(homeScore);
+    }
+    awayScoreS = data.mid(offset +15,3).trimmed().toInt();
+    if (awayScore != awayScoreS) {
+        awayScore = awayScoreS;
+        emit awayScoreChanged(awayScore);
+    }
+    if ((data.contains('.') && data.contains('s')) || !data.contains('.')) {
+        homeFoulS = data.mid(offset +18,2).trimmed().toInt();
+        if (homeFouls != homeFoulS) {
+            homeFouls = homeFoulS;
+            emit homeFoulsChanged(homeFouls);
+        }
+        awayFoulS = data.mid(offset +20,2).trimmed().toInt();
+        if (awayFouls != awayFoulS) {
+            awayFouls = awayFoulS;
+            emit awayFoulsChanged(awayFouls);
+        }
+        homeToS = data.mid(offset +22,1).toInt();
+        if (homeTOL != homeToS) {
+            homeTOL = homeToS;
+            emit homeTOLChanged(homeTOL);
+        }
+        awayToS = data.mid(offset +25,1).toInt();
+        if (awayTOL != awayToS) {
+            awayTOL = awayToS;
+            emit awayTOLChanged(awayTOL);
+        }
+        int newpd = data.mid(offset +28,1).toInt();
+        if (period != newpd) {
+            period = newpd;
+            emit periodChanged(period);
+        }
+    }
+    offset = 0;
+    //sb.scene()->update();
+    */
+}
+
 
 Scoreboard* HockeyGame::getSb()
 {

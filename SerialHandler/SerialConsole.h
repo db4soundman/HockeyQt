@@ -48,7 +48,7 @@ private:
     Console *console;
     SettingsDialog *settings;
     QSerialPort *serial;
-    QByteArray realData;
+    QByteArray data;
     QTimer readTimer;
 };
 

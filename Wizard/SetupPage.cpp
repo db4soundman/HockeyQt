@@ -53,10 +53,11 @@ SetupPage::SetupPage(QString* pAwayName, QString* pHomeName, QString* pAwayFile,
     mainLayout->addWidget(&awayNameLine, 0, 1);
     mainLayout->addWidget(&chooseAColor, 0, 2);
     mainLayout->addWidget(awayColorBox,0,3);
-    mainLayout->addWidget(swatchSelector, 0, 4);
-    mainLayout->addWidget(&browseAway, 0, 5);
-    mainLayout->addWidget(&browseLogo, 0, 6);
-    mainLayout->addWidget(&profileDialog, 0,7);
+    mainLayout->addWidget(new QLabel("Swatch Color:"), 0, 4);
+    mainLayout->addWidget(swatchSelector, 0, 5);
+    mainLayout->addWidget(&browseAway, 0, 6);
+    mainLayout->addWidget(&browseLogo, 0, 7);
+    mainLayout->addWidget(&profileDialog, 0,8);
 
     mainLayout->addWidget(new QLabel("Home Team:"), 1, 0);
     mainLayout->addWidget(&homeNameLine, 1, 1);
@@ -102,6 +103,7 @@ SetupPage::SetupPage(QString* pAwayName, QString* pHomeName, QString* pAwayFile,
     connect(&browseStatCrew, SIGNAL(clicked()), this, SLOT(statCrewBrowse()));
     connect(&browseLogo, SIGNAL(clicked()), this, SLOT(logoBrowse()));
     connect(&profileDialog, SIGNAL(clicked()), this, SLOT(profileBrowse()));
+    connect(swatchSelector, SIGNAL(currentIndexChanged(int)), this, SLOT(applyProfile()));
 
     homeNameLine.setText(*homeName);
     announcerLine.setText(*announcer);
@@ -192,6 +194,9 @@ void SetupPage::profileBrowse() {
             QString name = file.mid(file.lastIndexOf('/')+1).split('.')[0];
             if (data[4] == name) {
                 Profile p(data[1], data[2], data[3], data[0], file, QStandardPaths::writableLocation(QStandardPaths::PicturesLocation)+"/IMS Images/Swatches/"+data[4]+".PNG");
+                if (data[5] == "n") {
+                    p.setLogoPath(p.getLogoPath() + "NOESPN");
+                }
                 activeProfile = p;
                 applyProfile();
                 csv.close();

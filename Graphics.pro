@@ -67,7 +67,8 @@ SOURCES += main.cpp\
     GUI/CheckboxWidget.cpp \
     SerialHandler/console.cpp \
     SerialHandler/SerialConsole.cpp \
-    SerialHandler/settingsdialog.cpp
+    SerialHandler/settingsdialog.cpp \
+    Params.cpp
 
 HEADERS  += MainWindow.h \
     Scoreboard.h \
@@ -117,7 +118,8 @@ HEADERS  += MainWindow.h \
     GUI/CheckboxWidget.h \
     SerialHandler/console.h \
     SerialHandler/SerialConsole.h \
-    SerialHandler/settingsdialog.h
+    SerialHandler/settingsdialog.h \
+    Params.h
 
 
 RESOURCES += \

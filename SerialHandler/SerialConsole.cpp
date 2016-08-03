@@ -11,9 +11,6 @@ SerialConsole::SerialConsole(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::SerialConsole)
 {
-    realData.reserve(65);
-    readTimer.setInterval(50);
-    connect(&readTimer, SIGNAL(timeout()), this, SLOT(readData()));
 //! [0]
     ui->setupUi(this);
     console = new Console;
@@ -69,7 +66,7 @@ void SerialConsole::openSerialPort()
                                        .arg(p.name).arg(p.stringBaudRate).arg(p.stringDataBits)
                                        .arg(p.stringParity).arg(p.stringStopBits).arg(p.stringFlowControl));
             emit serialConnected();
-            readTimer.start();
+            //readTimer.start();
     } else {
         QMessageBox::critical(this, tr("Error"), serial->errorString());
 
@@ -110,31 +107,9 @@ void SerialConsole::writeData(const QByteArray &data)
 //! [7]
 void SerialConsole::readData()
 {
-   /* char data[1];
-    int x = serial->read(data, 1);
-    while (x != 0) {
-        serial->read(data, 1);
-    }
-    realData[0] = 1;
-    for (int i = 1; i < 65; i ++) {
-        serial->read(data, 1);
-        realData[i] = data[0];
-    }*/
-    //if (serial->bytesAvailable() == 33) {
-        QByteArray rawdata = serial->readAll();
-        if (realData[0] == (char)1) {
-            realData.append(rawdata.left(rawdata.indexOf((char)4) + 1));
-        }
-        else realData = rawdata.mid(rawdata.indexOf((char)1));
-        if (realData.length() > 31) {
-            realData = realData.right(32);
-            //if (realData[0] == (char)1 || realData[0] == ' ' || (realData[0] >= '1' && realData[0] <= '6' )) {
-            //realData.resize(32);
-            emit dataReceived(realData);
-            //console->putData(realData);
-            //}
-        }
-    //}
+    data.clear();
+    data.append(serial->readAll());
+    emit dataReceived(data);
 }
 //! [7]
 
