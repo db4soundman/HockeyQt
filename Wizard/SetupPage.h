@@ -29,11 +29,12 @@ private slots:
     void logoBrowse();
     void applyProfile();
     void profileBrowse();
+    void showHelp();
 
 private:
     QString* awayName, *homeName, *awayRank, *homeRank, *homeFile, *awayFile, *sponsor, *announcer, *statCrew, *awayLogo, *tricasterIp, *awayShort, *homeShort;
     QColor* awayColor, *homeColor,  *bg;
-    QPushButton browseAway, browseHome, chooseHColor, chooseAColor, chooseBg, browseStatCrew, browseLogo, profileDialog;
+    QPushButton browseAway, browseHome, chooseHColor, chooseAColor, chooseBg, browseStatCrew, browseLogo, profileDialog, ipHelp;
     QLineEdit homeNameLine, awayNameLine, awayRankLine, homeRankLine, sponsorLine, announcerLine, tricasterIpLine, awayShortLine, homeShortLine;
     QCheckBox* tricasterBox;
     QPixmap homeColorPrev, awayColorPrev;

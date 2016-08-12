@@ -8,7 +8,7 @@
 class NchcGameGui : public QWidget {
     Q_OBJECT
 public:
-    NchcGameGui(bool firstGui = false);
+    NchcGameGui();
 
     QString getAway() const { return away.text(); }
     QString getHome() const { return home.text(); }

@@ -12,12 +12,13 @@ NchcScoreboardGui::NchcScoreboardGui(NchcScoreboardGraphic* grph) {
     graphic = grph;
     QVBoxLayout* realLayout = new QVBoxLayout();
     QHBoxLayout* mainLayout = new QHBoxLayout();
+    QHBoxLayout* labelLayout = new QHBoxLayout();
     QVBoxLayout* friday = new QVBoxLayout();
     QVBoxLayout* saturday = new QVBoxLayout();
 
     for (int i = 0; i < 7; i++) {
-        NchcGameGui* fri = new NchcGameGui( i == 0);
-        NchcGameGui* sat = new NchcGameGui(i == 0);
+        NchcGameGui* fri = new NchcGameGui();
+        NchcGameGui* sat = new NchcGameGui();
         connect(fri, SIGNAL(awayNameUpdated(QString)),
                 sat, SLOT(updateAwayName(QString)));
         connect(fri, SIGNAL(homeNameUpdated(QString)),
@@ -30,6 +31,8 @@ NchcScoreboardGui::NchcScoreboardGui(NchcScoreboardGraphic* grph) {
         games.append(sat);
 
     }
+    labelLayout->addWidget(new QLabel("Friday's Games"));
+    labelLayout->addWidget(new QLabel("Saturday's Games"));
     mainLayout->addLayout(friday);
     mainLayout->addLayout(saturday);
     QHBoxLayout* buttonLayout = new QHBoxLayout();
@@ -44,6 +47,7 @@ NchcScoreboardGui::NchcScoreboardGui(NchcScoreboardGraphic* grph) {
     buttonLayout->addWidget(save);
     buttonLayout->addWidget(display);
     buttonLayout->addWidget(submit);
+    realLayout->addLayout(labelLayout);
     realLayout->addLayout(mainLayout);
     realLayout->addLayout(buttonLayout);
     setLayout(realLayout);

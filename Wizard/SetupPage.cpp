@@ -4,6 +4,7 @@
 #include <QColorDialog>
 #include <QStandardPaths>
 #include <QTextStream>
+#include <QMessageBox>
 
 
 SetupPage::SetupPage(QString* pAwayName, QString* pHomeName, QString* pAwayFile,
@@ -30,6 +31,7 @@ SetupPage::SetupPage(QString* pAwayName, QString* pHomeName, QString* pAwayFile,
     browseStatCrew.setText("GameFile");
     browseLogo.setText("Logo");
     profileDialog.setText("Load Profile");
+    ipHelp.setText("How do I determine this?");
     awayName = pAwayName;
     homeName = pHomeName;
     awayFile = pAwayFile;
@@ -86,9 +88,10 @@ SetupPage::SetupPage(QString* pAwayName, QString* pHomeName, QString* pAwayFile,
     mainLayout->addWidget(tricasterBox, 8, 0);
     tricasterIpLine.setText(*tricasterIp);
     mainLayout->addWidget(&tricasterIpLine, 8, 1);
-    mainLayout->addWidget(new QLabel("Net Input"),8, 2);
+    mainLayout->addWidget(&ipHelp,8, 2);
+    mainLayout->addWidget(new QLabel("Net Input"),8, 3);
     portSelector = new QComboBox();
-    mainLayout->addWidget(portSelector,8, 3);
+    mainLayout->addWidget(portSelector,8, 4);
 
     portSelector->addItem("1");
     portSelector->addItem("2");
@@ -104,6 +107,7 @@ SetupPage::SetupPage(QString* pAwayName, QString* pHomeName, QString* pAwayFile,
     connect(&browseLogo, SIGNAL(clicked()), this, SLOT(logoBrowse()));
     connect(&profileDialog, SIGNAL(clicked()), this, SLOT(profileBrowse()));
     connect(swatchSelector, SIGNAL(currentIndexChanged(int)), this, SLOT(applyProfile()));
+    connect(&ipHelp, SIGNAL(clicked()), this, SLOT(showHelp()));
 
     homeNameLine.setText(*homeName);
     announcerLine.setText(*announcer);
@@ -204,6 +208,15 @@ void SetupPage::profileBrowse() {
             }
         }
     }
+}
+
+void SetupPage::showHelp()
+{
+    QMessageBox msg;
+    msg.setText("Exit to Windows on the Tricaster. Open the start menu and type 'cmd' and press enter. "
+                "When the command prompt opens, type 'ipconfig'."
+                " Scroll to the top and find the 'IPv4 Address...' line under the wireless section.");
+    msg.exec();
 }
 
 void SetupPage::applyProfile()

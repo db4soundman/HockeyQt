@@ -1,28 +1,25 @@
 #include "NchcGameGui.h"
 #include <QVBoxLayout>
 #include <QHBoxLayout>
+#include <QFormLayout>
 #include <QLabel>
 
-NchcGameGui::NchcGameGui(bool firstGui) {
+NchcGameGui::NchcGameGui() {
     QVBoxLayout* mainLayout = new QVBoxLayout();
     QHBoxLayout* topLabels = new QHBoxLayout();
-    QHBoxLayout* awayRow = new QHBoxLayout();
-    QHBoxLayout* homeRow = new QHBoxLayout();
-    topLabels->addWidget(new QLabel("Team"));
-    topLabels->addWidget(new QLabel("Score"));
-    topLabels->addWidget(new QLabel("Time and Pd"));
-    awayRow->addWidget(&away);
-    awayRow->addWidget(&awayScore);
-    awayRow->addWidget(&timeAndPd);
-    homeRow->addWidget(&home);
-    homeRow->addWidget(&homeScore);
-    homeRow->addWidget(&confGame);
+    QFormLayout* teamRow = new QFormLayout();
+    QFormLayout* scoreRow = new QFormLayout();
+    teamRow->addRow("Away Team:", &away);
+    scoreRow->addRow("Score:" , &awayScore);
+    teamRow->addRow("Home Team:", &home);
+    scoreRow->addRow("Score:",&homeScore);
+    teamRow->addRow("Time pd ", &timeAndPd);
+    scoreRow->addRow("", &confGame);
     confGame.setText("NCHC Game");
-    if (firstGui) {
-        mainLayout->addLayout(topLabels);
-    }
-    mainLayout->addLayout(awayRow);
-    mainLayout->addLayout(homeRow);
+    topLabels->addLayout(teamRow);
+    topLabels->addLayout(scoreRow);
+    mainLayout->addLayout(topLabels);
+//    mainLayout->addLayout(scoreRow);
     setLayout(mainLayout);
 
     connect(&away, SIGNAL(textChanged(QString)), this, SIGNAL(awayNameUpdated(QString)));
