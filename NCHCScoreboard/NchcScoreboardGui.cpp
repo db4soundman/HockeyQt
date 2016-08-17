@@ -15,8 +15,9 @@ NchcScoreboardGui::NchcScoreboardGui(NchcScoreboardGraphic* grph) {
     QHBoxLayout* labelLayout = new QHBoxLayout();
     QVBoxLayout* friday = new QVBoxLayout();
     QVBoxLayout* saturday = new QVBoxLayout();
-
-    for (int i = 0; i < 7; i++) {
+    fridayHeader.setText("Friday's Games");
+    saturdayHeader.setText("Saturday's Games");
+    for (int i = 0; i < 6; i++) {
         NchcGameGui* fri = new NchcGameGui();
         NchcGameGui* sat = new NchcGameGui();
         connect(fri, SIGNAL(awayNameUpdated(QString)),
@@ -29,10 +30,9 @@ NchcScoreboardGui::NchcScoreboardGui(NchcScoreboardGraphic* grph) {
         saturday->addWidget(sat);
         games.append(fri);
         games.append(sat);
-
     }
-    labelLayout->addWidget(new QLabel("Friday's Games"));
-    labelLayout->addWidget(new QLabel("Saturday's Games"));
+    labelLayout->addWidget(&fridayHeader);
+    labelLayout->addWidget(&saturdayHeader);
     mainLayout->addLayout(friday);
     mainLayout->addLayout(saturday);
     QHBoxLayout* buttonLayout = new QHBoxLayout();
@@ -46,14 +46,14 @@ NchcScoreboardGui::NchcScoreboardGui(NchcScoreboardGraphic* grph) {
     buttonLayout->addWidget(load);
     buttonLayout->addWidget(save);
     buttonLayout->addWidget(display);
-    buttonLayout->addWidget(submit);
+    //buttonLayout->addWidget(submit);
     realLayout->addLayout(labelLayout);
     realLayout->addLayout(mainLayout);
     realLayout->addLayout(buttonLayout);
     setLayout(realLayout);
 
-    connect(display, SIGNAL(clicked()), graphic, SLOT(showImg()));
-    connect(submit, SIGNAL(clicked()), this, SLOT(submitGamesToGui()));
+    //connect(display, SIGNAL(clicked()), graphic, SLOT(showImg()));
+    connect(display, SIGNAL(clicked()), this, SLOT(submitAndShow()));
 }
 
 void NchcScoreboardGui::loadGames()
@@ -105,7 +105,7 @@ void NchcScoreboardGui::saveGames()
     file.close();
 }
 
-void NchcScoreboardGui::submitGamesToGui()
+void NchcScoreboardGui::submitAndShow()
 {
     QList<NchcScoreEntry> friday, saturday;
     for (int i = 0; i < games.size(); i++) {
@@ -119,7 +119,10 @@ void NchcScoreboardGui::submitGamesToGui()
                 saturday.append(game);
             }
         }
-        graphic->setFridayGames(friday);
-        graphic->setSaturdayGames(saturday);
     }
+    graphic->setFridayGames(friday);
+    graphic->setSaturdayGames(saturday);
+    graphic->setLeftHeader(fridayHeader.text());
+    graphic->setRightHeader(saturdayHeader.text());
+    graphic->showImg();
 }

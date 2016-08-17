@@ -2,6 +2,7 @@
 #define NCHCSCOREBOARDGUI_H
 
 #include <QWidget>
+#include <QLineEdit>
 #include "NchcGameGui.h"
 #include "NchcScoreboardGraphic.h"
 
@@ -13,11 +14,12 @@ public:
 private slots:
     void loadGames();
     void saveGames();
-    void submitGamesToGui();
+    void submitAndShow();
 
 private:
     QList<NchcGameGui*> games;
     NchcScoreboardGraphic* graphic;
+    QLineEdit fridayHeader, saturdayHeader;
 };
 
 #endif // NCHCSCOREBOARDGUI_H

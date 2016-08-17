@@ -23,6 +23,11 @@ public:
     QList<NchcScoreEntry> getSaturdayGames() const;
     void setSaturdayGames(const QList<NchcScoreEntry>& value);
 
+
+    void setLeftHeader(const QString &value);
+
+    void setRightHeader(const QString &value);
+
 public slots:
     void showImg();
     void hide();
@@ -31,6 +36,7 @@ private:
     QList<NchcScoreEntry> fridayGames, saturdayGames;
     QPixmap* nchcLogo;
     bool show;
+    QString leftHeader, rightHeader;
 };
 
 #endif // NCHCSCOREBOARDGRAPHIC_H

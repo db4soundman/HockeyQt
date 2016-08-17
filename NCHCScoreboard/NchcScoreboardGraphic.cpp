@@ -28,8 +28,8 @@ NchcScoreboardGraphic::paint(QPainter* painter,
         painter->setPen(QColor(255,255,255));
         painter->drawPixmap(0, 0, this->pixmap());
         //painter->drawText(0, 0, 1920, 80, Qt::AlignCenter, "NCHC SCOREBOARD");
-        painter->drawText(0, 0, 1920/2, 80, Qt::AlignCenter, "FRIDAY'S GAMES");
-        painter->drawText(1920/2, 0, 1920/2, 80, Qt::AlignCenter, "SATURDAY'S GAMES");
+        painter->drawText(0, 0, 1920/2, 80, Qt::AlignCenter, leftHeader);
+        painter->drawText(1920/2, 0, 1920/2, 80, Qt::AlignCenter, rightHeader);
         int spacing = (980 - (120*fridayGames.size())) / fridayGames.size();
         int x = 200;
         for (int i = 0; i < fridayGames.size(); i++) {
@@ -123,6 +123,16 @@ void NchcScoreboardGraphic::hide()
         show = false;
         scene()->update();
     }
+}
+
+void NchcScoreboardGraphic::setRightHeader(const QString &value)
+{
+    rightHeader = value.toUpper();
+}
+
+void NchcScoreboardGraphic::setLeftHeader(const QString &value)
+{
+    leftHeader = value.toUpper();
 }
 
 
