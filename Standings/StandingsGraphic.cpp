@@ -11,15 +11,11 @@ void StandingsGraphic::paint(QPainter* painter, const QStyleOptionGraphicsItem* 
                              QWidget* widget) {
     if (show) {
         int fontSize = 32;
-#ifdef Q_OS_OSX
-        fontSize = 40;
-#endif
         painter->setFont(QFont("Arial", fontSize, QFont::Bold));
         painter->setBrush(QColor(255,255,255));
         painter->setPen(QColor(255,255,255));
-        painter->drawPixmap(0, 0, this->pixmap());
+        painter->fillRect(0,0,1920,1080, QColor(50,50,50));
         painter->drawText(0, 0, 1920, 80, Qt::AlignCenter, "NCHC STANDINGS");
-        painter->fillRect(250, 100, 1520 + 300 - 350, 1200, QColor(20,20,20, 200));
         painter->drawText(1200, 110, 140, 100, Qt::AlignRight | Qt::AlignVCenter, "W-L-T");
         painter->drawText(1520, 110, 140, 100, Qt::AlignRight | Qt::AlignVCenter, "PTS");
 
@@ -27,7 +23,8 @@ void StandingsGraphic::paint(QPainter* painter, const QStyleOptionGraphicsItem* 
             //painter->fillRect(0, 200 + (100*i), 1920, 50, QColor(165, 0, 22, 200));
             painter->drawText(100, 200 + (100*i), 700, 50, Qt::AlignRight | Qt::AlignVCenter, nchcStandings.at(i).getTeamName());
             painter->drawText(1200, 200 + (100*i), 140, 50, Qt::AlignRight | Qt::AlignVCenter,
-                              QString::number(nchcStandings.at(i).getWins())+"-"+ QString::number(nchcStandings.at(i).getLosses())+"-" + QString::number(nchcStandings.at(i).getTies()));
+                              QString::number(nchcStandings.at(i).getWins())+"-"+ QString::number(nchcStandings.at(i).getLosses())+"-"
+                              + QString::number(nchcStandings.at(i).getTies()));
             painter->drawText(1520, 200 + (100*i), 140, 50, Qt::AlignRight | Qt::AlignVCenter, QString::number(nchcStandings.at(i).getPoints()));
         }
     }

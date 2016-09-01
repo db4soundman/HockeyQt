@@ -6,13 +6,15 @@
 #include <QMenu>
 #include <QMenuBar>
 
-MainWindow::MainWindow(HockeyGame* game, StandingsGraphic* graphic, CommercialGraphic* comGraphic, NchcScoreboardGraphic* confSbGraphic, QWidget *parent)
+MainWindow::MainWindow(HockeyGame* game, StandingsGraphic* graphic, CommercialGraphic* comGraphic, NchcScoreboardGraphic* confSbGraphic, ScheduleGraphic *scheduleGraphic, QWidget *parent)
     : QMainWindow(parent), panel(game, graphic, comGraphic, confSbGraphic), standingsPanel(graphic), nchcGui(confSbGraphic),
     awayPlayerEdit(game, false), homePlayerEdit(game, true), awayEdit(game->getAwayTeam()), homeEdit(game->getHomeTeam()),
     ltCreator(game->getLt()) {
     setCentralWidget(&panel);
     //setMaximumWidth(800);
     makeMenu(game);
+    connect(&scheduleGui, SIGNAL(show(QList<ScheduleEntry>)), scheduleGraphic, SLOT(receiveData(QList<ScheduleEntry>)));
+    connect(&scheduleGui, SIGNAL(show(QList<ScheduleEntry>)), scheduleGraphic, SLOT(show()));
 
 }
 
@@ -50,6 +52,9 @@ void MainWindow::makeMenu(HockeyGame* game)
     connect(homeTeamEdit, SIGNAL(triggered()), &homeEdit, SLOT(updateSpinBoxes()));
     connect(homeTeamEdit, SIGNAL(triggered()), &homeEdit, SLOT(show()));
     homeMenu->addAction(homeTeamEdit);
+    QAction* scheduleEdit = new QAction("Schedule", this);
+    connect(scheduleEdit, SIGNAL(triggered(bool)), &scheduleGui, SLOT(show()));
+    homeMenu->addAction(scheduleEdit);
 
     QMenu* lowerThirdMenu = new QMenu("Lower Third");
     QAction* customLtCreator = new QAction("Create custom Lt", this);

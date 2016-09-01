@@ -22,7 +22,7 @@ signals:
 
 private:
     QLineEdit customtext;
-    QPushButton customButton, announcersButton, standingsButton, commericalButton, sbButton, hideButton, sponsorButton, hideLT;
+    QPushButton customButton, announcersButton, commericalButton, sbButton, hideButton, sponsorButton, hideLT;
     QString sponsorText;
 };
 

@@ -1,6 +1,5 @@
 <RCC>
     <qresource prefix="/images">
-        <file alias="Scoreboard.png">images/Scoreboard.png</file>
         <file alias="ppBar.png">images/PPBar.png</file>
         <file alias="statbar.png">images/StatBar.png</file>
         <file alias="M.png">images/M.png</file>
@@ -10,10 +9,16 @@
         <file alias="NCHCmenu.png">images/NCHCmenu.png</file>
         <file alias="NCHCsb.png">images/NCHCsb.png</file>
         <file alias="MiamiBlock.png">images/MiamiBlock.png</file>
+        <file alias="ASN.png">images/ASN.png</file>
+        <file alias="CBSSN.png">images/CBSSN.png</file>
+        <file alias="NCHCTV.png">images/nchctv.png</file>
+        <file alias="TWC.png">images/TWC.png</file>
+        <file alias="NOLOGO.png">images/nologo.png</file>
     </qresource>
     <qresource prefix="/resources">
         <file alias="penalties.txt">resources/penalties.txt</file>
         <file alias="profiles.txt">resources/profiles.txt</file>
         <file alias="settings">settings.txt</file>
+        <file alias="standings.txt">resources/standings.txt</file>
     </qresource>
 </RCC>

@@ -11,8 +11,10 @@
 #include "NchcScoreboardGraphic.h"
 #include "StatCrewScanner.h"
 #include "TricasterHandler.h"
+#include "schedulegraphic.h"
 #include "Params.h"
 #include <QImage>
+#include <QPixmap>
 
 class MiamiAllAccessHockey : public QApplication {
 public:
@@ -28,11 +30,14 @@ public:
 
     static QString getPenaltiesFilePath();
 
+    static QPixmap getImgFromResources(QString name, int maxHeight, int maxWidth = 1920);
+    static QPixmap getImgFromESPN(QString name, int maxHeight, int maxWidth = 1920);
+
     void checkAppDirectory();
 
     int exec();
 
-    QImage getTrimmedLogo(QString filePath);
+    static QImage getTrimmedLogo(QString filePath);
 
 private:
     QGraphicsView* tv;
@@ -41,6 +46,7 @@ private:
     MainWindow* controlPanel;
     StandingsGraphic standings;
     NchcScoreboardGraphic nchcScoreboard;
+    ScheduleGraphic scheduleGraphic;
     CommercialGraphic* commercial;
     StatCrewScanner* stats;
     TricasterHandler* tricaster;

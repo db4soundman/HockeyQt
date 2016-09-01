@@ -4,11 +4,12 @@
 #
 #-------------------------------------------------
 
+
 QT       += core gui network serialport widgets
 QT += xml
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
-
+CONFIG += c++11
 TARGET = Graphics
 TEMPLATE = app
 INCLUDEPATH += GUI \
@@ -17,7 +18,8 @@ INCLUDEPATH += GUI \
             NCHCScoreboard \
             GameStatEditors \
             Profiles \
-            SerialHandler
+            SerialHandler \
+            Schedule
 
 SOURCES += main.cpp\
         MainWindow.cpp \
@@ -68,7 +70,10 @@ SOURCES += main.cpp\
     SerialHandler/console.cpp \
     SerialHandler/SerialConsole.cpp \
     SerialHandler/settingsdialog.cpp \
-    Params.cpp
+    Params.cpp \
+    Schedule/schedulegui.cpp \
+    Schedule/schedulegraphic.cpp \
+    Schedule/scheduleentry.cpp
 
 HEADERS  += MainWindow.h \
     Scoreboard.h \
@@ -119,7 +124,10 @@ HEADERS  += MainWindow.h \
     SerialHandler/console.h \
     SerialHandler/SerialConsole.h \
     SerialHandler/settingsdialog.h \
-    Params.h
+    Params.h \
+    Schedule/schedulegui.h \
+    Schedule/schedulegraphic.h \
+    Schedule/scheduleentry.h
 
 
 RESOURCES += \

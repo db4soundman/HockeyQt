@@ -16,6 +16,9 @@ public:
 signals:
     void shareStandings(QList<StandingsEntry> list);
 
+private slots:
+    void saveStandings();
+
 private:
     QGridLayout* mainLayout;
     QList<QComboBox*> teamSelectors;

@@ -21,8 +21,6 @@ DisplayControls::DisplayControls(HockeyGame* game, StandingsGraphic* graphic, Co
     main->addLayout(fr);
 
     QHBoxLayout* sr = new QHBoxLayout();
-    standingsButton.setText("Standings");
-    sr->addWidget(&standingsButton);
     commericalButton.setText("Commercial");
     sbButton.setText("Scoreboard");
     hideButton.setText("Hide All");
@@ -41,7 +39,7 @@ DisplayControls::DisplayControls(HockeyGame* game, StandingsGraphic* graphic, Co
     connect(&customButton, SIGNAL(clicked()), this, SLOT(prepareCustomText()));
     connect(this, SIGNAL(showCustomText(QString)),
             game->getSb(), SLOT(changeTopBarText(QString)));
-    connect(&standingsButton, SIGNAL(clicked()), graphic, SLOT(toggleShow()));
+
     connect(&commericalButton, SIGNAL(clicked()), comGraphic, SLOT(prepareAndShow()));
     connect(&commericalButton, SIGNAL(clicked()), game->getLt(), SLOT(hideLt()));
     connect(&commericalButton, SIGNAL(clicked()), game->getSb(), SLOT(hideBoard()));

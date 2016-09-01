@@ -5,7 +5,7 @@
 #include "SetupWizard.h"
 #include <QDesktopWidget>
 #include <QAction>
-#include <QPixmap>
+#include <QTextStream>
 #include "GraphicChooser.txt"
 #include "SerialConsole.h"
 
@@ -31,6 +31,28 @@ MiamiAllAccessHockey::getPenaltiesFilePath() {
             + "/penalties.txt";
 }
 
+QPixmap MiamiAllAccessHockey::getImgFromResources(QString name, int maxHeight, int maxWidth)
+{
+    QPixmap img(name);
+    img = img.scaledToHeight(maxHeight, Qt::SmoothTransformation);
+
+    if (img.width() > maxWidth) {
+        return img.scaledToWidth(maxWidth, Qt::SmoothTransformation);
+    }
+    return img;
+}
+
+QPixmap MiamiAllAccessHockey::getImgFromESPN(QString name, int maxHeight, int maxWidth)
+{
+    QPixmap img = QPixmap::fromImage(getTrimmedLogo(name));
+    img = img.scaledToHeight(maxHeight, Qt::SmoothTransformation);
+
+    if (img.width() > maxWidth) {
+        return img.scaledToWidth(maxWidth, Qt::SmoothTransformation);
+    }
+    return img;
+}
+
 void
 MiamiAllAccessHockey::checkAppDirectory() {
     QDir appDir(getAppDirPath());
@@ -41,7 +63,17 @@ MiamiAllAccessHockey::checkAppDirectory() {
         QFile settings(":/resources/settings");
         settings.copy(getAppDirPath()+"/settings.txt");
 
-
+    }
+    QFile standingsFile(getAppDirPath() + "/standings.txt");
+    if (!standingsFile.exists()) {
+        QFile standingsSrc(":/resources/standings.txt");
+        standingsFile.open(QIODevice::ReadWrite);
+        QTextStream out(&standingsFile);
+        standingsSrc.open(QIODevice::ReadOnly);
+        QTextStream in(&standingsSrc);
+        out << in.readAll();
+        standingsSrc.copy(getAppDirPath() + "/standings.txt");
+        standingsFile.close();
     }
     params = Params((getAppDirPath() + "/settings.txt").toStdString());
 }
@@ -91,6 +123,7 @@ MiamiAllAccessHockey::exec() {
     scene->addItem(game->getLt());
     scene->addItem(&standings);
     scene->addItem(&nchcScoreboard);
+    scene->addItem(&scheduleGraphic);
 #ifdef GRADIENT_LOOK
     commercial = new CommercialGraphic(game, graphicsScreen.width(), awayLogo);
     game->getLt()->setX((graphicsScreen.width() / 2) - 214);
@@ -100,11 +133,13 @@ MiamiAllAccessHockey::exec() {
     game->getLt()->setX((graphicsScreen.width() / 2) - 500);
 #endif
     scene->addItem(commercial);
-
+    scheduleGraphic.setX(100);
+    scheduleGraphic.setY(500);
     game->getLt()->setY(graphicsScreen.height() - 160);
     game->getSb()->setY(60 - 39);
     game->getSb()->setX((graphicsScreen.width() / 2) - (game->getSb()->getRealWidth()/2));
     commercial->setY(graphicsScreen.height() - 230);
+    scene->addItem(&scheduleGraphic);
     //commercial->setX(460);
     tv = new QGraphicsView(scene);
 
@@ -123,7 +158,7 @@ MiamiAllAccessHockey::exec() {
     if (!statcrewName.isEmpty())
         stats = new StatCrewScanner(game, statcrewName);
 
-    controlPanel = new MainWindow(game, &standings, commercial, &nchcScoreboard);
+    controlPanel = new MainWindow(game, &standings, commercial, &nchcScoreboard, &scheduleGraphic);
     controlPanel->show();
     if (!usingTricaster)
         tv->showFullScreen();

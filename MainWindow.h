@@ -13,11 +13,14 @@
 #include "PlayerEditor.h"
 #include "TeamEditor.h"
 #include "LowerThirdCreator.h"
+#include "schedulegraphic.h"
+#include "schedulegui.h"
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
 public:
-    MainWindow(HockeyGame* game, StandingsGraphic* graphic, CommercialGraphic* comGraphic, NchcScoreboardGraphic* confSbGraphic ,QWidget *parent = 0);
+    MainWindow(HockeyGame* game, StandingsGraphic* graphic, CommercialGraphic* comGraphic,
+               NchcScoreboardGraphic* confSbGraphic, ScheduleGraphic* scheduleGraphic, QWidget *parent = 0);
     ~MainWindow();
 
 private:
@@ -27,6 +30,7 @@ private:
     PlayerEditor awayPlayerEdit, homePlayerEdit;
     TeamEditor awayEdit, homeEdit;
     LowerThirdCreator ltCreator;
+    ScheduleGUI scheduleGui;
 
     void makeMenu(HockeyGame* game);
 };
