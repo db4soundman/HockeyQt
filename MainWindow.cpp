@@ -7,14 +7,14 @@
 #include <QMenuBar>
 
 MainWindow::MainWindow(HockeyGame* game, StandingsGraphic* graphic, CommercialGraphic* comGraphic, NchcScoreboardGraphic* confSbGraphic, ScheduleGraphic *scheduleGraphic, QWidget *parent)
-    : QMainWindow(parent), panel(game, graphic, comGraphic, confSbGraphic), standingsPanel(graphic), nchcGui(confSbGraphic),
+    : QMainWindow(parent), panel(game, graphic, comGraphic, confSbGraphic, scheduleGraphic), standingsPanel(graphic), nchcGui(confSbGraphic),
     awayPlayerEdit(game, false), homePlayerEdit(game, true), awayEdit(game->getAwayTeam()), homeEdit(game->getHomeTeam()),
     ltCreator(game->getLt()) {
     setCentralWidget(&panel);
     //setMaximumWidth(800);
     makeMenu(game);
-    connect(&scheduleGui, SIGNAL(show(QList<ScheduleEntry>)), scheduleGraphic, SLOT(receiveData(QList<ScheduleEntry>)));
-    connect(&scheduleGui, SIGNAL(show(QList<ScheduleEntry>)), scheduleGraphic, SLOT(show()));
+    connect(&scheduleGui, SIGNAL(show(QList<ScheduleEntry>,bool)), scheduleGraphic, SLOT(receiveData(QList<ScheduleEntry>,bool)));
+    connect(&scheduleGui, SIGNAL(show(QList<ScheduleEntry>,bool)), scheduleGraphic, SLOT(toggleShow()));
 
 }
 

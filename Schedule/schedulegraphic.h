@@ -19,7 +19,7 @@ public:
 public slots:
     void toggleShow();
     void hide();
-    void receiveData(QList<ScheduleEntry> sched);
+    void receiveData(QList<ScheduleEntry> sched, bool seriesSched);
 
 private:
 

@@ -104,7 +104,7 @@ MiamiAllAccessHockey::exec() {
                        &bg, &pk, &pkopp, &ppg, &ppopp, &goalies, &statcrewName, &usingTricaster, &awayLogo,
                        &tricasterIp, &awayShort, &homeShort, &port);
     wizard.exec();
-    QRect graphicsScreen = usingTricaster ? QRect(0,0,1920,1080) : desktop.screenGeometry(0);
+    QRect graphicsScreen = usingTricaster ? QRect(0,0,1920,1080) : desktop.screenGeometry(1);
     QPixmap awayLogoImg = QPixmap::fromImage(getTrimmedLogo(awayLogo));
     game = new HockeyGame(awayName, homeName, awayColor, homeColor,
                           awayFile, homeFile, sponsor, announcer, awayRank,

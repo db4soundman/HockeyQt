@@ -3,8 +3,8 @@
 #include "MiamiAllAccessHockey.h"
 #include <QGraphicsScene>
 
-#define WIDTH 330
-#define HEIGHT 500
+#define WIDTH 700
+#define HEIGHT 300
 
 
 ScheduleGraphic::ScheduleGraphic(QGraphicsItem *parent): QGraphicsRectItem(parent)
@@ -23,12 +23,12 @@ ScheduleGraphic::ScheduleGraphic(QGraphicsItem *parent): QGraphicsRectItem(paren
     //background.setColorAt(1, QColor(10,10,10));
     show = false;
 
-    nchc = MiamiAllAccessHockey::getImgFromResources(":/images/NCHCTV.png", 20);
-    twc = MiamiAllAccessHockey::getImgFromResources(":/images/TWC.png", 20);
-    cbs = MiamiAllAccessHockey::getImgFromResources(":/images/CBSSN.png", 20);
-    asn = MiamiAllAccessHockey::getImgFromResources(":/images/ASN.png", 20);
-    none = MiamiAllAccessHockey::getImgFromResources(":/images/NOLOGO.png", 20);
-
+    nchc = MiamiAllAccessHockey::getImgFromResources(":/images/NCHCTV.png", 20, 500);
+    twc = MiamiAllAccessHockey::getImgFromResources(":/images/TWC.png", 20, 500);
+    cbs = MiamiAllAccessHockey::getImgFromResources(":/images/CBSSN.png", 20, 500);
+    asn = MiamiAllAccessHockey::getImgFromResources(":/images/ASN.png", 20,500);
+    none = MiamiAllAccessHockey::getImgFromResources(":/images/NOLOGO.png", 2);
+    seriesMode = true;
 }
 
 void ScheduleGraphic::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -58,15 +58,18 @@ void ScheduleGraphic::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
             painter->drawText(140,y, 80, 30, 0, schedule[i].getOpp());
             if (seriesMode) {
                 painter->drawText(230, y, 30, 30, 0, schedule[i].getTime1() + " / ");
-                painter->drawPixmap(260, y, 30, 30, getPixmap(schedule[i].getMedia1()));
+                QPixmap logo1 = getPixmap(schedule[i].getMedia1());
+                painter->drawPixmap(260, y, logo1.width(), logo1.height(), logo1);
                 if (schedule[i].getNumGames() == 2) {
-                    painter->drawText(290, y, 30, 30, 0, schedule[i].getTime2() + " / ");
-                    painter->drawPixmap(320, y, 30, 30, getPixmap(schedule[i].getMedia2()));
+                    painter->drawText(490, y, 30, 20, 0, schedule[i].getTime2() + " / ");
+                    QPixmap logo2 = getPixmap(schedule[i].getMedia2());
+                    painter->drawPixmap(520, y, logo2.width(), logo2.height(), logo2);
                 }
             }
             else {
                 painter->drawText(230, y, 30, 30, 0, schedule[i].getTime1());
-                painter->drawPixmap(260, y, 30, 30, getPixmap(schedule[i].getMedia1()));
+                QPixmap logo1 = getPixmap(schedule[i].getMedia1());
+                painter->drawPixmap(260, y, logo1.width(), logo1.height(), logo1);
             }
         }
     }
@@ -86,9 +89,10 @@ void ScheduleGraphic::hide()
     }
 }
 
-void ScheduleGraphic::receiveData(QList<ScheduleEntry> sched)
+void ScheduleGraphic::receiveData(QList<ScheduleEntry> sched, bool seriesSched)
 {
     schedule=sched;
+    seriesMode=seriesSched;
 }
 
 QPixmap &ScheduleGraphic::getPixmap(QString logo)

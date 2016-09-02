@@ -16,7 +16,7 @@ public:
     ScheduleGUI();
 
 signals:
-    void show(QList<ScheduleEntry> games);
+    void show(QList<ScheduleEntry> games, bool seriesSched);
 
 private slots:
     void prepareToShow();

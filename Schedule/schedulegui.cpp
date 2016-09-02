@@ -71,7 +71,7 @@ void ScheduleGUI::prepareToShow()
 {
     int num = numToShow.value();
     QList<ScheduleEntry> toShow;
-    for (int i = 0; i <  num; i++) {
+    for (int i = 0; toShow.size() <  num; i++) {
         if (series.isChecked()) {
             toShow.append(schedule[i]);
         }
@@ -80,8 +80,10 @@ void ScheduleGUI::prepareToShow()
             toShow.append(temp);
             if (temp.getNumGames() == 2 && (i + 1) < num) {
                 ScheduleEntry part2(temp.getMonth2(),1,temp.getDate2(), temp.getVsAt(), temp.getOpp(), temp.getTime2(),temp.getMedia2());
+                toShow.append(part2);
+            //    i++;
             }
         }
     }
-    emit show(toShow);
+    emit show(toShow, series.isChecked());
 }

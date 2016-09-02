@@ -3,8 +3,8 @@
 #include <QVBoxLayout>
 #include <QGridLayout>
 
-ControlPanel::ControlPanel(HockeyGame* game, StandingsGraphic* graphic, CommercialGraphic* comGraphic, NchcScoreboardGraphic* sbGraphic) :
-    dispControls(game, graphic, comGraphic, sbGraphic), ppus(game), penaltyControl(game), sogs(game),
+ControlPanel::ControlPanel(HockeyGame* game, StandingsGraphic* graphic, CommercialGraphic* comGraphic, NchcScoreboardGraphic* sbGraphic, ScheduleGraphic* schedGraphic) :
+    dispControls(game, graphic, comGraphic, sbGraphic, schedGraphic), ppus(game), penaltyControl(game), sogs(game),
     scores(game), hud(game), clockControls(game, comGraphic), stats(game) {
     QHBoxLayout* mainLayout = new QHBoxLayout();
 
