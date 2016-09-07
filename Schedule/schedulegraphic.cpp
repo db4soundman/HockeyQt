@@ -38,38 +38,42 @@ void ScheduleGraphic::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
     if (show) {
         painter->fillRect(rect(), border);
         painter->fillRect(10,10, WIDTH-20, HEIGHT-20, background);
-        QFont font("Arial", 12);
+        QFont headerFont("Arial", 16);
         painter->setPen(QColor(253,180,26));
+        painter->setFont(headerFont);
+        painter->drawText(0,10, WIDTH, 20, Qt::AlignHCenter, "UPCOMING SCHEDULE");
+        QFont font("Arial", 12);
+        painter->setFont(font);
         if (seriesMode) {
-            painter->drawText(230, 15, 30, 30,0,"Game 1");
-            painter->drawText(290, 15, 30, 30,0,"Game 2");
+            painter->drawText(350, 35, 60, 30,0,"Game 1");
+            painter->drawText(520, 35, 60, 30,0,"Game 2");
         }
         painter->setPen(QColor(255,255,255));
-        painter->setFont(font);
         for (int i = 0; i < schedule.size(); i++) {
-            int y = 30 * (i+1);
-            painter->drawText(15, y, 60, 30, 0, schedule[i].getNumGames() == 2 ?
+            int y = 30 * (i+1) + 30;
+            painter->drawText(15, y, 60, 30, 0, schedule[i].getNumGames() == 2 && (!schedule[i].getMonth2().isEmpty() &&
+                                                                                   schedule[i].getMonth2() != schedule[i].getMonth1())?
                                   schedule[i].getMonth1() + "/" + schedule[i].getMonth2() :
                                   schedule[i].getMonth1());
-            painter->drawText(75, y, 40, 30, 0, schedule[i].getNumGames() == 2 ?
+            painter->drawText(75, y, 40, 30, 0, schedule[i].getNumGames() == 2 && seriesMode?
                                   schedule[i].getDate1() + "/" + schedule[i].getDate2() :
                                   schedule[i].getDate1());
-            painter->drawText(115,y, 25, 30, 0, schedule[i].getVsAt());
-            painter->drawText(140,y, 80, 30, 0, schedule[i].getOpp());
+            painter->drawText(125,y, 25, 30, 0, schedule[i].getVsAt());
+            painter->drawText(160,y, 180, 30, 0, schedule[i].getOpp());
             if (seriesMode) {
-                painter->drawText(230, y, 30, 30, 0, schedule[i].getTime1() + " / ");
+                painter->drawText(350, y, 60, 30, 0, schedule[i].getTime1());
                 QPixmap logo1 = getPixmap(schedule[i].getMedia1());
-                painter->drawPixmap(260, y, logo1.width(), logo1.height(), logo1);
+                painter->drawPixmap(420, y, logo1.width(), logo1.height(), logo1);
                 if (schedule[i].getNumGames() == 2) {
-                    painter->drawText(490, y, 30, 20, 0, schedule[i].getTime2() + " / ");
+                    painter->drawText(520, y, 60, 20, 0, schedule[i].getTime2());
                     QPixmap logo2 = getPixmap(schedule[i].getMedia2());
-                    painter->drawPixmap(520, y, logo2.width(), logo2.height(), logo2);
+                    painter->drawPixmap(580, y, logo2.width(), logo2.height(), logo2);
                 }
             }
             else {
-                painter->drawText(230, y, 30, 30, 0, schedule[i].getTime1());
+                painter->drawText(450, y, 60, 30, 0, schedule[i].getTime1());
                 QPixmap logo1 = getPixmap(schedule[i].getMedia1());
-                painter->drawPixmap(260, y, logo1.width(), logo1.height(), logo1);
+                painter->drawPixmap(520, y, logo1.width(), logo1.height(), logo1);
             }
         }
     }

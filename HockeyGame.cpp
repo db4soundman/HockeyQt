@@ -29,6 +29,8 @@ HockeyGame::HockeyGame(QString awayName, QString homeName, QColor awayColor, QCo
     homePlayersOnIce = 5;
     timer.setTimerType(Qt::PreciseTimer);
     timer.setInterval(100);
+    cgTimer.setTimerType(Qt::PreciseTimer);
+    cgTimer.setInterval(100);
     tricasterRefresh.setInterval(1000*30);
     clockRunning = false;
 
@@ -413,13 +415,29 @@ void HockeyGame::connectWithSerialHandler(SerialConsole *console)
 void HockeyGame::parseAllSportCG(QByteArray data)
 {
     QString clock = data.mid(1, 7);
-    int homeScore = data.mid(8,2).trimmed().toInt();
-    int awayScore = data.mid(10,2).trimmed().toInt();
-    int homeTol = data.mid(12,1).toInt();
-    int awayTol = data.mid(13,1).toInt();
-    int hSog = data.mid(14,2).toInt();
-    int aSog = data.mid(16,2).toInt();
-
+    bool stopped = data.mid(8,1) == "s";
+    int homeScoreS = data.mid(9,2).trimmed().toInt();
+    int awayScoreS = data.mid(11,2).trimmed().toInt();
+    int homeTol = data.mid(13,1).toInt();
+    int awayTol = data.mid(14,1).toInt();
+    int hSog = data.mid(15,2).toInt();
+    int aSog = data.mid(17,2).toInt();
+    gameClock.setClock(clock);
+    if (homeScore != homeScoreS) {
+        if (homeScore < homeScoreS) {
+            homeGoal();
+        }
+        homeScore = homeScoreS;
+        emit homeScoreChanged(homeScore);
+    }
+    if (awayScore != awayScoreS) {
+        if (awayScore < awayScoreS) {
+            awayGoal();
+        }
+        awayScore = awayScoreS;
+        emit awayScoreChanged(awayScore);
+    }
+    toggleCgPenaltyClocks(!stopped);
     /*
     // --------------------------------------------
     int colonLoc = data.indexOf(':');
@@ -548,6 +566,8 @@ HockeyGame::addHomePenalty(int time) {
     homePenalty.append(pc);
     connect(&timer, SIGNAL(timeout()),
             pc, SLOT(tick()));
+    connect(&cgTimer, SIGNAL(timeout()),
+            pc, SLOT(tick()));
     connect(pc, SIGNAL(clockExpired()),
             this, SLOT(homePenaltyExpired()));
     determinePpClockForScoreboard();
@@ -564,6 +584,8 @@ HockeyGame::addAwayPenalty(int time) {
     awayPenalty.append(pc);
     connect(&timer, SIGNAL(timeout()),
             pc, SLOT(tick()));
+    connect(&cgTimer, SIGNAL(timeout()),
+            pc, SLOT(tick()));
     connect(pc, SIGNAL(clockExpired()),
             this, SLOT(awayPenaltyExpired()));
     determinePpClockForScoreboard();
@@ -575,6 +597,7 @@ HockeyGame::awayPenaltyExpired() {
     for (int i = 0; i < awayPenalty.size(); i++) {
         if (awayPenalty.at(i)->getTimeLeft() == 0) {
             disconnect(&timer, SIGNAL(timeout()), awayPenalty.at(i), SLOT(tick()));
+            disconnect(&cgTimer, SIGNAL(timeout()), awayPenalty.at(i), SLOT(tick()));
         }
     }
     awayPlayersOnIce++;
@@ -587,6 +610,7 @@ HockeyGame::homePenaltyExpired() {
     for (int i = 0; i < homePenalty.size(); i++) {
         if (homePenalty.at(i)->getTimeLeft() == 0) {
             disconnect(&timer, SIGNAL(timeout()), homePenalty.at(i), SLOT(tick()));
+            disconnect(&cgTimer, SIGNAL(timeout()), awayPenalty.at(i), SLOT(tick()));
         }
     }
     homePlayersOnIce++;
@@ -709,6 +733,15 @@ void HockeyGame::deleteExpiredPenalties()
     }
     homePlayersOnIce = 5 - homePenalty.size();
     awayPlayersOnIce = 5 - awayPenalty.size();
+}
+
+void HockeyGame::toggleCgPenaltyClocks(bool isOn)
+{
+    if (!isOn) {
+        cgTimer.stop();
+    } else if (!cgTimer.isActive()) {
+        cgTimer.start();
+    }
 }
 QTimer *HockeyGame::getTricasterRefresh()
 {

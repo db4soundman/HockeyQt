@@ -15,12 +15,13 @@
 #include "LowerThirdCreator.h"
 #include "schedulegraphic.h"
 #include "schedulegui.h"
+#include "SerialConsole.h"
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
 public:
     MainWindow(HockeyGame* game, StandingsGraphic* graphic, CommercialGraphic* comGraphic,
-               NchcScoreboardGraphic* confSbGraphic, ScheduleGraphic* scheduleGraphic, QWidget *parent = 0);
+               NchcScoreboardGraphic* confSbGraphic, ScheduleGraphic* scheduleGraphic, SerialConsole* serial, QWidget *parent = 0);
     ~MainWindow();
 
 private:
@@ -32,7 +33,7 @@ private:
     LowerThirdCreator ltCreator;
     ScheduleGUI scheduleGui;
 
-    void makeMenu(HockeyGame* game);
+    void makeMenu(HockeyGame* game, SerialConsole *console);
 };
 
 #endif // MAINWINDOW_H

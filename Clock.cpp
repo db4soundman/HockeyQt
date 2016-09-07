@@ -92,21 +92,23 @@ Clock::tick() {
         serial = serial.addMSecs(-100);
         emit clockUpdated();
     }
-    tenths --;
-    if (tenths < 0) {
-        tenths = 9;
-        seconds --;
-    }
-    if (seconds < 0 && minutes > 0) {
-        seconds = 59;
-        minutes --;
-    }
+    if (getTimeLeft() != 0) {
+        tenths --;
+        if (tenths < 0) {
+            tenths = 9;
+            seconds --;
+        }
+        if (seconds < 0 && minutes > 0) {
+            seconds = 59;
+            minutes --;
+        }
 
-    if (minutes == 0 && seconds == 0 && tenths == 0) {
-        emit clockExpired();
+        if (minutes == 0 && seconds == 0 && tenths == 0) {
+            emit clockExpired();
+        }
+        if (gameClock)
+            emit clockUpdated();
     }
-    if (gameClock)
-        emit clockUpdated();
 }
 
 void

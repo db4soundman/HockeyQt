@@ -145,7 +145,7 @@ private:
     int awayScore, homeScore, period, homeSOG, awaySOG, homePlayersOnIce, awayPlayersOnIce;
     Clock gameClock;
     QList<Clock*> awayPenalty, homePenalty;
-    QTimer timer, tricasterRefresh;
+    QTimer timer, tricasterRefresh, cgTimer;
     bool clockRunning, isFinal, useClock;
     QColor homeColor, awayColor;
     HockeyTeam* homeTeam;
@@ -155,7 +155,7 @@ private:
     // GUI is separate class
     // GraphicsVars
 
-
+    void toggleCgPenaltyClocks(bool isOn);
     Clock* getLowestPpClock();
 };
 

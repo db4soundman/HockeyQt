@@ -6,13 +6,14 @@
 #include <QMenu>
 #include <QMenuBar>
 
-MainWindow::MainWindow(HockeyGame* game, StandingsGraphic* graphic, CommercialGraphic* comGraphic, NchcScoreboardGraphic* confSbGraphic, ScheduleGraphic *scheduleGraphic, QWidget *parent)
+MainWindow::MainWindow(HockeyGame* game, StandingsGraphic* graphic, CommercialGraphic* comGraphic,
+                       NchcScoreboardGraphic* confSbGraphic, ScheduleGraphic *scheduleGraphic, SerialConsole *serial, QWidget *parent)
     : QMainWindow(parent), panel(game, graphic, comGraphic, confSbGraphic, scheduleGraphic), standingsPanel(graphic), nchcGui(confSbGraphic),
     awayPlayerEdit(game, false), homePlayerEdit(game, true), awayEdit(game->getAwayTeam()), homeEdit(game->getHomeTeam()),
     ltCreator(game->getLt()) {
     setCentralWidget(&panel);
     //setMaximumWidth(800);
-    makeMenu(game);
+    makeMenu(game, serial);
     connect(&scheduleGui, SIGNAL(show(QList<ScheduleEntry>,bool)), scheduleGraphic, SLOT(receiveData(QList<ScheduleEntry>,bool)));
     connect(&scheduleGui, SIGNAL(show(QList<ScheduleEntry>,bool)), scheduleGraphic, SLOT(toggleShow()));
 
@@ -22,7 +23,7 @@ MainWindow::~MainWindow() {
 
 }
 
-void MainWindow::makeMenu(HockeyGame* game)
+void MainWindow::makeMenu(HockeyGame* game, SerialConsole* console)
 {
     QMenu* nchcMenu = new QMenu("NCHC");
     QAction* standings = new QAction(QIcon(QPixmap(":/images/NCHCmenu.png")), "Edit Standings", NULL);
@@ -62,10 +63,15 @@ void MainWindow::makeMenu(HockeyGame* game)
     customLtCreator->setShortcut(Qt::CTRL + Qt::Key_1);
     lowerThirdMenu->addAction(customLtCreator);
 
+    QMenu* consoleMenu = new QMenu("All Sport CG");
+    QAction* showConsole = new QAction("Show Console", this);
+    connect(showConsole, SIGNAL(triggered()), console, SLOT(show()));
+    consoleMenu->addAction(showConsole);
 
     menuBar()->addMenu(awayMenu);
     menuBar()->addMenu(homeMenu);
     menuBar()->addMenu(lowerThirdMenu);
+    menuBar()->addMenu(consoleMenu);
 
 
 }

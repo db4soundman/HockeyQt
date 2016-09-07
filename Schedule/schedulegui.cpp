@@ -30,7 +30,8 @@ ScheduleGUI::ScheduleGUI()
     bool preNye = month > 4;
     while (!stream.atEnd()) {
         QStringList data = stream.readLine().split(',');
-        int schedMonth = QDate::fromString(data[0], "MMM").month();
+        QString tMonth = data[0].split('/')[0];
+        int schedMonth = QDate::fromString(tMonth, "MMM").month();
         int day1 = data[2].split('/')[0].toInt();
         int day2 = data[2].contains("/") ? data[2].split('/')[1].toInt():
                 -1;
@@ -59,8 +60,8 @@ ScheduleGUI::ScheduleGUI()
             schedule.append(entry);
         }
     }
-    numToShow.setValue(std::min(4, schedule.length()));
-    numToShow.setMaximum(std::min(10, schedule.length()));
+    numToShow.setValue(std::min(2, schedule.length()));
+    numToShow.setMaximum(std::min(8, schedule.length()));
     numToShow.setMinimum(1);
 
     connect(&showButton, SIGNAL(clicked()), this, SLOT(prepareToShow()));
@@ -79,7 +80,9 @@ void ScheduleGUI::prepareToShow()
             ScheduleEntry temp = schedule[i];
             toShow.append(temp);
             if (temp.getNumGames() == 2 && (i + 1) < num) {
-                ScheduleEntry part2(temp.getMonth2(),1,temp.getDate2(), temp.getVsAt(), temp.getOpp(), temp.getTime2(),temp.getMedia2());
+                ScheduleEntry part2(temp.getMonth2().isEmpty() ? temp.getMonth1() : temp.getMonth2(),
+                                    1,temp.getDate2(), temp.getVsAt(), temp.getOpp(),
+                                    temp.getTime2(),temp.getMedia2());
                 toShow.append(part2);
             //    i++;
             }

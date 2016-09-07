@@ -104,7 +104,7 @@ MiamiAllAccessHockey::exec() {
                        &bg, &pk, &pkopp, &ppg, &ppopp, &goalies, &statcrewName, &usingTricaster, &awayLogo,
                        &tricasterIp, &awayShort, &homeShort, &port);
     wizard.exec();
-    QRect graphicsScreen = usingTricaster ? QRect(0,0,1920,1080) : desktop.screenGeometry(1);
+    QRect graphicsScreen = usingTricaster ? QRect(0,0,1920,1080) : desktop.screenGeometry(0);
     QPixmap awayLogoImg = QPixmap::fromImage(getTrimmedLogo(awayLogo));
     game = new HockeyGame(awayName, homeName, awayColor, homeColor,
                           awayFile, homeFile, sponsor, announcer, awayRank,
@@ -139,7 +139,6 @@ MiamiAllAccessHockey::exec() {
     game->getSb()->setY(60 - 39);
     game->getSb()->setX((graphicsScreen.width() / 2) - (game->getSb()->getRealWidth()/2));
     commercial->setY(graphicsScreen.height() - 230);
-    scene->addItem(&scheduleGraphic);
     //commercial->setX(460);
     tv = new QGraphicsView(scene);
 
@@ -158,7 +157,8 @@ MiamiAllAccessHockey::exec() {
     if (!statcrewName.isEmpty())
         stats = new StatCrewScanner(game, statcrewName);
 
-    controlPanel = new MainWindow(game, &standings, commercial, &nchcScoreboard, &scheduleGraphic);
+    SerialConsole con;
+    controlPanel = new MainWindow(game, &standings, commercial, &nchcScoreboard, &scheduleGraphic, &con);
     controlPanel->show();
     if (!usingTricaster)
         tv->showFullScreen();
@@ -170,7 +170,7 @@ MiamiAllAccessHockey::exec() {
         connect(game->getSb(), SIGNAL(removeTransparentField(int,int,int,int)), tricaster, SLOT(removeAlphaRect(int,int,int,int)));
         connect(game->getTricasterRefresh(), SIGNAL(timeout()), tricaster, SLOT(start()));
     }
-    SerialConsole con;
+
     con.show();
     return QApplication::exec();
 }
