@@ -268,9 +268,9 @@ CommercialGraphic::CommercialGraphic(HockeyGame* game, QPixmap pawayLogo, QGraph
     if (awayLogo->height() > RECT_HEIGHT) {
         *awayLogo = awayLogo->scaledToHeight(RECT_HEIGHT, Qt::SmoothTransformation);
     }
-  /*  if (awayLogo->width() > 1919) {
-       *awayLogo =  awayLogo->scaledToWidth(800, Qt::SmoothTransformation);
-    }*/
+    if (awayLogo->width() > 94) {
+       *awayLogo =  awayLogo->scaledToWidth(94, Qt::SmoothTransformation);
+    }
    homeLogo = homeLogo.scaledToHeight(RECT_HEIGHT, Qt::SmoothTransformation);
 }
 
