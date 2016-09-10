@@ -65,6 +65,7 @@ ScheduleGUI::ScheduleGUI()
     numToShow.setMinimum(1);
 
     connect(&showButton, SIGNAL(clicked()), this, SLOT(prepareToShow()));
+    connect(&showButton, SIGNAL(clicked()), this, SLOT(close()));
     setLayout(manager);
 }
 

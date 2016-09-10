@@ -739,7 +739,7 @@ void HockeyGame::toggleCgPenaltyClocks(bool isOn)
 {
     if (!isOn) {
         cgTimer.stop();
-    } else if (!cgTimer.isActive()) {
+    } else if (!cgTimer.isActive() && getSb()->getShowClock()) {
         cgTimer.start();
     }
 }

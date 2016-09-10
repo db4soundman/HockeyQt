@@ -51,6 +51,7 @@ void ScheduleGraphic::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
         painter->setPen(QColor(255,255,255));
         for (int i = 0; i < schedule.size(); i++) {
             int y = 30 * (i+1) + 30;
+            if (schedule[i].getNumGames() == 0) continue;
             painter->drawText(15, y, 60, 30, 0, schedule[i].getNumGames() == 2 && (!schedule[i].getMonth2().isEmpty() &&
                                                                                    schedule[i].getMonth2() != schedule[i].getMonth1())?
                                   schedule[i].getMonth1() + "/" + schedule[i].getMonth2() :

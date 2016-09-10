@@ -914,3 +914,8 @@ void Scoreboard::changeUseClock(bool uc)
     useClock = uc;
     updatePeriod(pd);
 }
+
+bool Scoreboard::getShowClock() const
+{
+    return showClock;
+}

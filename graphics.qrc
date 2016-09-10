@@ -20,5 +20,6 @@
         <file alias="profiles.txt">resources/profiles.txt</file>
         <file alias="settings">settings.txt</file>
         <file alias="standings.txt">resources/standings.txt</file>
+        <file alias="(schedule.csv">resources/schedule.csv</file>
     </qresource>
 </RCC>

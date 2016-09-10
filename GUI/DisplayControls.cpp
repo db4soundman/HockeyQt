@@ -6,7 +6,7 @@ DisplayControls::DisplayControls(HockeyGame* game, StandingsGraphic* graphic, Co
     sponsorText = game->getSponsor();
     customtext.setReadOnly(false);
     customtext.setText("");
-    hideLT.setText("Hide Lower Third");
+    hideLT.setText("Hide Lower Graphic");
 
     QVBoxLayout* main = new QVBoxLayout();
 
@@ -51,6 +51,7 @@ DisplayControls::DisplayControls(HockeyGame* game, StandingsGraphic* graphic, Co
             comGraphic, SLOT(hide()));
 
     connect(&hideLT, SIGNAL(clicked()), game->getLt(), SLOT(hideLt()));
+    connect(&hideLT, SIGNAL(clicked()), schedGraphic, SLOT(hide()));
 
     //hide
     connect(&hideButton, SIGNAL(clicked()), game->getSb(), SLOT(hideBoard()));

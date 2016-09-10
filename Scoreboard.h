@@ -23,6 +23,8 @@ public:
      void setUseTransparency(bool value);
      int getRealWidth();
 
+     bool getShowClock() const;
+
 signals:
      void sceneUpdated(int x, int y, int w, int h);
      void transparentField(int x, int y, int w, int h);

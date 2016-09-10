@@ -58,12 +58,35 @@ MiamiAllAccessHockey::checkAppDirectory() {
     QDir appDir(getAppDirPath());
     if (!appDir.exists()) {
         appDir.mkdir(getAppDirPath());
-        QFile penaltiesFile(":/resources/penalties.txt");
-        penaltiesFile.copy(getAppDirPath() + "/penalties.txt");
-        QFile settings(":/resources/settings");
-        settings.copy(getAppDirPath()+"/settings.txt");
-
     }
+
+    QFile penalties(getAppDirPath()+"/penalties.txt");
+    if (!penalties.exists()) {
+        QFile penaltiesSrc(":/resources/penalties.txt");
+        penalties.open(QIODevice::ReadWrite);
+        penaltiesSrc.open(QIODevice::ReadOnly);
+        //settings.copy(getAppDirPath()+"/settings.txt");
+        QTextStream out(&penalties);
+        penaltiesSrc.open(QIODevice::ReadOnly);
+        QTextStream in(&penaltiesSrc);
+        out << in.readAll();
+        penalties.close();
+    }
+
+
+    QFile settings(getAppDirPath()+"/settings.txt");
+    if (!settings.exists()) {
+        QFile settingsSrc(":/resources/settings");
+        settings.open(QIODevice::ReadWrite);
+        settingsSrc.open(QIODevice::ReadOnly);
+        //settings.copy(getAppDirPath()+"/settings.txt");
+        QTextStream out(&settings);
+        settingsSrc.open(QIODevice::ReadOnly);
+        QTextStream in(&settingsSrc);
+        out << in.readAll();
+        settings.close();
+    }
+
     QFile standingsFile(getAppDirPath() + "/standings.txt");
     if (!standingsFile.exists()) {
         QFile standingsSrc(":/resources/standings.txt");
@@ -72,9 +95,22 @@ MiamiAllAccessHockey::checkAppDirectory() {
         standingsSrc.open(QIODevice::ReadOnly);
         QTextStream in(&standingsSrc);
         out << in.readAll();
-        standingsSrc.copy(getAppDirPath() + "/standings.txt");
+        //standingsSrc.copy(getAppDirPath() + "/standings.txt");
         standingsFile.close();
     }
+
+    QFile scheduleFile(getAppDirPath() + "/schedule.csv");
+    if (!scheduleFile.exists()) {
+        QFile scheduleSrc(":/resources/schedule.csv");
+        scheduleFile.open(QIODevice::ReadWrite);
+        QTextStream out(&scheduleFile);
+        scheduleSrc.open(QIODevice::ReadOnly);
+        QTextStream in(&scheduleSrc);
+        out << in.readAll();
+        //scheduleSrc.copy(getAppDirPath() + "/schedule.txt");
+        scheduleFile.close();
+    }
+
     params = Params((getAppDirPath() + "/settings.txt").toStdString());
 }
 
