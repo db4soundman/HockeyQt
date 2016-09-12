@@ -30,12 +30,13 @@ public slots:
     void finalTime();
     void hide();
     void changeUseClock(bool uc);
+    void toggleAwayLogoBg(bool on);
 
 private:
     QPixmap blackBar;
     QLinearGradient homeTeamGradient, awayTeamGradient, clockGradient, bgGradient;
     HockeyGame* hockeyGame;
-    bool show, inGame, useClock;
+    bool show, inGame, useClock, altAwayLogoBg;
     QGraphicsTextItem* away, *home;
     QString homeScore, awayScore, networkText, period, clock;
     QFont descriptiveFont;

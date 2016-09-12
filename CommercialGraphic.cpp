@@ -258,7 +258,7 @@ CommercialGraphic::CommercialGraphic(HockeyGame* game, QPixmap pawayLogo, QGraph
     checkAwayFont();
     home = new QGraphicsTextItem(game->getHomeName());
     home->setFont(font);
-
+    altAwayLogoBg = false;
     descriptiveFont = sponsorFont;
     prepareGradients(game->getAwayColor(), game->getHomeColor());
     networkText = "NCHC.tv";
@@ -286,6 +286,7 @@ void CommercialGraphic::paint(QPainter* painter, const QStyleOptionGraphicsItem*
         painter->drawText(0, -BLACK_BAR_HEIGHT, GRAPHIC_WIDTH - 200, BLACK_BAR_HEIGHT, Qt::AlignCenter, networkText);
 
         painter->fillRect(0, AWAY_Y, GRAPHIC_WIDTH, RECT_HEIGHT, awayTeamGradient);
+        if (altAwayLogoBg) painter->fillRect(0, AWAY_Y, awayLogo->width() + 5, RECT_HEIGHT, bgGradient);
         //painter->drawRect(0,0,GRAPHIC_WIDTH,RECT_HEIGHT,);
         painter->fillRect(0, HOME_Y, GRAPHIC_WIDTH, RECT_HEIGHT, homeTeamGradient);
         painter->setOpacity(.996);
@@ -471,5 +472,13 @@ void CommercialGraphic::changeUseClock(bool uc)
     useClock = uc;
     if (show) {
         updateClock();
+    }
+}
+
+void CommercialGraphic::toggleAwayLogoBg(bool on)
+{
+    altAwayLogoBg = on;
+    if (show) {
+        scene()->update();
     }
 }

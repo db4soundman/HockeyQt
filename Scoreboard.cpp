@@ -51,7 +51,7 @@ Scoreboard::Scoreboard(QColor awayCol, QColor homeCol, QString awayTeam, QString
     topBar = new QPixmap(":/images/ppBar.png");
     homeLogo = new QPixmap(":/images/M.png");
     awayLogo = new QPixmap(pawayLogo);
-
+    altAwayLogoBg = false;
     *homeLogo = homeLogo->scaledToHeight(TEAM_BOX_HEIGHT, Qt::SmoothTransformation);
     if (homeLogo->width() > LOGO_WIDTH)
         *homeLogo = homeLogo->scaledToWidth(LOGO_WIDTH, Qt::SmoothTransformation);
@@ -509,13 +509,7 @@ Scoreboard::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
         if (!useTransparency)
             //painter->drawPixmap(0,-49,SCOREBOARD_WIDTH,49, *topBar);
             painter->fillRect(20,0,TOP_BAR_WIDTH, TOP_BAR_HEIGHT, QBrush(QColor(20,20,20)));
-        //painter->drawPixmap(0, 0, this->pixmap());
-        //painter->fillRect(0,0,SCOREBOARD_WIDTH, SCOREBOARD_HEIGHT, mainGradient);
-        //painter->setRenderHint(QPainter::Antialiasing);
-        //painter->drawRoundRect(0,0,SCOREBOARD_WIDTH, SCOREBOARD_HEIGHT,5, 100);
         painter->fillRect(0,TOP_BAR_HEIGHT,SCOREBOARD_WIDTH, SCOREBOARD_HEIGHT,mainGradient);
-        //painter->setRenderHint(QPainter::Antialiasing, false);
-        //painter->drawPixmap(34, 4, 66, 50, *homeLogo);
         //Clock - Game time...draw clock first since default color is black
         painter->setFont(homeName->font());
         painter->setPen(QColor(1,1,1));
@@ -534,6 +528,7 @@ Scoreboard::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
         painter->fillRect(V_TEAM_BOX_STARTX, TOP_BAR_HEIGHT + TEAM_BOX_Y, TEAM_WIDTH, TEAM_BOX_HEIGHT, awayGradient );
         // Away logo
         painter->setOpacity(.99);
+        if (altAwayLogoBg) painter->fillRect(V_TEAM_BOX_STARTX, TOP_BAR_HEIGHT + TEAM_BOX_Y, LOGO_WIDTH, TEAM_BOX_HEIGHT, mainGradient);
         painter->drawPixmap(V_TEAM_BOX_STARTX, TOP_BAR_HEIGHT + TEAM_BOX_Y + awayLogoOffset, *awayLogo);
         painter->setOpacity(1);
         painter->setFont(awayRank->font());
@@ -913,6 +908,14 @@ void Scoreboard::changeUseClock(bool uc)
 {
     useClock = uc;
     updatePeriod(pd);
+}
+
+void Scoreboard::toggleAwayLogoBg(bool on)
+{
+    altAwayLogoBg = on;
+    if (show) {
+        scene()->update(this->x(), this->y(), SCOREBOARD_WIDTH, SCOREBOARD_HEIGHT);
+    }
 }
 
 bool Scoreboard::getShowClock() const

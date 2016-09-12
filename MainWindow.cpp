@@ -13,7 +13,7 @@ MainWindow::MainWindow(HockeyGame* game, StandingsGraphic* graphic, CommercialGr
     ltCreator(game->getLt()) {
     setCentralWidget(&panel);
     //setMaximumWidth(800);
-    makeMenu(game, serial);
+    makeMenu(game, serial, comGraphic);
     connect(&scheduleGui, SIGNAL(show(QList<ScheduleEntry>,bool)), scheduleGraphic, SLOT(receiveData(QList<ScheduleEntry>,bool)));
     connect(&scheduleGui, SIGNAL(show(QList<ScheduleEntry>,bool)), scheduleGraphic, SLOT(toggleShow()));
 
@@ -23,7 +23,7 @@ MainWindow::~MainWindow() {
 
 }
 
-void MainWindow::makeMenu(HockeyGame* game, SerialConsole* console)
+void MainWindow::makeMenu(HockeyGame* game, SerialConsole* console, CommercialGraphic* comGraphic)
 {
     QMenu* nchcMenu = new QMenu("NCHC");
     QAction* standings = new QAction(QIcon(QPixmap(":/images/NCHCmenu.png")), "Edit Standings", NULL);
@@ -43,6 +43,11 @@ void MainWindow::makeMenu(HockeyGame* game, SerialConsole* console)
     connect(awayTeamEdit, SIGNAL(triggered()), &awayEdit, SLOT(updateSpinBoxes()));
     connect(awayTeamEdit, SIGNAL(triggered()), &awayEdit, SLOT(show()));
     awayMenu->addAction(awayTeamEdit);
+    QAction* toggleLogoBackground = new QAction("Black Logo Background", this);
+    toggleLogoBackground->setCheckable(true);
+    awayMenu->addAction(toggleLogoBackground);
+    connect(toggleLogoBackground, SIGNAL(toggled(bool)), game->getSb(), SLOT(toggleAwayLogoBg(bool)));
+    connect(toggleLogoBackground, SIGNAL(toggled(bool)), comGraphic, SLOT(toggleAwayLogoBg(bool)));
 
     QMenu* homeMenu = new QMenu(game->getHomeName());
     QAction* homePlayerEditor = new QAction("Edit Player Stats", this);
