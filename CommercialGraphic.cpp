@@ -271,6 +271,7 @@ CommercialGraphic::CommercialGraphic(HockeyGame* game, QPixmap pawayLogo, QGraph
     if (awayLogo->width() > 94) {
        *awayLogo =  awayLogo->scaledToWidth(94, Qt::SmoothTransformation);
     }
+    awayLogoOffset = (RECT_HEIGHT - awayLogo->height()) / 2;
    homeLogo = homeLogo.scaledToHeight(RECT_HEIGHT, Qt::SmoothTransformation);
 }
 
@@ -289,7 +290,7 @@ void CommercialGraphic::paint(QPainter* painter, const QStyleOptionGraphicsItem*
         //painter->drawRect(0,0,GRAPHIC_WIDTH,RECT_HEIGHT,);
         painter->fillRect(0, HOME_Y, GRAPHIC_WIDTH, RECT_HEIGHT, homeTeamGradient);
         painter->setOpacity(.996);
-        painter->drawPixmap(5, AWAY_Y, *awayLogo);
+        painter->drawPixmap(5, AWAY_Y + awayLogoOffset, *awayLogo);
         painter->drawPixmap(5, HOME_Y, homeLogo);
         painter->setFont(away->font());
         painter->setOpacity(1);
