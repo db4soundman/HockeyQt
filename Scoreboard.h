@@ -47,6 +47,7 @@ public slots:
      void displayClock();
      void displaySponsor();
      void changeUseClock(bool uc);
+     void toggleAwayLogoBg(bool on);
 
 private:
      QPixmap* ppBar;
@@ -62,7 +63,7 @@ private:
      QGraphicsTextItem* homeRank;
      QString ppDescription, period, centeredTimeText, sponsorText;
      QLinearGradient homeGradient, awayGradient, penaltyGradient, mainGradient, clockGradient, ppGradient, scoreGradient, bgGradient;
-     bool awayPP, homePP, neutralPP, penalty, sponsor, useClock,
+     bool awayPP, homePP, neutralPP, penalty, sponsor, useClock, altAwayLogoBg,
      scoreText, showPP, show, showPdAndClockFields, showClock, useTransparency;
 
      void prepareColor();

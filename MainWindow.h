@@ -33,7 +33,7 @@ private:
     LowerThirdCreator ltCreator;
     ScheduleGUI scheduleGui;
 
-    void makeMenu(HockeyGame* game, SerialConsole *console);
+    void makeMenu(HockeyGame* game, SerialConsole *console, CommercialGraphic *comGraphic);
 };
 
 #endif // MAINWINDOW_H
