@@ -107,9 +107,26 @@ void SerialConsole::writeData(const QByteArray &data)
 //! [7]
 void SerialConsole::readData()
 {
-    data.clear();
+    //data.clear();
     data.append(serial->readAll());
     emit dataReceived(data);
+    if (data.length()==52)
+        data.clear();
+    /*
+     * QByteArray rawdata = serial->readAll();
+        if (realData[0] == (char)1) {
+            realData.append(rawdata.left(rawdata.indexOf((char)4) + 1));
+        }
+        else realData = rawdata.mid(rawdata.indexOf((char)1));
+        if (realData.length() > 31) {
+            realData = realData.right(32);
+            //if (realData[0] == (char)1 || realData[0] == ' ' || (realData[0] >= '1' && realData[0] <= '6' )) {
+            //realData.resize(32);
+            emit dataReceived(realData);
+            console->putData(realData);
+            //}
+        }*/
+
 }
 //! [7]
 

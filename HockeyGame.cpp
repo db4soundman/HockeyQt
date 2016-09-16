@@ -414,6 +414,7 @@ void HockeyGame::connectWithSerialHandler(SerialConsole *console)
 
 void HockeyGame::parseAllSportCG(QByteArray data)
 {
+    if (data.length() <= 51) return;
     QString clock = data.mid(1, 7);
     bool stopped = data.mid(8,1) == "s";
     int homeScoreS = data.mid(9,2).trimmed().toInt();
@@ -422,7 +423,7 @@ void HockeyGame::parseAllSportCG(QByteArray data)
     int awayTol = data.mid(14,1).toInt();
     int hSog = data.mid(15,2).toInt();
     int aSog = data.mid(17,2).toInt();
-    gameClock.setClock(clock);
+    gameClock.setClock(clock.trimmed());
     if (homeScore != homeScoreS) {
         if (homeScore < homeScoreS) {
             homeGoal();
