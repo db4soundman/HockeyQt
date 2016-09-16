@@ -112,6 +112,7 @@ Scoreboard::Scoreboard(QColor awayCol, QColor homeCol, QString awayTeam, QString
     sponsor = true;
     showPdAndClockFields = true;
     showClock = true;
+    useTransparency = false;
 
     this->clock = clock;
     connect(clock, SIGNAL(clockUpdated()), this, SLOT(updateClock()));
@@ -914,7 +915,7 @@ void Scoreboard::toggleAwayLogoBg(bool on)
 {
     altAwayLogoBg = on;
     if (show) {
-        scene()->update(this->x(), this->y(), SCOREBOARD_WIDTH, SCOREBOARD_HEIGHT);
+        scene()->update(this->x(), this->y(), SCOREBOARD_WIDTH, SCOREBOARD_HEIGHT + TOP_BAR_HEIGHT);
     }
 }
 
