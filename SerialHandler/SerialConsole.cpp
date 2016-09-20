@@ -109,9 +109,10 @@ void SerialConsole::readData()
 {
     //data.clear();
     data.append(serial->readAll());
-    emit dataReceived(data);
-    if (data.length()==52)
+    if (data.length()==52) {
+        emit dataReceived(data);
         data.clear();
+    }
     /*
      * QByteArray rawdata = serial->readAll();
         if (realData[0] == (char)1) {
