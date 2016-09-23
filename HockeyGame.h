@@ -135,6 +135,8 @@ signals:
     void clockInUse(bool uc);
     void statusOfStatCrew(bool on);
     void toggleStatCrew();
+    void usingAllSport();
+    void usingInternalClock();
 
 private slots:
     void deleteExpiredPenalties();

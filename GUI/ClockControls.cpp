@@ -28,7 +28,7 @@ ClockControls::ClockControls(HockeyGame* game, CommercialGraphic* comGraphic) : 
     main->addWidget(&final);
     main->addSpacing(50);
     main->addWidget(&useClock);
-    main->addWidget(&statCrewControl);
+    //main->addWidget(&statCrewControl);
 
     connect(&run, SIGNAL(clicked()), game, SLOT(toggleClock()));
     connect(game, SIGNAL(clockIsRunning(bool)),
@@ -48,6 +48,8 @@ ClockControls::ClockControls(HockeyGame* game, CommercialGraphic* comGraphic) : 
     connect(&useClock, SIGNAL(toggled(bool)), game, SLOT(changeUseClock(bool)));
     connect(&useClock, SIGNAL(toggled(bool)), comGraphic, SLOT(changeUseClock(bool)));
     connect(&useClock, SIGNAL(toggled(bool)), &run, SLOT(setEnabled(bool)));
+
+    connect(game, SIGNAL(usingAllSport()), this, SLOT(disableClockControls()));
     setLayout(main);
 
     gameClock = game->getGameClock();
@@ -61,4 +63,19 @@ void ClockControls::showClockDialog()
 {
     ClockDialog cd(gameClock);
     cd.exec();
+}
+
+void ClockControls::disableClockControls()
+{
+    run.setEnabled(false);
+    set.setEnabled(false);
+    reset.setEnabled(false);
+
+}
+
+void ClockControls::enableClockControls()
+{
+    run.setEnabled(true);
+    set.setEnabled(true);
+    reset.setEnabled(true);
 }

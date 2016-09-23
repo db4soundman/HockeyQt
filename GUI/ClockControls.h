@@ -17,6 +17,8 @@ public:
 public slots:
     void updateClockButton(bool clockIsRunning);
     void showClockDialog();
+    void disableClockControls();
+    void enableClockControls();
 
 private:
     QLabel label;
