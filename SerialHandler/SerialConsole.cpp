@@ -57,8 +57,8 @@ void SerialConsole::openSerialPort()
     serial->setFlowControl(p.flowControl);
     if (serial->open(QIODevice::ReadWrite)) {
             console->setEnabled(true);
-            //serial->setReadBufferSize(33);
-            console->setLocalEchoEnabled(p.localEchoEnabled);
+            //serial->setReadBufferSize(52);
+            console->setLocalEchoEnabled(false);
             ui->actionConnect->setEnabled(false);
             ui->actionDisconnect->setEnabled(true);
             ui->actionConfigure->setEnabled(false);
@@ -84,7 +84,8 @@ void SerialConsole::closeSerialPort()
     ui->actionDisconnect->setEnabled(false);
     ui->actionConfigure->setEnabled(true);
     ui->statusBar->showMessage(tr("Disconnected"));
-    readTimer.stop();
+    data.clear();
+   // readTimer.stop();
     emit serialDisconnected();
 }
 //! [5]
