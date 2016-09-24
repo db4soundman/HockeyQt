@@ -1,12 +1,12 @@
 #ifndef PENALTYCONTROL_H
 #define PENALTYCONTROL_H
 
-#include <QWidget>
+#include <QGroupBox>
 #include "HockeyGame.h"
 #include <QPushButton>
 #include <QLabel>
 #include <QGridLayout>
-class PenaltyControl : public QWidget {
+class PenaltyControl : public QGroupBox {
     Q_OBJECT
 public:
     PenaltyControl(HockeyGame* game);

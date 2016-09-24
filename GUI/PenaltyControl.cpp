@@ -3,18 +3,19 @@
 
 PenaltyControl::PenaltyControl(HockeyGame* game) {
     clockLayout = new QGridLayout();
+    setTitle("Penalty Controls");
     awayLabel.setText(game->getAwayTri() + " PENALTY");
     homeLabel.setText(game->getHomeTri() + " PENALTY");
-    ap2.setText("+ 2");
-    ap4.setText("+ 4");
-    ap5.setText("+ 5");
-    hp2.setText("+ 2");
-    hp4.setText("+ 4");
-    hp5.setText("+ 5");
+    ap2.setText("+ 2:00");
+    ap4.setText("+ 4:00");
+    ap5.setText("+ 5:00");
+    hp2.setText("+ 2:00");
+    hp4.setText("+ 4:00");
+    hp5.setText("+ 5:00");
     show.setText("Show");
     set.setText("Change Timers");
-    awayPenEnd.setText("Penalty -");
-    homePenEnd.setText("Penalty -");
+    awayPenEnd.setText("Remove Penalty");
+    homePenEnd.setText("Remove Penalty");
 
     clockLayout->addWidget(&awayLabel, 0, 0);
     clockLayout->addWidget(&homeLabel, 0, 1);

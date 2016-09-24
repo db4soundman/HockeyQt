@@ -416,7 +416,6 @@ void HockeyGame::connectWithSerialHandler(SerialConsole *console)
 
 void HockeyGame::parseAllSportCG(QByteArray data)
 {
-    if (data.length() <= 51) return;
     QString clock = data.mid(1, 7);
     bool stopped = data.mid(8,1) == "s";
     int homeScoreS = data.mid(9,2).trimmed().toInt();

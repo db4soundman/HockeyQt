@@ -27,8 +27,7 @@ MiamiAllAccessHockey::getAppDirPath() {
 }
 QString
 MiamiAllAccessHockey::getPenaltiesFilePath() {
-    return QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)
-            + "/penalties.txt";
+    return getAppDirPath() + "/penalties.txt";
 }
 
 QPixmap MiamiAllAccessHockey::getImgFromResources(QString name, int maxHeight, int maxWidth)
@@ -60,7 +59,7 @@ MiamiAllAccessHockey::checkAppDirectory() {
         appDir.mkdir(getAppDirPath());
     }
 
-    QFile penalties(getAppDirPath()+"/penalties.txt");
+    QFile penalties(getPenaltiesFilePath());
     if (!penalties.exists()) {
         QFile penaltiesSrc(":/resources/penalties.txt");
         penalties.open(QIODevice::ReadWrite);

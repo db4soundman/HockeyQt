@@ -9,7 +9,7 @@ PenaltyDisplay::PenaltyDisplay(HockeyGame* game, bool homeTeam) {
                                        game->getAwayTeam()->getGuiNames());
 
     QFile file(MiamiAllAccessHockey::getPenaltiesFilePath());
-    file.open(QIODevice::ReadOnly | QIODevice::Text);
+    file.open(QIODevice::ReadWrite | QIODevice::Text);
     QTextStream textStream(&file);
 
     while (!textStream.atEnd())

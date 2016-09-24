@@ -1,7 +1,7 @@
 #ifndef CLOCKCONTROLS_H
 #define CLOCKCONTROLS_H
 
-#include <QWidget>
+#include <QGroupBox>
 #include <QPushButton>
 #include <QLabel>
 #include <QCheckBox>
@@ -9,7 +9,7 @@
 #include "CommercialGraphic.h"
 #include "CheckboxWidget.h"
 
-class ClockControls : public QWidget {
+class ClockControls : public QGroupBox {
     Q_OBJECT
 public:
     ClockControls(HockeyGame* game, CommercialGraphic* comGraphic);
@@ -21,7 +21,7 @@ public slots:
     void enableClockControls();
 
 private:
-    QLabel label;
+    //QLabel label;
     QPushButton run, reset, set, nextPd, prevPd, clock, intermission, final, penalty;
     QCheckBox useClock;
     Clock* gameClock;

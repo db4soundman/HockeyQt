@@ -6,7 +6,7 @@ ClockControls::ClockControls(HockeyGame* game, CommercialGraphic* comGraphic) : 
     QVBoxLayout* main = new QVBoxLayout();
     useClock.setText("Use Clock");
     useClock.setChecked(true);
-    label.setText("Clock Controls");
+    setTitle("Clock Controls");
     run.setText("Run Clock");
     set.setText("Set Clock");
     reset.setText("Reset Clock");
@@ -16,7 +16,7 @@ ClockControls::ClockControls(HockeyGame* game, CommercialGraphic* comGraphic) : 
     intermission.setText("INT");
     final.setText("FINAL");
     penalty.setText("Penalty");
-    main->addWidget(&label);
+   // main->addWidget(&label);
     main->addWidget(&run);
     main->addWidget(&set);
     main->addWidget(&penalty);

@@ -3,7 +3,7 @@
 
 PowerPlayUpdaters::PowerPlayUpdaters(HockeyGame* game) {
     QGridLayout* main = new QGridLayout();
-
+    setTitle("Powerplay Results");
     awayLabel.setText(game->getAwayTri() + " Power Play");
     homeLabel.setText(game->getHomeTri() + " Power Play");
     awayGoal.setText("GOAL");

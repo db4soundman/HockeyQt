@@ -1,12 +1,12 @@
 #ifndef SOGCONTROL_H
 #define SOGCONTROL_H
 
-#include <QWidget>
+#include <QGroupBox>
 #include "HockeyGame.h"
 #include <QPushButton>
 #include <QLabel>
 
-class SogControl : public QWidget {
+class SogControl : public QGroupBox {
     Q_OBJECT
 public:
     SogControl(HockeyGame* game);

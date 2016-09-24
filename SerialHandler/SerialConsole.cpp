@@ -113,6 +113,22 @@ void SerialConsole::readData()
     if (data.length()==52) {
         emit dataReceived(data);
         data.clear();
+    } else if (data.length() > 52) {
+        // Signal processing fell behind and read more characters
+        // than it should have. We need to handle this or else
+        // we will effective stop reading data.
+        /*
+         * A couple options:
+         *  1) Pass along each full transmission we have in succession.
+         *  2) Consider past transmissions a lost cause and drop the data.
+         *
+         * I think for now we will go with option 1, unless that proves
+         * to be not good. I think the system ought to catch up
+         * if it gets in this scenario.
+         */
+        emit dataReceived(data.left(52));
+        data = data.remove(0, 52);
+
     }
     /*
      * QByteArray rawdata = serial->readAll();
