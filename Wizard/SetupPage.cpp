@@ -81,8 +81,8 @@ SetupPage::SetupPage(QString* pAwayName, QString* pHomeName, QString* pAwayFile,
     mainLayout->addWidget(&sponsorLine, 5, 1);
     mainLayout->addWidget(new QLabel("Announcers"), 6, 0);
     mainLayout->addWidget(&announcerLine, 6, 1);
-    mainLayout->addWidget(new QLabel("StatCrew File"), 7, 0);
-    mainLayout->addWidget(&browseStatCrew, 7, 1);
+    //mainLayout->addWidget(new QLabel("StatCrew File"), 7, 0);
+    //mainLayout->addWidget(&browseStatCrew, 7, 1);
     tricasterBox = new QCheckBox("Using Tricaster");
     tricasterBox->setChecked(true);
     mainLayout->addWidget(tricasterBox, 8, 0);
@@ -184,7 +184,7 @@ void SetupPage::bgDiag()
 void SetupPage::logoBrowse() {
     QString file = QFileDialog::getOpenFileName(0, "Away Logo");
     if (!file.isEmpty())
-        *awayLogo = file;
+        *awayLogo = file + "NOESPN";
 }
 
 void SetupPage::profileBrowse() {

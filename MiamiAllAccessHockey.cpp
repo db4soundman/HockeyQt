@@ -141,18 +141,23 @@ MiamiAllAccessHockey::exec() {
     wizard.exec();
     QRect graphicsScreen = usingTricaster ? QRect(0,0,1920,1080) : desktop.screenGeometry(0);
     QPixmap awayLogoImg = QPixmap::fromImage(getTrimmedLogo(awayLogo));
+    if (awayShort.trimmed().isEmpty()) {
+        awayShort = awayName;
+    }
     game = new HockeyGame(awayName, homeName, awayColor, homeColor,
                           awayFile, homeFile, sponsor, announcer, awayRank,
                           homeRank, graphicsScreen.width() + 1, awayLogoImg, homeShort, awayShort);
     if (usingTricaster)
         bg.setRgb(0,0,0);
-//    HockeyTeam* team = game->getAwayTeam();
-//    team->setPk(pk);
-//    team->setPkopp(pkopp);
-//    team->setPpg(ppg);
-//    team->setPpopp(ppopp);
-//    team->setGoalies(goalies);
 
+    if (awayFile.isEmpty()) {
+        HockeyTeam* team = game->getAwayTeam();
+        team->setPk(pk);
+        team->setPkopp(pkopp);
+        team->setPpg(ppg);
+        team->setPpopp(ppopp);
+        team->setGoalies(goalies);
+    }
     scene->addItem(game->getSb());
 
     scene->addItem(game->getLt());

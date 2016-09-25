@@ -54,9 +54,9 @@ void PenaltyControl::changeUseClock(bool uc)
 {
 
     if (uc) {
-        ap2.setText("+ 2");
+        ap2.setText("+ 2:00");
         ap4.setEnabled(true);
-        hp2.setText("+ 2");
+        hp2.setText("+ 2:00");
         hp4.setEnabled(true);
         ap5.setEnabled(true);
         hp5.setEnabled(true);
