@@ -409,9 +409,12 @@ void HockeyGame::connectWithSerialHandler(SerialConsole *console)
 {
     connect(console, SIGNAL(serialConnected()), this->getGameClock(), SLOT(usingSerialClock()));
     connect(console, SIGNAL(serialConnected()), this, SIGNAL(usingAllSport()));
+
     connect(console, SIGNAL(dataReceived(QByteArray)), this, SLOT(parseAllSportCG(QByteArray)));
+
     connect(console, SIGNAL(serialDisconnected()), this->getGameClock(), SLOT(noLongerUsingSerialClock()));
     connect(console, SIGNAL(serialDisconnected()), this, SIGNAL(usingInternalClock()));
+    connect(console, SIGNAL(serialDisconnected()), &cgTimer, SLOT(stop()));
 }
 
 void HockeyGame::parseAllSportCG(QByteArray data)
