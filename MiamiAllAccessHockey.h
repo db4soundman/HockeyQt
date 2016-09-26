@@ -15,6 +15,7 @@
 #include "Params.h"
 #include <QImage>
 #include <QPixmap>
+#include <QWidget>
 
 class MiamiAllAccessHockey : public QApplication {
 public:
@@ -40,7 +41,7 @@ public:
     static QImage getTrimmedLogo(QString filePath);
 
 private:
-    QGraphicsView* tv;
+    QGraphicsView* tv, *previewSb, *previewLt;
     QGraphicsScene* scene;
     HockeyGame* game;
     MainWindow* controlPanel;
@@ -51,6 +52,7 @@ private:
     StatCrewScanner* stats;
     TricasterHandler* tricaster;
     Params params;
+    QWidget* previewWindow;
     bool usingTricaster;
 };
 

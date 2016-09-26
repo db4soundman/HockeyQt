@@ -716,18 +716,20 @@ Scoreboard::preparePowerplayClock(int pos, Clock *clock, QString description) {
     homePP = false;
     neutralPP = false;
     ppClock = clock;
-    switch (pos) {
-    case AWAY_PP:
-        awayPP = true;
-        break;
-    case HOME_PP:
-        homePP = true;
-        break;
-    case NEUTRAL:
-        neutralPP = true;
-        break;
-    default:
-        break;
+    if (ppClock != NULL) {
+        switch (pos) {
+        case AWAY_PP:
+            awayPP = true;
+            break;
+        case HOME_PP:
+            homePP = true;
+            break;
+        case NEUTRAL:
+            neutralPP = true;
+            break;
+        default:
+            break;
+        }
     }
     ppDescription = description;
     scene()->update(this->x(), this->y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT,

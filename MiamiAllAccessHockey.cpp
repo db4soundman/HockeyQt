@@ -8,6 +8,7 @@
 #include <QTextStream>
 #include "GraphicChooser.txt"
 #include "SerialConsole.h"
+#include <QVBoxLayout>
 
 MiamiAllAccessHockey::MiamiAllAccessHockey(int& argc, char* argv[]) :
     QApplication (argc, argv) {
@@ -204,7 +205,20 @@ MiamiAllAccessHockey::exec() {
     if (!usingTricaster)
         tv->showFullScreen();
     else {
+        previewWindow = new QWidget();
+        QVBoxLayout* layout = new QVBoxLayout();
         tricaster = new TricasterHandler(tricasterIp, port, tv, bg);
+        previewSb = new QGraphicsView(scene);
+        previewSb->setBackgroundBrush(QColor(100,100,100));
+        previewSb->setSceneRect(game->getSb()->x(), game->getSb()->y(), game->getSb()->getRealWidth(), 150);
+        layout->addWidget(previewSb);
+        previewLt = new QGraphicsView(scene);
+        previewLt->setBackgroundBrush(QColor(100,100,100));
+        previewLt->setSceneRect(300, 700, game->getSb()->getRealWidth(), 300);
+        layout->addWidget(previewLt);
+        previewWindow->setLayout(layout);
+        previewWindow->setWindowTitle("Graphic View");
+        previewWindow->show();
         game->getSb()->setUseTransparency(true);
         connect(scene, SIGNAL(changed(QList<QRectF>)), tricaster, SLOT(updatePortion(QList<QRectF>)));
         connect(game->getSb(), SIGNAL(transparentField(int,int,int,int)), tricaster, SLOT(addAlphaRect(int,int,int,int)));

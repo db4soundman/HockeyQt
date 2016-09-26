@@ -102,12 +102,14 @@ Clock::tick() {
             seconds = 59;
             minutes --;
         }
-
         if (minutes == 0 && seconds == 0 && tenths == 0) {
             emit clockExpired();
         }
         if (gameClock)
             emit clockUpdated();
+    }
+    else if (minutes == 0 && seconds == 0 && tenths == 0) {
+        emit clockExpired();
     }
 }
 

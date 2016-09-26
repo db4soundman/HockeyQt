@@ -6,6 +6,7 @@
 #include "HockeyGame.h"
 
 class ScoreControl : public QGroupBox {
+    Q_OBJECT
 public:
     ScoreControl(HockeyGame* game);
 
