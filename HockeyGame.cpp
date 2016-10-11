@@ -415,34 +415,40 @@ void HockeyGame::connectWithSerialHandler(SerialConsole *console)
     connect(console, SIGNAL(serialDisconnected()), this->getGameClock(), SLOT(noLongerUsingSerialClock()));
     connect(console, SIGNAL(serialDisconnected()), this, SIGNAL(usingInternalClock()));
     connect(console, SIGNAL(serialDisconnected()), &cgTimer, SLOT(stop()));
+    serialConsole = console;
 }
 
 void HockeyGame::parseAllSportCG(QByteArray data)
 {
-    QString clock = data.mid(1, 7);
-    bool stopped = data.mid(8,1) == "s";
-    int homeScoreS = data.mid(9,2).trimmed().toInt();
-    int awayScoreS = data.mid(11,2).trimmed().toInt();
-    int homeTol = data.mid(13,1).toInt();
-    int awayTol = data.mid(14,1).toInt();
-    int hSog = data.mid(15,2).toInt();
-    int aSog = data.mid(17,2).toInt();
-    gameClock.setClock(clock.trimmed());
-    if (homeScore != homeScoreS) {
-        if (homeScore < homeScoreS) {
-            homeGoal();
+    try {
+        QString clock = data.mid(1, 7);
+        bool stopped = data.mid(8,1) == "s";
+        int homeScoreS = data.mid(9,2).trimmed().toInt();
+        int awayScoreS = data.mid(11,2).trimmed().toInt();
+        int homeTol = data.mid(13,1).toInt();
+        int awayTol = data.mid(14,1).toInt();
+        int hSog = data.mid(15,2).toInt();
+        int aSog = data.mid(17,2).toInt();
+        gameClock.setClock(clock.trimmed());
+        if (homeScore != homeScoreS) {
+            if (homeScore < homeScoreS) {
+                homeGoal();
+            }
+            homeScore = homeScoreS;
+            emit homeScoreChanged(homeScore);
         }
-        homeScore = homeScoreS;
-        emit homeScoreChanged(homeScore);
-    }
-    if (awayScore != awayScoreS) {
-        if (awayScore < awayScoreS) {
-            awayGoal();
+        if (awayScore != awayScoreS) {
+            if (awayScore < awayScoreS) {
+                awayGoal();
+            }
+            awayScore = awayScoreS;
+            emit awayScoreChanged(awayScore);
         }
-        awayScore = awayScoreS;
-        emit awayScoreChanged(awayScore);
+        toggleCgPenaltyClocks(!stopped);
+    } catch (...) {
+        serialConsole->closeSerialPort();
+        serialConsole->openSerialPort();
     }
-    toggleCgPenaltyClocks(!stopped);
 
 }
 
@@ -540,7 +546,7 @@ HockeyGame::homePenaltyExpired() {
     for (int i = 0; i < homePenalty.size(); i++) {
         if (homePenalty.at(i)->getTimeLeft() == 0) {
             disconnect(&timer, SIGNAL(timeout()), homePenalty.at(i), SLOT(tick()));
-            disconnect(&cgTimer, SIGNAL(timeout()), awayPenalty.at(i), SLOT(tick()));
+            disconnect(&cgTimer, SIGNAL(timeout()), homePenalty.at(i), SLOT(tick()));
         }
     }
     homePlayersOnIce++;

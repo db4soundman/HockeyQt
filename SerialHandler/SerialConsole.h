@@ -31,7 +31,7 @@ signals:
     void serialDisconnected();
     void dataReceived(QByteArray data);
 
-private slots:
+public slots:
     void openSerialPort();
     void closeSerialPort();
     void about();

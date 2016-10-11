@@ -154,6 +154,7 @@ private:
     HockeyTeam* awayTeam;
     Scoreboard sb;
     LowerThird lt;
+    SerialConsole* serialConsole;
     // GUI is separate class
     // GraphicsVars
 
