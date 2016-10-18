@@ -126,6 +126,8 @@ void SerialConsole::readData()
          * to be not good. I think the system ought to catch up
          * if it gets in this scenario.
          */
+        console->putData("Read too much data: ");
+        console->putData(data);
         emit dataReceived(data.left(52));
         data = data.remove(0, 52);
 
@@ -167,4 +169,9 @@ void SerialConsole::initActionsConnections()
     connect(ui->actionClear, SIGNAL(triggered()), console, SLOT(clear()));
     connect(ui->actionAbout, SIGNAL(triggered()), this, SLOT(about()));
     connect(ui->actionAboutQt, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
+}
+
+Console *SerialConsole::getConsole() const
+{
+    return console;
 }

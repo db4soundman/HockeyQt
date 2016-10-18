@@ -4,6 +4,7 @@
 #include "ClockDialog.h"
 #include "PpClockDialog.h"
 #include "GraphicChooser.txt"
+#include "console.h"
 
 HockeyGame::HockeyGame(QString awayName, QString homeName, QColor awayColor, QColor homeColor,
                        QString awayXML, QString homeXML, QString sponsor, QString announcers,
@@ -446,6 +447,7 @@ void HockeyGame::parseAllSportCG(QByteArray data)
         }
         toggleCgPenaltyClocks(!stopped);
     } catch (...) {
+        serialConsole->getConsole()->putData(data);
         serialConsole->closeSerialPort();
         serialConsole->openSerialPort();
     }

@@ -9,13 +9,15 @@ Clock::Clock() {
     tenths = 1;
     gameClock = true;
     useSerial = false;
+    serialPP = false;
 }
 
-Clock::Clock(int minutes) {
+Clock::Clock(int minutes, bool serialPowerPlay) {
     this->minutes = minutes;
     seconds = 0;
     tenths = 9;
     gameClock = false;
+    serialPP=serialPowerPlay;
 }
 
 void
@@ -71,6 +73,9 @@ Clock::toStringPP() {
 QString Clock::getTimeSincePdStarted()
 {
     QTime clock(0, minutes, seconds);
+    if (useSerial) {
+        clock = serial;
+    }
     QTime pd(0, 20);
     QTime retVal(0,0);
     retVal = retVal.addSecs(clock.secsTo(pd));
@@ -80,6 +85,9 @@ QString Clock::getTimeSincePdStarted()
 QString Clock::getTimeSinceOtStarted()
 {
     QTime clock(0, minutes, seconds);
+    if (useSerial) {
+        clock = serial;
+    }
     QTime pd(0, 5);
     QTime retVal(0,0);
     retVal = retVal.addSecs(clock.secsTo(pd));
@@ -105,7 +113,7 @@ Clock::tick() {
         if (minutes == 0 && seconds == 0 && tenths == 0) {
             emit clockExpired();
         }
-        if (gameClock)
+        if (gameClock || serialPP)
             emit clockUpdated();
     }
     else if (minutes == 0 && seconds == 0 && tenths == 0) {

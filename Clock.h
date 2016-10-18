@@ -9,7 +9,7 @@ class Clock : public QObject {
     Q_OBJECT
 public:
     Clock();
-    Clock(int minutes);
+    Clock(int minutes, bool serialPowerPlay=false);
 
     void setClock(int m, int s, int t);
     void setClock(QString serialString);
@@ -46,7 +46,7 @@ private:
     int minutes, seconds, tenths;
     int regulationLength;
     int otLength;
-    bool gameClock, useSerial;
+    bool gameClock, useSerial, serialPP;
     QTime serial;
 };
 

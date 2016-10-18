@@ -26,6 +26,8 @@ public:
     explicit SerialConsole(QWidget *parent = 0);
     ~SerialConsole();
 
+    Console *getConsole() const;
+
 signals:
     void serialConnected();
     void serialDisconnected();
