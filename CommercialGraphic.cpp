@@ -247,7 +247,7 @@ CommercialGraphic::CommercialGraphic(HockeyGame* game, QPixmap pawayLogo, QGraph
     show = false;
     inGame  = false;
     QFont font("Arial", 34, QFont::Bold);
-    QFont sponsorFont("Arial", 26, QFont::Bold);
+    QFont sponsorFont("Arial", 20, QFont::Bold);
 #ifdef Q_OS_OSX
     font.setPointSize(38);
     sponsorFont.setPointSize(14);
@@ -263,6 +263,7 @@ CommercialGraphic::CommercialGraphic(HockeyGame* game, QPixmap pawayLogo, QGraph
     prepareGradients(game->getAwayColor(), game->getHomeColor());
     networkText = "NCHC.tv";
     clockStatus = SHOW_CLOCK;
+    descriptiveFont.setCapitalization(QFont::SmallCaps);
     connect(game->getGameClock(), SIGNAL(clockUpdated()), this, SLOT(updateClock()));
     awayLogo = new QPixmap(pawayLogo);
     if (awayLogo->height() > RECT_HEIGHT) {
@@ -308,8 +309,14 @@ void CommercialGraphic::paint(QPainter* painter, const QStyleOptionGraphicsItem*
             painter->drawText(GRAPHIC_WIDTH,0, CLOCK_WIDTH, RECT_HEIGHT * 2 + 10, Qt::AlignCenter, clockStatus == FINAL ? "FINAL" : period);
         }
         else {
-            painter->drawText(GRAPHIC_WIDTH, 0, CLOCK_WIDTH, RECT_HEIGHT + 5, Qt::AlignCenter, period);
-            painter->drawText(GRAPHIC_WIDTH, RECT_HEIGHT, CLOCK_WIDTH, RECT_HEIGHT + 5, Qt::AlignCenter, clock);
+            if (clock == "INTERMISSION" && (period == "3RD" || period.endsWith("OT"))) {
+                painter->drawText(GRAPHIC_WIDTH, 0, CLOCK_WIDTH, RECT_HEIGHT + 5, Qt::AlignCenter, "END OF");
+                painter->drawText(GRAPHIC_WIDTH, RECT_HEIGHT, CLOCK_WIDTH, RECT_HEIGHT + 5, Qt::AlignCenter,
+                                  period.contains("OT") ? period : "REGULATION");
+            } else {
+                painter->drawText(GRAPHIC_WIDTH, 0, CLOCK_WIDTH, RECT_HEIGHT + 5, Qt::AlignCenter, period);
+                painter->drawText(GRAPHIC_WIDTH, RECT_HEIGHT, CLOCK_WIDTH, RECT_HEIGHT + 5, Qt::AlignCenter, clock);
+            }
         }
     }
 }
@@ -322,22 +329,25 @@ void CommercialGraphic::prepareAndShow()
     switch (hockeyGame->getPeriod()) {
     case 0:
         inGame = false;
-        period = "Starts in";
+        period = "STARTS IN";
         break;
     case 1:
         inGame = true;
-        period = "1st";
+        period = "1ST";
         break;
     case 2:
-        period = "2nd";
+        period = "2ND";
         break;
     case 3:
-        period = "3rd";
+        period = "3RD";
         break;
     case 4:
         period = "OT";
         break;
     case 5:
+        period = "3x3OT";
+        break;
+    case 6:
         period = "SHOOTOUT";
         break;
     default:
@@ -363,7 +373,7 @@ void CommercialGraphic::updateClock()
             scene()->update(x() + GRAPHIC_WIDTH, y(), CLOCK_WIDTH, RECT_HEIGHT*2);
         }
         else if (clockStatus == INTERMISSION) {
-            clock = "INT";
+            clock = "INTERMISSION";
         }
         else {
             clock = "FINAL";

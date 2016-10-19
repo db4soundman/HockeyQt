@@ -781,6 +781,13 @@ Scoreboard::updatePeriod(int pd) {
         }
         break;
     case 5:
+        period = "3x3OT";
+        showPdAndClockFields = true;
+        if (!useClock) {
+            centeredTimeText = "OVERTIME";
+        }
+        break;
+    case 6:
         centeredTimeText = "SHOOTOUT";
         showPdAndClockFields = false;
         break;
