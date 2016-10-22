@@ -113,6 +113,9 @@ Scoreboard::Scoreboard(QColor awayCol, QColor homeCol, QString awayTeam, QString
     showPdAndClockFields = true;
     showClock = true;
     useTransparency = false;
+    awayPP = false;
+    homePP = false;
+    neutralPP = false;
 
     this->clock = clock;
     connect(clock, SIGNAL(clockUpdated()), this, SLOT(updateClock()));

@@ -120,6 +120,8 @@ public slots:
     void changeUseClock(bool uc);
     void removeFirstHomePenalty();
     void removeFirstAwayPenalty();
+    void removeNewestHomePenalty();
+    void removeNewestAwayPenalty();
     void parseAllSportCG(QByteArray data);
 
 

@@ -306,7 +306,11 @@ void CommercialGraphic::paint(QPainter* painter, const QStyleOptionGraphicsItem*
         //painter->drawPixmap(WIDTH - 200, RECT_HEIGHT, WIDTH - (WIDTH- 400), BLACK_BAR_HEIGHT, blackBar);
         painter->setFont(descriptiveFont);
         if (clockStatus == FINAL || period == "SHOOTOUT") {
-            painter->drawText(GRAPHIC_WIDTH,0, CLOCK_WIDTH, RECT_HEIGHT * 2 + 10, Qt::AlignCenter, clockStatus == FINAL ? "FINAL" : period);
+            if (period.endsWith("OT")) {
+                painter->drawText(GRAPHIC_WIDTH,0, CLOCK_WIDTH, RECT_HEIGHT * 2 + 10, Qt::AlignCenter, "FINAL/OT");
+            } else{
+                painter->drawText(GRAPHIC_WIDTH,0, CLOCK_WIDTH, RECT_HEIGHT * 2 + 10, Qt::AlignCenter, clockStatus == FINAL ? "FINAL" : period);
+            }
         }
         else {
             if (clock == "INTERMISSION" && (period == "3RD" || period.endsWith("OT"))) {

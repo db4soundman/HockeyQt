@@ -651,6 +651,30 @@ void HockeyGame::removeFirstAwayPenalty()
     }
 }
 
+void HockeyGame::removeNewestHomePenalty()
+{
+    for (int i = homePenalty.size()-1; i > -1 ; i--) {
+        if (homePenalty.at(i)->getTimeLeft() != 0) {
+            Clock* toDelete = homePenalty.at(i);
+            toDelete->setClock(0,0,0);
+            break;
+        }
+    }
+    //determinePpClockForScoreboard();
+}
+
+void HockeyGame::removeNewestAwayPenalty()
+{
+    for (int i = awayPenalty.size()-1; i > -1 ; i--) {
+        if (awayPenalty.at(i)->getTimeLeft() != 0) {
+            Clock* toDelete = awayPenalty.at(i);
+            toDelete->setClock(0,0,0);
+            break;
+        }
+    }
+    //determinePpClockForScoreboard();
+}
+
 void HockeyGame::deleteExpiredPenalties()
 {
     for (int i = 0; i < awayPenalty.size(); i++) {
@@ -843,6 +867,9 @@ HockeyGame::getLowestPpClock() {
             if (homePenalty.at(i)->getTimeLeft() != 0 && homePP == NULL) {
                 homePP = homePenalty.at(i);
             }
+            else if (homePenalty.at(i)->getTimeLeft() == 0 && homePP != NULL) {
+               continue;
+            }
             else if (homePP != NULL && homePenalty.at(i)->getTimeLeft() < homePP->getTimeLeft()) {
                 homePP = homePenalty.at(i);
             }
@@ -855,6 +882,9 @@ HockeyGame::getLowestPpClock() {
         else {
             if (awayPenalty.at(i)->getTimeLeft() != 0 && awayPP == NULL) {
                 awayPP = awayPenalty.at(i);
+            }
+            else if (awayPenalty.at(i)->getTimeLeft() == 0 && awayPP != NULL) {
+                continue;
             }
             else if (awayPP != NULL && awayPenalty.at(i)->getTimeLeft() < awayPP->getTimeLeft()) {
                 awayPP = awayPenalty.at(i);

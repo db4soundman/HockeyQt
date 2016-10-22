@@ -16,6 +16,8 @@ PenaltyControl::PenaltyControl(HockeyGame* game) {
     set.setText("Change Timers");
     awayPenEnd.setText("Remove Penalty");
     homePenEnd.setText("Remove Penalty");
+    awayPenUndo.setText("Undo Penalty");
+    homePenUndo.setText("Undo Penalty");
 
     clockLayout->addWidget(&awayLabel, 0, 0);
     clockLayout->addWidget(&homeLabel, 0, 1);
@@ -27,8 +29,10 @@ PenaltyControl::PenaltyControl(HockeyGame* game) {
     clockLayout->addWidget(&hp5, 3, 1);
     clockLayout->addWidget(&awayPenEnd,4,0);
     clockLayout->addWidget(&homePenEnd,4,1);
-    clockLayout->addWidget(&show, 5, 0);
-    clockLayout->addWidget(&set, 5, 1);
+    clockLayout->addWidget(&awayPenUndo,5,0);
+    clockLayout->addWidget(&homePenUndo,5,1);
+    clockLayout->addWidget(&show, 6, 0);
+    clockLayout->addWidget(&set, 6, 1);
     clockLayout->setHorizontalSpacing(3);
     clockLayout->setVerticalSpacing(0);
     setLayout(clockLayout);
@@ -43,10 +47,13 @@ PenaltyControl::PenaltyControl(HockeyGame* game) {
     connect(&homePenEnd, SIGNAL(clicked()), game, SLOT(removeFirstHomePenalty()));
     connect(&hp5, SIGNAL(clicked()), this, SLOT(homeFive()));
     connect(&show, SIGNAL(clicked()), game->getSb(), SLOT(togglePpClocks()));
+    connect(&show, SIGNAL(clicked()), this, SLOT(switchShowText()));
     connect(&set, SIGNAL(clicked()), this, SIGNAL(editPenalties()));
     connect(this, SIGNAL(editPenalties()), game, SLOT(displayPenaltyEditor()));
     connect(this, SIGNAL(awayPenalty(int)), game, SLOT(addAwayPenalty(int)));
     connect(this, SIGNAL(homePenalty(int)), game, SLOT(addHomePenalty(int)));
+    connect(&awayPenUndo, SIGNAL(clicked()), game, SLOT(removeNewestAwayPenalty()));
+    connect(&homePenUndo, SIGNAL(clicked()), game, SLOT(removeNewestHomePenalty()));
     connect(game, SIGNAL(clockInUse(bool)), this, SLOT(changeUseClock(bool)));
 }
 
@@ -103,4 +110,9 @@ void PenaltyControl::homeFour()
 void PenaltyControl::homeFive()
 {
     emit homePenalty(5);
+}
+
+void PenaltyControl::switchShowText()
+{
+    show.setText(show.text() == "Show" ? "Hide" : "Show");
 }

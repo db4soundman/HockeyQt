@@ -26,9 +26,10 @@ private slots:
     void homeTwo();
     void homeFour();
     void homeFive();
+    void switchShowText();
 
 private:
-    QPushButton ap2, ap4, ap5, hp2, hp4, hp5, show, set, homePenEnd, awayPenEnd;
+    QPushButton ap2, ap4, ap5, hp2, hp4, hp5, show, set, homePenEnd, awayPenEnd, homePenUndo, awayPenUndo;
     QLabel homeLabel, awayLabel;
     QGridLayout *clockLayout, *noClockLayout;
 };
