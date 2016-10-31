@@ -37,6 +37,9 @@ SogControl::SogControl(HockeyGame* game) {
 
     connect(this, SIGNAL(showSOG(QString)), game->getSb(), SLOT(changeTopBarText(QString)));
 
+    connect(game, SIGNAL(usingAllSport()), this, SLOT(disableButtons()));
+    connect(game, SIGNAL(usingInternalClock()), this, SLOT(enableButtons()));
+
     setLayout(main);
 }
 
@@ -62,4 +65,20 @@ SogControl::callSogDisplay() {
             + "    |    " + homeName+": " + homeSog.right(indexOfNumber2);
 
     emit showSOG(text);
+}
+
+void SogControl::disableButtons()
+{
+    ap1.setEnabled(false);
+    am1.setEnabled(false);
+    hp1.setEnabled(false);
+    hm1.setEnabled(false);
+}
+
+void SogControl::enableButtons()
+{
+    ap1.setEnabled(true);
+    am1.setEnabled(true);
+    hp1.setEnabled(true);
+    hm1.setEnabled(true);
 }

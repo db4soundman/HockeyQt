@@ -18,6 +18,8 @@ public slots:
     void updateHomeSog(int sog);
     void updateAwaySog(int sog);
     void callSogDisplay();
+    void disableButtons();
+    void enableButtons();
 private:
     QLabel homeLabel, awayLabel;
     QString homeName, awayName;

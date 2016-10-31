@@ -432,18 +432,40 @@ void HockeyGame::parseAllSportCG(QByteArray data)
         int aSog = data.mid(17,2).toInt();
         gameClock.setClock(clock.trimmed());
         if (homeScore != homeScoreS) {
-            if (homeScore < homeScoreS) {
+            while (homeScore < homeScoreS) {
                 homeGoal();
             }
-            homeScore = homeScoreS;
-            emit homeScoreChanged(homeScore);
+            while (homeScore > homeScoreS) {
+                homeLoseGoal();
+            }
+            //homeScore = homeScoreS;
+            //emit homeScoreChanged(homeScore);
         }
         if (awayScore != awayScoreS) {
-            if (awayScore < awayScoreS) {
+            while (awayScore < awayScoreS) {
                 awayGoal();
             }
-            awayScore = awayScoreS;
-            emit awayScoreChanged(awayScore);
+            while (awayScore > awayScoreS) {
+                awayLoseGoal();
+            }
+            //awayScore = awayScoreS;
+            //emit awayScoreChanged(awayScore);
+        }
+        if (homeSOG != hSog) {
+            while (homeSOG < hSog) {
+                addHomeSOG();
+            }
+            while (homeSOG > hSog) {
+                subHomeSOG();
+            }
+        }
+        if (awaySOG != aSog) {
+            while (awaySOG < aSog) {
+                addAwaySOG();
+            }
+            while (awaySOG > aSog) {
+                subAwaySOG();
+            }
         }
         toggleCgPenaltyClocks(!stopped);
     } catch (...) {
