@@ -1,7 +1,7 @@
 #ifndef COMMERCIALGRAPHIC_H
 #define COMMERCIALGRAPHIC_H
 
-#include <QGraphicsPixmapItem>
+#include <QGraphicsRectItem>
 #include <QPixmap>
 #include <QFont>
 #include "HockeyGame.h"
@@ -9,7 +9,7 @@
 #include <QPainter>
 #include <QGraphicsTextItem>
 #include "GraphicChooser.txt"
-class CommercialGraphic : public QObject, public QGraphicsPixmapItem {
+class CommercialGraphic : public QObject, public QGraphicsRectItem {
     Q_OBJECT
 public:
 #ifdef GRADIENT_LOOK
@@ -33,14 +33,14 @@ public slots:
     void toggleAwayLogoBg(bool on);
 
 private:
-    QPixmap blackBar;
+    QPixmap blackBar, networkLogo;
     QLinearGradient homeTeamGradient, awayTeamGradient, clockGradient, bgGradient;
     HockeyGame* hockeyGame;
     bool show, inGame, useClock, altAwayLogoBg;
     QGraphicsTextItem* away, *home;
     QString homeScore, awayScore, networkText, period, clock;
     QFont descriptiveFont;
-    int clockStatus, awayLogoOffset;
+    int clockStatus, awayLogoHeightOffset, awayLogoWidthOffset, homeLogoWidthOffset;
     void checkAwayFont();
     void prepareGradients(QColor awayColor, QColor homeColor);
     QPixmap homeLogo, *awayLogo;

@@ -4,11 +4,12 @@
 #include <QFontMetrics>
 #include <QFontInfo>
 #include "GraphicChooser.txt"
+#include "MiamiAllAccessHockey.h"
 
 // Flat look
 #define GRADIENT_LEVEL .5
 
-#define TEAM_GRADIENT_LEVEL .5
+#define TEAM_GRADIENT_LEVEL .4
 #define SCOREBOARD_GRADIENT_LEVEL .9
 
 
@@ -20,12 +21,12 @@
 #define TEAM_WIDTH (TEAM_NAME_WIDTH + SCORE_WIDTH)
 #define RANK_WIDTH 30
 #define TEAM_BOX_Y 2
-#define TEAM_BOX_HEIGHT 41
-#define V_TEAM_BOX_STARTX 12
+#define TEAM_BOX_HEIGHT 40
+#define V_TEAM_BOX_STARTX 180
 #define H_TEAM_BOX_STARTX (V_TEAM_BOX_STARTX + TEAM_WIDTH + 10)
 #define LOGO_WIDTH 50
-#define SCOREBOARD_WIDTH 1047
-#define CLOCK_FIELD_X 809
+#define SCOREBOARD_WIDTH 1192
+#define CLOCK_FIELD_X (H_TEAM_BOX_STARTX + TEAM_WIDTH)
 #define CLOCK_FIELD_WIDTH 227
 #define SCOREBOARD_HEIGHT 44
 #define PP_BAR_HEIGHT 38
@@ -44,6 +45,7 @@ Scoreboard::Scoreboard(QColor awayCol, QColor homeCol, QString awayTeam, QString
     sponsorFont.setPointSize(28);
 #endif
 
+    nchctv = (MiamiAllAccessHockey::getImgFromResources(":/images/NCHCTV.png",42));
     defaultSponsorText = sponsorFont;
     show = false;
     setRect(0,0,SCOREBOARD_WIDTH, TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT + TOP_BAR_HEIGHT + 5);
@@ -514,10 +516,11 @@ Scoreboard::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
             //painter->drawPixmap(0,-49,SCOREBOARD_WIDTH,49, *topBar);
             painter->fillRect(20,0,TOP_BAR_WIDTH, TOP_BAR_HEIGHT, QBrush(QColor(20,20,20)));
         painter->fillRect(0,TOP_BAR_HEIGHT,SCOREBOARD_WIDTH, SCOREBOARD_HEIGHT,mainGradient);
+        painter->drawPixmap(2,TOP_BAR_HEIGHT,nchctv);
         //Clock - Game time...draw clock first since default color is black
         painter->setFont(homeName->font());
-        painter->setPen(QColor(1,1,1));
-        painter->fillRect(CLOCK_FIELD_X, 1 + TOP_BAR_HEIGHT, CLOCK_FIELD_WIDTH,SCOREBOARD_HEIGHT-2, clockGradient);
+        painter->setPen(QColor(230,230,230));
+        //painter->fillRect(CLOCK_FIELD_X, 1 + TOP_BAR_HEIGHT, CLOCK_FIELD_WIDTH,SCOREBOARD_HEIGHT-2, clockGradient);
         if (useClock && showPdAndClockFields) {
             painter->drawText(CLOCK_FIELD_X + 10, TOP_BAR_HEIGHT, CLOCK_FIELD_WIDTH, SCOREBOARD_HEIGHT, Qt::AlignVCenter, period);
             painter->drawText(CLOCK_FIELD_X, TOP_BAR_HEIGHT, CLOCK_FIELD_WIDTH-10, SCOREBOARD_HEIGHT, Qt::AlignRight | Qt::AlignVCenter,
@@ -620,10 +623,10 @@ Scoreboard::prepareColor() {
     QColor end(red, green, blue);
     if (end == QColor(0,0,0))
         end = QColor(1,1,1);
-    homeGradient.setColorAt(.4, homeColor);
-    homeGradient.setColorAt(.6, homeColor);
+    homeGradient.setColorAt(0, homeColor);
+   // homeGradient.setColorAt(.6, homeColor);
     homeGradient.setColorAt(1, end);
-    homeGradient.setColorAt(0, end);
+    //homeGradient.setColorAt(0, end);
 
     red = -1*awayColor.red() *TEAM_GRADIENT_LEVEL + awayColor.red();
     green = -1*awayColor.green() *TEAM_GRADIENT_LEVEL + awayColor.green();
@@ -631,10 +634,10 @@ Scoreboard::prepareColor() {
     QColor end2(red, green, blue);
     if (end2 == QColor(0,0,0))
         end2 = QColor(1,1,1);
-    awayGradient.setColorAt(.4, awayColor);
-    awayGradient.setColorAt(.6, awayColor);
+    awayGradient.setColorAt(0, awayColor);
+    //awayGradient.setColorAt(.6, awayColor);
     awayGradient.setColorAt(1, end2);
-    awayGradient.setColorAt(0, end2);
+    //awayGradient.setColorAt(0, end2);
 
     //mainGradient, clockGradient, ppGradient, scoreGradient
     QColor sbRed(20,20,20);
@@ -646,9 +649,9 @@ Scoreboard::prepareColor() {
     if (end3 == QColor(0,0,0))
         end3 = QColor(1,1,1);
 
-    mainGradient.setColorAt(0, QColor(1,1,1));
-    mainGradient.setColorAt(1, QColor(1,1,1));
-    mainGradient.setColorAt(.4, QColor(30,30,30));
+    mainGradient.setColorAt(0, QColor(41, 70, 91));
+    //mainGradient.setColorAt(1, QColor(1,1,1));
+    mainGradient.setColorAt(1, QColor(23, 41, 53));
     //mainGradient.setColorAt(.6, QColor(50,50,50));
 
     clockGradient.setColorAt(0, QColor(255,255,255));

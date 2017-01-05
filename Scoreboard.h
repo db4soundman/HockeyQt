@@ -53,6 +53,7 @@ private:
      QPixmap* ppBar;
      QPixmap* topBar;
      QPixmap* homeLogo, *awayLogo;
+     QPixmap nchctv;
      QColor homeColor, awayColor;
      QGraphicsTextItem* homeName;
      QGraphicsTextItem* awayName;

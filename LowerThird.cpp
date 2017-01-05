@@ -323,7 +323,7 @@ LowerThird::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
         // Stat numbers
         for (int i = 0; i< statistics.size(); i++) {
             painter->setFont(statFont);
-            painter->drawText(rectWidth * i, BOX_HEIGHT, rectWidth, BOX_HEIGHT, Qt::AlignCenter/*Qt::AlignLeft | Qt::AlignVCenter */, statistics.at(i)+ " " + (statNames.size() > i ? statNames.at(i) : " "));
+            painter->drawText(rectWidth * i, BOX_HEIGHT, rectWidth, BOX_HEIGHT, Qt::AlignCenter, statistics.at(i)+ " " + (statNames.size() > i ? statNames.at(i) : " "));
             //painter->setFont(labelFont);
            // painter->drawText(rectWidth * i + 100, BOX_HEIGHT, rectWidth, BOX_HEIGHT, Qt::AlignRight | Qt::AlignBottom, statNames.size() > i ? statNames.at(i) : " ");
         }
@@ -453,6 +453,7 @@ void LowerThird::prepareColors() {
     awayStatGradient.setColorAt(1, end);
     awayStatGradient.setColorAt(0, end);
 
+
     stats = QColor(20,20,20);
     red = -1*stats.red() *STAT_GRADIENT_LEVEL + stats.red();
     green = -1*stats.green() *STAT_GRADIENT_LEVEL + stats.green();
@@ -460,9 +461,9 @@ void LowerThird::prepareColors() {
     end.setRgb(red, green, blue);
     if (end == QColor(0,0,0))
         end = QColor(1,1,1);
-    statGradient.setColorAt(.5, stats);
-    statGradient.setColorAt(1, end);
-    statGradient.setColorAt(0, end);
+   // statGradient.setColorAt(.5, stats);
+    statGradient.setColorAt(1, QColor(23, 41, 53));
+    statGradient.setColorAt(0, QColor(41, 70, 91));
 }
 
 void
