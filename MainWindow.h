@@ -16,12 +16,13 @@
 #include "schedulegraphic.h"
 #include "schedulegui.h"
 #include "SerialConsole.h"
+#include "ComparisonGraphic.h"
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
 public:
     MainWindow(HockeyGame* game, StandingsGraphic* graphic, CommercialGraphic* comGraphic,
-               NchcScoreboardGraphic* confSbGraphic, ScheduleGraphic* scheduleGraphic, SerialConsole* serial, QWidget *parent = 0);
+               NchcScoreboardGraphic* confSbGraphic, ScheduleGraphic* scheduleGraphic, SerialConsole* serial, ComparisonGraphic* comparisonGraphic, QWidget *parent = 0);
     ~MainWindow();
 
 private:

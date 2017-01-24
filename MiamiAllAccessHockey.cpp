@@ -174,6 +174,11 @@ MiamiAllAccessHockey::exec() {
     game->getLt()->setX((graphicsScreen.width() / 2) - 500);
 #endif
     scene->addItem(commercial);
+    comparisonGraphic = new ComparisonGraphic(awayColor, homeColor, awayLogoImg);
+    comparisonGraphic->setX((graphicsScreen.width() / 2) - 500);
+    comparisonGraphic->setY(graphicsScreen.height() - 160);
+    scene->addItem(comparisonGraphic);
+    game->setComparisonGraphic(comparisonGraphic);
     scheduleGraphic.setX(100);
     scheduleGraphic.setY(650);
     game->getLt()->setY(graphicsScreen.height() - 160);
@@ -199,7 +204,7 @@ MiamiAllAccessHockey::exec() {
         stats = new StatCrewScanner(game, statcrewName);
 
     SerialConsole con;
-    controlPanel = new MainWindow(game, &standings, commercial, &nchcScoreboard, &scheduleGraphic, &con);
+    controlPanel = new MainWindow(game, &standings, commercial, &nchcScoreboard, &scheduleGraphic, &con, comparisonGraphic);
     controlPanel->show();
     game->connectWithSerialHandler(&con);
     if (!usingTricaster)
@@ -214,7 +219,7 @@ MiamiAllAccessHockey::exec() {
         layout->addWidget(previewSb);
         previewLt = new QGraphicsView(scene);
         previewLt->setBackgroundBrush(QColor(100,100,100));
-        previewLt->setSceneRect(300, 700, game->getSb()->getRealWidth(), 300);
+        previewLt->setSceneRect(300, 700, game->getSb()->getRealWidth(), 400);
         layout->addWidget(previewLt);
         previewWindow->setLayout(layout);
         previewWindow->setWindowTitle("Graphic View");

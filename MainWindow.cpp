@@ -7,8 +7,8 @@
 #include <QMenuBar>
 
 MainWindow::MainWindow(HockeyGame* game, StandingsGraphic* graphic, CommercialGraphic* comGraphic,
-                       NchcScoreboardGraphic* confSbGraphic, ScheduleGraphic *scheduleGraphic, SerialConsole *serial, QWidget *parent)
-    : QMainWindow(parent), panel(game, graphic, comGraphic, confSbGraphic, scheduleGraphic), standingsPanel(graphic), nchcGui(confSbGraphic),
+                       NchcScoreboardGraphic* confSbGraphic, ScheduleGraphic *scheduleGraphic, SerialConsole *serial, ComparisonGraphic *comparisonGraphic, QWidget *parent)
+    : QMainWindow(parent), panel(game, graphic, comGraphic, confSbGraphic, scheduleGraphic, comparisonGraphic), standingsPanel(graphic), nchcGui(confSbGraphic),
     awayPlayerEdit(game, false), homePlayerEdit(game, true), awayEdit(game->getAwayTeam()), homeEdit(game->getHomeTeam()),
     ltCreator(game->getLt()) {
     setCentralWidget(&panel);

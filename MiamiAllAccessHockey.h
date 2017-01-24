@@ -13,6 +13,7 @@
 #include "TricasterHandler.h"
 #include "schedulegraphic.h"
 #include "Params.h"
+#include "ComparisonGraphic.h"
 #include <QImage>
 #include <QPixmap>
 #include <QWidget>
@@ -49,6 +50,7 @@ private:
     NchcScoreboardGraphic nchcScoreboard;
     ScheduleGraphic scheduleGraphic;
     CommercialGraphic* commercial;
+    ComparisonGraphic* comparisonGraphic;
     StatCrewScanner* stats;
     TricasterHandler* tricaster;
     Params params;

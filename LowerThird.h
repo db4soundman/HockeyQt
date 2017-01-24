@@ -37,7 +37,7 @@ public slots:
     void prepareForPpComp(QString awayName, QString awayLabel, QString awayStat,
                           QString homeName, QString homeLabel, QString homeStat);
 #else
-    void prepareForPpComp(QString awayName, QString awayLabel, QString homeName, QString homeLabel, QList<QString> stats);
+    void prepareComp(QString awayName, QString awayLabel, QString homeName, QString homeLabel, QList<QString> stats);
 #endif
 private:
     QList<QString> statNames;
@@ -55,7 +55,7 @@ private:
     void prepareFontSize();
     void adjustFont();
 
-    bool show, showPp;
+    bool show;
     int fontPointSize, statFontPointSize, centerPoint;
 };
 

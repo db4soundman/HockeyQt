@@ -331,7 +331,7 @@ void HockeyGame::gatherPpStats()
             stats.append("Today: " + QString::number(homeTeam->getPpgToday()) + "-" + QString::number(homeTeam->getPpoppToday()));
 
         }
-        lt.prepareForPpComp(getAwayName(), "PENALTY KILL", getHomeName(), "POWERPLAY", stats);
+        comparisonGraphic->prepareComp(getAwayName(), "PENALTY KILL", getHomeName(), "POWERPLAY", stats);
     }
     else if (homePlayersOnIce < awayPlayersOnIce) {
         stats.append(QString::number(awayTeam->getPpPct(), 'g', 3) +"%");
@@ -340,7 +340,7 @@ void HockeyGame::gatherPpStats()
             stats.append("Today: " + QString::number(awayTeam->getPpgToday()) + "-" + QString::number(awayTeam->getPpoppToday()));
             stats.append("Today: " + QString::number(homeTeam->getPkToday()) + "-" + QString::number(homeTeam->getPkoppToday()));
         }
-        lt.prepareForPpComp(getAwayName(), "POWERPLAY", getHomeName(), "PENALTY KILL", stats);
+      comparisonGraphic->prepareComp(getAwayName(), "POWERPLAY", getHomeName(), "PENALTY KILL", stats);
     }
 }
 #endif
@@ -717,6 +717,11 @@ void HockeyGame::deleteExpiredPenalties()
     }
     homePlayersOnIce = 5 - homePenalty.size();
     awayPlayersOnIce = 5 - awayPenalty.size();
+}
+
+void HockeyGame::setComparisonGraphic(ComparisonGraphic *value)
+{
+    comparisonGraphic = value;
 }
 
 void HockeyGame::toggleCgPenaltyClocks(bool isOn)

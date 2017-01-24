@@ -15,12 +15,14 @@
 #include "CommercialGraphic.h"
 #include "NchcScoreboardGraphic.h"
 #include "schedulegraphic.h"
+#include "ComparisonGraphic.h"
 
 
 class ControlPanel : public QWidget {
     Q_OBJECT
 public:
-    ControlPanel(HockeyGame* game, StandingsGraphic* graphic, CommercialGraphic* comGraphic, NchcScoreboardGraphic* sbGraphic, ScheduleGraphic* schedGraphic);
+    ControlPanel(HockeyGame* game, StandingsGraphic* graphic, CommercialGraphic* comGraphic,
+                 NchcScoreboardGraphic* sbGraphic, ScheduleGraphic* schedGraphic, ComparisonGraphic* comparisonGraphic);
 
 private:
     DisplayControls dispControls;

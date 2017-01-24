@@ -11,6 +11,7 @@
 #include "LowerThird.h"
 #include "HockeyTeam.h"
 #include "SerialConsole.h"
+#include "ComparisonGraphic.h"
 
 
 class HockeyGame : public QObject {
@@ -86,6 +87,8 @@ public:
 
     QTimer* getTricasterRefresh();
 
+    void setComparisonGraphic(ComparisonGraphic *value);
+
 public slots:
     void homeGoal();
     void awayGoal();
@@ -157,9 +160,7 @@ private:
     Scoreboard sb;
     LowerThird lt;
     SerialConsole* serialConsole;
-    // GUI is separate class
-    // GraphicsVars
-
+    ComparisonGraphic* comparisonGraphic;
     void toggleCgPenaltyClocks(bool isOn);
     Clock* getLowestPpClock();
 };
