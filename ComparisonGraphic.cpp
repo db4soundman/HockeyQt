@@ -88,7 +88,7 @@ void ComparisonGraphic::showComparison()
 void ComparisonGraphic::prepareComp(QString awayName, QString awayLabel, QString homeName, QString homeLabel, QList<QString> stats, QString pstatHeader)
 {
     statFont.setPointSize(statFontPointSize);
-    statHeader = "POWERPLAY STATS";//pstatHeader;
+    statHeader = pstatHeader;
     this->awayName = awayName;
     this->awayLabel = awayLabel;
     this->homeName = homeName;
