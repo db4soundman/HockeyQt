@@ -331,7 +331,7 @@ void HockeyGame::gatherPpStats()
             stats.append("Today: " + QString::number(homeTeam->getPpgToday()) + "-" + QString::number(homeTeam->getPpoppToday()));
 
         }
-        comparisonGraphic->prepareComp(getAwayName(), "PENALTY KILL", getHomeName(), "POWERPLAY", stats);
+        comparisonGraphic->prepareComp("PENALTY KILL", "POWERPLAY", stats);
     }
     else if (homePlayersOnIce < awayPlayersOnIce) {
         stats.append(QString::number(awayTeam->getPpPct(), 'g', 3) +"%");
@@ -340,7 +340,7 @@ void HockeyGame::gatherPpStats()
             stats.append("Today: " + QString::number(awayTeam->getPpgToday()) + "-" + QString::number(awayTeam->getPpoppToday()));
             stats.append("Today: " + QString::number(homeTeam->getPkToday()) + "-" + QString::number(homeTeam->getPkoppToday()));
         }
-      comparisonGraphic->prepareComp(getAwayName(), "POWERPLAY", getHomeName(), "PENALTY KILL", stats);
+      comparisonGraphic->prepareComp("POWERPLAY","PENALTY KILL", stats);
     }
 }
 #endif
@@ -474,6 +474,14 @@ void HockeyGame::parseAllSportCG(QByteArray data)
         serialConsole->openSerialPort();
     }
 
+}
+
+void HockeyGame::prepareFaceoffComparison(int awayWins, int homeWins)
+{
+    QList<QString> stats;
+    stats.append(QString::number(awayWins));
+    stats.append(QString::number(homeWins));
+    prepareSameStatComp(stats, "FACEOFF WINS");
 }
 
 
@@ -928,4 +936,9 @@ HockeyGame::getLowestPpClock() {
         return homePP;
     }
     return awayPP;
+}
+
+void HockeyGame::prepareSameStatComp(QList<QString> stats, QString statName)
+{
+    comparisonGraphic->prepareComp(getAwayTri(), getHomeTri(), stats, statName);
 }

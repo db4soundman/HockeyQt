@@ -47,7 +47,7 @@ void ComparisonGraphic::paint(QPainter *painter, const QStyleOptionGraphicsItem 
                 painter->setFont(statFont);
                 QFontMetrics fontSize(statFont);
                 painter->fillRect(0, BOX_HEIGHT-24, fontSize.width(statHeader) + 10, 24, statHeaderGradient );
-                painter->setPen(QColor(255,255,255));
+                painter->setPen(QColor(1,1,1));
                 painter->drawText(0, BOX_HEIGHT-24,fontSize.width(statHeader) + 10, 24, Qt::AlignCenter, statHeader);
             }
            painter->fillRect(0, BOX_HEIGHT, statistics.size() > 2 ? 800 : 600, BOX_HEIGHT * 2, bgGradient);
@@ -85,13 +85,11 @@ void ComparisonGraphic::showComparison()
 
 }
 
-void ComparisonGraphic::prepareComp(QString awayName, QString awayLabel, QString homeName, QString homeLabel, QList<QString> stats, QString pstatHeader)
+void ComparisonGraphic::prepareComp( QString awayLabel,QString homeLabel, QList<QString> stats, QString pstatHeader)
 {
     statFont.setPointSize(statFontPointSize);
     statHeader = pstatHeader;
-    this->awayName = awayName;
     this->awayLabel = awayLabel;
-    this->homeName = homeName;
     this->homeLabel = homeLabel;
     statistics=stats;
     prepareFontSize();

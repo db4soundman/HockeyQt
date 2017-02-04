@@ -74,7 +74,8 @@ SOURCES += main.cpp\
     Schedule/schedulegui.cpp \
     Schedule/schedulegraphic.cpp \
     Schedule/scheduleentry.cpp \
-    ComparisonGraphic.cpp
+    ComparisonGraphic.cpp \
+    GUI/FaceoffControl.cpp
 
 HEADERS  += MainWindow.h \
     Scoreboard.h \
@@ -129,7 +130,8 @@ HEADERS  += MainWindow.h \
     Schedule/schedulegui.h \
     Schedule/schedulegraphic.h \
     Schedule/scheduleentry.h \
-    ComparisonGraphic.h
+    ComparisonGraphic.h \
+    GUI/FaceoffControl.h
 
 
 RESOURCES += \

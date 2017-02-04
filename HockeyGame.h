@@ -126,6 +126,7 @@ public slots:
     void removeNewestHomePenalty();
     void removeNewestAwayPenalty();
     void parseAllSportCG(QByteArray data);
+    void prepareFaceoffComparison(int awayWins, int homeWins);
 
 
 signals:
@@ -163,6 +164,8 @@ private:
     ComparisonGraphic* comparisonGraphic;
     void toggleCgPenaltyClocks(bool isOn);
     Clock* getLowestPpClock();
+
+    void prepareSameStatComp(QList<QString> stats, QString statName);
 };
 
 #endif // HOCKEYGAME_H

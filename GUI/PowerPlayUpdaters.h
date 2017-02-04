@@ -1,12 +1,12 @@
 #ifndef POWERPLAYUPDATERS_H
 #define POWERPLAYUPDATERS_H
 
-#include <QGroupBox>
+#include <QWidget>
 #include "HockeyGame.h"
 #include <QPushButton>
 #include <QLabel>
 
-class PowerPlayUpdaters : public QGroupBox {
+class PowerPlayUpdaters : public QWidget {
     Q_OBJECT
 public:
     PowerPlayUpdaters(HockeyGame* game);

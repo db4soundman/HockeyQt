@@ -16,6 +16,8 @@
 #include "NchcScoreboardGraphic.h"
 #include "schedulegraphic.h"
 #include "ComparisonGraphic.h"
+#include "FaceoffControl.h"
+#include <QTabWidget>
 
 
 class ControlPanel : public QWidget {
@@ -33,6 +35,8 @@ private:
     GameInfo hud;
     ClockControls clockControls;
     StatDisplayControls stats;
+    FaceoffControl faceoffs;
+    QTabWidget comparisons;
 };
 
 #endif // CONTROLPANEL_H

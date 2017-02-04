@@ -16,16 +16,20 @@ signals:
     void requestAwayLt(int player, bool home);
     void requestHomeSb(int player, bool home);
     void requestAwaySb(int player, bool home);
+    void requestHomeSeason(int player, bool home);
+    void requestAwaySeason(int player, bool home);
 
 private slots:
     void getHomeLt();
     void getAwayLt();
     void getHomeSb();
     void getAwaySb();
+    void getAwaySeason();
+    void getHomeSeason();
 
 private:
     QComboBox homeGoalie, awayGoalie;
-    QPushButton awayLt, awaySB, homeLt, homeSB;
+    QPushButton awayLt, awaySB, homeLt, homeSB, awaySeason, homeSeason;
 
 };
 

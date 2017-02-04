@@ -23,7 +23,7 @@ public:
 public slots:
     void hideComparison();
     void showComparison();
-    void prepareComp(QString awayName, QString awayLabel, QString homeName, QString homeLabel, QList<QString> stats, QString pstatHeader="");
+    void prepareComp(QString awayLabel, QString homeLabel, QList<QString> stats, QString pstatHeader="");
 
 private:
     QList<QString> statNames;

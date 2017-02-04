@@ -12,8 +12,10 @@ Goalies::Goalies(HockeyGame* game) {
     away->addWidget(&awayGoalie);
     awayLt.setText("Game Lower Third");
     awaySB.setText("Game Stat Bar");
+    away->addWidget(&awaySeason);
     away->addWidget(&awayLt);
     away->addWidget(&awaySB);
+    awaySeason.setText("Season Lower Third");
 
     QVBoxLayout* home = new QVBoxLayout();
     home->addWidget(new QLabel(game->getHomeTri()));
@@ -22,8 +24,10 @@ Goalies::Goalies(HockeyGame* game) {
     home->addWidget(&homeGoalie);
     homeLt.setText("Game Lower Third");
     homeSB.setText("Game Stat Bar");
+    home->addWidget(&homeSeason);
     home->addWidget(&homeLt);
     home->addWidget(&homeSB);
+    homeSeason.setText("Season Lower Third");
 
     main->addLayout(away);
     main->addLayout(home);
@@ -38,11 +42,15 @@ Goalies::Goalies(HockeyGame* game) {
     connect(&awayLt, SIGNAL(clicked()), this, SLOT(getAwayLt()));
     connect(&homeSB, SIGNAL(clicked()), this, SLOT(getHomeSb()));
     connect(&awaySB, SIGNAL(clicked()), this, SLOT(getAwaySb()));
+    connect(&awaySeason, SIGNAL(clicked(bool)), this, SLOT(getAwaySeason()));
+    connect(&homeSeason, SIGNAL(clicked(bool)), this, SLOT(getHomeSeason()));
 
     connect(this, SIGNAL(requestAwayLt(int, bool)), game, SLOT(gatherGameStatsLt(int, bool)));
     connect(this, SIGNAL(requestHomeLt(int, bool)), game, SLOT(gatherGameStatsLt(int, bool)));
     connect(this, SIGNAL(requestAwaySb(int, bool)), game, SLOT(gatherGameStatsSb(int, bool)));
     connect(this, SIGNAL(requestHomeSb(int, bool)), game, SLOT(gatherGameStatsSb(int, bool)));
+    connect(this, SIGNAL(requestAwaySeason(int,bool)), game, SLOT(gatherSeasonStatsLt(int,bool)));
+    connect(this, SIGNAL(requestHomeSeason(int,bool)), game, SLOT(gatherSeasonStatsLt(int,bool)));
 
     emit awayGoalie.currentIndexChanged(0);
     emit homeGoalie.currentIndexChanged(0);
@@ -67,4 +75,14 @@ void Goalies::getHomeSb()
 void Goalies::getAwaySb()
 {
     emit requestAwaySb(awayGoalie.currentIndex(), false);
+}
+
+void Goalies::getAwaySeason()
+{
+    emit requestAwaySeason(awayGoalie.currentIndex(), false);
+}
+
+void Goalies::getHomeSeason()
+{
+    emit requestHomeSeason(homeGoalie.currentIndex(), true);
 }
