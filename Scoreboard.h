@@ -63,7 +63,7 @@ private:
      QGraphicsTextItem* awayRank;
      QGraphicsTextItem* homeRank;
      QString ppDescription, period, centeredTimeText, sponsorText;
-     QLinearGradient homeGradient, awayGradient, penaltyGradient, mainGradient, clockGradient, ppGradient, scoreGradient, bgGradient;
+     QLinearGradient homeGradient, awayGradient, penaltyGradient, mainGradient, clockGradient, ppGradient, scoreGradient, bgGradient, homePPGradient, awayPPGradient, neutralPPGradient;
      bool awayPP, homePP, neutralPP, penalty, sponsor, useClock, altAwayLogoBg,
      scoreText, showPP, show, showPdAndClockFields, showClock, useTransparency;
 

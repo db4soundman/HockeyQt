@@ -9,6 +9,7 @@
 #include "GraphicChooser.txt"
 #include "SerialConsole.h"
 #include <QVBoxLayout>
+#include <QMessageBox>
 
 MiamiAllAccessHockey::MiamiAllAccessHockey(int& argc, char* argv[]) :
     QApplication (argc, argv) {
@@ -176,7 +177,7 @@ MiamiAllAccessHockey::exec() {
     scene->addItem(commercial);
     comparisonGraphic = new ComparisonGraphic(awayColor, homeColor, awayLogoImg);
     comparisonGraphic->setX((graphicsScreen.width() / 2) - 500);
-    comparisonGraphic->setY(graphicsScreen.height() - 160);
+    comparisonGraphic->setY(graphicsScreen.height() - 198);
     scene->addItem(comparisonGraphic);
     game->setComparisonGraphic(comparisonGraphic);
     scheduleGraphic.setX(100);
@@ -184,7 +185,7 @@ MiamiAllAccessHockey::exec() {
     game->getLt()->setY(graphicsScreen.height() - 160);
     game->getSb()->setY(60 - 39);
     game->getSb()->setX((graphicsScreen.width() / 2) - (game->getSb()->getRealWidth()/2));
-    commercial->setY(graphicsScreen.height() - 230);
+    commercial->setY(graphicsScreen.height() - 280);
     //commercial->setX(460);
     tv = new QGraphicsView(scene);
 
@@ -239,7 +240,20 @@ QImage MiamiAllAccessHockey::getTrimmedLogo(QString filePath)
 {
     if (filePath.endsWith("NOESPN")) {
         filePath = filePath.left(filePath.indexOf("NOESPN"));
-        return QImage(filePath);
+        QImage src(filePath);
+        //QFile file("edited.png");
+        //file.open(QIODevice::WriteOnly);
+//        src.save("edited.png");
+//        src = QImage("edited.png");
+//        for (int i = 0; i < src.width(); i++) {
+//            for (int j = 0; j < src.height(); j++) {
+//                QColor pix(src.pixel(i, j));
+//                if (pix.red() == pix.blue() && pix.blue()==pix.green() && pix.red() == 0 && pix.alpha() != 0) {
+//                    src.setPixelColor(i,j, QColor(1,1,1));
+//                }
+//            }
+//        }
+        return src;
     }
     int tX, tY, bX, bY;
     tX = (tY = (bX = (bY = -1)));
@@ -288,5 +302,15 @@ QImage MiamiAllAccessHockey::getTrimmedLogo(QString filePath)
     QPoint tl(tX, tY);
     QPoint br(bX, bY);
     QRect box(tl, br);
+
+//    for (int i = box.topLeft().x(); i < box.bottomRight().x(); i++) {
+//        for (int j = box.topLeft().y(); j < box.bottomRight().y(); j++) {
+//            QColor pix(src.pixel(i, j));
+//            if (pix.red() == pix.blue() && pix.blue()==pix.green() && pix.red() == 0) {
+//                src.setPixelColor(i,j, QColor(1,1,1));
+//            }
+//        }
+//    }
+
     return src.copy(box);
 }

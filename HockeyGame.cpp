@@ -168,7 +168,7 @@ void HockeyGame::gatherSeasonStatsLt(int index, bool home)
         labels.append("GAA");
         numbers.append(QString::number(player->getWins()) + "-" + QString::number(player->getLosses()));
         numbers.append(QString::number(player->getSaves()));
-        numbers.append(QString::number(player->getSvPct(), 'g', 3) +"%");
+        numbers.append(QString::number(player->getSvPct(), 'g', 3));
         numbers.append(player->getGaavg());
     }
     lt.prepareForDisplay(player->getName(), player->getUni(), player->getYear(),
