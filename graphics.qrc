@@ -1,9 +1,6 @@
 <RCC>
     <qresource prefix="/images">
-        <file alias="ppBar.png">images/PPBar.png</file>
-        <file alias="statbar.png">images/StatBar.png</file>
         <file alias="M.png">images/M.png</file>
-        <file alias="LowerThird.png">images/StatsGraphic.png</file>
         <file alias="Standings.png">images/StandingsFS.png</file>
         <file alias="NCHClrg.png">images/NCHClogo.png</file>
         <file alias="NCHCmenu.png">images/NCHCmenu.png</file>

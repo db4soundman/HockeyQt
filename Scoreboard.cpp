@@ -49,8 +49,6 @@ Scoreboard::Scoreboard(QColor awayCol, QColor homeCol, QString awayTeam, QString
     defaultSponsorText = sponsorFont;
     show = false;
     setRect(0,0,SCOREBOARD_WIDTH, TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT + TOP_BAR_HEIGHT + 5);
-    ppBar = new QPixmap(":/images/ppBar.png");
-    topBar = new QPixmap(":/images/ppBar.png");
     homeLogo = new QPixmap(":/images/M.png");
     awayLogo = new QPixmap(pawayLogo);
     altAwayLogoBg = false;

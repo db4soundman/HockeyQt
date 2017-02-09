@@ -163,6 +163,7 @@ MiamiAllAccessHockey::exec() {
     scene->addItem(game->getSb());
 
     scene->addItem(game->getLt());
+    standings.setY(150);
     scene->addItem(&standings);
     scene->addItem(&nchcScoreboard);
     scene->addItem(&scheduleGraphic);

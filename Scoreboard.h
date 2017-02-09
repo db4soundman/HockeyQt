@@ -50,8 +50,7 @@ public slots:
      void toggleAwayLogoBg(bool on);
 
 private:
-     QPixmap* ppBar;
-     QPixmap* topBar;
+
      QPixmap* homeLogo, *awayLogo;
      QPixmap nchctv;
      QColor homeColor, awayColor;
