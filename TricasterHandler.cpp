@@ -20,9 +20,9 @@ TricasterHandler::TricasterHandler(QString ip, int port, QGraphicsView *view, QC
     AirSend_request_connection(tricaster, blah, 7000); */
     pixels = new BYTE[1920*1080*4];
     for (int i = 0; i < 1920*1080*4 - 1; i+=4) {
-        ::memset(&pixels[i], 0, 1);
-        ::memset(&pixels[i + 1], 0, 1);
-        ::memset(&pixels[i + 2], 0, 1);
+        ::memset(&pixels[i], alphaBlack.blue(), 1);
+        ::memset(&pixels[i + 1], alphaBlack.green(), 1);
+        ::memset(&pixels[i + 2], alphaBlack.red(), 1);
         ::memset(&pixels[i + 3], 0, 1);
     }
 }

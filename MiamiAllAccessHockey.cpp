@@ -150,7 +150,7 @@ MiamiAllAccessHockey::exec() {
                           awayFile, homeFile, sponsor, announcer, awayRank,
                           homeRank, graphicsScreen.width() + 1, awayLogoImg, homeShort, awayShort);
     if (usingTricaster)
-        bg.setRgb(0,0,0);
+        bg.setRgb(252,0,159);
 
     if (awayFile.isEmpty()) {
         HockeyTeam* team = game->getAwayTeam();
@@ -242,18 +242,6 @@ QImage MiamiAllAccessHockey::getTrimmedLogo(QString filePath)
     if (filePath.endsWith("NOESPN")) {
         filePath = filePath.left(filePath.indexOf("NOESPN"));
         QImage src(filePath);
-        //QFile file("edited.png");
-        //file.open(QIODevice::WriteOnly);
-//        src.save("edited.png");
-//        src = QImage("edited.png");
-//        for (int i = 0; i < src.width(); i++) {
-//            for (int j = 0; j < src.height(); j++) {
-//                QColor pix(src.pixel(i, j));
-//                if (pix.red() == pix.blue() && pix.blue()==pix.green() && pix.red() == 0 && pix.alpha() != 0) {
-//                    src.setPixelColor(i,j, QColor(1,1,1));
-//                }
-//            }
-//        }
         return src;
     }
     int tX, tY, bX, bY;
@@ -303,15 +291,6 @@ QImage MiamiAllAccessHockey::getTrimmedLogo(QString filePath)
     QPoint tl(tX, tY);
     QPoint br(bX, bY);
     QRect box(tl, br);
-
-//    for (int i = box.topLeft().x(); i < box.bottomRight().x(); i++) {
-//        for (int j = box.topLeft().y(); j < box.bottomRight().y(); j++) {
-//            QColor pix(src.pixel(i, j));
-//            if (pix.red() == pix.blue() && pix.blue()==pix.green() && pix.red() == 0) {
-//                src.setPixelColor(i,j, QColor(1,1,1));
-//            }
-//        }
-//    }
 
     return src.copy(box);
 }
