@@ -28,7 +28,7 @@
 #define LOGO_WIDTH 50
 #define SCOREBOARD_WIDTH 1182
 #define CLOCK_FIELD_X (H_TEAM_BOX_STARTX + TEAM_WIDTH)
-#define CLOCK_FIELD_WIDTH 226
+#define CLOCK_FIELD_WIDTH 221
 #define PP_BAR_HEIGHT 38
 #define TOP_BAR_WIDTH (SCOREBOARD_WIDTH - 40)
 #define TOP_BAR_HEIGHT 39
@@ -232,7 +232,7 @@ Scoreboard::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
                 painter->setPen(QColor(230,230,230));
                 painter->drawText(CLOCK_FIELD_X + 8, TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, CLOCK_FIELD_WIDTH, PP_BAR_HEIGHT, Qt::AlignLeft | Qt::AlignVCenter, ppDescription);
                 if (useClock)
-                    painter->drawText(CLOCK_FIELD_X, TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, 214, PP_BAR_HEIGHT, Qt::AlignRight | Qt::AlignVCenter, ppClock->toStringPP());
+                    painter->drawText(CLOCK_FIELD_X, TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT,  CLOCK_FIELD_WIDTH - 10, PP_BAR_HEIGHT, Qt::AlignRight | Qt::AlignVCenter, ppClock->toStringPP());
             }
         }
 
