@@ -50,35 +50,18 @@ LowerThird::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
                   QWidget *widget) {
     Q_UNUSED(option);
     Q_UNUSED(widget);
+
+
     if (show) {
-        //painter->drawPixmap(0, 0, this->pixmap());
-        //painter->fillRect(0, 0, 100, BOX_HEIGHT, gradient);
-        painter->fillRect(0, 0, 1000, BOX_HEIGHT*2, statGradient);
-
-
-        painter->setFont(nameFont);
-        painter->setPen(QColor(255,255,255));
-        painter->fillRect(0,0,NAME_WIDTH, BOX_HEIGHT*2, gradient);
-        painter->drawText(60, 0, NAME_WIDTH, BOX_HEIGHT, Qt::AlignVCenter, firstName);
-        painter->drawText(60, BOX_HEIGHT, NAME_WIDTH, BOX_HEIGHT, Qt::AlignVCenter, lastName);
-        painter->setFont(labelFont);
-        painter->drawText(0, 0, 60, BOX_HEIGHT, Qt::AlignCenter, number);
-        painter->drawText(0, BOX_HEIGHT, 60, BOX_HEIGHT, Qt::AlignCenter, year);
-
-
-        int rectWidth = (1000 - NAME_WIDTH)/statistics.size();
-
-        painter->setPen(QColor(255, 255, 255));
-        // Stat numbers
-        for (int i = 0; i< statistics.size(); i++) {
-            painter->setFont(statFont);
-            painter->drawText(rectWidth * i + NAME_WIDTH, BOX_HEIGHT, rectWidth, BOX_HEIGHT, Qt::AlignHCenter | Qt::AlignBottom, statistics.at(i));
-            painter->setFont(labelFont);
-            painter->drawText(rectWidth * i + NAME_WIDTH, 0, rectWidth, BOX_HEIGHT, Qt::AlignHCenter | Qt::AlignTop, statNames.size() > i ? statNames.at(i) : " ");
+        for (int i = x(); i < this->rect().width(); i++) {
+            for (int j = y(); j < this->rect().height(); j++) {
+                canvas->setPixelColor(i,j,QColor(0,0,0,0));
+            }
         }
-        //painter->setPen(QColor(255, 255, 255));
-
-
+        QPainter p(canvas);
+        p.translate(x(), y());
+        draw(&p);
+        draw(painter);
     }
 }
 
@@ -228,6 +211,36 @@ void LowerThird::adjustFont()
     }
 }
 
+void LowerThird::draw(QPainter *painter)
+{
+    //painter->drawPixmap(0, 0, this->pixmap());
+    //painter->fillRect(0, 0, 100, BOX_HEIGHT, gradient);
+    painter->fillRect(0, 0, 1000, BOX_HEIGHT*2, statGradient);
+
+
+    painter->setFont(nameFont);
+    painter->setPen(QColor(255,255,255));
+    painter->fillRect(0,0,NAME_WIDTH, BOX_HEIGHT*2, gradient);
+    painter->drawText(60, 0, NAME_WIDTH, BOX_HEIGHT, Qt::AlignVCenter, firstName);
+    painter->drawText(60, BOX_HEIGHT, NAME_WIDTH, BOX_HEIGHT, Qt::AlignVCenter, lastName);
+    painter->setFont(labelFont);
+    painter->drawText(0, 0, 60, BOX_HEIGHT, Qt::AlignCenter, number);
+    painter->drawText(0, BOX_HEIGHT, 60, BOX_HEIGHT, Qt::AlignCenter, year);
+
+
+    int rectWidth = (1000 - NAME_WIDTH)/statistics.size();
+
+    painter->setPen(QColor(255, 255, 255));
+    // Stat numbers
+    for (int i = 0; i< statistics.size(); i++) {
+        painter->setFont(statFont);
+        painter->drawText(rectWidth * i + NAME_WIDTH, BOX_HEIGHT, rectWidth, BOX_HEIGHT, Qt::AlignHCenter | Qt::AlignBottom, statistics.at(i));
+        painter->setFont(labelFont);
+        painter->drawText(rectWidth * i + NAME_WIDTH, 0, rectWidth, BOX_HEIGHT, Qt::AlignHCenter | Qt::AlignTop, statNames.size() > i ? statNames.at(i) : " ");
+    }
+    //painter->setPen(QColor(255, 255, 255));
+}
+
 void LowerThird::prepareComp(QString awayName, QString awayLabel,
                                    QString homeName, QString homeLabel, QList<QString> stats) {
      statFont.setPointSize(statFontPointSize);
@@ -239,25 +252,35 @@ void LowerThird::prepareComp(QString awayName, QString awayLabel,
      prepareFontSize();
      showPpComp();
 
- }
+}
+
+void LowerThird::setCanvas(QImage *value)
+{
+    canvas = value;
+}
 
 
 void
 LowerThird::hideLt() {
     if (show) {
         show = false;
-        scene()->update();
+        for (int i = x(); i < this->rect().width(); i++) {
+            for (int j = y(); j < this->rect().height(); j++) {
+                canvas->setPixelColor(i,j,QColor(0,0,0,0));
+            }
+        }
+        scene()->update(x(), y(), rect().width(), rect().height());
     }
 }
 
 void
 LowerThird::showLt() {
     show = true;
-    scene()->update();
+    scene()->update(x(), y(), rect().width(), rect().height());
 }
 
 void LowerThird::showPpComp()
 {
     show = false;
-    scene()->update();
+    scene()->update(x(), y(), rect().width(), rect().height());
 }

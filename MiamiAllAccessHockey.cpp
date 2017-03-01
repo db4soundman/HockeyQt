@@ -14,6 +14,8 @@
 MiamiAllAccessHockey::MiamiAllAccessHockey(int& argc, char* argv[]) :
     QApplication (argc, argv) {
     setApplicationName("Miami Hockey");
+    graphicsOutput = QImage(1920,1080, QImage::Format_ARGB32);
+    graphicsOutput.fill(Qt::transparent);
 }
 
 MiamiAllAccessHockey::~MiamiAllAccessHockey()
@@ -188,6 +190,16 @@ MiamiAllAccessHockey::exec() {
     game->getSb()->setX((graphicsScreen.width() / 2) - (game->getSb()->getRealWidth()/2));
     commercial->setY(graphicsScreen.height() - 280);
     //commercial->setX(460);
+
+    game->getSb()->setCanvas(&graphicsOutput);
+    game->getLt()->setCanvas(&graphicsOutput);
+    standings.setCanvas(&graphicsOutput);
+    nchcScoreboard.setCanvas(&graphicsOutput);
+    scheduleGraphic.setCanvas(&graphicsOutput);
+    commercial->setCanvas(&graphicsOutput);
+    comparisonGraphic->setCanvas(&graphicsOutput);
+
+
     tv = new QGraphicsView(scene);
 
 
@@ -214,7 +226,7 @@ MiamiAllAccessHockey::exec() {
     else {
         previewWindow = new QWidget();
         QVBoxLayout* layout = new QVBoxLayout();
-        tricaster = new TricasterHandler(tricasterIp, port, tv, bg);
+        tricaster = new TricasterHandler(tricasterIp, port, &graphicsOutput);
         previewSb = new QGraphicsView(scene);
         previewSb->setBackgroundBrush(QColor(100,100,100));
         previewSb->setSceneRect(game->getSb()->x(), game->getSb()->y(), game->getSb()->getRealWidth(), 150);
@@ -228,8 +240,6 @@ MiamiAllAccessHockey::exec() {
         previewWindow->show();
         game->getSb()->setUseTransparency(true);
         connect(scene, SIGNAL(changed(QList<QRectF>)), tricaster, SLOT(updatePortion(QList<QRectF>)));
-        connect(game->getSb(), SIGNAL(transparentField(int,int,int,int)), tricaster, SLOT(addAlphaRect(int,int,int,int)));
-        connect(game->getSb(), SIGNAL(removeTransparentField(int,int,int,int)), tricaster, SLOT(removeAlphaRect(int,int,int,int)));
         connect(game->getTricasterRefresh(), SIGNAL(timeout()), tricaster, SLOT(start()));
     }
 

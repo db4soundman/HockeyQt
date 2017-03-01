@@ -25,6 +25,8 @@ public:
 
 
 
+    void setCanvas(QImage *value);
+
 public slots:
     void hideLt();
     void showLt();
@@ -46,6 +48,7 @@ private:
     QFont statFont, nameFont, labelFont;
     QLinearGradient gradient, statGradient, homeNameGradient, awayNameGradient, homeStatGradient, awayStatGradient;
     QColor homeTeamMain, awayTeamMain, stats;
+    QImage* canvas;
 
     QString homeName, awayName, homeLabel, awayLabel, homeStat, awayStat;
 #ifndef GRAPHIC_LOOK
@@ -54,7 +57,7 @@ private:
     void prepareColors();
     void prepareFontSize();
     void adjustFont();
-
+    void draw(QPainter* painter);
     bool show;
     int fontPointSize, statFontPointSize, centerPoint;
 };

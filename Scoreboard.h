@@ -8,6 +8,7 @@
 #include <QColor>
 #include <QTimer>
 #include <QList>
+#include <QImage>
 #include "Clock.h"
 #include <QString>
 
@@ -24,6 +25,8 @@ public:
      int getRealWidth();
 
      bool getShowClock() const;
+
+     void setCanvas(QImage *value);
 
 signals:
      void sceneUpdated(int x, int y, int w, int h);
@@ -53,6 +56,7 @@ private:
 
      QPixmap* homeLogo, *awayLogo;
      QPixmap nchctv;
+     QImage * canvas;
      QColor homeColor, awayColor;
      QGraphicsTextItem* homeName;
      QGraphicsTextItem* awayName;
@@ -72,6 +76,7 @@ private:
      Clock* ppClock;
      QFont defaultSponsorText;
      int homeRankOffset, awayRankOffset, homeLogoOffset, awayLogoOffset, pd;
+     void draw(QPainter *painter);
 
 };
 

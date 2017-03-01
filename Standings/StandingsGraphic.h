@@ -6,6 +6,7 @@
 #include <QList>
 #include <QPainter>
 #include <QPixmap>
+#include <QImage>
 #include <QLinearGradient>
 
 class StandingsGraphic : public QObject, public QGraphicsRectItem {
@@ -16,6 +17,8 @@ public:
     void paint(QPainter * painter,
                const QStyleOptionGraphicsItem * option, QWidget * widget = 0);
 
+    void setCanvas(QImage *value);
+
 public slots:
     void updateStandings(QList<StandingsEntry> list);
     void toggleShow();
@@ -24,10 +27,12 @@ public slots:
 private:
     QList<StandingsEntry> nchcStandings;
     QPixmap nchcLogo;
+    QImage* canvas;
     QLinearGradient bgGradient, pipe1, pipe2;
     bool show;
 
     void prepareColor();
+    void draw(QPainter* painter);
 };
 
 #endif // STANDINGSGRAPHIC_H
