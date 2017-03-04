@@ -26,9 +26,9 @@
 #define V_TEAM_BOX_STARTX 180
 #define H_TEAM_BOX_STARTX (V_TEAM_BOX_STARTX + TEAM_WIDTH + 5)
 #define LOGO_WIDTH 50
-#define SCOREBOARD_WIDTH 1182
+#define SCOREBOARD_WIDTH 1177
 #define CLOCK_FIELD_X (H_TEAM_BOX_STARTX + TEAM_WIDTH)
-#define CLOCK_FIELD_WIDTH 221
+#define CLOCK_FIELD_WIDTH 216
 #define PP_BAR_HEIGHT 38
 #define TOP_BAR_WIDTH (SCOREBOARD_WIDTH - 40)
 #define TOP_BAR_HEIGHT 39
@@ -40,12 +40,9 @@ Scoreboard::Scoreboard(QColor awayCol, QColor homeCol, QString awayTeam, QString
     font.setCapitalization(QFont::SmallCaps);
     QFont sponsorFont("Arial", 20, QFont::Bold);
     sponsorFont.setCapitalization(QFont::SmallCaps);
-#ifdef Q_OS_OSX
-    font.setPointSize(40);
-    sponsorFont.setPointSize(28);
-#endif
 
-    nchctv = (MiamiAllAccessHockey::getImgFromResources(":/images/NCHCTV.png",42));
+
+    nchctv = MiamiAllAccessHockey::getImgFromResources(":/images/NCHCTV.png",42);
     defaultSponsorText = sponsorFont;
     show = false;
     setRect(0,0,SCOREBOARD_WIDTH, TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT + TOP_BAR_HEIGHT + 5);
@@ -139,8 +136,11 @@ Scoreboard::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 
 
     if (show) {
-        for (int i = x(); i < this->rect().width(); i++) {
-            for (int j = y(); j < this->rect().height(); j++) {
+        // When showing the scoreboard, we should only need to
+        // re-key the penalty/pp clock area, as the rest of the board
+        // is more or less static.
+        for (int i = x(); i < x() + this->rect().width(); i++) {
+            for (int j = y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT; j < y () + this->rect().height(); j++) {
                 canvas->setPixelColor(i,j,QColor(0,0,0,0));
             }
         }
@@ -249,10 +249,10 @@ void Scoreboard::draw(QPainter *painter)
     //Clock - Game time...draw clock first since default color is black
     painter->setFont(homeName->font());
     painter->setPen(QColor(230,230,230));
-    //painter->fillRect(CLOCK_FIELD_X, 1 + TOP_BAR_HEIGHT, CLOCK_FIELD_WIDTH,SCOREBOARD_HEIGHT-2, clockGradient);
+    //painter->fillRect(CLOCK_FIELD_X, TOP_BAR_HEIGHT, CLOCK_FIELD_WIDTH,SCOREBOARD_HEIGHT, clockGradient);
     if (useClock && showPdAndClockFields) {
         painter->drawText(CLOCK_FIELD_X + 10, TOP_BAR_HEIGHT, CLOCK_FIELD_WIDTH, SCOREBOARD_HEIGHT, Qt::AlignVCenter, period);
-        painter->drawText(CLOCK_FIELD_X, TOP_BAR_HEIGHT, CLOCK_FIELD_WIDTH-10, SCOREBOARD_HEIGHT, Qt::AlignRight | Qt::AlignVCenter,
+        painter->drawText(CLOCK_FIELD_X, TOP_BAR_HEIGHT, CLOCK_FIELD_WIDTH-5, SCOREBOARD_HEIGHT, Qt::AlignRight | Qt::AlignVCenter,
                           showClock? clock->toString() : "INT");
     }
     else {
@@ -263,10 +263,9 @@ void Scoreboard::draw(QPainter *painter)
     //painter->drawRect(V_TEAM_BOX_STARTX - 1, TEAM_BOX_Y - 1, TEAM_WIDTH + 1, TEAM_BOX_HEIGHT+1);
     painter->fillRect(V_TEAM_BOX_STARTX, TOP_BAR_HEIGHT + TEAM_BOX_Y, TEAM_WIDTH, TEAM_BOX_HEIGHT, awayGradient );
     // Away logo
-    painter->setOpacity(.99);
     if (altAwayLogoBg) painter->fillRect(V_TEAM_BOX_STARTX, TOP_BAR_HEIGHT + TEAM_BOX_Y, LOGO_WIDTH, TEAM_BOX_HEIGHT, mainGradient);
     painter->drawPixmap(V_TEAM_BOX_STARTX, TOP_BAR_HEIGHT + TEAM_BOX_Y + awayLogoOffset, *awayLogo);
-    painter->setOpacity(1);
+
     painter->setFont(awayRank->font());
     painter->setPen(QColor(255, 255, 255));
     painter->drawText(V_TEAM_BOX_STARTX + LOGO_WIDTH, TOP_BAR_HEIGHT + TEAM_BOX_Y, awayRankOffset - LOGO_WIDTH, TEAM_BOX_HEIGHT, Qt::AlignCenter,  awayRank->toPlainText());
@@ -283,9 +282,9 @@ void Scoreboard::draw(QPainter *painter)
     // painter->drawRect(H_TEAM_BOX_STARTX - 1, TEAM_BOX_Y - 1,TEAM_WIDTH+1, TEAM_BOX_HEIGHT + 1);
     painter->fillRect(H_TEAM_BOX_STARTX, TOP_BAR_HEIGHT + TEAM_BOX_Y, TEAM_WIDTH, TEAM_BOX_HEIGHT, homeGradient);
     // Home logo
-    painter->setOpacity(.99);
+
     painter->drawPixmap(H_TEAM_BOX_STARTX, TOP_BAR_HEIGHT + TEAM_BOX_Y + homeLogoOffset, *homeLogo);
-    painter->setOpacity(1);
+
     painter->setFont(homeRank->font());
     painter->drawText(H_TEAM_BOX_STARTX + LOGO_WIDTH, TOP_BAR_HEIGHT + TEAM_BOX_Y, homeRankOffset - LOGO_WIDTH, TEAM_BOX_HEIGHT, Qt::AlignCenter, homeRank->toPlainText());
     painter->setFont(homeName->font());
@@ -530,6 +529,11 @@ int Scoreboard::getRealWidth()
 
 void
 Scoreboard::toggleShowBoard() {
+    for (int i = x(); i < x() + this->rect().width(); i++) {
+        for (int j = y(); j < y() + this->rect().height(); j++) {
+            canvas->setPixelColor(i,j,QColor(0,0,0,0));
+        }
+    }
     show = true;
    // if (useTransparency)
    //     emit transparentField(x()+20,y(),TOP_BAR_WIDTH,TOP_BAR_HEIGHT);

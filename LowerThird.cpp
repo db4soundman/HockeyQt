@@ -53,8 +53,8 @@ LowerThird::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 
 
     if (show) {
-        for (int i = x(); i < this->rect().width(); i++) {
-            for (int j = y(); j < this->rect().height(); j++) {
+        for (int i = x(); i < x() + this->rect().width(); i++) {
+            for (int j = y(); j < y() + this->rect().height(); j++) {
                 canvas->setPixelColor(i,j,QColor(0,0,0,0));
             }
         }
