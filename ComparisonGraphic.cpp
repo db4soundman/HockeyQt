@@ -60,6 +60,11 @@ void ComparisonGraphic::hideComparison()
 {
     if (show) {
         show = false;
+        for (int i = x(); i < x() + this->rect().width(); i++) {
+            for (int j = y(); j < y() + this->rect().height(); j++) {
+                canvas->setPixelColor(i,j,QColor(0,0,0,0));
+            }
+        }
         // TODO update this
         scene()->update(this->x(), this->y(), rect().width(), rect().height());
     }
