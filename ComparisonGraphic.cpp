@@ -42,17 +42,29 @@ void ComparisonGraphic::paint(QPainter *painter, const QStyleOptionGraphicsItem 
 {
     Q_UNUSED(option);
     Q_UNUSED(widget);
-
-    for (int i = x(); i < this->rect().width(); i++) {
-        for (int j = y(); j < this->rect().height(); j++) {
-            canvas->setPixelColor(i,j,QColor(0,0,0,0));
-        }
-    }
     if (show) {
-        QPainter p(canvas);
-        p.translate(x(), y());
-        draw(&p);
-        draw(painter);
+            if (!statHeader.isEmpty()) {
+                painter->setFont(statFont);
+                QFontMetrics fontSize(statFont);
+                painter->fillRect(0, BOX_HEIGHT-24, fontSize.width(statHeader) + 10, 24, statHeaderGradient );
+                painter->setPen(QColor(1,1,1));
+                painter->drawText(0, BOX_HEIGHT-24,fontSize.width(statHeader) + 10, 24, Qt::AlignCenter, statHeader);
+            }
+           painter->fillRect(0, BOX_HEIGHT, statistics.size() > 2 ? 800 : 600, BOX_HEIGHT * 2, bgGradient);
+           painter->fillRect(55, BOX_HEIGHT, statistics.size() > 2 ? 740 : 540, BOX_HEIGHT, awayStatGradient);
+           painter->fillRect(55, BOX_HEIGHT * 2, statistics.size() > 2 ? 740 : 540, BOX_HEIGHT, homeStatGradient);
+           painter->drawPixmap(1 + awayLogoOffset, BOX_HEIGHT,*awayLogo);
+           painter->drawPixmap(1, BOX_HEIGHT*2,*homeLogo);
+           painter->setFont(nameFont);
+           painter->setPen(QColor(255, 255, 255));
+           painter->drawText(100, BOX_HEIGHT, 400, BOX_HEIGHT, Qt::AlignVCenter, awayLabel);
+           painter->drawText(400, BOX_HEIGHT, 200, BOX_HEIGHT, Qt::AlignVCenter, statistics.at(0));
+           painter->drawText(100, BOX_HEIGHT*2, 400, BOX_HEIGHT, Qt::AlignVCenter, homeLabel);
+           painter->drawText(400, BOX_HEIGHT*2, 200, BOX_HEIGHT, Qt::AlignVCenter, statistics.at(1));
+           if (statistics.size() > 2) {
+               painter->drawText(600, BOX_HEIGHT, 200 ,BOX_HEIGHT, Qt::AlignVCenter, statistics.at(2));
+               painter->drawText(600, BOX_HEIGHT*2, 200 ,BOX_HEIGHT, Qt::AlignVCenter, statistics.at(3));
+           }
     }
 }
 
@@ -82,11 +94,6 @@ void ComparisonGraphic::prepareComp( QString awayLabel,QString homeLabel, QList<
     statistics=stats;
     prepareFontSize();
     showComparison();
-}
-
-void ComparisonGraphic::setCanvas(QImage *value)
-{
-    canvas = value;
 }
 
 void ComparisonGraphic::prepareColors()
@@ -141,33 +148,7 @@ void ComparisonGraphic::prepareFontSize()
 //        nameFont = tempFont;
 //        QFontMetrics temp(nameFont);
 //        fontSize = temp;
-    //    }
-}
-
-void ComparisonGraphic::draw(QPainter *painter)
-{
-    if (!statHeader.isEmpty()) {
-        painter->setFont(statFont);
-        QFontMetrics fontSize(statFont);
-        painter->fillRect(0, BOX_HEIGHT-24, fontSize.width(statHeader) + 10, 24, statHeaderGradient );
-        painter->setPen(QColor(1,1,1));
-        painter->drawText(0, BOX_HEIGHT-24,fontSize.width(statHeader) + 10, 24, Qt::AlignCenter, statHeader);
-    }
-   painter->fillRect(0, BOX_HEIGHT, statistics.size() > 2 ? 800 : 600, BOX_HEIGHT * 2, bgGradient);
-   painter->fillRect(55, BOX_HEIGHT, statistics.size() > 2 ? 740 : 540, BOX_HEIGHT, awayStatGradient);
-   painter->fillRect(55, BOX_HEIGHT * 2, statistics.size() > 2 ? 740 : 540, BOX_HEIGHT, homeStatGradient);
-   painter->drawPixmap(1 + awayLogoOffset, BOX_HEIGHT,*awayLogo);
-   painter->drawPixmap(1, BOX_HEIGHT*2,*homeLogo);
-   painter->setFont(nameFont);
-   painter->setPen(QColor(255, 255, 255));
-   painter->drawText(100, BOX_HEIGHT, 400, BOX_HEIGHT, Qt::AlignVCenter, awayLabel);
-   painter->drawText(400, BOX_HEIGHT, 200, BOX_HEIGHT, Qt::AlignVCenter, statistics.at(0));
-   painter->drawText(100, BOX_HEIGHT*2, 400, BOX_HEIGHT, Qt::AlignVCenter, homeLabel);
-   painter->drawText(400, BOX_HEIGHT*2, 200, BOX_HEIGHT, Qt::AlignVCenter, statistics.at(1));
-   if (statistics.size() > 2) {
-       painter->drawText(600, BOX_HEIGHT, 200 ,BOX_HEIGHT, Qt::AlignVCenter, statistics.at(2));
-       painter->drawText(600, BOX_HEIGHT*2, 200 ,BOX_HEIGHT, Qt::AlignVCenter, statistics.at(3));
-   }
+//    }
 }
 
 

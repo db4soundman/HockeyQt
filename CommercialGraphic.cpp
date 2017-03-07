@@ -63,22 +63,89 @@ CommercialGraphic::CommercialGraphic(HockeyGame* game, QPixmap pawayLogo, QGraph
 
 void CommercialGraphic::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
                               QWidget* widget) {
-    Q_UNUSED(option);
-    Q_UNUSED(widget);
+    if (show){
+        painter->fillRect(0, 0, GRAPHIC_WIDTH, GRAPHIC_HEIGHT, bgGradient);
+        painter->fillRect(10, 10, NAME_WIDTH, RECT_HEIGHT, awayTeamGradient);
+        painter->drawPixmap(10 + awayLogoWidthOffset, 10 + awayLogoHeightOffset, *awayLogo);
+        painter->fillRect(700, 10, NAME_WIDTH, RECT_HEIGHT, homeTeamGradient);
+        painter->drawPixmap(700 + homeLogoWidthOffset, 10, homeLogo);
+        painter->fillRect(300, 10, 100, RECT_HEIGHT, clockGradient);
+        painter->fillRect(600, 10, 100, RECT_HEIGHT, clockGradient);
 
-
-    if (show) {
-        for (int i = x(); i < this->rect().width(); i++) {
-            for (int j = y(); j < this->rect().height(); j++) {
-                canvas->setPixelColor(i,j,QColor(0,0,0,0));
+        painter->setPen(QColor(255, 255, 255));
+        painter->setFont(away->font());
+        painter->drawText(10, LOGO_HEIGHT+10, NAME_WIDTH, RECT_HEIGHT - LOGO_HEIGHT, Qt::AlignCenter, away->toPlainText());
+        painter->setFont(home->font());
+        painter->drawText(700, LOGO_HEIGHT+10, NAME_WIDTH, RECT_HEIGHT - LOGO_HEIGHT, Qt::AlignCenter, home->toPlainText());
+        painter->drawPixmap(CLOCK_X + (200-networkLogo.width()) / 2, 10, networkLogo);
+        painter->setFont(descriptiveFont);
+        if (clockStatus == FINAL || period == "SHOOTOUT") {
+            if (period.endsWith("OT")) {
+                painter->drawText(CLOCK_X,120, CLOCK_WIDTH, 50 , Qt::AlignCenter, "FINAL/OT");
+            } else{
+                painter->drawText(CLOCK_X,120, CLOCK_WIDTH, 50, Qt::AlignCenter, clockStatus == FINAL ? "FINAL" : period);
             }
         }
-        QPainter p(canvas);
-        p.translate(x(), y());
-        draw(&p);
-        draw(painter);
-    }
+        else {
+            if (clock == "INTERMISSION" && (period == "3RD" || period.endsWith("OT"))) {
+                painter->drawText(CLOCK_X,110, CLOCK_WIDTH, 50 , Qt::AlignCenter, "END OF");
+                painter->drawText(CLOCK_X,160, CLOCK_WIDTH, 40 , Qt::AlignCenter,
+                                  period.contains("OT") ? period : "REGULATION");
+            } else {
+                painter->drawText(CLOCK_X,110, CLOCK_WIDTH, 50 , Qt::AlignCenter, period);
+                painter->drawText(CLOCK_X,160, CLOCK_WIDTH, 40 , Qt::AlignCenter, clock);
+            }
+        }
+        painter->setPen(QColor(41, 70, 91));
+        painter->setFont(QFont("Arial", 60, QFont::Bold));
+        painter->drawText(300, 10, 100, RECT_HEIGHT, Qt::AlignCenter, awayScore);
+        painter->drawText(600, 10, 100, RECT_HEIGHT, Qt::AlignCenter, homeScore);
 
+        /*painter->fillRect(-10, 0, GRAPHIC_WIDTH + 210, RECT_HEIGHT * 2 + 11, bgGradient);
+        painter->setPen(QColor(255, 255, 255));
+        //painter->drawPixmap(WIDTH/2, -BLACK_BAR_HEIGHT, WIDTH, BLACK_BAR_HEIGHT, blackBar);
+        painter->fillRect(0, -BLACK_BAR_HEIGHT, GRAPHIC_WIDTH - 200, BLACK_BAR_HEIGHT, QColor(20,20,20));
+        //painter->fillRect(0, RECT_HEIGHT * 2, GRAPHIC_WIDTH, BLACK_BAR_HEIGHT, clockGradient);
+        painter->setFont(descriptiveFont);
+        painter->drawText(0, -BLACK_BAR_HEIGHT, GRAPHIC_WIDTH - 200, BLACK_BAR_HEIGHT, Qt::AlignCenter, networkText);
+
+        painter->fillRect(0, AWAY_Y, GRAPHIC_WIDTH, RECT_HEIGHT, awayTeamGradient);
+        if (altAwayLogoBg) painter->fillRect(0, AWAY_Y, awayLogo->width() + 5, RECT_HEIGHT, bgGradient);
+        //painter->drawRect(0,0,GRAPHIC_WIDTH,RECT_HEIGHT,);
+        painter->fillRect(0, HOME_Y, GRAPHIC_WIDTH, RECT_HEIGHT, homeTeamGradient);
+        painter->setOpacity(.996);
+        painter->drawPixmap(5, AWAY_Y + awayLogoOffset, *awayLogo);
+        painter->drawPixmap(5, HOME_Y, homeLogo);
+        painter->setFont(away->font());
+        painter->setOpacity(1);
+        painter->drawText(100, AWAY_Y, NAME_WIDTH, RECT_HEIGHT, Qt::AlignVCenter, away->toPlainText());
+        painter->setFont(home->font());
+        painter->drawText(100, HOME_Y, NAME_WIDTH, RECT_HEIGHT, Qt::AlignVCenter, home->toPlainText());
+        painter->drawText(GRAPHIC_WIDTH - 100, AWAY_Y, 100, RECT_HEIGHT, Qt::AlignCenter, awayScore);
+        painter->drawText(GRAPHIC_WIDTH - 100, HOME_Y, 100, RECT_HEIGHT, Qt::AlignCenter, homeScore);
+
+
+        //painter->drawPixmap(WIDTH - 200, RECT_HEIGHT, WIDTH - (WIDTH- 400), BLACK_BAR_HEIGHT, blackBar);
+        painter->setFont(descriptiveFont);
+        if (clockStatus == FINAL || period == "SHOOTOUT") {
+            if (period.endsWith("OT")) {
+                painter->drawText(GRAPHIC_WIDTH,0, CLOCK_WIDTH, RECT_HEIGHT * 2 + 10, Qt::AlignCenter, "FINAL/OT");
+            } else{
+                painter->drawText(GRAPHIC_WIDTH,0, CLOCK_WIDTH, RECT_HEIGHT * 2 + 10, Qt::AlignCenter, clockStatus == FINAL ? "FINAL" : period);
+            }
+        }
+        else {
+            if (clock == "INTERMISSION" && (period == "3RD" || period.endsWith("OT"))) {
+                painter->drawText(GRAPHIC_WIDTH, 0, CLOCK_WIDTH, RECT_HEIGHT + 5, Qt::AlignCenter, "END OF");
+                painter->drawText(GRAPHIC_WIDTH, RECT_HEIGHT, CLOCK_WIDTH, RECT_HEIGHT + 5, Qt::AlignCenter,
+                                  period.contains("OT") ? period : "REGULATION");
+            } else {
+                painter->drawText(GRAPHIC_WIDTH, 0, CLOCK_WIDTH, RECT_HEIGHT + 5, Qt::AlignCenter, period);
+                painter->drawText(GRAPHIC_WIDTH, RECT_HEIGHT, CLOCK_WIDTH, RECT_HEIGHT + 5, Qt::AlignCenter, clock);
+            }
+        }
+        */
+    }
 }
 
 void CommercialGraphic::prepareAndShow()
@@ -117,7 +184,7 @@ void CommercialGraphic::prepareAndShow()
     show = true;
     updateClock();
     checkAwayFont();
-    scene()->update(x(), y(), GRAPHIC_WIDTH, GRAPHIC_HEIGHT);
+    scene()->update();
 }
 
 void CommercialGraphic::updateClock()
@@ -130,7 +197,7 @@ void CommercialGraphic::updateClock()
             else {
                 clock = "PERIOD";
             }
-            scene()->update(x() + CLOCK_X, y() + 120, CLOCK_WIDTH, 120);
+            scene()->update(x() + CLOCK_X, y(), CLOCK_WIDTH, GRAPHIC_HEIGHT);
         }
         else if (clockStatus == INTERMISSION) {
             clock = "INTERMISSION";
@@ -168,12 +235,7 @@ void CommercialGraphic::hide()
 {
     if (show) {
         show = false;
-        for (int i = x(); i < this->rect().width(); i++) {
-            for (int j = y(); j < this->rect().height(); j++) {
-                canvas->setPixelColor(i,j,QColor(0,0,0,0));
-            }
-        }
-        scene()->update(x(), y(), GRAPHIC_WIDTH,GRAPHIC_HEIGHT);
+        scene()->update();
     }
 }
 
@@ -239,46 +301,6 @@ void CommercialGraphic::prepareGradients(QColor awayColor, QColor homeColor)
     //bgGradient.setColorAt(.5, QColor(50,50,50));
 }
 
-void CommercialGraphic::draw(QPainter *painter)
-{
-    painter->fillRect(0, 0, GRAPHIC_WIDTH, GRAPHIC_HEIGHT, bgGradient);
-    painter->fillRect(10, 10, NAME_WIDTH, RECT_HEIGHT, awayTeamGradient);
-    painter->drawPixmap(10 + awayLogoWidthOffset, 10 + awayLogoHeightOffset, *awayLogo);
-    painter->fillRect(700, 10, NAME_WIDTH, RECT_HEIGHT, homeTeamGradient);
-    painter->drawPixmap(700 + homeLogoWidthOffset, 10, homeLogo);
-    painter->fillRect(300, 10, 100, RECT_HEIGHT, clockGradient);
-    painter->fillRect(600, 10, 100, RECT_HEIGHT, clockGradient);
-
-    painter->setPen(QColor(255, 255, 255));
-    painter->setFont(away->font());
-    painter->drawText(10, LOGO_HEIGHT+10, NAME_WIDTH, RECT_HEIGHT - LOGO_HEIGHT, Qt::AlignCenter, away->toPlainText());
-    painter->setFont(home->font());
-    painter->drawText(700, LOGO_HEIGHT+10, NAME_WIDTH, RECT_HEIGHT - LOGO_HEIGHT, Qt::AlignCenter, home->toPlainText());
-    painter->drawPixmap(CLOCK_X + (200-networkLogo.width()) / 2, 10, networkLogo);
-    painter->setFont(descriptiveFont);
-    if (clockStatus == FINAL || period == "SHOOTOUT") {
-        if (period.endsWith("OT")) {
-            painter->drawText(CLOCK_X,120, CLOCK_WIDTH, 50 , Qt::AlignCenter, "FINAL/OT");
-        } else{
-            painter->drawText(CLOCK_X,120, CLOCK_WIDTH, 50, Qt::AlignCenter, clockStatus == FINAL ? "FINAL" : period);
-        }
-    }
-    else {
-        if (clock == "INTERMISSION" && (period == "3RD" || period.endsWith("OT"))) {
-            painter->drawText(CLOCK_X,110, CLOCK_WIDTH, 50 , Qt::AlignCenter, "END OF");
-            painter->drawText(CLOCK_X,160, CLOCK_WIDTH, 40 , Qt::AlignCenter,
-                              period.contains("OT") ? period : "REGULATION");
-        } else {
-            painter->drawText(CLOCK_X,110, CLOCK_WIDTH, 50 , Qt::AlignCenter, period);
-            painter->drawText(CLOCK_X,160, CLOCK_WIDTH, 40 , Qt::AlignCenter, clock);
-        }
-    }
-    painter->setPen(QColor(41, 70, 91));
-    painter->setFont(QFont("Arial", 60, QFont::Bold));
-    painter->drawText(300, 10, 100, RECT_HEIGHT, Qt::AlignCenter, awayScore);
-    painter->drawText(600, 10, 100, RECT_HEIGHT, Qt::AlignCenter, homeScore);
-}
-
 void CommercialGraphic::changeUseClock(bool uc)
 {
     useClock = uc;
@@ -291,11 +313,6 @@ void CommercialGraphic::toggleAwayLogoBg(bool on)
 {
     altAwayLogoBg = on;
     if (show) {
-        scene()->update(x(), y(), GRAPHIC_WIDTH, GRAPHIC_HEIGHT);
+        scene()->update();
     }
-}
-
-void CommercialGraphic::setCanvas(QImage *value)
-{
-    canvas = value;
 }

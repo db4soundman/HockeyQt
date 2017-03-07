@@ -9,7 +9,6 @@
 #include <QString>
 #include <QFont>
 #include <QColor>
-#include <QImage>
 #include "GraphicChooser.txt"
 
 class ComparisonGraphic : public QObject, public QGraphicsRectItem {
@@ -21,8 +20,6 @@ public:
 
 
 
-    void setCanvas(QImage *value);
-
 public slots:
     void hideComparison();
     void showComparison();
@@ -31,7 +28,7 @@ public slots:
 private:
     QList<QString> statNames;
     QList<QString> statistics;
-    QImage *canvas;
+
     QFont statFont, nameFont, labelFont;
     QLinearGradient statHeaderGradient, bgGradient, homeStatGradient, awayStatGradient;
     QColor homeTeamMain, awayTeamMain, stats;
@@ -42,7 +39,6 @@ private:
 
     void prepareColors();
     void prepareFontSize();
-    void draw(QPainter* painter);
     //void adjustFont();
 
     bool show;

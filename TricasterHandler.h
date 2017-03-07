@@ -14,13 +14,16 @@ class TricasterHandler : public QThread
 {
     Q_OBJECT
 public:
-    TricasterHandler(QString ip, int port, QImage* pView);
+    TricasterHandler(QString ip, int port, QGraphicsView* view, QColor pAlphaBlack);
     ~TricasterHandler();
     void run();
 
 signals:
 
 public slots:
+    void srun();
+    void ensureUpdate();
+    void updatePortion(int x, int y, int w, int h);
     void updatePortion(QList<QRectF> rects);
     void addAlphaRect(int x, int y, int w, int h);
     void removeAlphaRect(int x, int y, int w, int h);
@@ -28,9 +31,10 @@ public slots:
 private:
     void drawTransparentRectangle();
     void* tricaster;
+    QGraphicsView* screen;
     const QColor alphaBlack;
     BYTE* pixels;
-    QImage* view;
+    QImage view;
     QList<QRect> transparentRects;
 };
 

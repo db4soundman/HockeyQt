@@ -55,7 +55,6 @@ private:
     TricasterHandler* tricaster;
     Params params;
     QWidget* previewWindow;
-    QImage graphicsOutput;
     bool usingTricaster;
 };
 

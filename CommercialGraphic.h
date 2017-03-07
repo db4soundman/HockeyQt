@@ -8,7 +8,6 @@
 #include <QLinearGradient>
 #include <QPainter>
 #include <QGraphicsTextItem>
-#include <QImage>
 #include "GraphicChooser.txt"
 class CommercialGraphic : public QObject, public QGraphicsRectItem {
     Q_OBJECT
@@ -20,8 +19,6 @@ public:
 #endif
     void paint(QPainter * painter,
                const QStyleOptionGraphicsItem * option, QWidget * widget = 0);
-
-    void setCanvas(QImage *value);
 
 signals:
 
@@ -37,7 +34,6 @@ public slots:
 
 private:
     QPixmap blackBar, networkLogo;
-    QImage* canvas;
     QLinearGradient homeTeamGradient, awayTeamGradient, clockGradient, bgGradient;
     HockeyGame* hockeyGame;
     bool show, inGame, useClock, altAwayLogoBg;
@@ -51,7 +47,7 @@ private:
 #ifdef GRADIENT_LOOK
     int WIDTH, NAME_WIDTH;
 #endif
-    void draw(QPainter* painter);
+    // yep, a test
 };
 
 #endif // COMMERCIALGRAPHIC_H

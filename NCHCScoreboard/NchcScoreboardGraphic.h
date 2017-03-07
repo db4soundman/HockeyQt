@@ -4,7 +4,6 @@
 #include <QGraphicsPixmapItem>
 #include <QPainter>
 #include <QObject>
-#include <QImage>
 #include "NchcScoreEntry.h"
 
 class NchcScoreboardGraphic : public QObject, public QGraphicsPixmapItem {
@@ -29,8 +28,6 @@ public:
 
     void setRightHeader(const QString &value);
 
-    void setCanvas(QImage *value);
-
 public slots:
     void showImg();
     void hide();
@@ -38,10 +35,8 @@ public slots:
 private:
     QList<NchcScoreEntry> fridayGames, saturdayGames;
     QPixmap* nchcLogo;
-    QImage* canvas;
     bool show;
     QString leftHeader, rightHeader;
-    void draw(QPainter* painter);
 };
 
 #endif // NCHCSCOREBOARDGRAPHIC_H
