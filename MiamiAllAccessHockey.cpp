@@ -224,7 +224,6 @@ MiamiAllAccessHockey::exec() {
     if (!usingTricaster)
         tv->showFullScreen();
     else {
-        delete tv;
         previewWindow = new QWidget();
         QVBoxLayout* layout = new QVBoxLayout();
         tricaster = new TricasterHandler(tricasterIp, port, &graphicsOutput);

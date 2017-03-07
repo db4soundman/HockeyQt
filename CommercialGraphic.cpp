@@ -68,6 +68,11 @@ void CommercialGraphic::paint(QPainter* painter, const QStyleOptionGraphicsItem*
 
 
     if (show) {
+        for (int i = x(); i < this->rect().width(); i++) {
+            for (int j = y(); j < this->rect().height(); j++) {
+                canvas->setPixelColor(i,j,QColor(0,0,0,0));
+            }
+        }
         QPainter p(canvas);
         p.translate(x(), y());
         draw(&p);
@@ -108,11 +113,6 @@ void CommercialGraphic::prepareAndShow()
     default:
         period = "";
         break;
-    }
-    for (int i = x(); i < this->rect().width(); i++) {
-        for (int j = y(); j < this->rect().height(); j++) {
-            canvas->setPixelColor(i,j,QColor(0,0,0,0));
-        }
     }
     show = true;
     updateClock();
