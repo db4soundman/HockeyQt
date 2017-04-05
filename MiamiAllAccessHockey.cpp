@@ -150,7 +150,7 @@ MiamiAllAccessHockey::exec() {
                           awayFile, homeFile, sponsor, announcer, awayRank,
                           homeRank, graphicsScreen.width() + 1, awayLogoImg, homeShort, awayShort);
     if (usingTricaster)
-        bg.setRgb(252,0,159);
+        bg.setRgb(0,0,0);
 
     if (awayFile.isEmpty()) {
         HockeyTeam* team = game->getAwayTeam();

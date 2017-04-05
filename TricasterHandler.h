@@ -21,9 +21,6 @@ public:
 signals:
 
 public slots:
-    void srun();
-    void ensureUpdate();
-    void updatePortion(int x, int y, int w, int h);
     void updatePortion(QList<QRectF> rects);
     void addAlphaRect(int x, int y, int w, int h);
     void removeAlphaRect(int x, int y, int w, int h);

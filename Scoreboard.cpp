@@ -382,7 +382,7 @@ Scoreboard::preparePowerplayClock(int pos, Clock *clock, QString description) {
     }
     ppDescription = description;
     scene()->update(this->x(), this->y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT,
-                    SCOREBOARD_WIDTH, PP_BAR_HEIGHT);
+                    SCOREBOARD_WIDTH, PP_BAR_HEIGHT+1);
 }
 
 void
@@ -527,7 +527,7 @@ void Scoreboard::togglePpClocks()
 {
     showPP = !showPP;
     scene()->update(this->x(), this->y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT,
-                    SCOREBOARD_WIDTH , PP_BAR_HEIGHT);
+                    SCOREBOARD_WIDTH , PP_BAR_HEIGHT+1);
 }
 
 void
