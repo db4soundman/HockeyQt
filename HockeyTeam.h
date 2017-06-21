@@ -63,7 +63,7 @@ public slots:
 
 private:
     QList<HockeyPlayer*> roster;
-    int ppg, ppopp, pk, pkopp,
+    int ppg, ppopp, pk, pkopp, timeoutsLeft,
     ppgToday, ppoppToday, pkToday, pkoppToday;
     double ppPct, pkPct;
     bool playerInGoal;

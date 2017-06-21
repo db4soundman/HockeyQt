@@ -128,7 +128,8 @@ Scoreboard::Scoreboard(QColor awayCol, QColor homeCol, QString awayTeam, QString
     this->clock = clock;
     connect(clock, SIGNAL(clockUpdated()), this, SLOT(updateClock()));
     prepareAwayName();
-
+    serialPP = false;
+    serialPpClock="";
 }
 
 
@@ -212,7 +213,8 @@ Scoreboard::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
                 //painter->drawPixmap(V_TEAM_BOX_STARTX - 3,SCOREBOARD_HEIGHT, *ppBar);
                 painter->drawText(V_TEAM_BOX_STARTX + 5, TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, 345, PP_BAR_HEIGHT, Qt::AlignLeft | Qt::AlignVCenter, ppDescription);
                 if (useClock)
-                    painter->drawText(V_TEAM_BOX_STARTX, TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, 331, PP_BAR_HEIGHT, Qt::AlignRight | Qt::AlignVCenter, ppClock->toStringPP());
+                    painter->drawText(V_TEAM_BOX_STARTX, TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, 331, PP_BAR_HEIGHT,
+                                      Qt::AlignRight | Qt::AlignVCenter, serialPP? serialPpClock : ppClock->toStringPP());
             }
             //Home ppbar
             else if (homePP) {
@@ -222,7 +224,8 @@ Scoreboard::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
                 painter->setPen(QColor(230,230,230));
                 painter->drawText(H_TEAM_BOX_STARTX + 4, TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, 345, PP_BAR_HEIGHT, Qt::AlignLeft | Qt::AlignVCenter, ppDescription);
                 if (useClock)
-                    painter->drawText(H_TEAM_BOX_STARTX + 4, TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, 331, PP_BAR_HEIGHT, Qt::AlignRight | Qt::AlignVCenter, ppClock->toStringPP());
+                    painter->drawText(H_TEAM_BOX_STARTX + 4, TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, 331, PP_BAR_HEIGHT,
+                                      Qt::AlignRight | Qt::AlignVCenter, serialPP? serialPpClock : ppClock->toStringPP());
             }
             //Neutral
             else if (neutralPP){
@@ -232,7 +235,8 @@ Scoreboard::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
                 painter->setPen(QColor(230,230,230));
                 painter->drawText(CLOCK_FIELD_X + 8, TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, CLOCK_FIELD_WIDTH, PP_BAR_HEIGHT, Qt::AlignLeft | Qt::AlignVCenter, ppDescription);
                 if (useClock)
-                    painter->drawText(CLOCK_FIELD_X, TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT,  CLOCK_FIELD_WIDTH - 10, PP_BAR_HEIGHT, Qt::AlignRight | Qt::AlignVCenter, ppClock->toStringPP());
+                    painter->drawText(CLOCK_FIELD_X, TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT,  CLOCK_FIELD_WIDTH - 10, PP_BAR_HEIGHT,
+                                      Qt::AlignRight | Qt::AlignVCenter, serialPP? serialPpClock : ppClock->toStringPP());
             }
         }
 
@@ -577,7 +581,45 @@ void Scoreboard::toggleAwayLogoBg(bool on)
     }
 }
 
+void Scoreboard::usingAllSport()
+{
+    serialPP = true;
+}
+
+void Scoreboard::usingInternalClocks()
+{
+    serialPP = false;
+}
+
 bool Scoreboard::getShowClock() const
 {
     return showClock;
+}
+
+void Scoreboard::setSerialPowerPlay(int pos, QString clock, QString description)
+{
+    awayPP = false;
+    homePP = false;
+    neutralPP = false;
+    if (!clock.isEmpty()) {
+        switch (pos) {
+        case AWAY_PP:
+            awayPP = true;
+            break;
+        case HOME_PP:
+            homePP = true;
+            break;
+        case NEUTRAL:
+            neutralPP = true;
+            break;
+        default:
+            break;
+        }
+    }
+    if (clock != serialPpClock) {
+        ppDescription = description;
+        serialPpClock = clock;
+        scene()->update(this->x(), this->y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT,
+                        SCOREBOARD_WIDTH, PP_BAR_HEIGHT+1);
+    }
 }

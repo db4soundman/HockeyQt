@@ -12,6 +12,7 @@
 #include "HockeyTeam.h"
 #include "SerialConsole.h"
 #include "ComparisonGraphic.h"
+#include <QSet>
 
 
 class HockeyGame : public QObject {
@@ -150,11 +151,11 @@ private slots:
 private:
     QString homeName, homeShortName, awayName, awayShortName, sponsor, announcers, timeEventHappened, homeRank,
     awayRank;
-    int awayScore, homeScore, period, homeSOG, awaySOG, homePlayersOnIce, awayPlayersOnIce;
+    int awayScore, homeScore, period, homeSOG, awaySOG, homePlayersOnIce, awayPlayersOnIce, penaltyIndex;
     Clock gameClock;
     QList<Clock*> awayPenalty, homePenalty;
     QTimer timer, tricasterRefresh, cgTimer;
-    bool clockRunning, isFinal, useClock;
+    bool clockRunning, isFinal, useClock, penaltiesActive;
     QColor homeColor, awayColor;
     HockeyTeam* homeTeam;
     HockeyTeam* awayTeam;
@@ -165,7 +166,11 @@ private:
     void toggleCgPenaltyClocks(bool isOn);
     Clock* getLowestPpClock();
 
+    QSet<int> awayPlayersInBox, homePlayersInBox;
+
     void prepareSameStatComp(QList<QString> stats, QString statName);
+    void triggerNewPenalty();
+    void determinePpClockAllSport(QString clock="");
 };
 
 #endif // HOCKEYGAME_H

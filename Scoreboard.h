@@ -25,6 +25,8 @@ public:
 
      bool getShowClock() const;
 
+     void setSerialPowerPlay(int pos, QString clock = "", QString description = "");
+
 signals:
      void sceneUpdated(int x, int y, int w, int h);
      void transparentField(int x, int y, int w, int h);
@@ -48,6 +50,8 @@ public slots:
      void displaySponsor();
      void changeUseClock(bool uc);
      void toggleAwayLogoBg(bool on);
+     void usingAllSport();
+     void usingInternalClocks();
 
 private:
 
@@ -63,7 +67,7 @@ private:
      QGraphicsTextItem* homeRank;
      QString ppDescription, period, centeredTimeText, sponsorText;
      QLinearGradient homeGradient, awayGradient, penaltyGradient, mainGradient, clockGradient, ppGradient, scoreGradient, bgGradient, homePPGradient, awayPPGradient, neutralPPGradient;
-     bool awayPP, homePP, neutralPP, penalty, sponsor, useClock, altAwayLogoBg,
+     bool awayPP, homePP, neutralPP, penalty, sponsor, useClock, altAwayLogoBg, serialPP,
      scoreText, showPP, show, showPdAndClockFields, showClock, useTransparency;
 
      void prepareColor();
@@ -72,6 +76,7 @@ private:
      Clock* ppClock;
      QFont defaultSponsorText;
      int homeRankOffset, awayRankOffset, homeLogoOffset, awayLogoOffset, pd;
+     QString serialPpClock;
 
 };
 

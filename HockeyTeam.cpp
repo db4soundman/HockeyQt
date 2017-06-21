@@ -2,6 +2,7 @@
 
 HockeyTeam::HockeyTeam() {
     ppgToday = ppoppToday = pkToday = pkoppToday = 0;
+    timeoutsLeft = 1;
 
 }
 

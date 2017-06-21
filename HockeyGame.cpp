@@ -34,6 +34,7 @@ HockeyGame::HockeyGame(QString awayName, QString homeName, QColor awayColor, QCo
     cgTimer.setInterval(100);
     tricasterRefresh.setInterval(1000*30);
     clockRunning = false;
+    penaltiesActive = false;
 
     connect(&gameClock, SIGNAL(clockExpired()),
             this, SLOT(toggleClock()));
@@ -430,6 +431,70 @@ void HockeyGame::parseAllSportCG(QByteArray data)
         int awayTol = data.mid(14,1).toInt();
         int hSog = data.mid(15,2).toInt();
         int aSog = data.mid(17,2).toInt();
+        int cgPeriod = data.mid(19,2).toInt();
+        QString penClock="";
+
+        bool penH1,penH2,penA1,penA2;
+        int homePlayer1 = data.mid(21,2).toInt(&penH1);
+        QString homePen1 = data.mid(23,5).trimmed();
+        int homePlayer2 = data.mid(28,2).toInt(&penH2);
+        QString homePen2 = data.mid(30,5).trimmed();
+        int awayPlayer1 = data.mid(35,2).toInt(&penA1);
+        QString awayPen1 = data.mid(37,5).trimmed();
+        int awayPlayer2 = data.mid(42,2).toInt(&penA2);
+        QString awayPen2 = data.mid(44,5).trimmed();
+
+        int awayInTheBox, homeInTheBox = 0;
+        QSet<int>awayTemp,homeTemp;
+        bool penalty = false;
+        if (penaltiesActive || (!penaltiesActive && stopped)) {
+            if (penA1){
+                awayInTheBox++;
+                awayTemp.insert(awayPlayer1);
+                if (!awayPlayersInBox.contains(awayPlayer1)) triggerNewPenalty();
+                awayPlayersInBox.insert(awayPlayer1);
+                penalty = true;
+            }
+            if (penA2) {
+                awayInTheBox++;
+                awayTemp.insert(awayPlayer2);
+                if (!awayPlayersInBox.contains(awayPlayer2)) triggerNewPenalty();
+                awayPlayersInBox.insert(awayPlayer2);
+            }
+            awayPlayersInBox = awayPlayersInBox.intersect(awayTemp);
+
+            if (penH1){
+                homeInTheBox++;
+                homeTemp.insert(homePlayer1);
+                if (!homePlayersInBox.contains(homePlayer1)) triggerNewPenalty();
+                homePlayersInBox.insert(homePlayer1);
+                penalty = true;
+            }
+            if (penH2){
+                homeInTheBox++;
+                homeTemp.insert(homePlayer2);
+                if (!homePlayersInBox.contains(homePlayer2)) triggerNewPenalty();
+                homePlayersInBox.insert(homePlayer2);
+            }
+            if (penalty) {
+                if (penA1 && penH1) {
+                    if (awayPen1 < homePen1) {
+                        penClock = awayPen1.trimmed();
+                    } else {
+                        penClock = homePen1.trimmed();
+                    }
+
+                } else if(penA1) {
+                    penClock = awayPen1.trimmed();
+                } else {
+                    penClock = homePen1.trimmed();
+                }
+            } else if (penaltiesActive) {
+                // There were active penalties, but not anymore
+            }
+            penaltiesActive = penalty;
+            determinePpClockAllSport(penClock);
+        }
         gameClock.setClock(clock.trimmed());
         if (homeScore != homeScoreS) {
             while (homeScore < homeScoreS) {
@@ -438,8 +503,7 @@ void HockeyGame::parseAllSportCG(QByteArray data)
             while (homeScore > homeScoreS) {
                 homeLoseGoal();
             }
-            //homeScore = homeScoreS;
-            //emit homeScoreChanged(homeScore);
+
         }
         if (awayScore != awayScoreS) {
             while (awayScore < awayScoreS) {
@@ -448,8 +512,7 @@ void HockeyGame::parseAllSportCG(QByteArray data)
             while (awayScore > awayScoreS) {
                 awayLoseGoal();
             }
-            //awayScore = awayScoreS;
-            //emit awayScoreChanged(awayScore);
+
         }
         if (homeSOG != hSog) {
             while (homeSOG < hSog) {
@@ -467,7 +530,7 @@ void HockeyGame::parseAllSportCG(QByteArray data)
                 subAwaySOG();
             }
         }
-        toggleCgPenaltyClocks(!stopped);
+        //toggleCgPenaltyClocks(!stopped);
     } catch (...) {
         serialConsole->getConsole()->putData(data);
         serialConsole->closeSerialPort();
@@ -611,7 +674,7 @@ HockeyGame::determinePpClockForScoreboard() {
         ppPos = 2;
         // typical pp
         if (awayPlayersOnIce == 4) {
-            description = "POWERPLAY";
+            description = "POWER PLAY";
         }
         else {
             description = QString::number(homePlayersOnIce) + "-ON-" +
@@ -623,7 +686,7 @@ HockeyGame::determinePpClockForScoreboard() {
         ppPos = 1;
         // typical pp
         if (homePlayersOnIce == 4) {
-            description = "POWERPLAY";
+            description = "POWER PLAY";
         }
         else {
             description = QString::number(awayPlayersOnIce, 10) + "-ON-" +
@@ -941,4 +1004,60 @@ HockeyGame::getLowestPpClock() {
 void HockeyGame::prepareSameStatComp(QList<QString> stats, QString statName)
 {
     comparisonGraphic->prepareComp(getAwayTri(), getHomeTri(), stats, statName);
+}
+
+void HockeyGame::triggerNewPenalty()
+{
+    timeEventHappened = period > 3 ? gameClock.getTimeSinceOtStarted() :
+                                     gameClock.getTimeSincePdStarted();
+}
+
+void HockeyGame::determinePpClockAllSport(QString clock)
+{
+    int ppPos;
+    QString description = "";
+    QString num;
+    if (period != 5) {
+        homePlayersOnIce = 5 - homePlayersInBox.size();
+        awayPlayersOnIce = 5 - awayPlayersInBox.size();
+    } else {
+        // This can vary based on # of penalties and whether the clock is running...
+        homePlayersOnIce = 3 + awayPlayersInBox.size() - homePlayersInBox.size();
+        awayPlayersOnIce = 3 + homePlayersInBox.size() - awayPlayersInBox.size();
+    }
+
+    // Neutral
+    if (homePlayersOnIce == awayPlayersOnIce && homePlayersOnIce < 5) {
+        ppPos = 3;
+        num.setNum(homePlayersOnIce, 10);
+        description = num + "-ON-" + num;
+    }
+    // home pp
+    else if (homePlayersOnIce > awayPlayersOnIce) {
+        ppPos = 2;
+        // typical pp
+        if (awayPlayersOnIce == 4 && period != 5) {
+            description = "POWER PLAY";
+        }
+        else {
+            description = QString::number(homePlayersOnIce) + "-ON-" +
+                    QString::number(awayPlayersOnIce);
+        }
+    }
+    // away pp
+    else if (awayPlayersOnIce > homePlayersOnIce){
+        ppPos = 1;
+        // typical pp
+        if (homePlayersOnIce == 4 && period != 5) {
+            description = "POWER PLAY";
+        }
+        else {
+            description = QString::number(awayPlayersOnIce, 10) + "-ON-" +
+                    QString::number(homePlayersOnIce);
+        }
+    }
+    else {
+        ppPos = 0;
+    }
+    sb.setSerialPowerPlay(ppPos,clock,description);
 }
