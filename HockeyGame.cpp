@@ -332,7 +332,7 @@ void HockeyGame::gatherPpStats()
             stats.append("Today: " + QString::number(homeTeam->getPpgToday()) + "-" + QString::number(homeTeam->getPpoppToday()));
 
         }
-        comparisonGraphic->prepareComp("PENALTY KILL", "POWERPLAY", stats);
+        comparisonGraphic->prepareComp("PENALTY KILL", "POWER PLAY", stats);
     }
     else if (homePlayersOnIce < awayPlayersOnIce) {
         stats.append(QString::number(awayTeam->getPpPct(), 'g', 3) +"%");
@@ -341,7 +341,7 @@ void HockeyGame::gatherPpStats()
             stats.append("Today: " + QString::number(awayTeam->getPpgToday()) + "-" + QString::number(awayTeam->getPpoppToday()));
             stats.append("Today: " + QString::number(homeTeam->getPkToday()) + "-" + QString::number(homeTeam->getPkoppToday()));
         }
-      comparisonGraphic->prepareComp("POWERPLAY","PENALTY KILL", stats);
+      comparisonGraphic->prepareComp("POWER PLAY","PENALTY KILL", stats);
     }
 }
 #endif
