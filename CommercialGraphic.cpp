@@ -100,51 +100,6 @@ void CommercialGraphic::paint(QPainter* painter, const QStyleOptionGraphicsItem*
         painter->setFont(QFont("Arial", 60, QFont::Bold));
         painter->drawText(300, 10, 100, RECT_HEIGHT, Qt::AlignCenter, awayScore);
         painter->drawText(600, 10, 100, RECT_HEIGHT, Qt::AlignCenter, homeScore);
-
-        /*painter->fillRect(-10, 0, GRAPHIC_WIDTH + 210, RECT_HEIGHT * 2 + 11, bgGradient);
-        painter->setPen(QColor(255, 255, 255));
-        //painter->drawPixmap(WIDTH/2, -BLACK_BAR_HEIGHT, WIDTH, BLACK_BAR_HEIGHT, blackBar);
-        painter->fillRect(0, -BLACK_BAR_HEIGHT, GRAPHIC_WIDTH - 200, BLACK_BAR_HEIGHT, QColor(20,20,20));
-        //painter->fillRect(0, RECT_HEIGHT * 2, GRAPHIC_WIDTH, BLACK_BAR_HEIGHT, clockGradient);
-        painter->setFont(descriptiveFont);
-        painter->drawText(0, -BLACK_BAR_HEIGHT, GRAPHIC_WIDTH - 200, BLACK_BAR_HEIGHT, Qt::AlignCenter, networkText);
-
-        painter->fillRect(0, AWAY_Y, GRAPHIC_WIDTH, RECT_HEIGHT, awayTeamGradient);
-        if (altAwayLogoBg) painter->fillRect(0, AWAY_Y, awayLogo->width() + 5, RECT_HEIGHT, bgGradient);
-        //painter->drawRect(0,0,GRAPHIC_WIDTH,RECT_HEIGHT,);
-        painter->fillRect(0, HOME_Y, GRAPHIC_WIDTH, RECT_HEIGHT, homeTeamGradient);
-        painter->setOpacity(.996);
-        painter->drawPixmap(5, AWAY_Y + awayLogoOffset, *awayLogo);
-        painter->drawPixmap(5, HOME_Y, homeLogo);
-        painter->setFont(away->font());
-        painter->setOpacity(1);
-        painter->drawText(100, AWAY_Y, NAME_WIDTH, RECT_HEIGHT, Qt::AlignVCenter, away->toPlainText());
-        painter->setFont(home->font());
-        painter->drawText(100, HOME_Y, NAME_WIDTH, RECT_HEIGHT, Qt::AlignVCenter, home->toPlainText());
-        painter->drawText(GRAPHIC_WIDTH - 100, AWAY_Y, 100, RECT_HEIGHT, Qt::AlignCenter, awayScore);
-        painter->drawText(GRAPHIC_WIDTH - 100, HOME_Y, 100, RECT_HEIGHT, Qt::AlignCenter, homeScore);
-
-
-        //painter->drawPixmap(WIDTH - 200, RECT_HEIGHT, WIDTH - (WIDTH- 400), BLACK_BAR_HEIGHT, blackBar);
-        painter->setFont(descriptiveFont);
-        if (clockStatus == FINAL || period == "SHOOTOUT") {
-            if (period.endsWith("OT")) {
-                painter->drawText(GRAPHIC_WIDTH,0, CLOCK_WIDTH, RECT_HEIGHT * 2 + 10, Qt::AlignCenter, "FINAL/OT");
-            } else{
-                painter->drawText(GRAPHIC_WIDTH,0, CLOCK_WIDTH, RECT_HEIGHT * 2 + 10, Qt::AlignCenter, clockStatus == FINAL ? "FINAL" : period);
-            }
-        }
-        else {
-            if (clock == "INTERMISSION" && (period == "3RD" || period.endsWith("OT"))) {
-                painter->drawText(GRAPHIC_WIDTH, 0, CLOCK_WIDTH, RECT_HEIGHT + 5, Qt::AlignCenter, "END OF");
-                painter->drawText(GRAPHIC_WIDTH, RECT_HEIGHT, CLOCK_WIDTH, RECT_HEIGHT + 5, Qt::AlignCenter,
-                                  period.contains("OT") ? period : "REGULATION");
-            } else {
-                painter->drawText(GRAPHIC_WIDTH, 0, CLOCK_WIDTH, RECT_HEIGHT + 5, Qt::AlignCenter, period);
-                painter->drawText(GRAPHIC_WIDTH, RECT_HEIGHT, CLOCK_WIDTH, RECT_HEIGHT + 5, Qt::AlignCenter, clock);
-            }
-        }
-        */
     }
 }
 
@@ -244,7 +199,7 @@ void CommercialGraphic::checkAwayFont()
     int fontPointSize = away->font().pointSize();
     int subtraction = 1;
     QFontMetrics fontSize(away->font());
-    while (fontSize.width(away->toPlainText()) > NAME_WIDTH) {
+    while (fontSize.width(away->toPlainText()) > NAME_WIDTH - 10) {
         QFont tempFont("Arial", fontPointSize - subtraction, QFont::Bold);
         subtraction++;
         away->setFont(tempFont);
