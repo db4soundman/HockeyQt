@@ -11,15 +11,14 @@ ScheduleGraphic::ScheduleGraphic(QGraphicsItem *parent): QGraphicsRectItem(paren
 {
     setRect(0,0,WIDTH,HEIGHT);
     border.setStart(0,0);
-    border.setFinalStop(WIDTH, HEIGHT);
-    border.setColorAt(0, QColor(50,50,50));
-    border.setColorAt(.5, QColor(80,80,80));
-    border.setColorAt(1, QColor(50,50,50));
+    border.setFinalStop(0, HEIGHT);
+    border.setColorAt(0, QColor(196, 213, 242));
+    border.setColorAt(1, QColor(196, 213, 242));
 
     background.setStart(0,0);
-    background.setFinalStop(WIDTH, HEIGHT);
-    background.setColorAt(0, QColor(10,10,10));
-    background.setColorAt(1, QColor(20,20,20));
+    background.setFinalStop(0, HEIGHT);
+    background.setColorAt(0, QColor(41, 70, 91));
+    background.setColorAt(1, QColor(23, 41, 53));
     //background.setColorAt(1, QColor(10,10,10));
     show = false;
 
@@ -36,12 +35,17 @@ void ScheduleGraphic::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
     Q_UNUSED(option);
     Q_UNUSED(widget);
     if (show) {
-        painter->fillRect(rect(), border);
-        painter->fillRect(10,10, WIDTH-20, HEIGHT-20, background);
+        QRectF graphicRect = rect();
+        if (!seriesMode) {
+            graphicRect.setWidth(520);
+        }
+        graphicRect.setHeight(30 * (schedule.size()+1) + 30);
+        painter->fillRect(graphicRect, border);
+        painter->fillRect(4,4, graphicRect.width()-8, graphicRect.height()-8, background);
         QFont headerFont("Arial", 16);
         painter->setPen(QColor(253,180,26));
         painter->setFont(headerFont);
-        painter->drawText(0,10, WIDTH, 20, Qt::AlignHCenter, "UPCOMING SCHEDULE");
+        painter->drawText(0,10, graphicRect.width(), 20, Qt::AlignHCenter, "UPCOMING SCHEDULE");
         QFont font("Arial", 12);
         painter->setFont(font);
         if (seriesMode) {
@@ -72,9 +76,9 @@ void ScheduleGraphic::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
                 }
             }
             else {
-                painter->drawText(450, y, 60, 30, 0, schedule[i].getTime1());
+                painter->drawText(350, y, 60, 30, 0, schedule[i].getTime1());
                 QPixmap logo1 = getPixmap(schedule[i].getMedia1());
-                painter->drawPixmap(520, y, logo1.width(), logo1.height(), logo1);
+                painter->drawPixmap(420, y, logo1.width(), logo1.height(), logo1);
             }
         }
     }
