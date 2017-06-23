@@ -90,6 +90,8 @@ public:
 
     void setComparisonGraphic(ComparisonGraphic *value);
 
+    ComparisonGraphic *getComparisonGraphic() const;
+
 public slots:
     void homeGoal();
     void awayGoal();

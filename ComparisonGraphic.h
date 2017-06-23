@@ -23,26 +23,27 @@ public:
 public slots:
     void hideComparison();
     void showComparison();
-    void prepareComp(QString awayLabel, QString homeLabel, QList<QString> stats, QString pstatHeader="");
+    void prepareComp(QString topLabel, QString botLabel, QList<QString> stats, QString pStatHeader, int compStyle);
+    void prepareStandardComp(QString awayLabel, QString homeLabel, QList<QString> stats, QString pstatHeader="");
 
 private:
     QList<QString> statNames;
     QList<QString> statistics;
 
     QFont statFont, nameFont, labelFont;
-    QLinearGradient statHeaderGradient, bgGradient, homeStatGradient, awayStatGradient;
-    QColor homeTeamMain, awayTeamMain, stats;
+    QLinearGradient statHeaderGradient, bgGradient, topGradient, bottomGradient;
+    QColor homeTeamMain, homeGradientEnd, awayTeamMain, awayGradientEnd, stats;
 
     QString homeName, awayName, homeLabel, awayLabel, homeStat, awayStat, statHeader;
 
-    QPixmap *homeLogo, *awayLogo;
+    QPixmap *homeLogo, *awayLogo, *topLogo, *bottomLogo;
 
     void prepareColors();
     void prepareFontSize();
     //void adjustFont();
 
-    bool show;
-    int fontPointSize, statFontPointSize, awayLogoOffset;
+    bool show, topOffset, botOffset;
+    int fontPointSize, statFontPointSize, awayLogoXOffset, awayLogoYOffset;
 };
 
 

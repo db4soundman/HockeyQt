@@ -10,7 +10,7 @@ MainWindow::MainWindow(HockeyGame* game, StandingsGraphic* graphic, CommercialGr
                        NchcScoreboardGraphic* confSbGraphic, ScheduleGraphic *scheduleGraphic, SerialConsole *serial, ComparisonGraphic *comparisonGraphic, QWidget *parent)
     : QMainWindow(parent), panel(game, graphic, comGraphic, confSbGraphic, scheduleGraphic, comparisonGraphic), standingsPanel(graphic), nchcGui(confSbGraphic),
     awayPlayerEdit(game, false), homePlayerEdit(game, true), awayEdit(game->getAwayTeam()), homeEdit(game->getHomeTeam()),
-    ltCreator(game->getLt()) {
+    ltCreator(game->getLt()), compCreator(game) {
     setCentralWidget(&panel);
     //setMaximumWidth(800);
     makeMenu(game, serial, comGraphic);
@@ -67,6 +67,10 @@ void MainWindow::makeMenu(HockeyGame* game, SerialConsole* console, CommercialGr
     connect(customLtCreator, SIGNAL(triggered()), &ltCreator, SLOT(show()));
     customLtCreator->setShortcut(Qt::CTRL + Qt::Key_1);
     lowerThirdMenu->addAction(customLtCreator);
+
+    QAction* customCompCreator = new QAction("Create Comparison", this);
+    connect(customCompCreator, SIGNAL(triggered()), &compCreator, SLOT(show()));
+    lowerThirdMenu->addAction(customCompCreator);
 
     QMenu* consoleMenu = new QMenu("All Sport CG");
     QAction* showConsole = new QAction("Show Console", this);

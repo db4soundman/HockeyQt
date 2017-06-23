@@ -17,6 +17,7 @@
 #include "schedulegui.h"
 #include "SerialConsole.h"
 #include "ComparisonGraphic.h"
+#include "ComparisonCreator.h"
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
@@ -33,6 +34,7 @@ private:
     TeamEditor awayEdit, homeEdit;
     LowerThirdCreator ltCreator;
     ScheduleGUI scheduleGui;
+    ComparisonCreator compCreator;
 
     void makeMenu(HockeyGame* game, SerialConsole *console, CommercialGraphic *comGraphic);
 };

@@ -25,16 +25,24 @@ ComparisonGraphic::ComparisonGraphic(QColor awayColor, QColor homeColor, QPixmap
     bgGradient.setFinalStop(0, BOX_HEIGHT * 3);
     statHeaderGradient.setStart(0, 0);
     statHeaderGradient.setFinalStop(0, BOX_HEIGHT);
-    homeStatGradient.setStart(0, BOX_HEIGHT*2);
-    homeStatGradient.setFinalStop(0, BOX_HEIGHT * 3);
-    awayStatGradient.setStart(0, BOX_HEIGHT);
-    awayStatGradient.setFinalStop(0, BOX_HEIGHT*2);
+    bottomGradient.setStart(0, BOX_HEIGHT*2);
+    bottomGradient.setFinalStop(0, BOX_HEIGHT * 3);
+    topGradient.setStart(0, BOX_HEIGHT);
+    topGradient.setFinalStop(0, BOX_HEIGHT*2);
     homeLogo = new QPixmap(":/images/M.png");
     awayLogo = new QPixmap(pawayLogo);
 
     *homeLogo = homeLogo->scaledToHeight(BOX_HEIGHT, Qt::SmoothTransformation);
     *awayLogo = awayLogo->scaledToHeight(BOX_HEIGHT, Qt::SmoothTransformation);
-    awayLogoOffset = std::max((50 - awayLogo->width()) / 2, 0);
+
+    if (awayLogo->width() > 50) {
+        *awayLogo = awayLogo->scaledToWidth(50, Qt::SmoothTransformation);
+    }
+
+    awayLogoXOffset = std::max((50 - awayLogo->width()) / 2, 0);
+    awayLogoYOffset = std::max((BOX_HEIGHT - awayLogo->height()) / 2, 0);
+    topOffset = true;
+    botOffset = false;
     prepareColors();
 }
 
@@ -43,7 +51,7 @@ void ComparisonGraphic::paint(QPainter *painter, const QStyleOptionGraphicsItem 
     Q_UNUSED(option);
     Q_UNUSED(widget);
     if (show) {
-            if (!statHeader.isEmpty()) {
+            if (!statHeader.trimmed().isEmpty()) {
                 painter->setFont(statFont);
                 QFontMetrics fontSize(statFont);
                 painter->fillRect(0, BOX_HEIGHT-24, fontSize.width(statHeader) + 10, 24, statHeaderGradient );
@@ -51,10 +59,10 @@ void ComparisonGraphic::paint(QPainter *painter, const QStyleOptionGraphicsItem 
                 painter->drawText(0, BOX_HEIGHT-24,fontSize.width(statHeader) + 10, 24, Qt::AlignCenter, statHeader);
             }
            painter->fillRect(0, BOX_HEIGHT, statistics.size() > 2 ? 800 : 600, BOX_HEIGHT * 2, bgGradient);
-           painter->fillRect(55, BOX_HEIGHT, statistics.size() > 2 ? 740 : 540, BOX_HEIGHT, awayStatGradient);
-           painter->fillRect(55, BOX_HEIGHT * 2, statistics.size() > 2 ? 740 : 540, BOX_HEIGHT, homeStatGradient);
-           painter->drawPixmap(1 + awayLogoOffset, BOX_HEIGHT,*awayLogo);
-           painter->drawPixmap(1, BOX_HEIGHT*2,*homeLogo);
+           painter->fillRect(55, BOX_HEIGHT, statistics.size() > 2 ? 740 : 540, BOX_HEIGHT, topGradient);
+           painter->fillRect(55, BOX_HEIGHT * 2, statistics.size() > 2 ? 740 : 540, BOX_HEIGHT, bottomGradient);
+           painter->drawPixmap(1 + topOffset ?  awayLogoXOffset : 0, BOX_HEIGHT + (topOffset ? awayLogoYOffset : 0),*topLogo);
+           painter->drawPixmap(1 + botOffset ? awayLogoXOffset : 0, BOX_HEIGHT*2 +( botOffset ? awayLogoYOffset : 0),*bottomLogo);
            painter->setFont(nameFont);
            painter->setPen(QColor(255, 255, 255));
            painter->drawText(100, BOX_HEIGHT, 400, BOX_HEIGHT, Qt::AlignVCenter, awayLabel);
@@ -85,16 +93,54 @@ void ComparisonGraphic::showComparison()
 
 }
 
-void ComparisonGraphic::prepareComp( QString awayLabel,QString homeLabel, QList<QString> stats, QString pstatHeader)
+void ComparisonGraphic::prepareComp(QString topLabel, QString botLabel, QList<QString> stats, QString pStatHeader, int compStyle)
 {
     statFont.setPointSize(statFontPointSize);
-    statHeader = pstatHeader;
-    this->awayLabel = awayLabel;
-    this->homeLabel = homeLabel;
+    statHeader = pStatHeader;
+    this->awayLabel = topLabel;
+    this->homeLabel = botLabel;
     statistics=stats;
     prepareFontSize();
+
+    topOffset = compStyle != 2;
+    botOffset = compStyle == 1;
+
+    switch(compStyle) {
+    case 0:
+        topGradient.setColorAt(0, awayTeamMain);
+        topGradient.setColorAt(1, awayGradientEnd);
+        bottomGradient.setColorAt(0, homeTeamMain);
+        bottomGradient.setColorAt(1, homeGradientEnd);
+        topLogo = awayLogo;
+        bottomLogo = homeLogo;
+        break;
+    case 1:
+        topGradient.setColorAt(0, awayTeamMain);
+        topGradient.setColorAt(1, awayGradientEnd);
+        bottomGradient.setColorAt(0, awayTeamMain);
+        bottomGradient.setColorAt(1, awayGradientEnd);
+        topLogo = awayLogo;
+        bottomLogo = awayLogo;
+        break;
+    case 2:
+        topGradient.setColorAt(0, homeTeamMain);
+        topGradient.setColorAt(1, homeGradientEnd);
+        bottomGradient.setColorAt(0, homeTeamMain);
+        bottomGradient.setColorAt(1, homeGradientEnd);
+        topLogo = homeLogo;
+        bottomLogo = homeLogo;
+        break;
+    }
+
+
     showComparison();
 }
+
+void ComparisonGraphic::prepareStandardComp( QString awayLabel,QString homeLabel, QList<QString> stats, QString pstatHeader)
+{
+    prepareComp(awayLabel, homeLabel, stats, pstatHeader, 0);
+}
+
 
 void ComparisonGraphic::prepareColors()
 {
@@ -110,10 +156,8 @@ void ComparisonGraphic::prepareColors()
     QColor end(red, green, blue);
     if (end == QColor(0,0,0))
         end = QColor(1,1,1);
-    homeStatGradient.setColorAt(0, homeTeamMain);
-    //homeStatGradient.setColorAt(.6, homeTeamMain);
-    homeStatGradient.setColorAt(1, end);
-    //homeStatGradient.setColorAt(0, end);
+    homeGradientEnd = end;
+
 
 // -------------------------------------Away Team--------------------------------
 
@@ -123,8 +167,7 @@ void ComparisonGraphic::prepareColors()
     end.setRgb(red, green, blue);
     if (end == QColor(0,0,0))
         end = QColor(1,1,1);
-    awayStatGradient.setColorAt(0, awayTeamMain);
-    awayStatGradient.setColorAt(1, end);
+   awayGradientEnd = end;
 
     QColor blueWhite(196, 213, 242);
     red = -1*blueWhite.red() *STAT_GRADIENT_LEVEL + blueWhite.red();

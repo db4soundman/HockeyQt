@@ -332,7 +332,7 @@ void HockeyGame::gatherPpStats()
             stats.append("Today: " + QString::number(homeTeam->getPpgToday()) + "-" + QString::number(homeTeam->getPpoppToday()));
 
         }
-        comparisonGraphic->prepareComp("PENALTY KILL", "POWER PLAY", stats);
+        comparisonGraphic->prepareStandardComp("PENALTY KILL", "POWER PLAY", stats);
     }
     else if (homePlayersOnIce < awayPlayersOnIce) {
         stats.append(QString::number(awayTeam->getPpPct(), 'g', 3) +"%");
@@ -341,7 +341,7 @@ void HockeyGame::gatherPpStats()
             stats.append("Today: " + QString::number(awayTeam->getPpgToday()) + "-" + QString::number(awayTeam->getPpoppToday()));
             stats.append("Today: " + QString::number(homeTeam->getPkToday()) + "-" + QString::number(homeTeam->getPkoppToday()));
         }
-      comparisonGraphic->prepareComp("POWER PLAY","PENALTY KILL", stats);
+      comparisonGraphic->prepareStandardComp("POWER PLAY","PENALTY KILL", stats);
     }
 }
 #endif
@@ -790,6 +790,11 @@ void HockeyGame::deleteExpiredPenalties()
     awayPlayersOnIce = 5 - awayPenalty.size();
 }
 
+ComparisonGraphic *HockeyGame::getComparisonGraphic() const
+{
+    return comparisonGraphic;
+}
+
 void HockeyGame::setComparisonGraphic(ComparisonGraphic *value)
 {
     comparisonGraphic = value;
@@ -1003,7 +1008,7 @@ HockeyGame::getLowestPpClock() {
 
 void HockeyGame::prepareSameStatComp(QList<QString> stats, QString statName)
 {
-    comparisonGraphic->prepareComp(getAwayTri(), getHomeTri(), stats, statName);
+    comparisonGraphic->prepareStandardComp(getAwayTri(), getHomeTri(), stats, statName);
 }
 
 void HockeyGame::triggerNewPenalty()
