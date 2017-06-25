@@ -1,12 +1,13 @@
 #ifndef NCHCSCOREBOARDGRAPHIC_H
 #define NCHCSCOREBOARDGRAPHIC_H
 
-#include <QGraphicsPixmapItem>
+#include <QGraphicsRectItem>
 #include <QPainter>
 #include <QObject>
+#include <QLinearGradient>
 #include "NchcScoreEntry.h"
 
-class NchcScoreboardGraphic : public QObject, public QGraphicsPixmapItem {
+class NchcScoreboardGraphic : public QObject, public QGraphicsRectItem {
     Q_OBJECT
 public:
     NchcScoreboardGraphic();
@@ -34,6 +35,7 @@ public slots:
 
 private:
     QList<NchcScoreEntry> fridayGames, saturdayGames;
+    QLinearGradient mainGradient;
     QPixmap* nchcLogo;
     bool show;
     QString leftHeader, rightHeader;
