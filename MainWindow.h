@@ -18,6 +18,10 @@
 #include "SerialConsole.h"
 #include "ComparisonGraphic.h"
 #include "ComparisonCreator.h"
+#include <QTreeView>
+#include "treemodel.h"
+#include <QDockWidget>
+#include <QStackedWidget>
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
@@ -27,6 +31,7 @@ public:
     ~MainWindow();
 
 private:
+    QStackedWidget mainContent, alternateContent;
     ControlPanel panel;
     StandingsWidget standingsPanel;
     NchcScoreboardGui nchcGui;
@@ -36,7 +41,15 @@ private:
     ScheduleGUI scheduleGui;
     ComparisonCreator compCreator;
 
+    QTreeView treeView;
+    TreeModel* model;
+
+    QDockWidget leftDock;
+
     void makeMenu(HockeyGame* game, SerialConsole *console, CommercialGraphic *comGraphic);
+
+
+    void createAlternateContent();
 };
 
 #endif // MAINWINDOW_H

@@ -17,6 +17,7 @@
         <file alias="profiles.txt">resources/profiles.txt</file>
         <file alias="settings">settings.txt</file>
         <file alias="standings.txt">resources/standings.txt</file>
-        <file alias="(schedule.csv">resources/schedule.csv</file>
+        <file alias="schedule.csv">resources/schedule.csv</file>
+        <file alias="graphicsTree.txt">resources/graphicsTree.txt</file>
     </qresource>
 </RCC>

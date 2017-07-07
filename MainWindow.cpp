@@ -5,17 +5,37 @@
 #include <QAction>
 #include <QMenu>
 #include <QMenuBar>
+#include <QFile>
+#include <QTextStream>
+#include <QStringList>
 
 MainWindow::MainWindow(HockeyGame* game, StandingsGraphic* graphic, CommercialGraphic* comGraphic,
                        NchcScoreboardGraphic* confSbGraphic, ScheduleGraphic *scheduleGraphic, SerialConsole *serial, ComparisonGraphic *comparisonGraphic, QWidget *parent)
     : QMainWindow(parent), panel(game, graphic, comGraphic, confSbGraphic, scheduleGraphic, comparisonGraphic), standingsPanel(graphic), nchcGui(confSbGraphic),
     awayPlayerEdit(game, false), homePlayerEdit(game, true), awayEdit(game->getAwayTeam()), homeEdit(game->getHomeTeam()),
     ltCreator(game->getLt()), compCreator(game) {
-    setCentralWidget(&panel);
-    //setMaximumWidth(800);
+    mainContent.addWidget(&panel);
+    setCentralWidget(&mainContent);
+
     makeMenu(game, serial, comGraphic);
     connect(&scheduleGui, SIGNAL(show(QList<ScheduleEntry>,bool)), scheduleGraphic, SLOT(receiveData(QList<ScheduleEntry>,bool)));
     connect(&scheduleGui, SIGNAL(show(QList<ScheduleEntry>,bool)), scheduleGraphic, SLOT(toggleShow()));
+
+    QStringList headers;
+    headers << "Graphic";
+    QFile file(":/resources/graphicsTree.txt");
+    file.open(QIODevice::ReadOnly);
+    model = new TreeModel(headers, file.readAll());
+    file.close();
+    treeView.setModel(model);
+    treeView.setAlternatingRowColors(true);
+    treeView.setHeaderHidden(true);
+    treeView.setAnimated(true);
+    leftDock.setWindowTitle("Graphic Selector");
+    leftDock.setFeatures(0);
+    leftDock.setWidget(&treeView);
+    addDockWidget(Qt::LeftDockWidgetArea, &leftDock);
+    treeView.setEnabled(false);
 
 }
 
@@ -82,5 +102,10 @@ void MainWindow::makeMenu(HockeyGame* game, SerialConsole* console, CommercialGr
     menuBar()->addMenu(lowerThirdMenu);
     menuBar()->addMenu(consoleMenu);
 
+
+}
+
+void MainWindow::createAlternateContent()
+{
 
 }

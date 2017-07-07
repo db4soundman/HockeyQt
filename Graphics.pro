@@ -19,7 +19,8 @@ INCLUDEPATH += GUI \
             GameStatEditors \
             Profiles \
             SerialHandler \
-            Schedule
+            Schedule \
+            GUI2
 
 SOURCES += main.cpp\
         MainWindow.cpp \
@@ -76,7 +77,9 @@ SOURCES += main.cpp\
     Schedule/scheduleentry.cpp \
     ComparisonGraphic.cpp \
     GUI/FaceoffControl.cpp \
-    GUI/ComparisonCreator.cpp
+    GUI/ComparisonCreator.cpp \
+    GUI2/treeitem.cpp \
+    GUI2/treemodel.cpp
 
 HEADERS  += MainWindow.h \
     Scoreboard.h \
@@ -133,7 +136,9 @@ HEADERS  += MainWindow.h \
     Schedule/scheduleentry.h \
     ComparisonGraphic.h \
     GUI/FaceoffControl.h \
-    GUI/ComparisonCreator.h
+    GUI/ComparisonCreator.h \
+    GUI2/treeitem.h \
+    GUI2/treemodel.h
 
 
 RESOURCES += \
@@ -149,4 +154,5 @@ DISTFILES += \
 
 FORMS += \
     SerialHandler/SerialConsole.ui \
-    SerialHandler/settingsdialog.ui
+    SerialHandler/settingsdialog.ui \
+    TreeView.ui

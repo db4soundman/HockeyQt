@@ -1,0 +1,20 @@
+Top Bar
+  Generic
+  Away
+  Home
+
+Lower Thirds
+  Away
+  Home
+
+Comparisons
+  Faceoff
+  Shots On Goal
+  Power play
+  Custom
+
+NCHC Scoreboard
+
+NCHC Standings
+
+Upcoming Schedule
