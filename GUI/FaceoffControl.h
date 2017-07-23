@@ -6,13 +6,16 @@
 #include <QSpinBox>
 #include <QPushButton>
 #include <QLabel>
+#include <QGridLayout>
 #include "HockeyGame.h"
 
 class FaceoffControl : public QWidget
 {
     Q_OBJECT
 public:
-    FaceoffControl(HockeyGame* game, QWidget *parent = 0);
+    FaceoffControl(HockeyGame* game, bool standAlone=true, QWidget *parent = 0);
+
+    QGridLayout * getLayout();
 
 signals:
     void showFaceoffComp(int awayWins, int homeWins);
@@ -20,7 +23,7 @@ signals:
 private slots:
     void requestGraphic();
 
-private:
+protected:
     QSpinBox awayFaceoffWins, homeFaceoffWins;
     QPushButton show;
     QLabel awayLabel, homeLabel;

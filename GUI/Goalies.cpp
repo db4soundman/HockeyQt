@@ -4,7 +4,7 @@
 #include <QLabel>
 
 Goalies::Goalies(HockeyGame* game) {
-    QHBoxLayout* main = new QHBoxLayout();
+    QHBoxLayout* myLayout = new QHBoxLayout();
     QVBoxLayout* away = new QVBoxLayout();
     away->addWidget(new QLabel(game->getAwayTri()));
     awayGoalie.addItems(game->getAwayTeam()->getGuiNames());
@@ -29,10 +29,10 @@ Goalies::Goalies(HockeyGame* game) {
     home->addWidget(&homeSB);
     homeSeason.setText("Season Lower Third");
 
-    main->addLayout(away);
-    main->addLayout(home);
+    myLayout->addLayout(away);
+    myLayout->addLayout(home);
 
-    setLayout(main);
+    setLayout(myLayout);
 
     connect(&awayGoalie, SIGNAL(currentIndexChanged(int)),
             game->getAwayTeam(), SLOT(setGoalie(int)));

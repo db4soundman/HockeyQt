@@ -23,6 +23,11 @@ public:
     void paint(QPainter * painter,
                const QStyleOptionGraphicsItem * option, QWidget * widget = 0);
 
+    void paintPreview(QPainter* painter);
+
+    int getWidth();
+    int getHeight();
+
 
 
 public slots:
@@ -30,9 +35,9 @@ public slots:
     void showLt();
     void showPpComp();
     void prepareForDisplay(QString name, QString number, QString year, QList<QString> statLabels,
-                           QList<QString> statValues, bool homeTeam);
+                           QList<QString> statValues, bool homeTeam, bool goLive=true);
     void prepareForCustomLt(QString name, QString number, QString year, QList<QString> statLabels,
-                           QList<QString> statValues, bool homeTeam);
+                           QList<QString> statValues, bool homeTeam,bool goLive=true);
 #ifdef GRADIENT_LOOK
     void prepareForPpComp(QString awayName, QString awayLabel, QString awayStat,
                           QString homeName, QString homeLabel, QString homeStat);

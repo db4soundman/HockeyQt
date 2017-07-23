@@ -20,8 +20,17 @@
 #include "ComparisonCreator.h"
 #include <QTreeView>
 #include "treemodel.h"
+#include "SeasonLtUI.h"
+#include "PopUI.h"
+#include "CustomLtUI.h"
 #include <QDockWidget>
 #include <QStackedWidget>
+#include <QHash>
+#include "SogUI.h"
+#include "FaceoffUI.h"
+#include "CustomCompUI.h"
+#include "ClockControls.h"
+#include "DisplayControls.h"
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
@@ -29,6 +38,9 @@ public:
     MainWindow(HockeyGame* game, StandingsGraphic* graphic, CommercialGraphic* comGraphic,
                NchcScoreboardGraphic* confSbGraphic, ScheduleGraphic* scheduleGraphic, SerialConsole* serial, ComparisonGraphic* comparisonGraphic, QWidget *parent = 0);
     ~MainWindow();
+
+private slots:
+    void changeScreen(QModelIndex index);
 
 private:
     QStackedWidget mainContent, alternateContent;
@@ -43,8 +55,18 @@ private:
 
     QTreeView treeView;
     TreeModel* model;
+    QHash<QString,int> modelMap;
 
-    QDockWidget leftDock;
+    PopUI homePops, awayPops;
+    SeasonLtUI homeLts, awayLts;
+    CustomLtUI customLts;
+    SogUI sogUi;
+    FaceoffUI faceoffUi;
+    CustomCompUI customCompUi;
+    ClockControls clockControls;
+
+    QDockWidget leftDock, rightDock, topDock;
+    DisplayControls displayControls;
 
     void makeMenu(HockeyGame* game, SerialConsole *console, CommercialGraphic *comGraphic);
 

@@ -2,19 +2,19 @@
 #include <QGridLayout>
 
 ScoreControl::ScoreControl(HockeyGame* game) {
-    QGridLayout* main = new QGridLayout();
+    QGridLayout* myLayout = new QGridLayout();
     setTitle("Score Controls");
     ag.setText(game->getAwayTri() + " +");
     hg.setText(game->getHomeTri() + " +");
     am.setText(game->getAwayTri() + " -");
     hm.setText(game->getHomeTri() + " -");
-    main->addWidget(&ag, 1, 0);
-    main->addWidget(&hg, 1, 1);
-    main->addWidget(&am, 2, 0);
-    main->addWidget(&hm, 2, 1);
-    main->setHorizontalSpacing(3);
-    main->setVerticalSpacing(0);
-    setLayout(main);
+    myLayout->addWidget(&ag, 1, 0);
+    myLayout->addWidget(&hg, 1, 1);
+    myLayout->addWidget(&am, 2, 0);
+    myLayout->addWidget(&hm, 2, 1);
+    myLayout->setHorizontalSpacing(3);
+    myLayout->setVerticalSpacing(0);
+    setLayout(myLayout);
 
     connect(&ag, SIGNAL(clicked()), game, SLOT(awayGoal()));
     connect(&am, SIGNAL(clicked()), game, SLOT(awayLoseGoal()));

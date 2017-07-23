@@ -12,7 +12,7 @@
 class ClockControls : public QGroupBox {
     Q_OBJECT
 public:
-    ClockControls(HockeyGame* game, CommercialGraphic* comGraphic);
+    ClockControls(HockeyGame* game, CommercialGraphic* comGraphic, bool dakMode=false);
 
 public slots:
     void updateClockButton(bool clockIsRunning);

@@ -5,11 +5,14 @@
 #include "HockeyGame.h"
 #include <QComboBox>
 #include <QPushButton>
+#include <QHBoxLayout>
 
 class PenaltyDisplay : public QWidget {
     Q_OBJECT
 public:
-    PenaltyDisplay(HockeyGame* game, bool homeTeam);
+    PenaltyDisplay(HockeyGame* game, bool homeTeam, bool standAlone=true);
+
+    QHBoxLayout * createLayout();
 
 signals:
     void callForPenaltyText(int player, QString penalty);
@@ -17,7 +20,7 @@ signals:
 private slots:
     void prepareSignal();
 
-private:
+protected:
     QComboBox penaltySelector, playerSelector;
     QPushButton show;
 };

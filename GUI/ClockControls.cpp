@@ -2,8 +2,8 @@
 #include <QVBoxLayout>
 #include "ClockDialog.h"
 
-ClockControls::ClockControls(HockeyGame* game, CommercialGraphic* comGraphic) : statCrewControl(game) {
-    QVBoxLayout* main = new QVBoxLayout();
+ClockControls::ClockControls(HockeyGame* game, CommercialGraphic* comGraphic, bool dakMode) : statCrewControl(game) {
+    QVBoxLayout* myLayout = new QVBoxLayout();
     useClock.setText("Use Clock");
     useClock.setChecked(true);
     setTitle("Clock Controls");
@@ -17,17 +17,17 @@ ClockControls::ClockControls(HockeyGame* game, CommercialGraphic* comGraphic) : 
     final.setText("FINAL");
     penalty.setText("Penalty");
    // main->addWidget(&label);
-    main->addWidget(&run);
-    main->addWidget(&set);
-    main->addWidget(&penalty);
-    main->addWidget(&nextPd);
-    main->addWidget(&prevPd);
-    main->addWidget(&reset);
-    main->addWidget(&clock);
-    main->addWidget(&intermission);
-    main->addWidget(&final);
-    main->addSpacing(50);
-    main->addWidget(&useClock);
+    if (!dakMode) myLayout->addWidget(&run);
+    if (!dakMode)myLayout->addWidget(&set);
+    myLayout->addWidget(&penalty);
+    myLayout->addWidget(&nextPd);
+    myLayout->addWidget(&prevPd);
+    if (!dakMode) myLayout->addWidget(&reset);
+    myLayout->addWidget(&clock);
+    myLayout->addWidget(&intermission);
+    myLayout->addWidget(&final);
+    myLayout->addSpacing(50);
+    myLayout->addWidget(&useClock);
     //main->addWidget(&statCrewControl);
 
     connect(&run, SIGNAL(clicked()), game, SLOT(toggleClock()));
@@ -51,7 +51,7 @@ ClockControls::ClockControls(HockeyGame* game, CommercialGraphic* comGraphic) : 
 
     connect(game, SIGNAL(usingAllSport()), this, SLOT(disableClockControls()));
     connect(game, SIGNAL(usingInternalClock()), this, SLOT(enableClockControls()));
-    setLayout(main);
+    setLayout(myLayout);
 
     gameClock = game->getGameClock();
 }

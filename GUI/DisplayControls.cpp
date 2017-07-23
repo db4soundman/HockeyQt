@@ -8,7 +8,7 @@ DisplayControls::DisplayControls(HockeyGame* game, StandingsGraphic* graphic, Co
     customtext.setText("");
     hideLT.setText("Hide Lower Graphic");
 
-    QVBoxLayout* main = new QVBoxLayout();
+    QVBoxLayout* myLayout = new QVBoxLayout();
 
     QHBoxLayout* fr = new QHBoxLayout();
     fr->addWidget(&customtext, 1);
@@ -18,7 +18,7 @@ DisplayControls::DisplayControls(HockeyGame* game, StandingsGraphic* graphic, Co
     fr->addWidget(&sponsorButton);
     announcersButton.setText("Announcers");
     fr->addWidget(&announcersButton);
-    main->addLayout(fr);
+    myLayout->addLayout(fr);
 
     QHBoxLayout* sr = new QHBoxLayout();
     commericalButton.setText("Commercial");
@@ -28,9 +28,9 @@ DisplayControls::DisplayControls(HockeyGame* game, StandingsGraphic* graphic, Co
     sr->addWidget(&sbButton);
     sr->addWidget(&hideLT);
     sr->addWidget(&hideButton);
-    main->addLayout(sr);
+    myLayout->addLayout(sr);
 
-    setLayout(main);
+    setLayout(myLayout);
 
     connect(&sponsorButton, SIGNAL(clicked()),
             game->getSb(), SLOT(displaySponsor()));

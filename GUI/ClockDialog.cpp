@@ -18,23 +18,23 @@ ClockDialog::ClockDialog(Clock* clock) {
     sec.setValue(clock->getSeconds());
     tenths.setValue(clock->getTenths());
 
-    QGridLayout* main = new QGridLayout();
-    main->addWidget(new QLabel("M"), 0, 0);
-    main->addWidget(new QLabel("S"), 0, 1);
-    main->addWidget(new QLabel("T"), 0, 2);
-    main->addWidget(&min, 1, 0);
-    main->addWidget(&sec, 1, 1);
-    main->addWidget(&tenths, 1, 2);
+    QGridLayout* myLayout = new QGridLayout();
+    myLayout->addWidget(new QLabel("M"), 0, 0);
+    myLayout->addWidget(new QLabel("S"), 0, 1);
+    myLayout->addWidget(new QLabel("T"), 0, 2);
+    myLayout->addWidget(&min, 1, 0);
+    myLayout->addWidget(&sec, 1, 1);
+    myLayout->addWidget(&tenths, 1, 2);
 
 
 
     QPushButton* ok = new QPushButton("OK");
-    main->addWidget(ok, 2, 3);
+    myLayout->addWidget(ok, 2, 3);
 
     connect(ok, SIGNAL(clicked()), this, SIGNAL(accepted()));
     connect(this, SIGNAL(accepted()), this, SLOT(accept()));
 
-    setLayout(main);
+    setLayout(myLayout);
 }
 
 void ClockDialog::accept()

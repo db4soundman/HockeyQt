@@ -79,7 +79,16 @@ SOURCES += main.cpp\
     GUI/FaceoffControl.cpp \
     GUI/ComparisonCreator.cpp \
     GUI2/treeitem.cpp \
-    GUI2/treemodel.cpp
+    GUI2/treemodel.cpp \
+    GUI2/GoalPopUI.cpp \
+    GUI2/PenaltyPopUI.cpp \
+    GUI2/StatPopUI.cpp \
+    GUI2/SeasonLtUI.cpp \
+    GUI2/PopUI.cpp \
+    GUI2/CustomLtUI.cpp \
+    GUI2/SogUI.cpp \
+    GUI2/FaceoffUI.cpp \
+    GUI2/CustomCompUI.cpp
 
 HEADERS  += MainWindow.h \
     Scoreboard.h \
@@ -138,7 +147,16 @@ HEADERS  += MainWindow.h \
     GUI/FaceoffControl.h \
     GUI/ComparisonCreator.h \
     GUI2/treeitem.h \
-    GUI2/treemodel.h
+    GUI2/treemodel.h \
+    GUI2/GoalPopUI.h \
+    GUI2/PenaltyPopUI.h \
+    GUI2/StatPopUI.h \
+    GUI2/SeasonLtUI.h \
+    GUI2/PopUI.h \
+    GUI2/CustomLtUI.h \
+    GUI2/SogUI.h \
+    GUI2/FaceoffUI.h \
+    GUI2/CustomCompUI.h
 
 
 RESOURCES += \

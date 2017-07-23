@@ -92,6 +92,10 @@ public:
 
     ComparisonGraphic *getComparisonGraphic() const;
 
+    LowerThird* getPreviewLt() ;
+
+    ComparisonGraphic* getComparisonPreview();
+
 public slots:
     void homeGoal();
     void awayGoal();
@@ -108,15 +112,23 @@ public slots:
     void addAwaySOG();
     void subHomeSOG();
     void subAwaySOG();
+    void showSogComparison();
+    QPixmap getSogComparisonPreview();
     void showAnnouncers();
+    QString getSeasonPopText(int index, bool home);
+    QString getGamePopText(int index, bool home);
+    QPixmap getSeasonPreviewLt(int index, bool home);
+    QPixmap getGamePreviewLt(int index, bool home);
     void gatherSeasonStatsLt(int index, bool home);
     void gatherSeasonStatsSb(int index, bool home);
     void gatherGameStatsLt(int index, bool home);
     //void gatherAwayStatsLt(int index);
     void gatherGameStatsSb(int index, bool home);
     //void gatherAwayGameStatsSb(int index);
+    QString getGoalText(int scorer, int a1, int a2, bool home);
     void prepareHomeGoalText(int scorer, int a1, int a2);
     void prepareAwayGoalText(int scorer, int a1, int a2);
+    QString getPenaltyText(int pIndex, QString penalty, bool home);
     void prepareHomePenaltyText(int pIndex, QString penalty);
     void prepareAwayPenaltyText(int pIndex, QString penalty);
     void gatherPpStats();
@@ -130,6 +142,7 @@ public slots:
     void removeNewestAwayPenalty();
     void parseAllSportCG(QByteArray data);
     void prepareFaceoffComparison(int awayWins, int homeWins);
+    QPixmap getFaceoffCompPreview(int awayWins, int homeWins);
 
 
 signals:
@@ -162,15 +175,16 @@ private:
     HockeyTeam* homeTeam;
     HockeyTeam* awayTeam;
     Scoreboard sb;
-    LowerThird lt;
+    LowerThird lt, previewLt;
     SerialConsole* serialConsole;
     ComparisonGraphic* comparisonGraphic;
+    ComparisonGraphic comparisonPreview;
     void toggleCgPenaltyClocks(bool isOn);
     Clock* getLowestPpClock();
 
     QSet<int> awayPlayersInBox, homePlayersInBox;
 
-    void prepareSameStatComp(QList<QString> stats, QString statName);
+    void prepareSameStatComp(QList<QString> stats, QString statName, bool goLive=true);
     void triggerNewPenalty();
     void determinePpClockAllSport(QString clock="");
 };

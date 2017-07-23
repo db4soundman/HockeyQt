@@ -1,29 +1,15 @@
 #include "SogControl.h"
 #include <QString>
-#include <QGridLayout>
 
-SogControl::SogControl(HockeyGame* game) {
-    QGridLayout* main = new QGridLayout();
-    setTitle("Shots On Goal (SOG)");
+
+SogControl::SogControl(HockeyGame* game, bool standAlone) {
     awayName = game->getAwayTri();
     homeName = game->getHomeTri();
+    showTopBar.setText("Show Top Bar");
+    showLt.setText("Show Lower Third");
     awayLabel.setText(awayName + " SOG: 0");
     homeLabel.setText(homeName + " SOG: 0");
-    ap1.setText("+ 1");
-    hp1.setText("+ 1");
-    am1.setText("- 1");
-    hm1.setText("- 1");
-    show.setText("Show SOG Update");
-
-    main->addWidget(&awayLabel,0,0);
-    main->addWidget(&homeLabel,0,1);
-    main->addWidget(&ap1, 1,0);
-    main->addWidget(&hp1, 1,1);
-    main->addWidget(&am1, 2,0);
-    main->addWidget(&hm1, 2, 1);
-    main->addWidget(&show, 3, 0, 1, 2);
-    main->setHorizontalSpacing(10);
-    main->setVerticalSpacing(0);
+    if (standAlone) setTitle("Shots On Goal (SOG)");
 
     connect(game, SIGNAL(awaySogChanged(int)), this, SLOT(updateAwaySog(int)));
     connect(game, SIGNAL(homeSogChanged(int)), this, SLOT(updateHomeSog(int)));
@@ -33,14 +19,41 @@ SogControl::SogControl(HockeyGame* game) {
     connect(&hp1, SIGNAL(clicked()), game, SLOT(addHomeSOG()));
     connect(&hm1, SIGNAL(clicked()), game, SLOT(subHomeSOG()));
 
-    connect(&show, SIGNAL(clicked()), this, SLOT(callSogDisplay()));
+    connect(&showTopBar, SIGNAL(clicked()), this, SLOT(callSogDisplay()));
+
+    connect(&showLt, SIGNAL(clicked(bool)), game, SLOT(showSogComparison()));
 
     connect(this, SIGNAL(showSOG(QString)), game->getSb(), SLOT(changeTopBarText(QString)));
 
     connect(game, SIGNAL(usingAllSport()), this, SLOT(disableButtons()));
     connect(game, SIGNAL(usingInternalClock()), this, SLOT(enableButtons()));
 
-    setLayout(main);
+    if (standAlone) setLayout(getLayout());
+}
+
+QGridLayout * SogControl::getLayout()
+{
+    QGridLayout* myLayout = new QGridLayout();
+
+
+
+    ap1.setText("+ 1");
+    hp1.setText("+ 1");
+    am1.setText("- 1");
+    hm1.setText("- 1");
+
+    myLayout->addWidget(&awayLabel,0,0);
+    myLayout->addWidget(&homeLabel,0,1);
+    myLayout->addWidget(&ap1, 1,0);
+    myLayout->addWidget(&hp1, 1,1);
+    myLayout->addWidget(&am1, 2,0);
+    myLayout->addWidget(&hm1, 2, 1);
+    myLayout->addWidget(&showTopBar, 3, 0);
+    myLayout->addWidget(&showLt, 3,1);
+    myLayout->setHorizontalSpacing(10);
+    myLayout->setVerticalSpacing(0);
+
+    return myLayout;
 }
 
 void

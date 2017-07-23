@@ -1,11 +1,11 @@
 Top Bar
-  Generic
-  Away
-  Home
+  Away Pops
+  Home Pops
 
 Lower Thirds
-  Away
-  Home
+  Away LTs
+  Home LTs
+  Custom LTs
 
 Comparisons
   Faceoff

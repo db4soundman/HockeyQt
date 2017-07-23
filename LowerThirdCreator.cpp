@@ -1,10 +1,23 @@
 #include "LowerThirdCreator.h"
 #include <QFormLayout>
-#include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QPushButton>
 
-LowerThirdCreator::LowerThirdCreator(LowerThird* lt) {
+LowerThirdCreator::LowerThirdCreator(LowerThird* lt, bool standAlone) {
+    if (standAlone){
+        setLayout(getLayout(standAlone));
+    }
+    connect(this, SIGNAL(makeCustomLt(QString,QString,QString,QList<QString>,QList<QString>,bool)),
+            lt, SLOT(prepareForCustomLt(QString,QString,QString,QList<QString>,QList<QString>,bool)));
+    connect(&show, SIGNAL(clicked()), this, SLOT(submitLt()));
+    if (standAlone) {
+        connect(&show, SIGNAL(clicked()), this, SLOT(hide()));
+    }
+    connect(&clear, SIGNAL(clicked()), this, SLOT(clearFields()));
+}
+
+QVBoxLayout * LowerThirdCreator::getLayout(bool standAlone)
+{
     QVBoxLayout* mainLayout = new QVBoxLayout();
     home.setText("Home Team");
     mainLayout->addWidget(&home);
@@ -20,19 +33,22 @@ LowerThirdCreator::LowerThirdCreator(LowerThird* lt) {
 
     QHBoxLayout* buttons = new QHBoxLayout();
 
-    QPushButton* clear = new QPushButton("Clear Fields");
-    connect(clear, SIGNAL(clicked()), this, SLOT(clearFields()));
-    buttons->addWidget(clear);
+    clear.setText("Clear Fields");
 
-    QPushButton* show = new QPushButton("Show");
-    connect(show, SIGNAL(clicked()), this, SLOT(submitLt()));
-    connect(show, SIGNAL(clicked()), this, SLOT(hide()));
-    buttons->addWidget(show);
+    buttons->addWidget(&clear);
+
+    previewButton.setText("Preview");
+    if (!standAlone) {
+        buttons->addWidget(&previewButton);
+    }
+
+    show.setText("Show");
+
+    buttons->addWidget(&show);
 
     mainLayout->addLayout(buttons);
-    setLayout(mainLayout);
-    connect(this, SIGNAL(makeCustomLt(QString,QString,QString,QList<QString>,QList<QString>,bool)),
-            lt, SLOT(prepareForCustomLt(QString,QString,QString,QList<QString>,QList<QString>,bool)));
+
+    return mainLayout;
 }
 
 void LowerThirdCreator::clearFields()

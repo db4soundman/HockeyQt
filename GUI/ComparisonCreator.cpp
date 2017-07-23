@@ -5,49 +5,61 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 
-ComparisonCreator::ComparisonCreator(HockeyGame *game, QWidget *parent) : QWidget(parent)
+
+
+ComparisonCreator::ComparisonCreator(HockeyGame *game, bool standAlone, QWidget *parent) : QWidget(parent)
 {
      colorSelector.addItem("Away & Home");
      colorSelector.addItem("Away & Away");
      colorSelector.addItem("Home & Home");
      clear.setText("Clear");
      show.setText("Show");
+     previewButton.setText("Preview");
 
-     QGridLayout* myLayout = new QGridLayout();
-
-     QFormLayout* colorPickerLayout = new QFormLayout();
-     colorPickerLayout->addRow("Comparison Type:", &colorSelector);
-     colorPickerLayout->addRow("Graphic Header:", &statLabel);
-
-     myLayout->addLayout(colorPickerLayout,0,0);
-
-     QHBoxLayout* labelRow = new QHBoxLayout();
-     labelRow->addWidget(new QLabel("Name:"));
-     labelRow->addWidget(new QLabel("Stat 1:"));
-     labelRow->addWidget(new QLabel("Stat 2:"));
-
-     QHBoxLayout* topRowFields = new QHBoxLayout();
-     topRowFields->addWidget(&topLabel);
-     topRowFields->addWidget(&topStat1);
-     topRowFields->addWidget(&topStat2);
-
-     QHBoxLayout* botRowFields = new QHBoxLayout();
-     botRowFields->addWidget(&botLabel);
-     botRowFields->addWidget(&botStat1);
-     botRowFields->addWidget(&botStat2);
-
-     myLayout->addLayout(labelRow,1,0);
-     myLayout->addLayout(topRowFields, 2,0);
-     myLayout->addLayout(botRowFields,3,0);
-
-     myLayout->addWidget(&clear, 4,1);
-     myLayout->addWidget(&show, 4,2);
-
-     setLayout(myLayout);
+     if (standAlone) setLayout(getLayout(standAlone));
 
      graphic = game->getComparisonGraphic();
 
      connect(&show, SIGNAL(clicked(bool)), this, SLOT(submitCompGraphic()));
+     if (standAlone) connect(&show, SIGNAL(clicked(bool)), this, SLOT(hide()));
+}
+
+QGridLayout* ComparisonCreator::getLayout(bool standAlone)
+{
+    QGridLayout* myLayout = new QGridLayout();
+
+    QFormLayout* colorPickerLayout = new QFormLayout();
+    colorPickerLayout->addRow("Comparison Type:", &colorSelector);
+    colorPickerLayout->addRow("Graphic Header:", &statLabel);
+
+    myLayout->addLayout(colorPickerLayout,0,0);
+
+    QHBoxLayout* labelRow = new QHBoxLayout();
+    labelRow->addWidget(new QLabel("Name:"));
+    labelRow->addWidget(new QLabel("Stat 1:"));
+    labelRow->addWidget(new QLabel("Stat 2:"));
+
+    QHBoxLayout* topRowFields = new QHBoxLayout();
+    topRowFields->addWidget(&topLabel);
+    topRowFields->addWidget(&topStat1);
+    topRowFields->addWidget(&topStat2);
+
+    QHBoxLayout* botRowFields = new QHBoxLayout();
+    botRowFields->addWidget(&botLabel);
+    botRowFields->addWidget(&botStat1);
+    botRowFields->addWidget(&botStat2);
+
+    myLayout->addLayout(labelRow,1,0);
+    myLayout->addLayout(topRowFields, 2,0);
+    myLayout->addLayout(botRowFields,3,0);
+
+    myLayout->addWidget(&clear, 4,1);
+    if (!standAlone) {
+        myLayout->addWidget(&previewButton,4,2);
+    }
+    myLayout->addWidget(&show, 4,standAlone ? 2 : 3);
+
+    return myLayout;
 }
 
 void ComparisonCreator::submitCompGraphic()
@@ -61,7 +73,6 @@ void ComparisonCreator::submitCompGraphic()
     }
     graphic->prepareComp(topLabel.text().trimmed(),botLabel.text().trimmed(),
                          stats, statLabel.text().trimmed(), colorSelector.currentIndex());
-    this->hide();
 }
 
 void ComparisonCreator::clearFields()

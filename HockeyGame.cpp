@@ -12,11 +12,11 @@ HockeyGame::HockeyGame(QString awayName, QString homeName, QColor awayColor, QCo
     awayName(awayName), homeName(homeName), sponsor(sponsor), announcers(announcers), awayColor(awayColor),
     homeColor(homeColor), awayRank(awayRank), homeRank(homeRank),
     sb(awayColor, homeColor, awayName, homeName, sponsor, &gameClock, awayRank, homeRank, awayLogo), homeShortName(hsName),
-    awayShortName(asName),
+    awayShortName(asName), comparisonPreview(awayColor, homeColor, awayLogo, true),
     #ifdef GRADIENT_LOOK
     lt (awayColor, homeColor, screenWidth)
   #else
-    lt(awayColor, homeColor, screenWidth, awayLogo)
+    lt(awayColor, homeColor, screenWidth, awayLogo), previewLt(awayColor, homeColor, screenWidth, awayLogo)
   #endif
 {
     useClock = true;
@@ -135,6 +135,27 @@ HockeyGame::subAwaySOG() {
     emit awaySogChanged(awaySOG);
 }
 
+void HockeyGame::showSogComparison()
+{
+    QList<QString> stats;
+    stats.append(QString::number(awaySOG));
+    stats.append(QString::number(homeSOG));
+    comparisonGraphic->prepareStandardComp(getAwayTri(), getHomeTri(), stats, "Shots on Goal");
+}
+
+QPixmap HockeyGame::getSogComparisonPreview()
+{
+    QList<QString> stats;
+    stats.append(QString::number(awaySOG));
+    stats.append(QString::number(homeSOG));
+    comparisonPreview.prepareStandardComp(getAwayTri(), getHomeTri(), stats, "Shots on Goal");
+    QPixmap graphic(comparisonPreview.getWidth(), comparisonPreview.getHeight());
+    graphic.fill(QColor(0,0,0,0));
+    QPainter painter(&graphic);
+    comparisonPreview.paintPreview(&painter);
+    return graphic.scaled(comparisonPreview.getWidth()/2, comparisonPreview.getHeight()/2);
+}
+
 void
 HockeyGame::showAnnouncers() {
     if (announcers.contains("and") || announcers.contains("&")) {
@@ -143,6 +164,107 @@ HockeyGame::showAnnouncers() {
     else {
         sb.changeTopBarText("Commentator: " + announcers);
     }
+}
+
+QString HockeyGame::getSeasonPopText(int index, bool home)
+{
+    HockeyPlayer* player = home ? getHomeTeam()->getPlayer(index) : getAwayTeam()->getPlayer(index);
+    QString text = player->getName() + " (" + (home ? getHomeTri() : getAwayTri()) +"): ";
+    if (player->getGaavg() == "NG") {
+        text += QString::number(player->getGoals() + player->getGoalsToday()) + " G, ";
+        text += QString::number(player->getAssists() + player->getAssistsToday()) + " A, ";
+        text += QString::number(player->getPim()+ player->getPimToday()) + " PIM";
+    }
+    else {
+        text += QString::number(player->getWins()) + "-" + QString::number(player->getLosses())+", ";
+        text += player->getGaavg() + " GAA, ";
+        text += QString::number(player->getSvPct(), 'g', 3) + " SV %";
+    }
+    return text;
+}
+
+QString HockeyGame::getGamePopText(int index, bool home)
+{
+    HockeyPlayer* player = home ? getHomeTeam()->getPlayer(index) :
+                                  getAwayTeam()->getPlayer(index);
+    QString text = home ? player->getName() + " (" + getHomeTri()+"): " :
+                          player->getName() + " (" + getAwayTri()+"): ";
+    if (player->getGaavg() == "NG") {
+        text += QString::number(player->getGoalsToday()) + " G, ";
+        text += QString::number(player->getAssistsToday()) + " A, ";
+        text += QString::number(player->getPimToday()) + " PIM";
+    }
+    else {
+        text += QString::number(player->getGaToday()) + " GA, ";
+        text += QString::number(player->getSavesToday()) + " SAVES";
+    }
+    return text;
+}
+
+QPixmap HockeyGame::getSeasonPreviewLt(int index, bool home)
+{
+    QList<QString> labels, numbers;
+    HockeyPlayer* player = home ? getHomeTeam()->getPlayer(index) : getAwayTeam()->getPlayer(index);
+    labels.append("GP");
+    numbers.append(QString::number(player->getGp()));
+    if (player->getGaavg() == "NG") {
+        labels.append("G");
+        labels.append("A");
+        labels.append("PTS");
+        labels.append("+/-");
+        numbers.append(QString::number(player->getGoals()+ player->getGoalsToday()));
+        numbers.append(QString::number(player->getAssists()+ player->getAssistsToday()));
+        numbers.append(QString::number(player->getPts() + player->getPtsToday()));
+        numbers.append(player->getPlusMinus());
+    }
+    else {
+        player->calcSvPct();
+        labels.append("W-L");
+        labels.append("SV");
+        labels.append("SV %");
+        labels.append("GAA");
+        numbers.append(QString::number(player->getWins()) + "-" + QString::number(player->getLosses()));
+        numbers.append(QString::number(player->getSaves()));
+        numbers.append(QString::number(player->getSvPct(), 'g', 3));
+        numbers.append(player->getGaavg());
+    }
+    previewLt.prepareForDisplay(player->getName(), player->getUni(), player->getYear(),
+                         labels, numbers, home, false);
+    QPixmap preview(previewLt.getWidth(), previewLt.getHeight());
+    QPainter painter(&preview);
+    previewLt.paintPreview(&painter);
+    return preview;
+}
+
+QPixmap HockeyGame::getGamePreviewLt(int index, bool home)
+{
+    HockeyPlayer* player = home ? getHomeTeam()->getPlayer(index) : getAwayTeam()->getPlayer(index);
+    QList<QString> labels, numbers;
+    if (player->getGaavg() == "NG") {
+        labels.append("G");
+        labels.append("A");
+        labels.append("PTS");
+        labels.append("PIM");
+        numbers.append(QString::number(player->getGoalsToday()));
+        numbers.append(QString::number(player->getAssistsToday()));
+        numbers.append(QString::number(player->getPtsToday()));
+        numbers.append(QString::number(player->getPimToday()));
+    }
+    else {
+        labels.append("GA");
+        labels.append("SV");
+        labels.append("SHOTS");
+        numbers.append(QString::number(player->getGaToday()));
+        numbers.append(QString::number(player->getSavesToday()));
+        numbers.append(QString::number(player->getShotsFacedToday()));
+    }
+
+    previewLt.prepareForDisplay(player->getName(), player->getUni(), player->getYear(),
+                         labels, numbers, home, false);
+    QPixmap preview(previewLt.getWidth(), previewLt.getHeight());
+    QPainter painter(&preview);
+    previewLt.paintPreview(&painter);
+    return preview;
 }
 
 void HockeyGame::gatherSeasonStatsLt(int index, bool home)
@@ -178,19 +300,8 @@ void HockeyGame::gatherSeasonStatsLt(int index, bool home)
 
 void HockeyGame::gatherSeasonStatsSb(int index, bool home)
 {
-    HockeyPlayer* player = home ? getHomeTeam()->getPlayer(index) : getAwayTeam()->getPlayer(index);
-    QString text = player->getName() + " (" + (home ? getHomeTri() : getAwayTri()) +"): ";
-    if (player->getGaavg() == "NG") {
-        text += QString::number(player->getGoals() + player->getGoalsToday()) + " G, ";
-        text += QString::number(player->getAssists() + player->getAssistsToday()) + " A, ";
-        text += QString::number(player->getPim()+ player->getPimToday()) + " PIM";
-    }
-    else {
-        text += QString::number(player->getWins()) + "-" + QString::number(player->getLosses())+", ";
-        text += player->getGaavg() + " GAA, ";
-        text += QString::number(player->getSvPct(), 'g', 3) + " SV %";
-    }
-    sb.changeTopBarText(text);
+
+    sb.changeTopBarText(getSeasonPopText(index, home));
 }
 
 void HockeyGame::gatherGameStatsLt(int index, bool home)
@@ -221,28 +332,17 @@ void HockeyGame::gatherGameStatsLt(int index, bool home)
 
 void HockeyGame::gatherGameStatsSb(int index, bool home)
 {
-    HockeyPlayer* player = home ? getHomeTeam()->getPlayer(index) :
-                                  getAwayTeam()->getPlayer(index);
-    QString text = home ? player->getName() + " (" + getHomeTri()+"): " :
-                          player->getName() + " (" + getAwayTri()+"): ";
-    if (player->getGaavg() == "NG") {
-        text += QString::number(player->getGoalsToday()) + " G, ";
-        text += QString::number(player->getAssistsToday()) + " A, ";
-        text += QString::number(player->getPimToday()) + " PIM";
-    }
-    else {
-        text += QString::number(player->getGaToday()) + " GA, ";
-        text += QString::number(player->getSavesToday()) + " SAVES";
-    }
-    sb.changeTopBarText(text);
+
+    sb.changeTopBarText(getGamePopText(index, home));
 }
 
-void HockeyGame::prepareHomeGoalText(int scorer, int a1, int a2)
+QString HockeyGame::getGoalText(int scorer, int a1, int a2, bool home)
 {
-    HockeyPlayer* goalScorer = homeTeam->getPlayer(scorer);
-    HockeyPlayer* ast1 = homeTeam->getPlayer(a1);
-    HockeyPlayer* ast2 = homeTeam->getPlayer(a2);
-    QString text = getHomeTri() + " GOAL: " + goalScorer->getName() + " ";
+    HockeyTeam* team = home ? homeTeam : awayTeam;
+    HockeyPlayer* goalScorer = team->getPlayer(scorer);
+    HockeyPlayer* ast1 = team->getPlayer(a1);
+    HockeyPlayer* ast2 = team->getPlayer(a2);
+    QString text = (home ? getHomeTri() : getAwayTri()) + " GOAL: " + goalScorer->getName() + " ";
     if (ast1 != NULL) {
         text += "(" + ast1->getName().mid(ast1->getName().indexOf(" ")+1);
         if (ast2 != NULL) {
@@ -254,40 +354,36 @@ void HockeyGame::prepareHomeGoalText(int scorer, int a1, int a2)
         text += "(Unassisted) ";
     }
     text += timeEventHappened;
-    sb.changeTopBarText(text);
+    return text;
+}
+
+void HockeyGame::prepareHomeGoalText(int scorer, int a1, int a2)
+{
+
+    sb.changeTopBarText(getGoalText(scorer,a1,a2,true));
 
 }
 
 void HockeyGame::prepareAwayGoalText(int scorer, int a1, int a2)
 {
-    HockeyPlayer* goalScorer = awayTeam->getPlayer(scorer);
-    HockeyPlayer* ast1 = awayTeam->getPlayer(a1);
-    HockeyPlayer* ast2 = awayTeam->getPlayer(a2);
-    QString text = getAwayTri() + " GOAL: " + goalScorer->getName() + " ";
-    if (ast1 != NULL) {
-        text += "(" + ast1->getName().mid(ast1->getName().indexOf(" ")+1);
-        if (ast2 != NULL) {
-            text += ", " + ast2->getName().mid(ast2->getName().indexOf(" ")+1);
-        }
-        text += ") ";
-    }
-    else {
-        text += "(Unassisted) ";
-    }
-    text += timeEventHappened;
-    sb.changeTopBarText(text);
+    sb.changeTopBarText(getGoalText(scorer,a1,a2,false));
+}
+
+QString HockeyGame::getPenaltyText(int pIndex, QString penalty, bool home)
+{
+    HockeyTeam* team = home ? homeTeam: awayTeam;
+    return ((home ? getHomeTri() : getAwayTri()) + " PENALTY: " + team->getPlayer(pIndex)->getName() + " ("
+            + penalty +") " + timeEventHappened);
 }
 
 void HockeyGame::prepareHomePenaltyText(int pIndex, QString penalty)
 {
-    sb.changeTopBarText( getHomeTri() + " PENALTY: " + homeTeam->getPlayer(pIndex)->getName() + " ("
-                         + penalty +") " + timeEventHappened );
+    sb.changeTopBarText(getPenaltyText(pIndex, penalty, true));
 }
 
 void HockeyGame::prepareAwayPenaltyText(int pIndex, QString penalty)
 {
-    sb.changeTopBarText( getAwayTri() + " PENALTY: " + awayTeam->getPlayer(pIndex)->getName() + " ("
-                         + penalty +") " + timeEventHappened );
+    sb.changeTopBarText(getPenaltyText(pIndex, penalty, false));
 }
 #ifdef GRADIENT_LOOK
 void HockeyGame::gatherPpStats()
@@ -547,6 +643,19 @@ void HockeyGame::prepareFaceoffComparison(int awayWins, int homeWins)
     prepareSameStatComp(stats, "FACEOFF WINS");
 }
 
+QPixmap HockeyGame::getFaceoffCompPreview(int awayWins, int homeWins)
+{
+    QList<QString> stats;
+    stats.append(QString::number(awayWins));
+    stats.append(QString::number(homeWins));
+    prepareSameStatComp(stats, "FACEOFF WINS", false);
+    QPixmap graphic(comparisonPreview.getWidth(), comparisonPreview.getHeight());
+    graphic.fill(QColor(0,0,0,0));
+    QPainter painter(&graphic);
+    comparisonPreview.paintPreview(&painter);
+    return graphic.scaled(comparisonPreview.getWidth()/2, comparisonPreview.getHeight()/2);
+}
+
 
 Scoreboard* HockeyGame::getSb()
 {
@@ -790,6 +899,16 @@ void HockeyGame::deleteExpiredPenalties()
     awayPlayersOnIce = 5 - awayPenalty.size();
 }
 
+ComparisonGraphic *HockeyGame::getComparisonPreview()
+{
+    return &comparisonPreview;
+}
+
+LowerThird *HockeyGame::getPreviewLt()
+{
+    return &previewLt;
+}
+
 ComparisonGraphic *HockeyGame::getComparisonGraphic() const
 {
     return comparisonGraphic;
@@ -1006,9 +1125,14 @@ HockeyGame::getLowestPpClock() {
     return awayPP;
 }
 
-void HockeyGame::prepareSameStatComp(QList<QString> stats, QString statName)
+void HockeyGame::prepareSameStatComp(QList<QString> stats, QString statName, bool goLive)
 {
-    comparisonGraphic->prepareStandardComp(getAwayTri(), getHomeTri(), stats, statName);
+    if (goLive) {
+        comparisonGraphic->prepareStandardComp(getAwayTri(), getHomeTri(), stats, statName);
+    }
+    else {
+        comparisonPreview.prepareStandardComp(getAwayTri(), getHomeTri(), stats, statName);
+    }
 }
 
 void HockeyGame::triggerNewPenalty()

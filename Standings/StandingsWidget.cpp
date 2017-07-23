@@ -91,5 +91,5 @@ void StandingsWidget::compileStandings()
         standings.append(temp);
     }
     emit shareStandings(standings);
-    this->hide();
+    //this->hide();
 }

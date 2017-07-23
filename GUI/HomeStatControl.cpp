@@ -1,7 +1,9 @@
 #include "HomeStatControl.h"
 #include <QHBoxLayout>
 
-HomeStatControl::HomeStatControl(HockeyGame* game, bool phome) : home(phome) {
+
+
+HomeStatControl::HomeStatControl(HockeyGame* game, bool phome, bool standAlone) : home(phome) {
     playerSelector.addItems( home ? game->getHomeTeam()->getGuiNames() :
                                     game->getAwayTeam()->getGuiNames());
     seasonLt.setText("Season Lower Third");
@@ -9,12 +11,7 @@ HomeStatControl::HomeStatControl(HockeyGame* game, bool phome) : home(phome) {
     seasonBar.setText("Season Stat Bar");
     gameBar.setText("Game Stat Bar");
 
-    QHBoxLayout* main = new QHBoxLayout();
-    main->addWidget(&playerSelector);
-    main->addWidget(&seasonLt);
-    main->addWidget(&seasonBar);
-    main->addWidget(&gameLt);
-    main->addWidget(&gameBar);
+    QHBoxLayout* myLayout = getFullLayout();
 
     connect(&seasonLt, SIGNAL(clicked()), this, SLOT(requestSeasonLt()));
     connect(this, SIGNAL(requestSeasonLt(int, bool)), game, SLOT(gatherSeasonStatsLt(int, bool)));
@@ -27,8 +24,41 @@ HomeStatControl::HomeStatControl(HockeyGame* game, bool phome) : home(phome) {
 
     connect(&gameBar, SIGNAL(clicked()), this, SLOT(requestGameSb()));
     connect(this, SIGNAL(requestGameSb(int, bool)), game, SLOT(gatherGameStatsSb(int, bool)));
+    if (standAlone) {
+        setLayout(getFullLayout());
+    }
+}
 
-    setLayout(main);
+QHBoxLayout * HomeStatControl::getFullLayout()
+{
+    QHBoxLayout* myLayout = new QHBoxLayout();
+    myLayout->addWidget(&playerSelector);
+    myLayout->addWidget(&seasonLt);
+    myLayout->addWidget(&seasonBar);
+    myLayout->addWidget(&gameLt);
+    myLayout->addWidget(&gameBar);
+
+    return myLayout;
+}
+
+QHBoxLayout *HomeStatControl::getPopLayout()
+{
+    QHBoxLayout* myLayout = new QHBoxLayout();
+    myLayout->addWidget(&playerSelector);
+    myLayout->addWidget(&seasonBar);
+    myLayout->addWidget(&gameBar);
+
+    return myLayout;
+}
+
+QHBoxLayout *HomeStatControl::getLowerThirdLayout()
+{
+    QHBoxLayout* myLayout = new QHBoxLayout();
+    myLayout->addWidget(&playerSelector);
+    myLayout->addWidget(&seasonLt);
+    myLayout->addWidget(&gameLt);
+
+    return myLayout;
 }
 
 void HomeStatControl::requestSeasonLt()

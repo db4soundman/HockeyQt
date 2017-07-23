@@ -12,10 +12,11 @@
 #define NAME_WIDTH 460
 #define BOX_HEIGHT 38
 
-ComparisonGraphic::ComparisonGraphic(QColor awayColor, QColor homeColor, QPixmap pawayLogo):
+ComparisonGraphic::ComparisonGraphic(QColor awayColor, QColor homeColor, QPixmap pawayLogo, bool preview):
     awayTeamMain(awayColor), homeTeamMain(homeColor), statFont("Arial", 22, QFont::Bold),
     nameFont("Arial", 28, QFont::Bold), labelFont("Arial", 18, QFont::Bold)
 {
+    this->preview = preview;
     show = false;
     statHeader = "";
     setRect(0,0,800,BOX_HEIGHT*3);
@@ -76,6 +77,42 @@ void ComparisonGraphic::paint(QPainter *painter, const QStyleOptionGraphicsItem 
     }
 }
 
+void ComparisonGraphic::paintPreview(QPainter *painter)
+{
+    if (!statHeader.trimmed().isEmpty()) {
+        painter->setFont(statFont);
+        QFontMetrics fontSize(statFont);
+        painter->fillRect(0, BOX_HEIGHT-24, fontSize.width(statHeader) + 10, 24, statHeaderGradient );
+        painter->setPen(QColor(1,1,1));
+        painter->drawText(0, BOX_HEIGHT-24,fontSize.width(statHeader) + 10, 24, Qt::AlignCenter, statHeader);
+    }
+   painter->fillRect(0, BOX_HEIGHT, statistics.size() > 2 ? 800 : 600, BOX_HEIGHT * 2, bgGradient);
+   painter->fillRect(55, BOX_HEIGHT, statistics.size() > 2 ? 740 : 540, BOX_HEIGHT, topGradient);
+   painter->fillRect(55, BOX_HEIGHT * 2, statistics.size() > 2 ? 740 : 540, BOX_HEIGHT, bottomGradient);
+   painter->drawPixmap(1 + topOffset ?  awayLogoXOffset : 0, BOX_HEIGHT + (topOffset ? awayLogoYOffset : 0),*topLogo);
+   painter->drawPixmap(1 + botOffset ? awayLogoXOffset : 0, BOX_HEIGHT*2 +( botOffset ? awayLogoYOffset : 0),*bottomLogo);
+   painter->setFont(nameFont);
+   painter->setPen(QColor(255, 255, 255));
+   painter->drawText(100, BOX_HEIGHT, 400, BOX_HEIGHT, Qt::AlignVCenter, awayLabel);
+   painter->drawText(400, BOX_HEIGHT, 200, BOX_HEIGHT, Qt::AlignVCenter, statistics.at(0));
+   painter->drawText(100, BOX_HEIGHT*2, 400, BOX_HEIGHT, Qt::AlignVCenter, homeLabel);
+   painter->drawText(400, BOX_HEIGHT*2, 200, BOX_HEIGHT, Qt::AlignVCenter, statistics.at(1));
+   if (statistics.size() > 2) {
+       painter->drawText(600, BOX_HEIGHT, 200 ,BOX_HEIGHT, Qt::AlignVCenter, statistics.at(2));
+       painter->drawText(600, BOX_HEIGHT*2, 200 ,BOX_HEIGHT, Qt::AlignVCenter, statistics.at(3));
+   }
+}
+
+int ComparisonGraphic::getWidth()
+{
+    return rect().width();
+}
+
+int ComparisonGraphic::getHeight()
+{
+    return rect().height();
+}
+
 void ComparisonGraphic::hideComparison()
 {
     if (show) {
@@ -133,7 +170,7 @@ void ComparisonGraphic::prepareComp(QString topLabel, QString botLabel, QList<QS
     }
 
 
-    showComparison();
+    if (!preview) showComparison();
 }
 
 void ComparisonGraphic::prepareStandardComp( QString awayLabel,QString homeLabel, QList<QString> stats, QString pstatHeader)

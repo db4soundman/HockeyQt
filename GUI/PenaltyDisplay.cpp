@@ -1,10 +1,10 @@
 #include "PenaltyDisplay.h"
 #include <QFile>
 #include <QTextStream>
-#include <QHBoxLayout>
 #include "MiamiAllAccessHockey.h"
 
-PenaltyDisplay::PenaltyDisplay(HockeyGame* game, bool homeTeam) {
+
+PenaltyDisplay::PenaltyDisplay(HockeyGame* game, bool homeTeam, bool standAlone) {
     playerSelector.addItems(homeTeam ? game->getHomeTeam()->getGuiNames() :
                                        game->getAwayTeam()->getGuiNames());
 
@@ -17,11 +17,6 @@ PenaltyDisplay::PenaltyDisplay(HockeyGame* game, bool homeTeam) {
 
     show.setText("Show Penalty Text");
 
-    QHBoxLayout* main = new QHBoxLayout();
-    main->addWidget(&playerSelector);
-    main->addWidget(&penaltySelector);
-    main->addWidget(&show);
-
     connect(&show, SIGNAL(clicked()), this, SLOT(prepareSignal()));
 
     if (homeTeam) {
@@ -33,11 +28,24 @@ PenaltyDisplay::PenaltyDisplay(HockeyGame* game, bool homeTeam) {
                 game, SLOT(prepareAwayPenaltyText(int,QString)));
     }
 
-    setLayout(main);
+    if (standAlone) {
+        setLayout(createLayout());
+    }
 
 }
 
 void PenaltyDisplay::prepareSignal()
 {
     emit callForPenaltyText(playerSelector.currentIndex(), penaltySelector.currentText());
+}
+
+
+QHBoxLayout* PenaltyDisplay::createLayout()
+{
+    QHBoxLayout* myLayout = new QHBoxLayout();
+    myLayout->addWidget(&playerSelector);
+    myLayout->addWidget(&penaltySelector);
+    myLayout->addWidget(&show);
+
+    return myLayout;
 }

@@ -2,7 +2,7 @@
 #include <QGridLayout>
 
 PowerPlayUpdaters::PowerPlayUpdaters(HockeyGame* game) {
-    QGridLayout* main = new QGridLayout();
+    QGridLayout* myLayout = new QGridLayout();
     awayLabel.setText(game->getAwayTri() + " Power Play");
     homeLabel.setText(game->getHomeTri() + " Power Play");
     awayGoal.setText("GOAL");
@@ -11,13 +11,13 @@ PowerPlayUpdaters::PowerPlayUpdaters(HockeyGame* game) {
     homeFail.setText("FAIL");
     show.setText("Show Comparison");
 
-    main->addWidget(&awayLabel, 0, 0);
-    main->addWidget(&homeLabel, 0, 1);
-    main->addWidget(&awayGoal, 1, 0);
-    main->addWidget(&homeGoal, 1, 1);
-    main->addWidget(&awayFail, 2, 0);
-    main->addWidget(&homeFail, 2, 1);
-    main->addWidget(&show, 3,0,1,2);
+    myLayout->addWidget(&awayLabel, 0, 0);
+    myLayout->addWidget(&homeLabel, 0, 1);
+    myLayout->addWidget(&awayGoal, 1, 0);
+    myLayout->addWidget(&homeGoal, 1, 1);
+    myLayout->addWidget(&awayFail, 2, 0);
+    myLayout->addWidget(&homeFail, 2, 1);
+    myLayout->addWidget(&show, 3,0,1,2);
 
     connect(&awayGoal, SIGNAL(clicked()), game->getAwayTeam(), SLOT(addPpg()));
     connect(&awayGoal, SIGNAL(clicked()), game->getHomeTeam(), SLOT(addPkFail()));
@@ -31,7 +31,7 @@ PowerPlayUpdaters::PowerPlayUpdaters(HockeyGame* game) {
 
     connect(&show, SIGNAL(clicked()), game, SLOT(gatherPpStats()));
 
-    main->setHorizontalSpacing(3);
-    main->setVerticalSpacing(0);
-    setLayout(main);
+    myLayout->setHorizontalSpacing(3);
+    myLayout->setVerticalSpacing(0);
+    setLayout(myLayout);
 }

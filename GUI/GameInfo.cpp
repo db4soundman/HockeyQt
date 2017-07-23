@@ -2,20 +2,20 @@
 #include <QGridLayout>
 
 GameInfo::GameInfo(HockeyGame* game) {
-    QGridLayout* main = new QGridLayout();
+    QGridLayout* myLayout = new QGridLayout();
     awayTeamName.setText(game->getAwayTri());
-    main->addWidget(&awayTeamName, 0, 0);
+    myLayout->addWidget(&awayTeamName, 0, 0);
     homeTeamName.setText(game->getHomeTri());
-    main->addWidget(&homeTeamName, 1, 0);
+    myLayout->addWidget(&homeTeamName, 1, 0);
     awayTeamScore.setText("0");
-    main->addWidget(&awayTeamScore, 0, 1);
+    myLayout->addWidget(&awayTeamScore, 0, 1);
     homeTeamScore.setText("0");
-    main->addWidget(&homeTeamScore, 1, 1);
+    myLayout->addWidget(&homeTeamScore, 1, 1);
     pd.setText("Pd: 0");
-    main->addWidget(&pd, 2, 0);
+    myLayout->addWidget(&pd, 2, 0);
     clock = game->getGameClock();
     time.setText(clock->toString());
-    main->addWidget(&time, 2, 1);
+    myLayout->addWidget(&time, 2, 1);
     useClock = true;
     connect(clock, SIGNAL(clockUpdated()), this, SLOT(updateTime()));
     connect(game, SIGNAL(awayScoreChanged(int)), this, SLOT(updateAwayScore(int)));
@@ -23,7 +23,7 @@ GameInfo::GameInfo(HockeyGame* game) {
     connect(game, SIGNAL(periodChanged(int)), this, SLOT(updatePeriod(int)));
     connect(game, SIGNAL(clockInUse(bool)), this, SLOT(changeUseClock(bool)));
 
-    setLayout(main);
+    setLayout(myLayout);
 }
 
 void

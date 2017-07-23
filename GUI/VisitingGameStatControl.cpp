@@ -6,10 +6,10 @@ VisitingGameStatControl::VisitingGameStatControl(HockeyGame* game) {
     displayLt.setText("Show as Lower Third");
     displayBar.setText("Show on Stat Bar");
 
-    QHBoxLayout* main = new QHBoxLayout();
-    main->addWidget(&playerSelector);
-    main->addWidget(&displayLt);
-    main->addWidget(&displayBar);
+    QHBoxLayout* myLayout = new QHBoxLayout();
+    myLayout->addWidget(&playerSelector);
+    myLayout->addWidget(&displayLt);
+    myLayout->addWidget(&displayBar);
 
     connect(&displayLt, SIGNAL(clicked()), this, SLOT(requestLt()));
     connect(&displayBar, SIGNAL(clicked()), this, SLOT(requestSb()));
@@ -17,7 +17,7 @@ VisitingGameStatControl::VisitingGameStatControl(HockeyGame* game) {
     connect(this, SIGNAL(requestLt(int)), game, SLOT(gatherStatsLt(int,bool)));
     connect(this, SIGNAL(requestSb(int)), game, SLOT(gatherGameStatsSb(int,bool)));
 
-    setLayout(main);
+    setLayout(myLayout);
 }
 
 void VisitingGameStatControl::requestLt()

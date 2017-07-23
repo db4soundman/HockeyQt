@@ -19,7 +19,7 @@ LowerThird::LowerThird(QColor awayColor, QColor homeColor, int screenWidth, QPix
     #endif
     fontPointSize = nameFont.pointSize();
     //setPixmap(QPixmap(":/images/LowerThird.png"));
-    setRect(0,0,1000, BOX_HEIGHT*3);
+    setRect(0,0,1000, BOX_HEIGHT*2);
     statFontPointSize = statFont.pointSize();
     gradient.setStart(0, 0);
     gradient.setFinalStop(0, BOX_HEIGHT*3);
@@ -82,10 +82,47 @@ LowerThird::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     }
 }
 
+void LowerThird::paintPreview(QPainter *painter)
+{
+    painter->fillRect(0, 0, 1000, BOX_HEIGHT*2, statGradient);
+
+
+    painter->setFont(nameFont);
+    painter->setPen(QColor(255,255,255));
+    painter->fillRect(0,0,NAME_WIDTH, BOX_HEIGHT*2, gradient);
+    painter->drawText(60, 0, NAME_WIDTH, BOX_HEIGHT, Qt::AlignVCenter, firstName);
+    painter->drawText(60, BOX_HEIGHT, NAME_WIDTH, BOX_HEIGHT, Qt::AlignVCenter, lastName);
+    painter->setFont(labelFont);
+    painter->drawText(0, 0, 60, BOX_HEIGHT, Qt::AlignCenter, number);
+    painter->drawText(0, BOX_HEIGHT, 60, BOX_HEIGHT, Qt::AlignCenter, year);
+
+
+    int rectWidth = (1000 - NAME_WIDTH)/statistics.size();
+
+    painter->setPen(QColor(255, 255, 255));
+    // Stat numbers
+    for (int i = 0; i< statistics.size(); i++) {
+        painter->setFont(statFont);
+        painter->drawText(rectWidth * i + NAME_WIDTH, BOX_HEIGHT, rectWidth, BOX_HEIGHT, Qt::AlignHCenter | Qt::AlignBottom, statistics.at(i));
+        painter->setFont(labelFont);
+        painter->drawText(rectWidth * i + NAME_WIDTH, 0, rectWidth, BOX_HEIGHT, Qt::AlignHCenter | Qt::AlignTop, statNames.size() > i ? statNames.at(i) : " ");
+    }
+}
+
+int LowerThird::getWidth()
+{
+    return rect().width();
+}
+
+int LowerThird::getHeight()
+{
+    return rect().height();
+}
+
 void
 LowerThird::prepareForDisplay(QString name, QString number, QString year,
                               QList<QString> statLabels,
-                              QList<QString> statValues, bool homeTeam) {
+                              QList<QString> statValues, bool homeTeam, bool goLive) {
     this->name = name;
     if (name.contains(" ")) {
         firstName = name.left(name.indexOf(" "));
@@ -106,12 +143,12 @@ LowerThird::prepareForDisplay(QString name, QString number, QString year,
     // To ensure font size is returned to normal in the event that
     // a custom text LT was used.
     statFont.setPointSize(statFontPointSize);
-    showLt();
+    if (goLive) showLt();
 }
 
 void LowerThird::prepareForCustomLt(QString name, QString number, QString year,
                                     QList<QString> statLabels,
-                                    QList<QString> statValues, bool homeTeam)
+                                    QList<QString> statValues, bool homeTeam, bool goLive)
 {
     statFont.setPointSize(statFontPointSize);
     this->name = name;
@@ -134,7 +171,7 @@ void LowerThird::prepareForCustomLt(QString name, QString number, QString year,
     QFontMetrics fontSize(statFont);
     if (fontSize.width(statistics[0]) > this->rect().width() - NAME_WIDTH)
         adjustFont();
-    showLt();
+    if (goLive) showLt();
 }
 void LowerThird::prepareColors() {
     int red, green, blue;

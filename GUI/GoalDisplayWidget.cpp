@@ -1,7 +1,7 @@
 #include "GoalDisplayWidget.h"
-#include <QGridLayout>
 
-GoalDisplayWidget::GoalDisplayWidget(HockeyGame* game, bool homeTeam) {
+
+GoalDisplayWidget::GoalDisplayWidget(HockeyGame* game, bool homeTeam, bool standAlone) {
     scorer.addItems( homeTeam ? game->getHomeTeam()->getGuiNames() :
                                 game->getAwayTeam()->getGuiNames());
     assist1.addItems( homeTeam ? game->getHomeTeam()->getGuiNames() :
@@ -15,14 +15,11 @@ GoalDisplayWidget::GoalDisplayWidget(HockeyGame* game, bool homeTeam) {
     secondAssister.setText("Assist 2:");
     assist1.addItem("UNASSISTED");
     assist2.addItem("UNASSISTED");
-    QGridLayout* main = new QGridLayout();
-    main->addWidget(&shooter, 0, 0);
-    main->addWidget(&firstAssister,0,1);
-    main->addWidget(&secondAssister,0,2);
-    main->addWidget(&scorer, 1,0);
-    main->addWidget(&assist1, 1,1);
-    main->addWidget(&assist2, 1, 2);
-    main->addWidget(&show, 2, 0, 1, 3);
+
+    if (standAlone) {
+        setLayout(createLayout());
+    }
+
 
     connect(&show, SIGNAL(clicked()), this, SLOT(prepareToSendSignal()));
     if (homeTeam)
@@ -31,7 +28,19 @@ GoalDisplayWidget::GoalDisplayWidget(HockeyGame* game, bool homeTeam) {
     else
         connect(this, SIGNAL(showGoalText(int,int,int)),
                 game, SLOT(prepareAwayGoalText(int,int,int)));
-    setLayout(main);
+}
+
+QGridLayout* GoalDisplayWidget::createLayout()
+{
+    QGridLayout* myLayout = new QGridLayout();
+    myLayout->addWidget(&shooter, 0, 0);
+    myLayout->addWidget(&firstAssister,0,1);
+    myLayout->addWidget(&secondAssister,0,2);
+    myLayout->addWidget(&scorer, 1,0);
+    myLayout->addWidget(&assist1, 1,1);
+    myLayout->addWidget(&assist2, 1, 2);
+    myLayout->addWidget(&show, 2, 0, 1, 3);
+    return myLayout;
 }
 
 void GoalDisplayWidget::prepareToSendSignal()
