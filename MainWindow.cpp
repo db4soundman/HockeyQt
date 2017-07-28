@@ -18,7 +18,8 @@ MainWindow::MainWindow(HockeyGame* game, StandingsGraphic* graphic, CommercialGr
       ltCreator(game->getLt()), compCreator(game), customLts(game->getLt(), game->getPreviewLt()),
       homePops(game,true), awayPops(game, false), homeLts(game, true),awayLts(game,false),
       sogUi(game), faceoffUi(game), customCompUi(game), clockControls(game, comGraphic, true),
-      displayControls(game,graphic,comGraphic,confSbGraphic,scheduleGraphic,comparisonGraphic)
+      displayControls(game,graphic,comGraphic,confSbGraphic,scheduleGraphic,comparisonGraphic),
+      goalies(game), ppCompUi(game)
 
 {
     createAlternateContent();
@@ -52,6 +53,8 @@ MainWindow::MainWindow(HockeyGame* game, StandingsGraphic* graphic, CommercialGr
     topDock.setFeatures(0);
     topDock.setWidget(&displayControls);
     addDockWidget(Qt::TopDockWidgetArea, &topDock);
+
+
     //treeView.setEnabled(false);
 
 }
@@ -137,10 +140,12 @@ void MainWindow::createAlternateContent()
     alternateContent.addWidget(&customLts);
     alternateContent.addWidget(&faceoffUi);
     alternateContent.addWidget(&sogUi);
+    alternateContent.addWidget(&ppCompUi);
     alternateContent.addWidget(&customCompUi);
     alternateContent.addWidget(&nchcGui);
     alternateContent.addWidget(&standingsPanel);
     alternateContent.addWidget(&scheduleGui);
+
 
     int x = 0;
     modelMap.insert("Away Pops", x++);
@@ -150,6 +155,7 @@ void MainWindow::createAlternateContent()
     modelMap.insert("Custom LTs", x++);
     modelMap.insert("Faceoff", x++);
     modelMap.insert("Shots On Goal", x++);
+    modelMap.insert("Power play", x++);
     modelMap.insert("Custom", x++);
     modelMap.insert("NCHC Scoreboard", x++);
     modelMap.insert("NCHC Standings", x++);

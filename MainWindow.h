@@ -31,6 +31,8 @@
 #include "CustomCompUI.h"
 #include "ClockControls.h"
 #include "DisplayControls.h"
+#include "PpCompUI.h"
+#include "Goalies.h"
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
@@ -64,8 +66,10 @@ private:
     FaceoffUI faceoffUi;
     CustomCompUI customCompUi;
     ClockControls clockControls;
+    Goalies goalies;
+    PpCompUI ppCompUi;
 
-    QDockWidget leftDock, rightDock, topDock;
+    QDockWidget leftDock, rightDock, topDock, bottomDock;
     DisplayControls displayControls;
 
     void makeMenu(HockeyGame* game, SerialConsole *console, CommercialGraphic *comGraphic);

@@ -5,13 +5,16 @@
 #include "HockeyGame.h"
 #include <QPushButton>
 #include <QLabel>
+#include <QGridLayout>
 
 class PowerPlayUpdaters : public QWidget {
     Q_OBJECT
 public:
-    PowerPlayUpdaters(HockeyGame* game);
+    PowerPlayUpdaters(HockeyGame* game, bool standAlone=true);
 
-private:
+    QGridLayout * getLayout();
+
+protected:
     QPushButton awayGoal, awayFail, homeGoal, homeFail, show;
     QLabel awayLabel, homeLabel;
 };
