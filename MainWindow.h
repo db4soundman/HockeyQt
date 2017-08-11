@@ -33,6 +33,7 @@
 #include "DisplayControls.h"
 #include "PpCompUI.h"
 #include "Goalies.h"
+#include "gamestateui.h"
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
@@ -71,6 +72,7 @@ private:
 
     QDockWidget leftDock, rightDock, topDock, bottomDock;
     DisplayControls displayControls;
+    GameStateUI gameStateUi;
 
     void makeMenu(HockeyGame* game, SerialConsole *console, CommercialGraphic *comGraphic);
 

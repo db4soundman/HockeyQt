@@ -19,7 +19,7 @@ MainWindow::MainWindow(HockeyGame* game, StandingsGraphic* graphic, CommercialGr
       homePops(game,true), awayPops(game, false), homeLts(game, true),awayLts(game,false),
       sogUi(game), faceoffUi(game), customCompUi(game), clockControls(game, comGraphic, true),
       displayControls(game,graphic,comGraphic,confSbGraphic,scheduleGraphic,comparisonGraphic),
-      goalies(game), ppCompUi(game)
+      goalies(game), ppCompUi(game), gameStateUi(game)
 
 {
     createAlternateContent();
@@ -133,6 +133,7 @@ void MainWindow::makeMenu(HockeyGame* game, SerialConsole* console, CommercialGr
 
 void MainWindow::createAlternateContent()
 {
+    alternateContent.addWidget(&gameStateUi);
     alternateContent.addWidget(&awayPops);
     alternateContent.addWidget(&homePops);
     alternateContent.addWidget(&awayLts);
@@ -148,6 +149,7 @@ void MainWindow::createAlternateContent()
 
 
     int x = 0;
+    modelMap.insert("Game State", x++);
     modelMap.insert("Away Pops", x++);
     modelMap.insert("Home Pops", x++);
     modelMap.insert("Away LTs", x++);

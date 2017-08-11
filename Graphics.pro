@@ -89,7 +89,8 @@ SOURCES += main.cpp\
     GUI2/SogUI.cpp \
     GUI2/FaceoffUI.cpp \
     GUI2/CustomCompUI.cpp \
-    GUI2/PpCompUI.cpp
+    GUI2/PpCompUI.cpp \
+    GUI2/gamestateui.cpp
 
 HEADERS  += MainWindow.h \
     Scoreboard.h \
@@ -158,7 +159,8 @@ HEADERS  += MainWindow.h \
     GUI2/SogUI.h \
     GUI2/FaceoffUI.h \
     GUI2/CustomCompUI.h \
-    GUI2/PpCompUI.h
+    GUI2/PpCompUI.h \
+    GUI2/gamestateui.h
 
 
 RESOURCES += \
