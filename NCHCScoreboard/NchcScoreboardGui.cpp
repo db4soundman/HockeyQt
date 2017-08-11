@@ -17,7 +17,7 @@ NchcScoreboardGui::NchcScoreboardGui(NchcScoreboardGraphic* grph) {
     QVBoxLayout* saturday = new QVBoxLayout();
     fridayHeader.setText("Friday's Games");
     saturdayHeader.setText("Saturday's Games");
-    for (int i = 0; i < 6; i++) {
+    for (int i = 0; i < 4; i++) {
         NchcGameGui* fri = new NchcGameGui();
         NchcGameGui* sat = new NchcGameGui();
         connect(fri, SIGNAL(awayNameUpdated(QString)),
