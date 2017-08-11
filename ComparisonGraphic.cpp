@@ -60,10 +60,10 @@ void ComparisonGraphic::paint(QPainter *painter, const QStyleOptionGraphicsItem 
             painter->drawText(0, BOX_HEIGHT-24,fontSize.width(statHeader) + 10, 24, Qt::AlignCenter, statHeader);
         }
        painter->fillRect(0, BOX_HEIGHT, statistics.size() > 2 ? 800 : 600, BOX_HEIGHT * 2, bgGradient);
-       painter->fillRect(55, BOX_HEIGHT, statistics.size() > 2 ? 740 : 540, BOX_HEIGHT, topGradient);
-       painter->fillRect(55, BOX_HEIGHT * 2, statistics.size() > 2 ? 740 : 540, BOX_HEIGHT, bottomGradient);
-       painter->drawPixmap(1 + (topOffset ?  awayLogoXOffset : 0), BOX_HEIGHT + (topOffset ? awayLogoYOffset : 0),topOffset ? *awayLogo:*homeLogo);
-       painter->drawPixmap(1 + (botOffset ? awayLogoXOffset : 0), BOX_HEIGHT*2 +( botOffset ? awayLogoYOffset : 0),botOffset ? *awayLogo:*homeLogo);
+       painter->fillRect(5, BOX_HEIGHT, statistics.size() > 2 ? 790 : 590, BOX_HEIGHT, topGradient);
+       painter->fillRect(5, BOX_HEIGHT * 2, statistics.size() > 2 ? 790 : 590, BOX_HEIGHT, bottomGradient);
+       painter->drawPixmap(5 + (topOffset ?  awayLogoXOffset : 0), BOX_HEIGHT + (topOffset ? awayLogoYOffset : 0),topOffset ? *awayLogo:*homeLogo);
+       painter->drawPixmap(5 + (botOffset ? awayLogoXOffset : 0), BOX_HEIGHT*2 +( botOffset ? awayLogoYOffset : 0),botOffset ? *awayLogo:*homeLogo);
        painter->setFont(nameFont);
        painter->setPen(QColor(255, 255, 255));
        painter->drawText(100, BOX_HEIGHT, 400, BOX_HEIGHT, Qt::AlignVCenter, awayLabel);
@@ -87,10 +87,10 @@ void ComparisonGraphic::paintPreview(QPainter *painter)
         painter->drawText(0, BOX_HEIGHT-24,fontSize.width(statHeader) + 10, 24, Qt::AlignCenter, statHeader);
     }
    painter->fillRect(0, BOX_HEIGHT, statistics.size() > 2 ? 800 : 600, BOX_HEIGHT * 2, bgGradient);
-   painter->fillRect(55, BOX_HEIGHT, statistics.size() > 2 ? 740 : 540, BOX_HEIGHT, topGradient);
-   painter->fillRect(55, BOX_HEIGHT * 2, statistics.size() > 2 ? 740 : 540, BOX_HEIGHT, bottomGradient);
-   painter->drawPixmap(1 + (topOffset ?  awayLogoXOffset : 0), BOX_HEIGHT + (topOffset ? awayLogoYOffset : 0),topOffset ? *awayLogo:*homeLogo);
-   painter->drawPixmap(1 + (botOffset ? awayLogoXOffset : 0), BOX_HEIGHT*2 +( botOffset ? awayLogoYOffset : 0),botOffset ? *awayLogo:*homeLogo);
+   painter->fillRect(5, BOX_HEIGHT, statistics.size() > 2 ? 790 : 590, BOX_HEIGHT, topGradient);
+   painter->fillRect(5, BOX_HEIGHT * 2, statistics.size() > 2 ? 790 : 590, BOX_HEIGHT, bottomGradient);
+   painter->drawPixmap(5 + (topOffset ?  awayLogoXOffset : 0), BOX_HEIGHT + (topOffset ? awayLogoYOffset : 0),topOffset ? *awayLogo:*homeLogo);
+   painter->drawPixmap(5 + (botOffset ? awayLogoXOffset : 0), BOX_HEIGHT*2 +( botOffset ? awayLogoYOffset : 0),botOffset ? *awayLogo:*homeLogo);
    painter->setFont(nameFont);
    painter->setPen(QColor(255, 255, 255));
    painter->drawText(100, BOX_HEIGHT, 400, BOX_HEIGHT, Qt::AlignVCenter, awayLabel);
