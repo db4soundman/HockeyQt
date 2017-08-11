@@ -52,28 +52,28 @@ void ComparisonGraphic::paint(QPainter *painter, const QStyleOptionGraphicsItem 
     Q_UNUSED(option);
     Q_UNUSED(widget);
     if (show) {
-            if (!statHeader.trimmed().isEmpty()) {
-                painter->setFont(statFont);
-                QFontMetrics fontSize(statFont);
-                painter->fillRect(0, BOX_HEIGHT-24, fontSize.width(statHeader) + 10, 24, statHeaderGradient );
-                painter->setPen(QColor(1,1,1));
-                painter->drawText(0, BOX_HEIGHT-24,fontSize.width(statHeader) + 10, 24, Qt::AlignCenter, statHeader);
-            }
-           painter->fillRect(0, BOX_HEIGHT, statistics.size() > 2 ? 800 : 600, BOX_HEIGHT * 2, bgGradient);
-           painter->fillRect(55, BOX_HEIGHT, statistics.size() > 2 ? 740 : 540, BOX_HEIGHT, topGradient);
-           painter->fillRect(55, BOX_HEIGHT * 2, statistics.size() > 2 ? 740 : 540, BOX_HEIGHT, bottomGradient);
-           painter->drawPixmap(1 + topOffset ?  awayLogoXOffset : 0, BOX_HEIGHT + (topOffset ? awayLogoYOffset : 0),*topLogo);
-           painter->drawPixmap(1 + botOffset ? awayLogoXOffset : 0, BOX_HEIGHT*2 +( botOffset ? awayLogoYOffset : 0),*bottomLogo);
-           painter->setFont(nameFont);
-           painter->setPen(QColor(255, 255, 255));
-           painter->drawText(100, BOX_HEIGHT, 400, BOX_HEIGHT, Qt::AlignVCenter, awayLabel);
-           painter->drawText(400, BOX_HEIGHT, 200, BOX_HEIGHT, Qt::AlignVCenter, statistics.at(0));
-           painter->drawText(100, BOX_HEIGHT*2, 400, BOX_HEIGHT, Qt::AlignVCenter, homeLabel);
-           painter->drawText(400, BOX_HEIGHT*2, 200, BOX_HEIGHT, Qt::AlignVCenter, statistics.at(1));
-           if (statistics.size() > 2) {
-               painter->drawText(600, BOX_HEIGHT, 200 ,BOX_HEIGHT, Qt::AlignVCenter, statistics.at(2));
-               painter->drawText(600, BOX_HEIGHT*2, 200 ,BOX_HEIGHT, Qt::AlignVCenter, statistics.at(3));
-           }
+        if (!statHeader.trimmed().isEmpty()) {
+            painter->setFont(statFont);
+            QFontMetrics fontSize(statFont);
+            painter->fillRect(0, BOX_HEIGHT-24, fontSize.width(statHeader) + 10, 24, statHeaderGradient );
+            painter->setPen(QColor(1,1,1));
+            painter->drawText(0, BOX_HEIGHT-24,fontSize.width(statHeader) + 10, 24, Qt::AlignCenter, statHeader);
+        }
+       painter->fillRect(0, BOX_HEIGHT, statistics.size() > 2 ? 800 : 600, BOX_HEIGHT * 2, bgGradient);
+       painter->fillRect(55, BOX_HEIGHT, statistics.size() > 2 ? 740 : 540, BOX_HEIGHT, topGradient);
+       painter->fillRect(55, BOX_HEIGHT * 2, statistics.size() > 2 ? 740 : 540, BOX_HEIGHT, bottomGradient);
+       painter->drawPixmap(1 + (topOffset ?  awayLogoXOffset : 0), BOX_HEIGHT + (topOffset ? awayLogoYOffset : 0),topOffset ? *awayLogo:*homeLogo);
+       painter->drawPixmap(1 + (botOffset ? awayLogoXOffset : 0), BOX_HEIGHT*2 +( botOffset ? awayLogoYOffset : 0),botOffset ? *awayLogo:*homeLogo);
+       painter->setFont(nameFont);
+       painter->setPen(QColor(255, 255, 255));
+       painter->drawText(100, BOX_HEIGHT, 400, BOX_HEIGHT, Qt::AlignVCenter, awayLabel);
+       painter->drawText(400, BOX_HEIGHT, 200, BOX_HEIGHT, Qt::AlignVCenter, statistics.at(0));
+       painter->drawText(100, BOX_HEIGHT*2, 400, BOX_HEIGHT, Qt::AlignVCenter, homeLabel);
+       painter->drawText(400, BOX_HEIGHT*2, 200, BOX_HEIGHT, Qt::AlignVCenter, statistics.at(1));
+       if (statistics.size() > 2) {
+           painter->drawText(600, BOX_HEIGHT, 200 ,BOX_HEIGHT, Qt::AlignVCenter, statistics.at(2));
+           painter->drawText(600, BOX_HEIGHT*2, 200 ,BOX_HEIGHT, Qt::AlignVCenter, statistics.at(3));
+       }
     }
 }
 
@@ -89,8 +89,8 @@ void ComparisonGraphic::paintPreview(QPainter *painter)
    painter->fillRect(0, BOX_HEIGHT, statistics.size() > 2 ? 800 : 600, BOX_HEIGHT * 2, bgGradient);
    painter->fillRect(55, BOX_HEIGHT, statistics.size() > 2 ? 740 : 540, BOX_HEIGHT, topGradient);
    painter->fillRect(55, BOX_HEIGHT * 2, statistics.size() > 2 ? 740 : 540, BOX_HEIGHT, bottomGradient);
-   painter->drawPixmap(1 + topOffset ?  awayLogoXOffset : 0, BOX_HEIGHT + (topOffset ? awayLogoYOffset : 0),*topLogo);
-   painter->drawPixmap(1 + botOffset ? awayLogoXOffset : 0, BOX_HEIGHT*2 +( botOffset ? awayLogoYOffset : 0),*bottomLogo);
+   painter->drawPixmap(1 + (topOffset ?  awayLogoXOffset : 0), BOX_HEIGHT + (topOffset ? awayLogoYOffset : 0),topOffset ? *awayLogo:*homeLogo);
+   painter->drawPixmap(1 + (botOffset ? awayLogoXOffset : 0), BOX_HEIGHT*2 +( botOffset ? awayLogoYOffset : 0),botOffset ? *awayLogo:*homeLogo);
    painter->setFont(nameFont);
    painter->setPen(QColor(255, 255, 255));
    painter->drawText(100, BOX_HEIGHT, 400, BOX_HEIGHT, Qt::AlignVCenter, awayLabel);
@@ -148,24 +148,24 @@ void ComparisonGraphic::prepareComp(QString topLabel, QString botLabel, QList<QS
         topGradient.setColorAt(1, awayGradientEnd);
         bottomGradient.setColorAt(0, homeTeamMain);
         bottomGradient.setColorAt(1, homeGradientEnd);
-        topLogo = awayLogo;
-        bottomLogo = homeLogo;
+//        topLogo = awayLogo;
+//        bottomLogo = homeLogo;
         break;
     case 1:
         topGradient.setColorAt(0, awayTeamMain);
         topGradient.setColorAt(1, awayGradientEnd);
         bottomGradient.setColorAt(0, awayTeamMain);
         bottomGradient.setColorAt(1, awayGradientEnd);
-        topLogo = awayLogo;
-        bottomLogo = awayLogo;
+//        topLogo = awayLogo;
+//        bottomLogo = awayLogo;
         break;
     case 2:
         topGradient.setColorAt(0, homeTeamMain);
         topGradient.setColorAt(1, homeGradientEnd);
         bottomGradient.setColorAt(0, homeTeamMain);
         bottomGradient.setColorAt(1, homeGradientEnd);
-        topLogo = homeLogo;
-        bottomLogo = homeLogo;
+//        topLogo = homeLogo;
+//        bottomLogo = homeLogo;
         break;
     }
 

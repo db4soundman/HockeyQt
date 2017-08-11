@@ -40,7 +40,7 @@ private:
 
     QString homeName, awayName, homeLabel, awayLabel, homeStat, awayStat, statHeader;
 
-    QPixmap *homeLogo, *awayLogo, *topLogo, *bottomLogo;
+    QPixmap *homeLogo, *awayLogo;
 
     void prepareColors();
     void prepareFontSize();
