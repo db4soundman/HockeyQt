@@ -209,6 +209,7 @@ MiamiAllAccessHockey::exec() {
     controlPanel = new MainWindow(game, &standings, commercial, &nchcScoreboard, &scheduleGraphic, &con, comparisonGraphic);
     controlPanel->show();
     game->connectWithSerialHandler(&con);
+
     if (!usingTricaster)
         tv->showFullScreen();
     else {

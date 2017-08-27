@@ -8,7 +8,7 @@ class HockeyPlayer : public QObject {
 public:
     HockeyPlayer();
     HockeyPlayer(const HockeyPlayer& p);
-    //HockeyPlayer& operator = (const HockeyPlayer&);
+    HockeyPlayer& operator = (const HockeyPlayer& p);
 
     QString getName() const;
     void setName(const QString& value);

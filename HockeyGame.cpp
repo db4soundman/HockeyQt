@@ -507,11 +507,13 @@ void HockeyGame::connectWithSerialHandler(SerialConsole *console)
 {
     connect(console, SIGNAL(serialConnected()), this->getGameClock(), SLOT(usingSerialClock()));
     connect(console, SIGNAL(serialConnected()), this, SIGNAL(usingAllSport()));
+    connect(console, SIGNAL(serialConnected()), &sb, SLOT(usingAllSport()));
 
     connect(console, SIGNAL(dataReceived(QByteArray)), this, SLOT(parseAllSportCG(QByteArray)));
 
     connect(console, SIGNAL(serialDisconnected()), this->getGameClock(), SLOT(noLongerUsingSerialClock()));
     connect(console, SIGNAL(serialDisconnected()), this, SIGNAL(usingInternalClock()));
+    connect(console, SIGNAL(serialDisconnected()), &sb, SLOT(usingInternalClocks()));
     connect(console, SIGNAL(serialDisconnected()), &cgTimer, SLOT(stop()));
     serialConsole = console;
 }
@@ -540,7 +542,8 @@ void HockeyGame::parseAllSportCG(QByteArray data)
         int awayPlayer2 = data.mid(42,2).toInt(&penA2);
         QString awayPen2 = data.mid(44,5).trimmed();
 
-        int awayInTheBox, homeInTheBox = 0;
+        int awayInTheBox = 0;
+        int homeInTheBox = 0;
         QSet<int>awayTemp,homeTemp;
         bool penalty = false;
         if (penaltiesActive || (!penaltiesActive && stopped)) {

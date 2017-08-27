@@ -42,6 +42,8 @@ public:
                NchcScoreboardGraphic* confSbGraphic, ScheduleGraphic* scheduleGraphic, SerialConsole* serial, ComparisonGraphic* comparisonGraphic, QWidget *parent = 0);
     ~MainWindow();
 
+    void connectWithCG(SerialConsole* con);
+
 private slots:
     void changeScreen(QModelIndex index);
 

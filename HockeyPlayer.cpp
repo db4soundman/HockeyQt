@@ -6,8 +6,42 @@ HockeyPlayer::HockeyPlayer() {
 }
 
 HockeyPlayer::HockeyPlayer(const HockeyPlayer& p) {
-    goalsToday = assistsToday = ptsToday = penaltiesToday =
-            pimToday = gaToday = savesToday = shotsFacedToday = 0;
+    goalsToday = p.getGoalsToday();
+    assistsToday = p.getAssistsToday();
+    ptsToday = p.getPtsToday();
+    penaltiesToday = p.getPenaltiesToday();
+    pimToday = p.getPimToday();
+    gaToday = p.getGaToday();
+    savesToday = p.getSavesToday();
+    shotsFacedToday = p.getShotsFacedToday();
+    name = p.getName();
+    uni = p.getUni();
+    year = p.getYear();
+    plusMinus = p.getPlusMinus();
+    gaavg = p.getGaavg();
+    gp = p.getGp();
+    goals = p.getGoals();
+    assists = p.getAssists();
+    pts = p.getPts();
+    penalties = p.getPenalties();
+    pim = p.getPim();
+    ga = p.getGa();
+    saves = p.getSaves();
+    wins = p.getWins();
+    losses = p.getLosses();
+    shotsFaced = p.getShotsFaced();
+}
+
+HockeyPlayer &HockeyPlayer::operator =(const HockeyPlayer &p)
+{
+    goalsToday = p.getGoalsToday();
+    assistsToday = p.getAssistsToday();
+    ptsToday = p.getPtsToday();
+    penaltiesToday = p.getPenaltiesToday();
+    pimToday = p.getPimToday();
+    gaToday = p.getGaToday();
+    savesToday = p.getSavesToday();
+    shotsFacedToday = p.getShotsFacedToday();
 
     name = p.getName();
     uni = p.getUni();
@@ -25,6 +59,7 @@ HockeyPlayer::HockeyPlayer(const HockeyPlayer& p) {
     wins = p.getWins();
     losses = p.getLosses();
     shotsFaced = p.getShotsFaced();
+    return *this;
 }
 
 QString HockeyPlayer::getName() const {

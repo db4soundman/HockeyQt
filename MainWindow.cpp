@@ -25,6 +25,7 @@ MainWindow::MainWindow(HockeyGame* game, StandingsGraphic* graphic, CommercialGr
     createAlternateContent();
     mainContent.addWidget(&panel);
     setCentralWidget(&alternateContent);
+    connectWithCG(serial);
 
     makeMenu(game, serial, comGraphic);
     connect(&scheduleGui, SIGNAL(show(QList<ScheduleEntry>,bool)), scheduleGraphic, SLOT(receiveData(QList<ScheduleEntry>,bool)));
@@ -61,6 +62,11 @@ MainWindow::MainWindow(HockeyGame* game, StandingsGraphic* graphic, CommercialGr
 
 MainWindow::~MainWindow() {
 
+}
+
+void MainWindow::connectWithCG(SerialConsole *con)
+{
+    connect(con, SIGNAL(dataReceived(QByteArray)), &gameStateUi, SLOT(updateData(QByteArray)));
 }
 
 void MainWindow::changeScreen(QModelIndex index)

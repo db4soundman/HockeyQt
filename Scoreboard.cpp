@@ -116,7 +116,7 @@ Scoreboard::Scoreboard(QColor awayCol, QColor homeCol, QString awayTeam, QString
     }
 
     penalty = false;
-    showPP = false;
+    showPP = true;
     sponsor = true;
     showPdAndClockFields = true;
     showClock = true;

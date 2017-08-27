@@ -14,7 +14,7 @@ public:
     ~GameStateUI();
 
 public slots:
-    void updateData();
+    void updateData(QByteArray data);
 
 private:
     Goalies goalieUi;
