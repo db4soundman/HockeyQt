@@ -69,6 +69,11 @@ void MainWindow::connectWithCG(SerialConsole *con)
     connect(con, SIGNAL(dataReceived(QByteArray)), &gameStateUi, SLOT(updateData(QByteArray)));
 }
 
+void MainWindow::connectWithSerialSimulator(CGSimulator *console)
+{
+    connect(console, SIGNAL(dataReceived(QByteArray)), &gameStateUi, SLOT(updateData(QByteArray)));
+}
+
 void MainWindow::changeScreen(QModelIndex index)
 {
     if (modelMap.contains(model->data(index, Qt::DisplayRole).toString()))

@@ -13,6 +13,7 @@
 #include "SerialConsole.h"
 #include "ComparisonGraphic.h"
 #include <QSet>
+#include "CGSimulator.h"
 
 
 class HockeyGame : public QObject {
@@ -27,6 +28,7 @@ public:
     LowerThird* getLt();
 
     void connectWithSerialHandler(SerialConsole* console);
+    void connectWithSerialSimulator(CGSimulator* console);
 
     QString getSponsor() const;
     void setSponsor(const QString& value);

@@ -70,6 +70,23 @@ Clock::toStringPP() {
     return clock.toString("m:ss");
 }
 
+QString Clock::toStringDebug()
+{
+    if (useSerial) {
+        return serial.minute() > 0 ? serial.toString("m:ss") :
+                                     serial.toString("ss.z").left(4);
+    }
+    else {
+        if (getTimeLeft() > 0) {
+            QTime clock(0, minutes, seconds, tenths);
+            if (minutes > 0)
+                return clock.toString("m:ss");
+            else
+                return clock.toString("s.z");
+        } else return "";
+    }
+}
+
 QString Clock::getTimeSincePdStarted()
 {
     QTime clock(0, minutes, seconds);

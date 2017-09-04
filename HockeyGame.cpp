@@ -518,6 +518,16 @@ void HockeyGame::connectWithSerialHandler(SerialConsole *console)
     serialConsole = console;
 }
 
+void HockeyGame::connectWithSerialSimulator(CGSimulator *console)
+{
+    connect(console, SIGNAL(serialConnected()), this->getGameClock(), SLOT(usingSerialClock()));
+    connect(console, SIGNAL(serialConnected()), this, SIGNAL(usingAllSport()));
+    connect(console, SIGNAL(serialConnected()), &sb, SLOT(usingAllSport()));
+
+    connect(console, SIGNAL(dataReceived(QByteArray)), this, SLOT(parseAllSportCG(QByteArray)));
+
+}
+
 void HockeyGame::parseAllSportCG(QByteArray data)
 {
     try {

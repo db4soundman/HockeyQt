@@ -235,6 +235,11 @@ MiamiAllAccessHockey::exec() {
     }
 
     con.show();
+#ifdef DEBUG
+    game->connectWithSerialSimulator(&cgSimulator);
+    cgSimulator.show();
+    cgSimulator.sendCgConnected();
+#endif
     return QApplication::exec();
 }
 

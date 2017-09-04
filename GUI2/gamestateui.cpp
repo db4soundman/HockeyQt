@@ -11,6 +11,8 @@ GameStateUI::GameStateUI(HockeyGame* game):goalieUi(game)
     myLayout->addRow("Home Score", &homeScore);
     myLayout->addRow("Away TOL", &awayTol);
     myLayout->addRow("Home TOL", &homeTol);
+    myLayout->addRow("Away SOG", &aSog);
+    myLayout->addRow("Home SOG", &hSog);
     myLayout->addRow("Away Ply 1", &awayP1);
     myLayout->addRow("Away Pen 1", &awayClock1);
     myLayout->addRow("Away Ply 2", &awayP2);
@@ -41,8 +43,8 @@ void GameStateUI::updateData(QByteArray data)
         QString awayScoreS = data.mid(11,2).trimmed();
         QString homeTol = data.mid(13,1);
         QString awayTol = data.mid(14,1);
-        int hSog = data.mid(15,2).toInt();
-        int aSog = data.mid(17,2).toInt();
+        QString hSog = data.mid(15,2);
+        QString aSog = data.mid(17,2);
         int cgPeriod = data.mid(19,2).toInt();
 
 
@@ -60,6 +62,8 @@ void GameStateUI::updateData(QByteArray data)
         homeScore.setText(homeScoreS);
         this->homeTol.setText(homeTol);
         this->awayTol.setText(awayTol);
+        this->hSog.setText(hSog);
+        this->aSog.setText(aSog);
 
         awayP1.setText(awayPlayer1);
         awayClock1.setText(awayPen1);

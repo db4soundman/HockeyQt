@@ -1,6 +1,6 @@
 #ifndef MIAMIALLACCESSHOCKEY_H
 #define MIAMIALLACCESSHOCKEY_H
-
+#define DEBUG
 #include <QApplication>
 #include "HockeyGame.h"
 #include <QGraphicsView>
@@ -17,6 +17,7 @@
 #include <QImage>
 #include <QPixmap>
 #include <QWidget>
+#include "CGSimulator.h"
 
 class MiamiAllAccessHockey : public QApplication {
 public:
@@ -56,6 +57,9 @@ private:
     Params params;
     QWidget* previewWindow;
     bool usingTricaster;
+#ifdef DEBUG
+    CGSimulator cgSimulator;
+#endif
 };
 
 #endif // MIAMIALLACCESSHOCKEY_H

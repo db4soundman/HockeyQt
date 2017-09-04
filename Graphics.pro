@@ -20,7 +20,8 @@ INCLUDEPATH += GUI \
             Profiles \
             SerialHandler \
             Schedule \
-            GUI2
+            GUI2 \
+            DevelopmentCode
 
 SOURCES += main.cpp\
         MainWindow.cpp \
@@ -90,7 +91,8 @@ SOURCES += main.cpp\
     GUI2/FaceoffUI.cpp \
     GUI2/CustomCompUI.cpp \
     GUI2/PpCompUI.cpp \
-    GUI2/gamestateui.cpp
+    GUI2/gamestateui.cpp \
+    DevelopmentCode/CGSimulator.cpp
 
 HEADERS  += MainWindow.h \
     Scoreboard.h \
@@ -160,7 +162,8 @@ HEADERS  += MainWindow.h \
     GUI2/FaceoffUI.h \
     GUI2/CustomCompUI.h \
     GUI2/PpCompUI.h \
-    GUI2/gamestateui.h
+    GUI2/gamestateui.h \
+    DevelopmentCode/CGSimulator.h
 
 
 RESOURCES += \

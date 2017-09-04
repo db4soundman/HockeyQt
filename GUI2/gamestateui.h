@@ -9,6 +9,7 @@
 
 class GameStateUI: public QWidget
 {
+    Q_OBJECT
 public:
     GameStateUI(HockeyGame *game);
     ~GameStateUI();
@@ -21,7 +22,7 @@ private:
     HockeyGame* game;
     QLabel homeScore, awayScore, time, homeP1, awayP1,
     homeP2, awayP2, homeTol, awayTol, awayClock1,
-    homeClock1, awayClock2, homeClock2;
+    homeClock1, awayClock2, homeClock2, hSog, aSog;
 };
 
 #endif // GAMESTATEUI_H

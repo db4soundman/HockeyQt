@@ -43,6 +43,7 @@ public:
     ~MainWindow();
 
     void connectWithCG(SerialConsole* con);
+    void connectWithSerialSimulator(CGSimulator* console);
 
 private slots:
     void changeScreen(QModelIndex index);

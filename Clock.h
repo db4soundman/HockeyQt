@@ -16,6 +16,7 @@ public:
 
     QString toString();
     QString toStringPP();
+    QString toStringDebug();
     QString getTimeSincePdStarted();
     QString getTimeSinceOtStarted();
     int getTimeLeft();

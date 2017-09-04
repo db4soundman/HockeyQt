@@ -1,5 +1,4 @@
 #include "MiamiAllAccessHockey.h"
-
 int main(int argc, char *argv[]) {
     MiamiAllAccessHockey a(argc, argv);
 
