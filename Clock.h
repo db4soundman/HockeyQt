@@ -13,9 +13,11 @@ public:
 
     void setClock(int m, int s, int t);
     void setClock(QString serialString);
+    void setClockDebug(QString serialString);
 
     QString toString();
     QString toStringPP();
+    QString toStringPPDebug();
     QString toStringDebug();
     QString getTimeSincePdStarted();
     QString getTimeSinceOtStarted();

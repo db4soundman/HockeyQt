@@ -5,6 +5,7 @@
 #include "PpClockDialog.h"
 #include "GraphicChooser.txt"
 #include "console.h"
+#include <algorithm>
 
 HockeyGame::HockeyGame(QString awayName, QString homeName, QColor awayColor, QColor homeColor,
                        QString awayXML, QString homeXML, QString sponsor, QString announcers,
@@ -531,6 +532,7 @@ void HockeyGame::connectWithSerialSimulator(CGSimulator *console)
 void HockeyGame::parseAllSportCG(QByteArray data)
 {
     try {
+        QString NO_PEN="xxxxxxxx";
         QString clock = data.mid(1, 7);
         bool stopped = data.mid(8,1) == "s";
         int homeScoreS = data.mid(9,2).trimmed().toInt();
@@ -569,6 +571,7 @@ void HockeyGame::parseAllSportCG(QByteArray data)
                 awayTemp.insert(awayPlayer2);
                 if (!awayPlayersInBox.contains(awayPlayer2)) triggerNewPenalty();
                 awayPlayersInBox.insert(awayPlayer2);
+                penalty = true;
             }
             awayPlayersInBox = awayPlayersInBox.intersect(awayTemp);
 
@@ -584,20 +587,12 @@ void HockeyGame::parseAllSportCG(QByteArray data)
                 homeTemp.insert(homePlayer2);
                 if (!homePlayersInBox.contains(homePlayer2)) triggerNewPenalty();
                 homePlayersInBox.insert(homePlayer2);
+                penalty = true;
             }
+             homePlayersInBox = homePlayersInBox.intersect(homeTemp);
             if (penalty) {
-                if (penA1 && penH1) {
-                    if (awayPen1 < homePen1) {
-                        penClock = awayPen1.trimmed();
-                    } else {
-                        penClock = homePen1.trimmed();
-                    }
-
-                } else if(penA1) {
-                    penClock = awayPen1.trimmed();
-                } else {
-                    penClock = homePen1.trimmed();
-                }
+                penClock = std::min({penA1 ? awayPen1.trimmed() : NO_PEN, penA2 ? awayPen2.trimmed() : NO_PEN,
+                                    penH1 ? homePen1.trimmed() : NO_PEN, penH2 ? homePen2.trimmed() : NO_PEN});
             } else if (penaltiesActive) {
                 // There were active penalties, but not anymore
             }

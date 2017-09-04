@@ -44,6 +44,15 @@ void Clock::setClock(QString serialString)
     }
 }
 
+void Clock::setClockDebug(QString serialString)
+{
+    QTime time = serialString.contains(".") ? QTime::fromString(serialString, "m:ss.z") :
+                                              QTime::fromString(serialString, "m:ss");
+    minutes = time.minute();
+    seconds = time.second();
+    tenths = 9;
+}
+
 int
 Clock::getTimeLeft() {
     return minutes*600 + seconds*10 + tenths;
@@ -68,6 +77,15 @@ QString
 Clock::toStringPP() {
     QTime clock(0, minutes, seconds, tenths);
     return clock.toString("m:ss");
+}
+
+QString
+Clock::toStringPPDebug() {
+    if (getTimeLeft() > 0) {
+        QTime clock(0, minutes, seconds, tenths);
+        return clock.toString("m:ss");
+    }
+    return "";
 }
 
 QString Clock::toStringDebug()

@@ -237,6 +237,7 @@ MiamiAllAccessHockey::exec() {
     con.show();
 #ifdef DEBUG
     game->connectWithSerialSimulator(&cgSimulator);
+    controlPanel->connectWithSerialSimulator(&cgSimulator);
     cgSimulator.show();
     cgSimulator.sendCgConnected();
 #endif
