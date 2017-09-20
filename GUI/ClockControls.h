@@ -19,10 +19,11 @@ public slots:
     void showClockDialog();
     void disableClockControls();
     void enableClockControls();
+    void switchShowText();
 
 private:
     //QLabel label;
-    QPushButton run, reset, set, nextPd, prevPd, clock, intermission, final, penalty;
+    QPushButton run, reset, set, nextPd, prevPd, clock, intermission, final, penalty, showPenalties;
     QCheckBox useClock;
     Clock* gameClock;
     CheckBoxWidget statCrewControl;

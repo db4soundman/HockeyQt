@@ -161,6 +161,7 @@ signals:
     void toggleStatCrew();
     void usingAllSport();
     void usingInternalClock();
+    void toggleShowPenalty();
 
 private slots:
     void deleteExpiredPenalties();

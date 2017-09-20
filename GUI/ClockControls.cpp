@@ -16,6 +16,7 @@ ClockControls::ClockControls(HockeyGame* game, CommercialGraphic* comGraphic, bo
     intermission.setText("INT");
     final.setText("FINAL");
     penalty.setText("Penalty");
+    showPenalties.setText("Penalty Clocks: On");
    // main->addWidget(&label);
     if (!dakMode) myLayout->addWidget(&run);
     if (!dakMode)myLayout->addWidget(&set);
@@ -26,6 +27,7 @@ ClockControls::ClockControls(HockeyGame* game, CommercialGraphic* comGraphic, bo
     myLayout->addWidget(&clock);
     myLayout->addWidget(&intermission);
     myLayout->addWidget(&final);
+    if (dakMode) myLayout->addWidget(&showPenalties);
     myLayout->addSpacing(50);
     myLayout->addWidget(&useClock);
     //main->addWidget(&statCrewControl);
@@ -48,6 +50,9 @@ ClockControls::ClockControls(HockeyGame* game, CommercialGraphic* comGraphic, bo
     connect(&useClock, SIGNAL(toggled(bool)), game, SLOT(changeUseClock(bool)));
     connect(&useClock, SIGNAL(toggled(bool)), comGraphic, SLOT(changeUseClock(bool)));
     connect(&useClock, SIGNAL(toggled(bool)), &run, SLOT(setEnabled(bool)));
+    connect(&showPenalties, SIGNAL(clicked(bool)), game->getSb(), SLOT(togglePpClocks()));
+    connect(&showPenalties, SIGNAL(clicked(bool)), game, SIGNAL(toggleShowPenalty()));
+    connect(game, SIGNAL(toggleShowPenalty()), this, SLOT(switchShowText()));
 
     connect(game, SIGNAL(usingAllSport()), this, SLOT(disableClockControls()));
     connect(game, SIGNAL(usingInternalClock()), this, SLOT(enableClockControls()));
@@ -79,4 +84,9 @@ void ClockControls::enableClockControls()
     run.setEnabled(true);
     set.setEnabled(true);
     reset.setEnabled(true);
+}
+
+void ClockControls::switchShowText()
+{
+    showPenalties.setText(showPenalties.text() == "Penalty Clocks: On" ? "Penalty Clocks: Off"  : "Penalty Clocks: On");
 }

@@ -12,7 +12,7 @@ PenaltyControl::PenaltyControl(HockeyGame* game) {
     hp2.setText("+ 2:00");
     hp4.setText("+ 4:00");
     hp5.setText("+ 5:00");
-    show.setText("Show");
+    show.setText("Hide");
     set.setText("Change Timers");
     awayPenEnd.setText("Remove Penalty");
     homePenEnd.setText("Remove Penalty");
@@ -47,7 +47,8 @@ PenaltyControl::PenaltyControl(HockeyGame* game) {
     connect(&homePenEnd, SIGNAL(clicked()), game, SLOT(removeFirstHomePenalty()));
     connect(&hp5, SIGNAL(clicked()), this, SLOT(homeFive()));
     connect(&show, SIGNAL(clicked()), game->getSb(), SLOT(togglePpClocks()));
-    connect(&show, SIGNAL(clicked()), this, SLOT(switchShowText()));
+    connect(&show, SIGNAL(clicked()), game, SIGNAL(toggleShowPenalty()));
+    connect(game, SIGNAL(toggleShowPenalty()), this, SLOT(switchShowText()));
     connect(&set, SIGNAL(clicked()), this, SIGNAL(editPenalties()));
     connect(this, SIGNAL(editPenalties()), game, SLOT(displayPenaltyEditor()));
     connect(this, SIGNAL(awayPenalty(int)), game, SLOT(addAwayPenalty(int)));
