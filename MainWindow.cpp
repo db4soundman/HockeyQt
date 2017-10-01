@@ -88,6 +88,8 @@ void MainWindow::switchContent()
     } else {
         mainContent.setCurrentIndex(0);
     }
+
+    treeView.setEnabled(mainContent.currentIndex() == 0);
 }
 
 void MainWindow::makeMenu(HockeyGame* game, SerialConsole* console, CommercialGraphic* comGraphic)

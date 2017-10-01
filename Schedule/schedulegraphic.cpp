@@ -23,7 +23,7 @@ ScheduleGraphic::ScheduleGraphic(QGraphicsItem *parent): QGraphicsRectItem(paren
     show = false;
 
     nchc = MiamiAllAccessHockey::getImgFromResources(":/images/NCHCTV.png", 20, 500);
-    twc = MiamiAllAccessHockey::getImgFromResources(":/images/TWC.png", 20, 500);
+    twc = MiamiAllAccessHockey::getImgFromResources(":/images/Spectrum.png", 20, 500);
     cbs = MiamiAllAccessHockey::getImgFromResources(":/images/CBSSN.png", 20, 500);
     asn = MiamiAllAccessHockey::getImgFromResources(":/images/ASN.png", 20,500);
     none = MiamiAllAccessHockey::getImgFromResources(":/images/NOLOGO.png", 2);
@@ -108,6 +108,7 @@ QPixmap &ScheduleGraphic::getPixmap(QString logo)
 {
     if (logo == "CBSSN") return cbs;
     if (logo == "TWC") return twc;
+    if (logo == "Spectrum") return twc;
     if (logo == "ASN") return asn;
     if (logo == "NCHC.TV") return nchc;
     return none;

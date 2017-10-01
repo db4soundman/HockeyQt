@@ -11,6 +11,7 @@
         <file alias="NCHCTV.png">images/nchctv.png</file>
         <file alias="TWC.png">images/TWC.png</file>
         <file alias="NOLOGO.png">images/nologo.png</file>
+        <file alias="Spectrum.png">images/Spectrum.png</file>
     </qresource>
     <qresource prefix="/resources">
         <file alias="penalties.txt">resources/penalties.txt</file>
