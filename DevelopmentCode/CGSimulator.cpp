@@ -42,6 +42,7 @@ CGSimulator::CGSimulator(QWidget *parent) : QWidget(parent)
     connect(&homeClock2, SIGNAL(textChanged(QString)), this, SLOT(h2Edited()));
     connect(&awayClock1, SIGNAL(textChanged(QString)), this, SLOT(a1Edited()));
     connect(&awayClock2, SIGNAL(textChanged(QString)), this, SLOT(a2Edited()));
+    connect(&time, SIGNAL(textChanged(QString)), this, SLOT(clockEdited()));
 
     connect(&start, SIGNAL(clicked(bool)), this, SLOT(startClicked()));
     connect(&stop, SIGNAL(clicked(bool)), this, SLOT(stopClicked()));
@@ -49,6 +50,7 @@ CGSimulator::CGSimulator(QWidget *parent) : QWidget(parent)
     h2.setClock(0,0,0);
     a1.setClock(0,0,0);
     a2.setClock(0,0,0);
+    gameClock.usingSerialClock();
 }
 
 void CGSimulator::sendCgConnected()

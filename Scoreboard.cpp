@@ -163,7 +163,6 @@ Scoreboard::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
         //painter->drawRect(V_TEAM_BOX_STARTX - 1, TEAM_BOX_Y - 1, TEAM_WIDTH + 1, TEAM_BOX_HEIGHT+1);
         painter->fillRect(V_TEAM_BOX_STARTX, TOP_BAR_HEIGHT + TEAM_BOX_Y, TEAM_WIDTH, TEAM_BOX_HEIGHT, awayGradient );
         // Away logo
-        painter->setOpacity(.99);
         if (altAwayLogoBg) painter->fillRect(V_TEAM_BOX_STARTX, TOP_BAR_HEIGHT + TEAM_BOX_Y, LOGO_WIDTH, TEAM_BOX_HEIGHT, mainGradient);
         painter->drawPixmap(V_TEAM_BOX_STARTX, TOP_BAR_HEIGHT + TEAM_BOX_Y + awayLogoOffset, *awayLogo);
         painter->setOpacity(1);
@@ -183,7 +182,6 @@ Scoreboard::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
         // painter->drawRect(H_TEAM_BOX_STARTX - 1, TEAM_BOX_Y - 1,TEAM_WIDTH+1, TEAM_BOX_HEIGHT + 1);
         painter->fillRect(H_TEAM_BOX_STARTX, TOP_BAR_HEIGHT + TEAM_BOX_Y, TEAM_WIDTH, TEAM_BOX_HEIGHT, homeGradient);
         // Home logo
-        painter->setOpacity(.99);
         painter->drawPixmap(H_TEAM_BOX_STARTX, TOP_BAR_HEIGHT + TEAM_BOX_Y + homeLogoOffset, *homeLogo);
         painter->setOpacity(1);
         painter->setFont(homeRank->font());
