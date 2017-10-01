@@ -6,21 +6,9 @@
 #include <QDate>
 #include <QVBoxLayout>
 
-ScheduleGUI::ScheduleGUI()
+void ScheduleGUI::loadSchedule()
 {
-    series.setText("Series View");
-    series.setChecked(true);
-    game.setText("Game View");
-    game.setChecked(false);
-    group.addButton(&series);
-    group.addButton(&game);
-    showButton.setText("Show");
-    QVBoxLayout* manager = new QVBoxLayout();
-    manager->addWidget(&numToShow);
-    manager->addWidget(&series);
-    manager->addWidget(&game);
-    manager->addWidget(&showButton);
-
+    schedule.clear();
     QFile csv(MiamiAllAccessHockey::getAppDirPath() + "/schedule.csv");
     csv.open(QIODevice::ReadOnly);
     QTextStream stream(&csv);
@@ -60,11 +48,32 @@ ScheduleGUI::ScheduleGUI()
             schedule.append(entry);
         }
     }
+}
+
+ScheduleGUI::ScheduleGUI()
+{
+    series.setText("Series View");
+    series.setChecked(true);
+    game.setText("Game View");
+    game.setChecked(false);
+    group.addButton(&series);
+    group.addButton(&game);
+    showButton.setText("Show");
+    reloadButton.setText("Reload Schedule");
+    QVBoxLayout* manager = new QVBoxLayout();
+    manager->addWidget(&numToShow);
+    manager->addWidget(&series);
+    manager->addWidget(&game);
+    manager->addWidget(&reloadButton);
+    manager->addWidget(&showButton);
+
+    loadSchedule();
     numToShow.setValue(std::min(2, schedule.length()));
     numToShow.setMaximum(std::min(8, schedule.length()));
     numToShow.setMinimum(1);
 
     connect(&showButton, SIGNAL(clicked()), this, SLOT(prepareToShow()));
+    connect(&reloadButton, SIGNAL(clicked(bool)), this, SLOT(loadSchedule()));
     //connect(&showButton, SIGNAL(clicked()), this, SLOT(close()));
     setLayout(manager);
 }

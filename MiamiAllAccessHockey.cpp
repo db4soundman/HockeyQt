@@ -232,6 +232,10 @@ MiamiAllAccessHockey::exec() {
         connect(game->getSb(), SIGNAL(transparentField(int,int,int,int)), tricaster, SLOT(addAlphaRect(int,int,int,int)));
         connect(game->getSb(), SIGNAL(removeTransparentField(int,int,int,int)), tricaster, SLOT(removeAlphaRect(int,int,int,int)));
         connect(game->getTricasterRefresh(), SIGNAL(timeout()), tricaster, SLOT(start()));
+        connect(game->getSb(), SIGNAL(addNoTransparencyZone(QRect)), tricaster, SLOT(addNoTransparencyZone(QRect)));
+        connect(commercial, SIGNAL(addNoTransparencyZone(QRect)), tricaster, SLOT(addNoTransparencyZone(QRect)));
+        connect(game->getSb(),SIGNAL(removeNoTransparencyZone(QRect)), tricaster, SLOT(removeNoTransparencyZone(QRect)));
+        connect(commercial,SIGNAL(removeNoTransparencyZone(QRect)), tricaster, SLOT(removeNoTransparencyZone(QRect)));
     }
 
     con.show();

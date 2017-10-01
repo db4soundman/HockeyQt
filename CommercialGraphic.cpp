@@ -107,6 +107,7 @@ void CommercialGraphic::prepareAndShow()
 {
     awayScore = QString::number(hockeyGame->getAwayScore());
     homeScore = QString::number(hockeyGame->getHomeScore());
+    emit addNoTransparencyZone(QRect(x() + 10, y() + 10, NAME_WIDTH, RECT_HEIGHT));
 
     switch (hockeyGame->getPeriod()) {
     case 0:

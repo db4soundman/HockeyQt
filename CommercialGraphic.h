@@ -8,6 +8,7 @@
 #include <QLinearGradient>
 #include <QPainter>
 #include <QGraphicsTextItem>
+#include <QRect>
 #include "GraphicChooser.txt"
 class CommercialGraphic : public QObject, public QGraphicsRectItem {
     Q_OBJECT
@@ -21,6 +22,8 @@ public:
                const QStyleOptionGraphicsItem * option, QWidget * widget = 0);
 
 signals:
+    void addNoTransparencyZone(QRect r);
+    void removeNoTransparencyZone(QRect r);
 
 public slots:
     void prepareAndShow();

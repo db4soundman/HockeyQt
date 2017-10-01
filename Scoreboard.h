@@ -8,6 +8,7 @@
 #include <QColor>
 #include <QTimer>
 #include <QList>
+#include <QRect>
 #include "Clock.h"
 #include <QString>
 
@@ -31,6 +32,8 @@ signals:
      void sceneUpdated(int x, int y, int w, int h);
      void transparentField(int x, int y, int w, int h);
      void removeTransparentField(int x, int y, int w, int h);
+     void addNoTransparencyZone(QRect r);
+     void removeNoTransparencyZone(QRect r);
 
 public slots:
      void togglePenalty();
