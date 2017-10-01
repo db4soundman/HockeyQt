@@ -47,6 +47,7 @@ public:
 
 private slots:
     void changeScreen(QModelIndex index);
+    void switchContent();
 
 private:
     QStackedWidget mainContent, alternateContent;

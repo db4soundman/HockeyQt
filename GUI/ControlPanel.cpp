@@ -10,7 +10,7 @@ ControlPanel::ControlPanel(HockeyGame* game, StandingsGraphic* graphic, Commerci
     QHBoxLayout* mainLayout = new QHBoxLayout();
 
     QVBoxLayout* leftColumn = new QVBoxLayout();
-    leftColumn->addWidget(&dispControls);
+    //leftColumn->addWidget(&dispControls);
     QGridLayout* grid = new QGridLayout();
     comparisons.addTab(&ppus, "Powerplays");
     comparisons.addTab(&faceoffs, "Faceoffs");
@@ -22,13 +22,13 @@ ControlPanel::ControlPanel(HockeyGame* game, StandingsGraphic* graphic, Commerci
     leftColumn->addLayout(grid);
     leftColumn->addWidget(&stats);
 
-    QVBoxLayout* rightColumn = new QVBoxLayout();
-    rightColumn->addWidget(&hud);
-    rightColumn->addWidget(&clockControls);
-    rightColumn->addSpacing(0);
+//    QVBoxLayout* rightColumn = new QVBoxLayout();
+//    rightColumn->addWidget(&hud);
+//    rightColumn->addWidget(&clockControls);
+//    rightColumn->addSpacing(0);
 
 
-    mainLayout->addLayout(leftColumn, 1);
-    mainLayout->addLayout(rightColumn);
+    mainLayout->addLayout(leftColumn);//, 1);
+//    mainLayout->addLayout(rightColumn);
     setLayout(mainLayout);
 }

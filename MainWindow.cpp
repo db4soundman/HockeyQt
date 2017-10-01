@@ -23,8 +23,9 @@ MainWindow::MainWindow(HockeyGame* game, StandingsGraphic* graphic, CommercialGr
 
 {
     createAlternateContent();
+    mainContent.addWidget(&alternateContent);
     mainContent.addWidget(&panel);
-    setCentralWidget(&alternateContent);
+    setCentralWidget(&mainContent);
     connectWithCG(serial);
 
     makeMenu(game, serial, comGraphic);
@@ -80,16 +81,25 @@ void MainWindow::changeScreen(QModelIndex index)
         alternateContent.setCurrentIndex(modelMap[model->data(index, Qt::DisplayRole).toString()]);
 }
 
+void MainWindow::switchContent()
+{
+    if (mainContent.currentIndex() == 0) {
+        mainContent.setCurrentIndex(1);
+    } else {
+        mainContent.setCurrentIndex(0);
+    }
+}
+
 void MainWindow::makeMenu(HockeyGame* game, SerialConsole* console, CommercialGraphic* comGraphic)
 {
-    QMenu* nchcMenu = new QMenu("NCHC");
-    QAction* standings = new QAction(QIcon(QPixmap(":/images/NCHCmenu.png")), "Edit Standings", NULL);
-    nchcMenu->addAction(standings);
-    connect(standings, SIGNAL(triggered()), &standingsPanel, SLOT(show()));
-    QAction* confSb = new QAction(QIcon(QPixmap(":/images/NCHCmenu.png")), "NCHC Scoreboard", NULL);
-    connect(confSb, SIGNAL(triggered()), &nchcGui, SLOT(show()));
-    nchcMenu->addAction(confSb);
-    menuBar()->addMenu(nchcMenu);
+//    QMenu* nchcMenu = new QMenu("NCHC");
+//    QAction* standings = new QAction(QIcon(QPixmap(":/images/NCHCmenu.png")), "Edit Standings", NULL);
+//    nchcMenu->addAction(standings);
+//    connect(standings, SIGNAL(triggered()), &standingsPanel, SLOT(show()));
+//    QAction* confSb = new QAction(QIcon(QPixmap(":/images/NCHCmenu.png")), "NCHC Scoreboard", NULL);
+//    connect(confSb, SIGNAL(triggered()), &nchcGui, SLOT(show()));
+//    nchcMenu->addAction(confSb);
+//    menuBar()->addMenu(nchcMenu);
 
     QMenu* awayMenu = new QMenu(game->getAwayName());
     QAction* awayPlayerEditor = new QAction("Edit Player Stats", this);
@@ -115,29 +125,33 @@ void MainWindow::makeMenu(HockeyGame* game, SerialConsole* console, CommercialGr
     connect(homeTeamEdit, SIGNAL(triggered()), &homeEdit, SLOT(updateSpinBoxes()));
     connect(homeTeamEdit, SIGNAL(triggered()), &homeEdit, SLOT(show()));
     homeMenu->addAction(homeTeamEdit);
-    QAction* scheduleEdit = new QAction("Schedule", this);
-    connect(scheduleEdit, SIGNAL(triggered(bool)), &scheduleGui, SLOT(show()));
-    homeMenu->addAction(scheduleEdit);
+//    QAction* scheduleEdit = new QAction("Schedule", this);
+//    connect(scheduleEdit, SIGNAL(triggered(bool)), &scheduleGui, SLOT(show()));
+//    homeMenu->addAction(scheduleEdit);
 
-    QMenu* lowerThirdMenu = new QMenu("Lower Third");
-    QAction* customLtCreator = new QAction("Create custom Lt", this);
-    connect(customLtCreator, SIGNAL(triggered()), &ltCreator, SLOT(show()));
-    customLtCreator->setShortcut(Qt::CTRL + Qt::Key_1);
-    lowerThirdMenu->addAction(customLtCreator);
+//    QMenu* lowerThirdMenu = new QMenu("Lower Third");
+//    QAction* customLtCreator = new QAction("Create custom Lt", this);
+//    connect(customLtCreator, SIGNAL(triggered()), &ltCreator, SLOT(show()));
+//    customLtCreator->setShortcut(Qt::CTRL + Qt::Key_1);
+//    lowerThirdMenu->addAction(customLtCreator);
 
-    QAction* customCompCreator = new QAction("Create Comparison", this);
-    connect(customCompCreator, SIGNAL(triggered()), &compCreator, SLOT(show()));
-    lowerThirdMenu->addAction(customCompCreator);
+//    QAction* customCompCreator = new QAction("Create Comparison", this);
+//    connect(customCompCreator, SIGNAL(triggered()), &compCreator, SLOT(show()));
+//    lowerThirdMenu->addAction(customCompCreator);
 
-    QMenu* consoleMenu = new QMenu("All Sport CG");
+    QMenu* consoleMenu = new QMenu("File");
+    QAction* switchView = new QAction("Toggle Panel", this);
+    connect(switchView, SIGNAL(triggered(bool)), this, SLOT(switchContent()));
+    consoleMenu->addAction(switchView);
+
     QAction* showConsole = new QAction("Show Console", this);
     connect(showConsole, SIGNAL(triggered()), console, SLOT(show()));
     consoleMenu->addAction(showConsole);
 
+    menuBar()->addMenu(consoleMenu);
     menuBar()->addMenu(awayMenu);
     menuBar()->addMenu(homeMenu);
-    menuBar()->addMenu(lowerThirdMenu);
-    menuBar()->addMenu(consoleMenu);
+   // menuBar()->addMenu(lowerThirdMenu);
 
 
 }
