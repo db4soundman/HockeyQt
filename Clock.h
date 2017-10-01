@@ -51,6 +51,7 @@ private:
     int otLength;
     bool gameClock, useSerial, serialPP;
     QTime serial;
+    QString cgClockString;
 };
 
 #endif // CLOCK_H

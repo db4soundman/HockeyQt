@@ -533,7 +533,7 @@ void HockeyGame::parseAllSportCG(QByteArray data)
 {
     try {
         QString NO_PEN="xxxxxxxx";
-        QString clock = data.mid(1, 7);
+        QString clock = data.mid(1, 7).trimmed();
         bool stopped = data.mid(8,1) == "s";
         int homeScoreS = data.mid(9,2).trimmed().toInt();
         int awayScoreS = data.mid(11,2).trimmed().toInt();
@@ -599,7 +599,7 @@ void HockeyGame::parseAllSportCG(QByteArray data)
             penaltiesActive = penalty;
             determinePpClockAllSport(penClock);
         }
-        gameClock.setClock(clock.trimmed());
+        gameClock.setClock(clock);
         if (homeScore != homeScoreS) {
             while (homeScore < homeScoreS) {
                 homeGoal();

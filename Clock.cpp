@@ -10,6 +10,7 @@ Clock::Clock() {
     gameClock = true;
     useSerial = false;
     serialPP = false;
+    cgClockString = "";
 }
 
 Clock::Clock(int minutes, bool serialPowerPlay) {
@@ -32,6 +33,7 @@ Clock::setClock(int m, int s, int t) {
 
 void Clock::setClock(QString serialString)
 {
+    cgClockString = serialString;
     QTime time = serialString.contains(".") ? QTime::fromString(serialString, "m:ss.z") :
                                               QTime::fromString(serialString, "m:ss");
     if (!time.isValid()) {
@@ -61,8 +63,9 @@ Clock::getTimeLeft() {
 QString
 Clock::toString() {
     if (useSerial) {
-        return serial.minute() > 0 ? serial.toString("m:ss") :
-                                     serial.toString("ss.z").left(4);
+        return cgClockString;
+//        return serial.minute() > 0 ? serial.toString("m:ss") :
+//                                     serial.toString("ss.z").left(4);
     }
     else {
         QTime clock(0, minutes, seconds, tenths);
