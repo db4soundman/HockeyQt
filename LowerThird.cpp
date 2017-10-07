@@ -2,7 +2,6 @@
 #include <QFontMetrics>
 #include <QStringRef>
 #include <QGraphicsScene>
-#include <QRect>
 #include "GraphicChooser.txt"
 
 
@@ -283,6 +282,7 @@ void
 LowerThird::hideLt() {
     if (show) {
         show = false;
+        emit removeNoTransparencyZone(QRect(x() + 0 ,y() + 0,NAME_WIDTH, BOX_HEIGHT*2));
         scene()->update();
     }
 }
@@ -290,6 +290,7 @@ LowerThird::hideLt() {
 void
 LowerThird::showLt() {
     show = true;
+    emit addNoTransparencyZone(QRect(x() + 0 ,y() + 0,NAME_WIDTH, BOX_HEIGHT*2));
     scene()->update();
 }
 

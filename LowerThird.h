@@ -9,6 +9,7 @@
 #include <QString>
 #include <QFont>
 #include <QColor>
+#include <QRect>
 #include "GraphicChooser.txt"
 
 class LowerThird : public QObject, public QGraphicsRectItem {
@@ -29,6 +30,9 @@ public:
     int getHeight();
 
 
+signals:
+    void addNoTransparencyZone(QRect r);
+    void removeNoTransparencyZone(QRect r);
 
 public slots:
     void hideLt();

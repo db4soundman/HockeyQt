@@ -3,7 +3,6 @@
 #include <QFontMetrics>
 #include <QStringRef>
 #include <QGraphicsScene>
-#include <QRect>
 #include <algorithm>
 
 
@@ -118,6 +117,7 @@ void ComparisonGraphic::hideComparison()
     if (show) {
         show = false;
         // TODO update this
+        emit removeNoTransparencyZone(QRect(x(), y(), rect().width(), rect().height()));
         scene()->update(this->x(), this->y(), rect().width(), rect().height());
     }
 }
@@ -126,6 +126,7 @@ void ComparisonGraphic::showComparison()
 {
 
     show = true;
+    emit addNoTransparencyZone(QRect(x(), y(), rect().width(), rect().height()));
     scene()->update(this->x(), this->y(), rect().width(), rect().height());
 
 }

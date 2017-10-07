@@ -236,6 +236,12 @@ MiamiAllAccessHockey::exec() {
         connect(commercial, SIGNAL(addNoTransparencyZone(QRect)), tricaster, SLOT(addNoTransparencyZone(QRect)));
         connect(game->getSb(),SIGNAL(removeNoTransparencyZone(QRect)), tricaster, SLOT(removeNoTransparencyZone(QRect)));
         connect(commercial,SIGNAL(removeNoTransparencyZone(QRect)), tricaster, SLOT(removeNoTransparencyZone(QRect)));
+
+        connect(game->getLt(), SIGNAL(addNoTransparencyZone(QRect)), tricaster, SLOT(addNoTransparencyZone(QRect)));
+        connect(game->getLt(),SIGNAL(removeNoTransparencyZone(QRect)), tricaster, SLOT(removeNoTransparencyZone(QRect)));
+
+        connect(comparisonGraphic, SIGNAL(addNoTransparencyZone(QRect)), tricaster, SLOT(addNoTransparencyZone(QRect)));
+        connect(comparisonGraphic,SIGNAL(removeNoTransparencyZone(QRect)), tricaster, SLOT(removeNoTransparencyZone(QRect)));
     }
 
     con.show();

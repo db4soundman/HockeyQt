@@ -9,6 +9,7 @@
 #include <QString>
 #include <QFont>
 #include <QColor>
+#include <QRect>
 #include "GraphicChooser.txt"
 
 class ComparisonGraphic : public QObject, public QGraphicsRectItem {
@@ -22,6 +23,10 @@ public:
 
     int getWidth();
     int getHeight();
+
+signals:
+    void addNoTransparencyZone(QRect r);
+    void removeNoTransparencyZone(QRect r);
 
 
 public slots:
