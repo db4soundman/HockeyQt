@@ -191,6 +191,7 @@ void CommercialGraphic::hide()
 {
     if (show) {
         show = false;
+        emit removeNoTransparencyZone(QRect(x() + 10, y() + 10, NAME_WIDTH, RECT_HEIGHT));
         scene()->update();
     }
 }

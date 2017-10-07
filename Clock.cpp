@@ -63,9 +63,8 @@ Clock::getTimeLeft() {
 QString
 Clock::toString() {
     if (useSerial) {
-        return cgClockString;
-//        return serial.minute() > 0 ? serial.toString("m:ss") :
-//                                     serial.toString("ss.z").left(4);
+        return serial.minute() > 0  || !serial.isValid() ? cgClockString :
+                                     serial.toString("ss.z").left(4);
     }
     else {
         QTime clock(0, minutes, seconds, tenths);
@@ -95,7 +94,7 @@ QString Clock::toStringDebug()
 {
     if (useSerial) {
         return serial.minute() > 0 ? serial.toString("m:ss") :
-                                     serial.toString("ss.z").left(4);
+                                     serial.toString("m:ss.z");
     }
     else {
         if (getTimeLeft() > 0) {

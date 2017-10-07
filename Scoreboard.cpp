@@ -522,7 +522,7 @@ Scoreboard::toggleShowBoard() {
     show = true;
     if (useTransparency)
         emit transparentField(x()+20,y(),TOP_BAR_WIDTH,TOP_BAR_HEIGHT);
-    emit addNoTransparencyZone(QRect(x() + V_TEAM_BOX_STARTX, y() +TEAM_BOX_Y, TEAM_WIDTH, TEAM_BOX_HEIGHT));
+    emit addNoTransparencyZone(QRect(x() + V_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + TEAM_BOX_Y, TEAM_WIDTH, TEAM_BOX_HEIGHT));
     scene()->update();
 }
 
@@ -538,7 +538,7 @@ Scoreboard::hideBoard() {
     if (show) {
         show = false;
         emit removeTransparentField(x()+20, y(), TOP_BAR_WIDTH,TOP_BAR_HEIGHT);
-        emit removeNoTransparencyZone(QRect(x() + V_TEAM_BOX_STARTX, y() + TEAM_BOX_Y, TEAM_WIDTH, TEAM_BOX_HEIGHT));
+        emit removeNoTransparencyZone(QRect(x() + V_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + TEAM_BOX_Y, TEAM_WIDTH, TEAM_BOX_HEIGHT));
         scene()->update();
     }
 }
@@ -616,10 +616,9 @@ void Scoreboard::setSerialPowerPlay(int pos, QString clock, QString description)
             break;
         }
     }
-    if (clock != serialPpClock) {
-        ppDescription = description;
-        serialPpClock = clock;
-        scene()->update(this->x(), this->y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT,
-                        SCOREBOARD_WIDTH, PP_BAR_HEIGHT+1);
-    }
+    ppDescription = description;
+    serialPpClock = clock;
+    scene()->update(this->x(), this->y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT,
+                    SCOREBOARD_WIDTH, PP_BAR_HEIGHT+1);
+
 }
