@@ -356,7 +356,7 @@ Scoreboard::updateClock() {
         scene()->update(this->x() + H_TEAM_BOX_STARTX + 4, this->y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, 350, PP_BAR_HEIGHT);
     }
     else if (neutralPP) {
-        scene()->update(this->x() + CLOCK_FIELD_X, this->y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, CLOCK_FIELD_WIDTH, PP_BAR_HEIGHT);
+        scene()->update(this->x() + CLOCK_FIELD_X, this->y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, CLOCK_FIELD_WIDTH + 4, PP_BAR_HEIGHT);
     }
 }
 
@@ -384,7 +384,7 @@ Scoreboard::preparePowerplayClock(int pos, Clock *clock, QString description) {
     }
     ppDescription = description;
     scene()->update(this->x(), this->y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT,
-                    SCOREBOARD_WIDTH, PP_BAR_HEIGHT+1);
+                    SCOREBOARD_WIDTH + 4, PP_BAR_HEIGHT+1);
 }
 
 void
