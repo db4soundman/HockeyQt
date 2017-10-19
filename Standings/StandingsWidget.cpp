@@ -23,31 +23,31 @@ StandingsWidget::StandingsWidget(StandingsGraphic* graphic) {
     mainLayout->addWidget(new QLabel("Ties"), 0, 3);
     mainLayout->addWidget(new QLabel("SO/3x3 Wins"), 0, 4);
     QList<QStringList> data;
-    QFile csv(MiamiAllAccessHockey::getAppDirPath() + "/standings.txt");
-    csv.open(QIODevice::ReadWrite);
-    QTextStream stream(&csv);
-    while (!stream.atEnd()) {
-        data.append(stream.readLine().split(','));
-    }
-    csv.close();
+//    QFile csv(MiamiAllAccessHockey::getAppDirPath() + "/standings.txt");
+//    csv.open(QIODevice::ReadWrite);
+//    QTextStream stream(&csv);
+//    while (!stream.atEnd()) {
+//        data.append(stream.readLine().split(','));
+//    }
+//    csv.close();
 
-    for (int i = 0; i < data.size(); i++) {
+    for (int i = 0; i < teams.size(); i++) {
         QComboBox* box = new QComboBox();
         box->addItems(teams);
-        box->setCurrentText(data[i][0]);
+        //box->setCurrentText(data[i][0]);
         teamSelectors.append(box);
         QSpinBox* spin = new QSpinBox();
         wins.append(spin);
-        spin->setValue(data[i][1].toInt());
+        //spin->setValue(data[i][1].toInt());
         spin = new QSpinBox();
         losses.append(spin);
-        spin->setValue(data[i][2].toInt());
+       // spin->setValue(data[i][2].toInt());
         spin = new QSpinBox();
         ties.append(spin);
-        spin->setValue(data[i][3].toInt());
+       // spin->setValue(data[i][3].toInt());
         spin = new QSpinBox();
         shootoutWins.append(spin);
-        spin->setValue(data[i][4].toInt());
+      //  spin->setValue(data[i][4].toInt());
         mainLayout->addWidget(teamSelectors.at(i), i+1, 0);
         mainLayout->addWidget(wins.at(i), i+1, 1);
         mainLayout->addWidget(losses.at(i), i+1, 2);
@@ -64,22 +64,22 @@ StandingsWidget::StandingsWidget(StandingsGraphic* graphic) {
     connect(showButton, SIGNAL(clicked()), this, SLOT(compileStandings()));
     connect(showButton, SIGNAL(clicked()), graphic, SLOT(toggleShow()));
     mainLayout->addWidget(closeButton, 9, 3);
-    mainLayout->addWidget(saveButton, 9, 4);
+    //mainLayout->addWidget(saveButton, 9, 4);
     mainLayout->addWidget(showButton, 9, 5);
     setLayout(mainLayout);
 }
 
 void StandingsWidget::saveStandings()
 {
-    QFile csv(MiamiAllAccessHockey::getAppDirPath() + "/standings.txt");
-    csv.open(QIODevice::ReadWrite);
-    QTextStream stream(&csv);
-    for (int i = 0; i < teamSelectors.size(); i++) {
-        stream << teamSelectors[i]->currentText() << "," << wins[i]->value()
-               << "," << losses[i]->value() << "," << ties[i]->value()
-               << "," << shootoutWins[i]->value() << "\r\n";
-    }
-    csv.close();
+//    QFile csv(MiamiAllAccessHockey::getAppDirPath() + "/standings.txt");
+//    csv.open(QIODevice::ReadWrite);
+//    QTextStream stream(&csv);
+//    for (int i = 0; i < teamSelectors.size(); i++) {
+//        stream << teamSelectors[i]->currentText() << "," << wins[i]->value()
+//               << "," << losses[i]->value() << "," << ties[i]->value()
+//               << "," << shootoutWins[i]->value() << "\r\n";
+//    }
+//    csv.close();
 }
 
 void StandingsWidget::compileStandings()
