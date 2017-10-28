@@ -18,7 +18,7 @@ MainWindow::MainWindow(HockeyGame* game, StandingsGraphic* graphic, CommercialGr
       ltCreator(game->getLt()), compCreator(game), customLts(game->getLt(), game->getPreviewLt()),
       homePops(game,true), awayPops(game, false), homeLts(game, true),awayLts(game,false),
       sogUi(game), faceoffUi(game), customCompUi(game), clockControls(game, comGraphic, true),
-      displayControls(game,graphic,comGraphic,confSbGraphic,scheduleGraphic,comparisonGraphic),
+      displayControls(game,graphic,comGraphic,confSbGraphic,scheduleGraphic,comparisonGraphic, pgg),
       goalies(game), ppCompUi(game), gameStateUi(game), awaypgUi(pgg, game->getAwayTeam(), false), homepgUi(pgg, game->getHomeTeam(), true)
 
 {

@@ -4,7 +4,7 @@
 #include "MiamiAllAccessHockey.h"
 #include <QGraphicsScene>
 
-#define WIDTH 570
+#define WIDTH 760
 #define HEIGHT 300
 #define NAME_GRADIENT_LEVEL .3
 
@@ -55,31 +55,31 @@ void PastGamesGraphic::paint(QPainter *painter, const QStyleOptionGraphicsItem *
         painter->fillRect(4,4, graphicRect.width()-8, graphicRect.height()-8, background);
         painter->fillRect(0,0, graphicRect.width(), 30, teamBg);
         painter->drawPixmap(0,0, homeTeam ? homeLogo : awayLogo);
-        QFont headerFont("Arial", 16, QFont::Bold);
+        QFont headerFont("Arial", 20, QFont::Bold);
         painter->setFont(headerFont);
         painter->setPen(QColor(255,255,255));
         painter->drawText(0,0,graphicRect.width(),30, Qt::AlignCenter, homeTeam ? homeName : awayName);
         painter->setPen(QColor(1,1,1));
         painter->fillRect(0,30, graphicRect.width(), 20, border);
-        QFont font("Arial", 12);
+        QFont font("Arial", 16, QFont::Bold);
         painter->setFont(font);
         painter->drawText(0,30, graphicRect.width(), 20, Qt::AlignCenter, "RECENT GAMES");
 
         painter->setPen(QColor(255,255,255));
         for (int i = gameHistory.size() - numToShow, x = 0; x < numToShow; i++, x++) {
             int y = 30 * (x+1) + 30;
-            painter->drawText(15, y, 100, 30, 0, gameHistory[i].getDate());
-            painter->drawText(125,y, 25, 30, 0, gameHistory[i].getHome() ? "VS" : "AT");
-            painter->drawText(160,y, 180, 30, 0, gameHistory[i].getOpponent());
+            painter->drawText(15, y, 120, 30, 0, gameHistory[i].getDate());
+            painter->drawText(140,y, 40, 30, 0, gameHistory[i].getHome() ? "VS" : "AT");
+            painter->drawText(180,y, 300, 30, 0, gameHistory[i].getOpponent());
             QString result = "T";
             if (gameHistory[i].getOurScore() > gameHistory[i].getTheirScore()) {
                 result = "W";
             } else if (gameHistory[i].getOurScore() < gameHistory[i].getTheirScore()) {
                 result = "L";
             }
-            painter->drawText(350, y, 30, 30, 0, result);
-            painter->drawText(420, y, 100, 30, 0, gameHistory[i].getOurScore() + "-" + gameHistory[i].getTheirScore());
-            painter->drawText(520, y, 60, 30, 0, gameHistory[i].getPeriods());
+            painter->drawText(480, y, 80, 30, 0, result);
+            painter->drawText(560, y, 100, 30, 0, gameHistory[i].getOurScore() + "-" + gameHistory[i].getTheirScore());
+            painter->drawText(660, y, 100, 30, 0, gameHistory[i].getPeriods());
         }
     }
 }
