@@ -87,21 +87,21 @@ NchcScoreboardGraphic::paint(QPainter* painter,
             painter->setPen(QColor(255,255,255));
 
             // School
-            painter->drawText(x, 80 + (BORDER_HEIGHT + spacing) * i, 500, BORDER_HEIGHT / 2, Qt::AlignLeft | Qt::AlignVCenter, fridayGames.at(i).getAway());
-            painter->drawText(x,80 + (BORDER_HEIGHT + spacing) * i + BORDER_HEIGHT / 2  +1, 500, BORDER_HEIGHT / 2, Qt::AlignLeft | Qt::AlignVCenter, fridayGames.at(i).getHome());
-            QString timePd = fridayGames.at(i).getTimeAndPd();
+            painter->drawText(x, 80 + (BORDER_HEIGHT + spacing) * i, 500, BORDER_HEIGHT / 2, Qt::AlignLeft | Qt::AlignVCenter, saturdayGames.at(i).getAway());
+            painter->drawText(x,80 + (BORDER_HEIGHT + spacing) * i + BORDER_HEIGHT / 2  +1, 500, BORDER_HEIGHT / 2, Qt::AlignLeft | Qt::AlignVCenter, saturdayGames.at(i).getHome());
+            QString timePd = saturdayGames.at(i).getTimeAndPd();
             timePd = timePd.replace(" ", "\n");
             painter->drawText(x + BORDER_WIDTH - 150, 80 + (BORDER_HEIGHT + spacing) * i, 150, BORDER_HEIGHT, Qt::AlignCenter, timePd);
 
             // Score
            //painter->setBrush(QColor(253,180,26));
             painter->setPen(QColor(253,180,26));
-            painter->drawText(x + BORDER_WIDTH - 150 - 60, 80 + (BORDER_HEIGHT + spacing) * i, 53, BORDER_HEIGHT / 2, Qt::AlignVCenter | Qt::AlignRight, fridayGames.at(i).getAwayScore());
-            painter->drawText(x + BORDER_WIDTH - 150 - 60, 80 + (BORDER_HEIGHT + spacing) * i + BORDER_HEIGHT / 2 +1 , 53, BORDER_HEIGHT / 2, Qt::AlignVCenter | Qt::AlignRight, fridayGames.at(i).getHomeScore());
+            painter->drawText(x + BORDER_WIDTH - 150 - 60, 80 + (BORDER_HEIGHT + spacing) * i, 53, BORDER_HEIGHT / 2, Qt::AlignVCenter | Qt::AlignRight, saturdayGames.at(i).getAwayScore());
+            painter->drawText(x + BORDER_WIDTH - 150 - 60, 80 + (BORDER_HEIGHT + spacing) * i + BORDER_HEIGHT / 2 +1 , 53, BORDER_HEIGHT / 2, Qt::AlignVCenter | Qt::AlignRight, saturdayGames.at(i).getHomeScore());
             painter->setPen(QColor(196, 213, 242));
             painter->drawRect(x, 80 + (BORDER_HEIGHT + spacing) * i + BORDER_HEIGHT / 2, BORDER_WIDTH - 150, 1);
-            if (fridayGames.at(i).getConfGame()) {
-                painter->fillRect(x - IMAGE_WIDTH, 80 + (BORDER_HEIGHT + spacing) * i, IMAGE_WIDTH, BORDER_HEIGHT, fridayGames.at(i).getConfGame() ?
+            if (saturdayGames.at(i).getConfGame()) {
+                painter->fillRect(x - IMAGE_WIDTH, 80 + (BORDER_HEIGHT + spacing) * i, IMAGE_WIDTH, BORDER_HEIGHT, saturdayGames.at(i).getConfGame() ?
                                       QColor(165, 0, 22, 200) : QColor(1, 1, 1, 150));
                 painter->drawPixmap(x - IMAGE_WIDTH, 80 + (BORDER_HEIGHT + spacing) * i, *nchcLogo);
             }
