@@ -160,6 +160,10 @@ MiamiAllAccessHockey::exec() {
         team->setPpopp(ppopp);
         team->setGoalies(goalies);
     }
+    pgg = new PastGamesGraphic(game->getHomeTeam(), game->getAwayTeam());
+    pgg->setX(100);
+    pgg->setY(650);
+    scene->addItem(pgg);
     scene->addItem(game->getSb());
 
     scene->addItem(game->getLt());
@@ -206,7 +210,7 @@ MiamiAllAccessHockey::exec() {
         stats = new StatCrewScanner(game, statcrewName);
 
     SerialConsole con;
-    controlPanel = new MainWindow(game, &standings, commercial, &nchcScoreboard, &scheduleGraphic, &con, comparisonGraphic);
+    controlPanel = new MainWindow(game, &standings, commercial, &nchcScoreboard, &scheduleGraphic, &con, comparisonGraphic, pgg);
     controlPanel->show();
     game->connectWithSerialHandler(&con);
 
@@ -242,6 +246,8 @@ MiamiAllAccessHockey::exec() {
 
         connect(comparisonGraphic, SIGNAL(addNoTransparencyZone(QRect)), tricaster, SLOT(addNoTransparencyZone(QRect)));
         connect(comparisonGraphic,SIGNAL(removeNoTransparencyZone(QRect)), tricaster, SLOT(removeNoTransparencyZone(QRect)));
+        connect(pgg, SIGNAL(addNoTransparencyZone(QRect)), tricaster, SLOT(addNoTransparencyZone(QRect)));
+        connect(pgg,SIGNAL(removeNoTransparencyZone(QRect)), tricaster, SLOT(removeNoTransparencyZone(QRect)));
     }
 
     con.show();

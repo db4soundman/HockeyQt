@@ -34,12 +34,14 @@
 #include "PpCompUI.h"
 #include "Goalies.h"
 #include "gamestateui.h"
+#include "PastGamesUI.h"
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
 public:
     MainWindow(HockeyGame* game, StandingsGraphic* graphic, CommercialGraphic* comGraphic,
-               NchcScoreboardGraphic* confSbGraphic, ScheduleGraphic* scheduleGraphic, SerialConsole* serial, ComparisonGraphic* comparisonGraphic, QWidget *parent = 0);
+               NchcScoreboardGraphic* confSbGraphic, ScheduleGraphic* scheduleGraphic, SerialConsole* serial, ComparisonGraphic* comparisonGraphic,
+               PastGamesGraphic *pgg, QWidget *parent = 0);
     ~MainWindow();
 
     void connectWithCG(SerialConsole* con);
@@ -77,6 +79,7 @@ private:
     QDockWidget leftDock, rightDock, topDock, bottomDock;
     DisplayControls displayControls;
     GameStateUI gameStateUi;
+    PastGamesUI awaypgUi, homepgUi;
 
     void makeMenu(HockeyGame* game, SerialConsole *console, CommercialGraphic *comGraphic);
 

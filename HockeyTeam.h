@@ -3,15 +3,21 @@
 
 #include <QObject>
 #include <QList>
+#include "PeriodData.h"
+#include "GameHistory.h"
 #include "HockeyPlayer.h"
+#include <QColor>
+#include <QPixmap>
 
 class HockeyTeam : public QObject {
     Q_OBJECT
 public:
-    HockeyTeam();
+    HockeyTeam(QString name, QColor color, QPixmap logo);
     HockeyPlayer* getPlayer(const int i);
     HockeyPlayer* getPlayerByNumber(const QString i);
     void addPlayer(HockeyPlayer* player);
+    void addPeriod(PeriodData pd);
+    void addGame(GameHistory gm);
     int getPpg() const;
     void setPpg(int value);
 
@@ -50,6 +56,20 @@ public:
 
     void setGoalies(QString goalies);
 
+    QList<PeriodData> getPeriodData() const;
+
+    QColor getColor() const;
+    void setColor(const QColor &value);
+
+    QPixmap getLogo() const;
+    void setLogo(const QPixmap &value);
+
+    QString getName() const;
+    void setName(const QString &value);
+
+    QList<GameHistory> getGameHistory() const;
+    void setGameHistory(const QList<GameHistory> &value);
+
 signals:
 
 
@@ -69,8 +89,12 @@ private:
     bool playerInGoal;
 
     HockeyPlayer* goalie;
-    // period data???
-    // game history???
+    QList<PeriodData> periodData;
+    QList<GameHistory> gameHistory;
+
+    QColor color;
+    QPixmap logo;
+    QString name;
 };
 
 #endif // HOCKEYTEAM_H

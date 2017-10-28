@@ -18,6 +18,7 @@
 #include <QPixmap>
 #include <QWidget>
 #include "CGSimulator.h"
+#include "PastGamesGraphic.h"
 
 class MiamiAllAccessHockey : public QApplication {
 public:
@@ -54,6 +55,7 @@ private:
     ComparisonGraphic* comparisonGraphic;
     StatCrewScanner* stats;
     TricasterHandler* tricaster;
+    PastGamesGraphic* pgg;
     Params params;
     QWidget* previewWindow;
     bool usingTricaster;

@@ -46,8 +46,8 @@ HockeyGame::HockeyGame(QString awayName, QString homeName, QColor awayColor, QCo
     connect(this, SIGNAL(penaltyChanged(int,Clock*,QString)), &sb, SLOT(preparePowerplayClock(int,Clock*,QString)));
     connect(this, SIGNAL(checkScoreboardPp()), this, SLOT(determinePpClockForScoreboard()));
     // Make teams...
-    homeTeam = new HockeyTeam();
-    awayTeam = new HockeyTeam();
+    homeTeam = new HockeyTeam(homeName, homeColor, QPixmap(":/images/M.png"));
+    awayTeam = new HockeyTeam(awayName, awayColor, awayLogo);
 
     SeasonXMLHandler handler(homeTeam);
     QXmlSimpleReader r;

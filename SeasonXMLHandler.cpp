@@ -57,6 +57,14 @@ bool SeasonXMLHandler::startElement(const QString& namespaceURI,
         currPlayer->setLosses(atts.value("l").toInt());
 
     }
+    else if (qName == "period") {
+        team->addPeriod(PeriodData(atts.value("oppscore"), atts.value("ownscore")));
+    }
+    else if (qName == "game") {
+        team->addGame(GameHistory(atts.value("oppname"),atts.value("oppscore"),
+                                  atts.value("ownscore"),atts.value("periods"),
+                                  atts.value("date"),atts.value("homeaway")));
+    }
 
     return true;
 }

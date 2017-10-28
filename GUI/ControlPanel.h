@@ -27,7 +27,7 @@ public:
                  NchcScoreboardGraphic* sbGraphic, ScheduleGraphic* schedGraphic, ComparisonGraphic* comparisonGraphic);
 
 private:
-    DisplayControls dispControls;
+   // DisplayControls dispControls;
     PowerPlayUpdaters ppus;
     PenaltyControl penaltyControl;
     SogControl sogs;

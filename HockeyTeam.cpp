@@ -1,9 +1,11 @@
 #include "HockeyTeam.h"
 
-HockeyTeam::HockeyTeam() {
+HockeyTeam::HockeyTeam(QString name, QColor color, QPixmap logo) {
     ppgToday = ppoppToday = pkToday = pkoppToday = 0;
     timeoutsLeft = 1;
-
+    this->name = name;
+    this->color = color;
+    this->logo = logo;
 }
 
 HockeyPlayer* HockeyTeam::getPlayer(const int i) {
@@ -27,6 +29,16 @@ HockeyTeam::addPlayer(HockeyPlayer* player) {
     roster.append(player);
 }
 
+void HockeyTeam::addPeriod(PeriodData pd)
+{
+    periodData.append(pd);
+}
+
+void HockeyTeam::addGame(GameHistory gm)
+{
+    gameHistory.append(gm);
+}
+
 void
 HockeyTeam::addPkFail() {
     pkopp++;
@@ -47,6 +59,51 @@ void HockeyTeam::setGoalie(int index)
         goalie = getPlayer(index);
         playerInGoal = true;
     }
+}
+
+QList<GameHistory> HockeyTeam::getGameHistory() const
+{
+    return gameHistory;
+}
+
+void HockeyTeam::setGameHistory(const QList<GameHistory> &value)
+{
+    gameHistory = value;
+}
+
+QString HockeyTeam::getName() const
+{
+    return name;
+}
+
+void HockeyTeam::setName(const QString &value)
+{
+    name = value;
+}
+
+QPixmap HockeyTeam::getLogo() const
+{
+    return logo;
+}
+
+void HockeyTeam::setLogo(const QPixmap &value)
+{
+    logo = value;
+}
+
+QColor HockeyTeam::getColor() const
+{
+    return color;
+}
+
+void HockeyTeam::setColor(const QColor &value)
+{
+    color = value;
+}
+
+QList<PeriodData> HockeyTeam::getPeriodData() const
+{
+    return periodData;
 }
 bool HockeyTeam::getPlayerInGoal() const
 {

@@ -140,6 +140,14 @@ void ComparisonGraphic::showComparison()
 
 void ComparisonGraphic::prepareComp(QString topLabel, QString botLabel, QList<QString> stats, QString pStatHeader, int compStyle)
 {
+    if(!preview && show) {
+        if (!statHeader.trimmed().isEmpty()) {
+            QFontMetrics fontSize(statFont);
+            emit removeNoTransparencyZone(QRect(x(), y() + BOX_HEIGHT-24, fontSize.width(statHeader) + 10, 24));
+        }
+        emit removeNoTransparencyZone(QRect(x(), y() + BOX_HEIGHT, statistics.size() > 2 ? 800 : 600, BOX_HEIGHT * 2));
+    }
+
     statFont.setPointSize(statFontPointSize);
     statHeader = pStatHeader;
     this->awayLabel = topLabel;

@@ -2,7 +2,9 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 
-DisplayControls::DisplayControls(HockeyGame* game, StandingsGraphic* graphic, CommercialGraphic* comGraphic, NchcScoreboardGraphic* sbGraphic, ScheduleGraphic *schedGraphic, ComparisonGraphic *comparisonGraphic) {
+DisplayControls::DisplayControls(HockeyGame* game, StandingsGraphic* graphic, CommercialGraphic* comGraphic,
+                                 NchcScoreboardGraphic* sbGraphic, ScheduleGraphic *schedGraphic,
+                                 ComparisonGraphic *comparisonGraphic, PastGamesGraphic* pastGamesGraphic) {
     sponsorText = game->getSponsor();
     customtext.setReadOnly(false);
     customtext.setText("");
@@ -53,6 +55,8 @@ DisplayControls::DisplayControls(HockeyGame* game, StandingsGraphic* graphic, Co
     connect(&hideLT, SIGNAL(clicked()), game->getLt(), SLOT(hideLt()));
     connect(&hideLT, SIGNAL(clicked()), schedGraphic, SLOT(hide()));
     connect(&hideLT, SIGNAL(clicked()), comparisonGraphic, SLOT(hideComparison()));
+    connect(&hideLT, SIGNAL(clicked()), pastGamesGraphic, SLOT(hide()));
+    connect(&hideLT, SIGNAL(clicked()), comparisonGraphic, SLOT(hideComparison()));
 
     //hide
     connect(&hideButton, SIGNAL(clicked()), game->getSb(), SLOT(hideBoard()));
@@ -62,6 +66,7 @@ DisplayControls::DisplayControls(HockeyGame* game, StandingsGraphic* graphic, Co
     connect(&hideButton, SIGNAL(clicked()), sbGraphic, SLOT(hide()));
     connect(&hideButton, SIGNAL(clicked()), schedGraphic, SLOT(hide()));
     connect(&hideButton, SIGNAL(clicked()), comparisonGraphic, SLOT(hideComparison()));
+    connect(&hideButton, SIGNAL(clicked()), pastGamesGraphic, SLOT(hide()));
 
 }
 

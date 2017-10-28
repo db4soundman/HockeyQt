@@ -20,3 +20,7 @@ NCHC Scoreboard
 NCHC Standings
 
 Upcoming Schedule
+
+Season History
+  Away Season History
+  Home Season History

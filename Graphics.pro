@@ -21,7 +21,8 @@ INCLUDEPATH += GUI \
             SerialHandler \
             Schedule \
             GUI2 \
-            DevelopmentCode
+            DevelopmentCode \
+            PastGames
 
 SOURCES += main.cpp\
         MainWindow.cpp \
@@ -92,7 +93,11 @@ SOURCES += main.cpp\
     GUI2/CustomCompUI.cpp \
     GUI2/PpCompUI.cpp \
     GUI2/gamestateui.cpp \
-    DevelopmentCode/CGSimulator.cpp
+    DevelopmentCode/CGSimulator.cpp \
+    PeriodData.cpp \
+    GameHistory.cpp \
+    PastGames/PastGamesGraphic.cpp \
+    PastGames/PastGamesUI.cpp
 
 HEADERS  += MainWindow.h \
     Scoreboard.h \
@@ -163,7 +168,11 @@ HEADERS  += MainWindow.h \
     GUI2/CustomCompUI.h \
     GUI2/PpCompUI.h \
     GUI2/gamestateui.h \
-    DevelopmentCode/CGSimulator.h
+    DevelopmentCode/CGSimulator.h \
+    PeriodData.h \
+    GameHistory.h \
+    PastGames/PastGamesGraphic.h \
+    PastGames/PastGamesUI.h
 
 
 RESOURCES += \

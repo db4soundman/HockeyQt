@@ -11,7 +11,7 @@
 
 MainWindow::MainWindow(HockeyGame* game, StandingsGraphic* graphic, CommercialGraphic* comGraphic,
                        NchcScoreboardGraphic* confSbGraphic, ScheduleGraphic *scheduleGraphic,
-                       SerialConsole *serial, ComparisonGraphic *comparisonGraphic, QWidget *parent)
+                       SerialConsole *serial, ComparisonGraphic *comparisonGraphic, PastGamesGraphic* pgg, QWidget *parent)
 
     : QMainWindow(parent), panel(game, graphic, comGraphic, confSbGraphic, scheduleGraphic, comparisonGraphic), standingsPanel(graphic), nchcGui(confSbGraphic),
       awayPlayerEdit(game, false), homePlayerEdit(game, true), awayEdit(game->getAwayTeam()), homeEdit(game->getHomeTeam()),
@@ -19,7 +19,7 @@ MainWindow::MainWindow(HockeyGame* game, StandingsGraphic* graphic, CommercialGr
       homePops(game,true), awayPops(game, false), homeLts(game, true),awayLts(game,false),
       sogUi(game), faceoffUi(game), customCompUi(game), clockControls(game, comGraphic, true),
       displayControls(game,graphic,comGraphic,confSbGraphic,scheduleGraphic,comparisonGraphic),
-      goalies(game), ppCompUi(game), gameStateUi(game)
+      goalies(game), ppCompUi(game), gameStateUi(game), awaypgUi(pgg, game->getAwayTeam(), false), homepgUi(pgg, game->getHomeTeam(), true)
 
 {
     createAlternateContent();
@@ -173,6 +173,8 @@ void MainWindow::createAlternateContent()
     alternateContent.addWidget(&nchcGui);
     alternateContent.addWidget(&standingsPanel);
     alternateContent.addWidget(&scheduleGui);
+    alternateContent.addWidget(&awaypgUi);
+    alternateContent.addWidget(&homepgUi);
 
 
     int x = 0;
@@ -189,5 +191,7 @@ void MainWindow::createAlternateContent()
     modelMap.insert("NCHC Scoreboard", x++);
     modelMap.insert("NCHC Standings", x++);
     modelMap.insert("Upcoming Schedule", x++);
+    modelMap.insert("Away Season History", x++);
+    modelMap.insert("Home Season History", x++);
 
 }
