@@ -278,11 +278,11 @@ void HockeyGame::gatherSeasonStatsLt(int index, bool home)
         labels.append("G");
         labels.append("A");
         labels.append("PTS");
-        labels.append("+/-");
+        //labels.append("+/-");
         numbers.append(QString::number(player->getGoals()+ player->getGoalsToday()));
         numbers.append(QString::number(player->getAssists()+ player->getAssistsToday()));
         numbers.append(QString::number(player->getPts() + player->getPtsToday()));
-        numbers.append(player->getPlusMinus());
+        //numbers.append(player->getPlusMinus());
     }
     else {
         player->calcSvPct();

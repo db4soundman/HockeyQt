@@ -42,8 +42,8 @@ void Clock::setClock(QString serialString)
     if (time != serial) {
         serial = time;
 
-        emit clockUpdated();
     }
+    emit clockUpdated();
 }
 
 void Clock::setClockDebug(QString serialString)

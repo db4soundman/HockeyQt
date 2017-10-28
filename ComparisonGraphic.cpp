@@ -116,8 +116,11 @@ void ComparisonGraphic::hideComparison()
 {
     if (show) {
         show = false;
-        // TODO update this
-        emit removeNoTransparencyZone(QRect(x(), y(), rect().width(), rect().height()));
+        if (!statHeader.trimmed().isEmpty()) {
+            QFontMetrics fontSize(statFont);
+            emit removeNoTransparencyZone(QRect(x(), y() + BOX_HEIGHT-24, fontSize.width(statHeader) + 10, 24));
+        }
+        emit removeNoTransparencyZone(QRect(x(), y() + BOX_HEIGHT, statistics.size() > 2 ? 800 : 600, BOX_HEIGHT * 2));
         scene()->update(this->x(), this->y(), rect().width(), rect().height());
     }
 }
@@ -126,7 +129,11 @@ void ComparisonGraphic::showComparison()
 {
 
     show = true;
-    emit addNoTransparencyZone(QRect(x(), y(), rect().width(), rect().height()));
+    if (!statHeader.trimmed().isEmpty()) {
+        QFontMetrics fontSize(statFont);
+        emit addNoTransparencyZone(QRect(x(), y() + BOX_HEIGHT-24, fontSize.width(statHeader) + 10, 24));
+    }
+    emit addNoTransparencyZone(QRect(x(), y() + BOX_HEIGHT, statistics.size() > 2 ? 800 : 600, BOX_HEIGHT * 2));
     scene()->update(this->x(), this->y(), rect().width(), rect().height());
 
 }
