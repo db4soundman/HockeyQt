@@ -530,7 +530,7 @@ void Scoreboard::togglePpClocks()
 {
     showPP = !showPP;
     scene()->update(this->x(), this->y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT,
-                    SCOREBOARD_WIDTH , PP_BAR_HEIGHT+1);
+                    SCOREBOARD_WIDTH + 4 , PP_BAR_HEIGHT+1);
 }
 
 void
@@ -619,6 +619,6 @@ void Scoreboard::setSerialPowerPlay(int pos, QString clock, QString description)
     ppDescription = description;
     serialPpClock = clock;
     scene()->update(this->x(), this->y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT,
-                    SCOREBOARD_WIDTH, PP_BAR_HEIGHT+1);
+                    SCOREBOARD_WIDTH + 4, PP_BAR_HEIGHT+1);
 
 }
