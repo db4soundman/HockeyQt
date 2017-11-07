@@ -52,6 +52,7 @@ private:
     QSerialPort *serial;
     QByteArray data;
     QTimer readTimer;
+    bool firstData;
 };
 
 #endif // MAINWINDOW_H

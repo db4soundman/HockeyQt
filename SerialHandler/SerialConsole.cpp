@@ -11,6 +11,7 @@ SerialConsole::SerialConsole(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::SerialConsole)
 {
+    firstData = true;
 //! [0]
     ui->setupUi(this);
     console = new Console;
@@ -108,16 +109,29 @@ void SerialConsole::writeData(const QByteArray &data)
 //! [7]
 void SerialConsole::readData()
 {
-    //data.clear();
     data.append(serial->readAll());
-    if (data.length()==52) {
-        emit dataReceived(data);
-        data.clear();
-    } else if (data.length() > 52) {
-        // Signal processing fell behind and read more characters
-        // than it should have. We need to handle this or else
-        // we will effective stop reading data.
-        /*
+    if (firstData) {
+        if (data[0] != (char)1){
+            if(data.contains((char)1)) {
+                connect(serial, SIGNAL(readyRead()), this, SLOT(readData()));
+                disconnect(serial, SIGNAL(readyRead()), this, SLOT(readData()));
+                data=data.remove(0, data.indexOf((char)1));
+                firstData = false;
+            } else {
+                data.clear();
+            }
+        } else {
+            firstData = false;
+        }
+    } else {
+        if (data.length()==52) {
+            emit dataReceived(data);
+            data.clear();
+        } else if (data.length() > 52) {
+            // Signal processing fell behind and read more characters
+            // than it should have. We need to handle this or else
+            // we will effective stop reading data.
+            /*
          * A couple options:
          *  1) Pass along each full transmission we have in succession.
          *  2) Consider past transmissions a lost cause and drop the data.
@@ -126,27 +140,13 @@ void SerialConsole::readData()
          * to be not good. I think the system ought to catch up
          * if it gets in this scenario.
          */
-        console->putData("Read too much data: ");
-        console->putData(data);
-        emit dataReceived(data.left(52));
-        data = data.remove(0, 52);
+            console->putData("Read too much data: ");
+            console->putData(data);
+            emit dataReceived(data.left(52));
+            data = data.remove(0, 52);
 
-    }
-    /*
-     * QByteArray rawdata = serial->readAll();
-        if (realData[0] == (char)1) {
-            realData.append(rawdata.left(rawdata.indexOf((char)4) + 1));
         }
-        else realData = rawdata.mid(rawdata.indexOf((char)1));
-        if (realData.length() > 31) {
-            realData = realData.right(32);
-            //if (realData[0] == (char)1 || realData[0] == ' ' || (realData[0] >= '1' && realData[0] <= '6' )) {
-            //realData.resize(32);
-            emit dataReceived(realData);
-            console->putData(realData);
-            //}
-        }*/
-
+    }
 }
 //! [7]
 
