@@ -22,7 +22,8 @@ private slots:
 private:
     QSpinBox goalsToday, astToday, penaltiesToday, pimToday;
     QComboBox playerSelect;
-    HockeyPlayer* player;
+    HockeyPlayer& player;
+    HockeyPlayer dummy;
     HockeyTeam* team;
 
 };

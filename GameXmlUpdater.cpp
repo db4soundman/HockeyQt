@@ -1,6 +1,6 @@
 #include "GameXmlUpdater.h"
 
-GameXmlUpdater::GameXmlUpdater(HockeyGame* game, HockeyTeam* awayTeam, HockeyTeam* homeTeam) {
+GameXmlUpdater::GameXmlUpdater(HockeyGame* game, HockeyTeam* awayTeam, HockeyTeam* homeTeam): curPlayer(dummy) {
     this->game = game;
     this->awayTeam = awayTeam;
     this->homeTeam = homeTeam;
@@ -39,23 +39,23 @@ GameXmlUpdater::startElement(const QString& namespaceURI,
                                      homeTeam->getPlayerByNumber(atts.value("uni"));
         }
         else {
-            curPlayer = NULL;
+            curPlayer = dummy;
         }
     }
 
-    else if (curPlayer != NULL && inPlayer) {
+    else if (curPlayer.getName() != "" && inPlayer) {
         if (qName == "shots") {
-            curPlayer->setAssistsToday(atts.value("a").toInt());
-            curPlayer->setGoalsToday(atts.value("g").toInt());
+            curPlayer.setAssistsToday(atts.value("a").toInt());
+            curPlayer.setGoalsToday(atts.value("g").toInt());
         }
         else if (qName == "penalty") {
-            curPlayer->setPenaltiesToday(atts.value("count").toInt());
-            curPlayer->setPimToday(atts.value("minutes").toInt());
+            curPlayer.setPenaltiesToday(atts.value("count").toInt());
+            curPlayer.setPimToday(atts.value("minutes").toInt());
         }
         else if (qName == "goalie" ) {
-            curPlayer->setGaToday(atts.value("ga").toInt());
-            curPlayer->setSavesToday(atts.value("saves").toInt());
-            curPlayer->setShotsFacedToday(atts.value("ga").toInt() + atts.value("saves").toInt());
+            curPlayer.setGaToday(atts.value("ga").toInt());
+            curPlayer.setSavesToday(atts.value("saves").toInt());
+            curPlayer.setShotsFacedToday(atts.value("ga").toInt() + atts.value("saves").toInt());
         }
     }
 
@@ -71,7 +71,7 @@ bool GameXmlUpdater::endElement(const QString& namespaceURI, const QString& loca
     else if (qName == "team") {
         inAwayTeam = false;
         inPlayer = false;
-        curPlayer = NULL;
+        curPlayer = dummy;
     }
 
     else if (qName == "player") {

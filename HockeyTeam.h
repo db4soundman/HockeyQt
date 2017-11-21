@@ -13,9 +13,9 @@ class HockeyTeam : public QObject {
     Q_OBJECT
 public:
     HockeyTeam(QString name, QColor color, QPixmap logo);
-    HockeyPlayer* getPlayer(const int i);
-    HockeyPlayer* getPlayerByNumber(const QString i);
-    void addPlayer(HockeyPlayer* player);
+    HockeyPlayer& getPlayer(const int i);
+    HockeyPlayer& getPlayerByNumber(const QString i);
+    void addPlayer(HockeyPlayer player);
     void addPeriod(PeriodData pd);
     void addGame(GameHistory gm);
     int getPpg() const;
@@ -50,7 +50,7 @@ public:
 
     QList<QString> getGuiNames();
 
-    HockeyPlayer* getGoalie();
+    HockeyPlayer &getGoalie();
 
     bool getPlayerInGoal() const;
 
@@ -70,6 +70,12 @@ public:
     QList<GameHistory> getGameHistory() const;
     void setGameHistory(const QList<GameHistory> &value);
 
+    QList<HockeyPlayer> getRoster() const;
+
+    void clearRoster();
+    void clearGameHistory();
+    void clearPeriodData();
+
 signals:
 
 
@@ -82,19 +88,20 @@ public slots:
     void setGoalie(int index);
 
 private:
-    QList<HockeyPlayer*> roster;
+    QList<HockeyPlayer> roster;
     int ppg, ppopp, pk, pkopp, timeoutsLeft,
     ppgToday, ppoppToday, pkToday, pkoppToday;
     double ppPct, pkPct;
     bool playerInGoal;
 
-    HockeyPlayer* goalie;
+    HockeyPlayer& goalie;
     QList<PeriodData> periodData;
     QList<GameHistory> gameHistory;
 
     QColor color;
     QPixmap logo;
     QString name;
+    HockeyPlayer dummy;
 };
 
 #endif // HOCKEYTEAM_H

@@ -33,7 +33,7 @@ bool GameXmlHandler::startElement(const QString& namespaceURI,
 
 bool GameXmlHandler::endElement(const QString& namespaceURI, const QString& localName, const QString& qName) {
 if (qName == "player") {
-    team->addPlayer(currPlayer);
+    team->addPlayer(*currPlayer);
 }
 
 else if (qName == "team") {

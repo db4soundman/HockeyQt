@@ -3,7 +3,7 @@
 #include <QFormLayout>
 #include <QPushButton>
 
-PlayerEditor::PlayerEditor(HockeyGame* game, bool homeTeam) {
+PlayerEditor::PlayerEditor(HockeyGame* game, bool homeTeam): player(dummy) {
     QVBoxLayout* mainLayout = new QVBoxLayout();
     QFormLayout* statsLayout = new QFormLayout();
     playerSelect.addItems(homeTeam ? game->getHomeTeam()->getGuiNames() :
@@ -28,18 +28,18 @@ PlayerEditor::PlayerEditor(HockeyGame* game, bool homeTeam) {
 }
 
 void PlayerEditor::updateSpinBoxes() {
-    goalsToday.setValue(player->getGoalsToday());
-    astToday.setValue(player->getAssistsToday());
-    penaltiesToday.setValue(player->getPenaltiesToday());
-    pimToday.setValue(player->getPimToday());
+    goalsToday.setValue(player.getGoalsToday());
+    astToday.setValue(player.getAssistsToday());
+    penaltiesToday.setValue(player.getPenaltiesToday());
+    pimToday.setValue(player.getPimToday());
 }
 
 void PlayerEditor::applyStats() {
-    player->setGoalsToday(goalsToday.value());
-    player->setAssistsToday(astToday.value());
-    player->setPenaltiesToday(penaltiesToday.value());
-    player->setPimToday(pimToday.value());
-    player->setPtsToday(goalsToday.value() +  astToday.value());
+    player.setGoalsToday(goalsToday.value());
+    player.setAssistsToday(astToday.value());
+    player.setPenaltiesToday(penaltiesToday.value());
+    player.setPimToday(pimToday.value());
+    player.setPtsToday(goalsToday.value() +  astToday.value());
 
 }
 

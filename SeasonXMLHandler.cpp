@@ -1,9 +1,93 @@
 #include "SeasonXMLHandler.h"
 #include <QString>
 
+#include <QDomDocument>
+#include <QFile>
+#include <QXmlStreamWriter>
+#include <QTextStream>
+
+
 SeasonXMLHandler::SeasonXMLHandler(HockeyTeam* t) {
     team = t;
     inPlayer = inTotals = inOpponent = foundGoalie =  false;
+}
+
+void SeasonXMLHandler::parseFile(QString filename)
+{
+    QDomDocument doc;
+    QFile file(filename);
+    try {
+        if (!file.open(QIODevice::ReadWrite) || !doc.setContent(&file)) {
+            return;
+        } else {
+           team->clearRoster();
+           team->clearGameHistory();
+           team->clearPeriodData();
+        }
+        QDomElement totals = doc.firstChildElement("totals");
+        QDomElement ppStats = totals.firstChildElement("powerplay");
+        team->setPpg(ppStats.attribute("ppg").toInt());
+        team->setPpopp(ppStats.attribute("ppopp").toInt());
+        team->setPk(ppStats.attribute("pk").toInt());
+        team->setPkopp(ppStats.attribute("pkopp").toInt());
+        QDomNodeList players = doc.elementsByTagName("player");
+        for (int i = 0; i < players.size(); i++) {
+            QDomElement playerData = players.item(i).toElement();
+            HockeyPlayer player;
+            if (playerData.attribute("name").toUpper() != "TEAM") {
+                // Get player vitals
+                player.setName(this->correctName(playerData.attribute("name")));
+                player.setUni(playerData.attribute("uni"));
+                player.setYear(playerData.attribute("year"));
+                player.setGp(playerData.attribute("gp").toInt());
+                // Shots data
+                QDomElement shots= playerData.firstChildElement("shots");
+                player.setGoals(shots.attribute("g").toInt());
+                player.setAssists(shots.attribute("a").toInt());
+                player.setPts(shots.attribute("pts").toInt());
+                QDomElement penalty = playerData.firstChildElement("penalty");
+                player.setPenalties(penalty.attribute("count").toInt());
+                player.setPim(penalty.attribute("minutes").toInt());
+                // Misc
+                // TODO if we want more data from this element, save element
+                player.setPlusMinus(playerData.firstChildElement("misc").attribute("plusminus"));
+                // Check for goalie
+                if (!playerData.firstChildElement("goalie").isNull()) {
+                    QDomElement goalie=playerData.firstChildElement("goalie");
+                    player.setGa(goalie.attribute("ga").toInt());
+                    player.setSaves(goalie.attribute("saves").toInt());
+                    player.setGaavg(goalie.attribute("gaavg"));
+                    player.setWins(goalie.attribute("w").toInt());
+                    player.setLosses(goalie.attribute("l").toInt());
+                } else {
+                    player.setGa(-1);
+                    player.setSaves(-1);
+                    player.setShotsFaced(-1);
+                    player.setWins(-1);
+                    player.setLosses(-1);
+                    player.setGaavg("NG");
+                }
+                team->addPlayer(player);
+            }
+        }
+
+        QDomElement periods = doc.firstChildElement("periods");
+        for(int i = 0; i < periods.elementsByTagName("period").count(); i++) {
+            QDomElement period = periods.elementsByTagName("period").item(i).toElement();
+            team->addPeriod(PeriodData(period.attribute("ownscore"),period.attribute("oppscore")));
+        }
+
+        QDomElement games = doc.firstChildElement("games");
+        for(int i = 0; i < games.elementsByTagName("game").count(); i++) {
+            QDomElement game = games.elementsByTagName("game").item(i).toElement();
+            team->addGame(GameHistory(game.attribute("oppname"),game.attribute("oppscore"),
+                                      game.attribute("ownscore"),game.attribute("periods"),
+                                      game.attribute("date"),game.attribute("homeaway")));
+        }
+        file.close();
+    } catch (...) {
+
+    }
 }
 
 bool SeasonXMLHandler::startElement(const QString& namespaceURI,
@@ -79,7 +163,7 @@ bool SeasonXMLHandler::endElement(const QString& namespaceURI, const QString& lo
             currPlayer->setLosses(-1);
             currPlayer->setGaavg("NG");
         }
-        team->addPlayer(currPlayer);
+        team->addPlayer(*currPlayer);
         inPlayer = false;
         foundGoalie = false;
     }

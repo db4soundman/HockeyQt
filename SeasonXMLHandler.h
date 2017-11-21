@@ -8,6 +8,8 @@ class SeasonXMLHandler : public QXmlDefaultHandler {
 public:
     SeasonXMLHandler(HockeyTeam* t);
 
+    void parseFile(QString filename);
+
     bool startElement(const QString &namespaceURI, const QString &localName,
                       const QString &qName, const QXmlAttributes &atts);
     bool endElement(const QString &namespaceURI, const QString &localName,

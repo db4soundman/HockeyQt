@@ -1,6 +1,6 @@
 #include "HockeyTeam.h"
 
-HockeyTeam::HockeyTeam(QString name, QColor color, QPixmap logo) {
+HockeyTeam::HockeyTeam(QString name, QColor color, QPixmap logo): goalie(dummy) {
     ppgToday = ppoppToday = pkToday = pkoppToday = 0;
     timeoutsLeft = 1;
     this->name = name;
@@ -8,24 +8,24 @@ HockeyTeam::HockeyTeam(QString name, QColor color, QPixmap logo) {
     this->logo = logo;
 }
 
-HockeyPlayer* HockeyTeam::getPlayer(const int i) {
+HockeyPlayer &HockeyTeam::getPlayer(const int i) {
     if (i >= roster.size())
-        return NULL;
-    return roster.at(i);
+        return roster.last();
+    return roster[i];
 }
 
-HockeyPlayer*HockeyTeam::getPlayerByNumber(const QString num)
+HockeyPlayer& HockeyTeam::getPlayerByNumber(const QString num)
 {
     for (int i = 0; i < roster.size(); i++) {
-        if (roster.at(i)->getUni() == num) {
-            return roster.at(i);
+        if (roster.at(i).getUni() == num) {
+            return roster[i];
         }
     }
-    return NULL;
+    return roster.last();
 }
 
 void
-HockeyTeam::addPlayer(HockeyPlayer* player) {
+HockeyTeam::addPlayer(HockeyPlayer player) {
     roster.append(player);
 }
 
@@ -45,7 +45,7 @@ HockeyTeam::addPkFail() {
     pkoppToday++;
 }
 
-HockeyPlayer* HockeyTeam::getGoalie()
+HockeyPlayer& HockeyTeam::getGoalie()
 {
     return goalie;
 }
@@ -59,6 +59,26 @@ void HockeyTeam::setGoalie(int index)
         goalie = getPlayer(index);
         playerInGoal = true;
     }
+}
+
+QList<HockeyPlayer> HockeyTeam::getRoster() const
+{
+    return roster;
+}
+
+void HockeyTeam::clearRoster()
+{
+    roster.clear();
+}
+
+void HockeyTeam::clearGameHistory()
+{
+    gameHistory.clear();
+}
+
+void HockeyTeam::clearPeriodData()
+{
+    periodData.clear();
 }
 
 QList<GameHistory> HockeyTeam::getGameHistory() const
@@ -120,16 +140,16 @@ void HockeyTeam::setGoalies(QString goalies)
         list = list.mid(list.indexOf(" ")+1);
         number = strNum.toInt();
         for (int i = 0; i < roster.size(); i++) {
-            if (number == getPlayer(i)->getUni().toInt()) {
-                getPlayer(i)->setGaavg("Goalie");
+            if (number == getPlayer(i).getUni().toInt()) {
+                getPlayer(i).setGaavg("Goalie");
                 break;
             }
         }
     }
     number = list.toInt();
     for (int i = 0; i < roster.size(); i++) {
-        if (number == getPlayer(i)->getUni().toInt()) {
-            getPlayer(i)->setGaavg("Goalie");
+        if (number == getPlayer(i).getUni().toInt()) {
+            getPlayer(i).setGaavg("Goalie");
             break;
         }
     }
@@ -149,8 +169,8 @@ QList<QString> HockeyTeam::getGuiNames()
 {
     QList<QString> names;
     for (int i = 0; i < roster.size(); i++) {
-        names.append(roster.at(i)->getUni() + " - " +
-                     roster.at(i)->getName());
+        names.append(roster.at(i).getUni() + " - " +
+                     roster.at(i).getName());
     }
 
     return names;

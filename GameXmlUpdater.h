@@ -22,7 +22,8 @@ private:
     HockeyTeam* awayTeam;
     HockeyTeam* homeTeam;
     HockeyGame* game;
-    HockeyPlayer* curPlayer;
+    HockeyPlayer& curPlayer;
+    HockeyPlayer dummy;
 
     bool inTotals, inPlayer, inAwayTeam;
 };
