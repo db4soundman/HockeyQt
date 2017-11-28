@@ -1,6 +1,6 @@
 #include "HockeyTeam.h"
 
-HockeyTeam::HockeyTeam(QString name, QColor color, QPixmap logo): goalie(dummy) {
+HockeyTeam::HockeyTeam(QString name, QColor color, QPixmap logo) {
     ppgToday = ppoppToday = pkToday = pkoppToday = 0;
     timeoutsLeft = 1;
     this->name = name;
@@ -47,7 +47,7 @@ HockeyTeam::addPkFail() {
 
 HockeyPlayer& HockeyTeam::getGoalie()
 {
-    return goalie;
+    return getPlayer(goalie);
 }
 
 void HockeyTeam::setGoalie(int index)
@@ -56,7 +56,7 @@ void HockeyTeam::setGoalie(int index)
         playerInGoal = false;
     }
     else {
-        goalie = getPlayer(index);
+        goalie = index;
         playerInGoal = true;
     }
 }

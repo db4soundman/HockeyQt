@@ -3,13 +3,12 @@
 #include <QFormLayout>
 #include <QPushButton>
 
-PlayerEditor::PlayerEditor(HockeyGame* game, bool homeTeam): player(dummy) {
+PlayerEditor::PlayerEditor(HockeyGame* game, bool homeTeam) {
     QVBoxLayout* mainLayout = new QVBoxLayout();
     QFormLayout* statsLayout = new QFormLayout();
     playerSelect.addItems(homeTeam ? game->getHomeTeam()->getGuiNames() :
                                      game->getAwayTeam()->getGuiNames());
     team = homeTeam ? game->getHomeTeam() : game->getAwayTeam();
-    player = team->getPlayer(0);
     mainLayout->addWidget(&playerSelect);
     statsLayout->addRow("Goals", &goalsToday);
     statsLayout->addRow("Assits", &astToday);
@@ -28,6 +27,7 @@ PlayerEditor::PlayerEditor(HockeyGame* game, bool homeTeam): player(dummy) {
 }
 
 void PlayerEditor::updateSpinBoxes() {
+    HockeyPlayer& player = team->getPlayer(playerSelect.currentIndex());
     goalsToday.setValue(player.getGoalsToday());
     astToday.setValue(player.getAssistsToday());
     penaltiesToday.setValue(player.getPenaltiesToday());
@@ -35,6 +35,7 @@ void PlayerEditor::updateSpinBoxes() {
 }
 
 void PlayerEditor::applyStats() {
+    HockeyPlayer& player = team->getPlayer(playerSelect.currentIndex());
     player.setGoalsToday(goalsToday.value());
     player.setAssistsToday(astToday.value());
     player.setPenaltiesToday(penaltiesToday.value());
@@ -45,6 +46,5 @@ void PlayerEditor::applyStats() {
 
 void PlayerEditor::changePlayer(int index)
 {
-    player = team->getPlayer(index);
     updateSpinBoxes();
 }

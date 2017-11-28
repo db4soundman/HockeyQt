@@ -94,7 +94,7 @@ private:
     double ppPct, pkPct;
     bool playerInGoal;
 
-    HockeyPlayer& goalie;
+    int goalie;
     QList<PeriodData> periodData;
     QList<GameHistory> gameHistory;
 
