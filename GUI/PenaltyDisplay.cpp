@@ -7,6 +7,7 @@
 PenaltyDisplay::PenaltyDisplay(HockeyGame* game, bool homeTeam, bool standAlone) {
     playerSelector.addItems(homeTeam ? game->getHomeTeam()->getGuiNames() :
                                        game->getAwayTeam()->getGuiNames());
+    team = homeTeam ? game->getHomeTeam() : game->getAwayTeam();
 
     QFile file(MiamiAllAccessHockey::getPenaltiesFilePath());
     file.open(QIODevice::ReadWrite | QIODevice::Text);
@@ -14,10 +15,13 @@ PenaltyDisplay::PenaltyDisplay(HockeyGame* game, bool homeTeam, bool standAlone)
 
     while (!textStream.atEnd())
         penaltySelector.addItem(textStream.readLine().toUpper());
+    file.close();
 
     show.setText("Show Penalty Text");
 
     connect(&show, SIGNAL(clicked()), this, SLOT(prepareSignal()));
+    if(standAlone)
+        connect(team, SIGNAL(rosterChanged()), this, SLOT(updateRoster()));
 
     if (homeTeam) {
         connect(this, SIGNAL(callForPenaltyText(int,QString)),
@@ -37,6 +41,12 @@ PenaltyDisplay::PenaltyDisplay(HockeyGame* game, bool homeTeam, bool standAlone)
 void PenaltyDisplay::prepareSignal()
 {
     emit callForPenaltyText(playerSelector.currentIndex(), penaltySelector.currentText());
+}
+
+void PenaltyDisplay::updateRoster()
+{
+    playerSelector.clear();
+    playerSelector.addItems(team->getGuiNames());
 }
 
 

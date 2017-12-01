@@ -12,7 +12,7 @@ SeasonXMLHandler::SeasonXMLHandler(HockeyTeam* t) {
     inPlayer = inTotals = inOpponent = foundGoalie =  false;
 }
 
-void SeasonXMLHandler::parseFile(QString filename)
+void SeasonXMLHandler::parseFile(QString filename, bool emitSignal)
 {
     QDomDocument doc;
     QFile file(filename);
@@ -24,7 +24,7 @@ void SeasonXMLHandler::parseFile(QString filename)
            team->clearGameHistory();
            team->clearPeriodData();
         }
-        QDomElement totals = doc.firstChildElement("totals");
+        QDomElement totals = doc.elementsByTagName("hkseas").item(0).firstChildElement("totals");
         QDomElement ppStats = totals.firstChildElement("powerplay");
         team->setPpg(ppStats.attribute("ppg").toInt());
         team->setPpopp(ppStats.attribute("ppopp").toInt());
@@ -85,6 +85,9 @@ void SeasonXMLHandler::parseFile(QString filename)
                                       game.attribute("date"),game.attribute("homeaway")));
         }
         file.close();
+        if (emitSignal) {
+            emit team->rosterChanged();
+        }
     } catch (...) {
 
     }

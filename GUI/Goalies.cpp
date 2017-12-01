@@ -4,6 +4,7 @@
 #include <QLabel>
 
 Goalies::Goalies(HockeyGame* game) {
+    this->game=game;
     QHBoxLayout* myLayout = new QHBoxLayout();
     QVBoxLayout* away = new QVBoxLayout();
     away->addWidget(new QLabel(game->getAwayTri()));
@@ -52,6 +53,9 @@ Goalies::Goalies(HockeyGame* game) {
     connect(this, SIGNAL(requestAwaySeason(int,bool)), game, SLOT(gatherSeasonStatsLt(int,bool)));
     connect(this, SIGNAL(requestHomeSeason(int,bool)), game, SLOT(gatherSeasonStatsLt(int,bool)));
 
+    connect(game->getHomeTeam(), SIGNAL(rosterChanged()), this, SLOT(updateHomeRoster()));
+    connect(game->getAwayTeam(), SIGNAL(rosterChanged()), this, SLOT(updateAwayRoster()));
+
     emit awayGoalie.currentIndexChanged(0);
     emit homeGoalie.currentIndexChanged(0);
 
@@ -85,4 +89,26 @@ void Goalies::getAwaySeason()
 void Goalies::getHomeSeason()
 {
     emit requestHomeSeason(homeGoalie.currentIndex(), true);
+}
+
+void Goalies::updateAwayRoster()
+{
+    disconnect(&awayGoalie, SIGNAL(currentIndexChanged(int)),
+            game->getAwayTeam(), SLOT(setGoalie(int)));
+    awayGoalie.clear();
+    connect(&awayGoalie, SIGNAL(currentIndexChanged(int)),
+                game->getAwayTeam(), SLOT(setGoalie(int)));
+    awayGoalie.addItems(game->getAwayTeam()->getGuiNames());
+    awayGoalie.addItem("EMPTY NET");
+}
+
+void Goalies::updateHomeRoster()
+{
+    disconnect(&homeGoalie, SIGNAL(currentIndexChanged(int)),
+            game->getHomeTeam(), SLOT(setGoalie(int)));
+    homeGoalie.clear();
+    connect(&homeGoalie, SIGNAL(currentIndexChanged(int)),
+            game->getHomeTeam(), SLOT(setGoalie(int)));
+    homeGoalie.addItems(game->getHomeTeam()->getGuiNames());
+    homeGoalie.addItem("EMPTY NET");
 }

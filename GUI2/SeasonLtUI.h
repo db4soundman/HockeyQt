@@ -12,6 +12,7 @@ public:
 
 public slots:
     void updatePreview();
+    void updateRoster();
 
 private:
     QLabel seasonPreview, gamePreview;

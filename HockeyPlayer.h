@@ -87,7 +87,7 @@ public:
     void addGa();
     void minusGa();
 
-    double getSvPct() const;
+    double getSvPct();
     void calcSvPct();
 
 private:

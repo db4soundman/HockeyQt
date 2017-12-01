@@ -35,6 +35,7 @@
 #include "Goalies.h"
 #include "gamestateui.h"
 #include "PastGamesUI.h"
+#include "SeasonXMLHandler.h"
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
@@ -50,6 +51,8 @@ public:
 private slots:
     void changeScreen(QModelIndex index);
     void switchContent();
+    void updateAwayRoster();
+    void updateHomeRoster();
 
 private:
     QStackedWidget mainContent, alternateContent;
@@ -80,6 +83,8 @@ private:
     DisplayControls displayControls;
     GameStateUI gameStateUi;
     PastGamesUI awaypgUi, homepgUi;
+
+    SeasonXMLHandler homeXmlHandler, awayXmlHandler;
 
     void makeMenu(HockeyGame* game, SerialConsole *console, CommercialGraphic *comGraphic);
 

@@ -19,7 +19,7 @@ SeasonLtUI::SeasonLtUI(HockeyGame *game, bool home):
 
 
     connect(&playerSelector, SIGNAL(currentIndexChanged(int)), this, SLOT(updatePreview()));
-
+    connect(team, SIGNAL(rosterChanged()), this, SLOT(updateRoster()));
 
     seasonRow->addWidget(&seasonPreview);
     seasonRow->addWidget(&seasonLt);
@@ -43,4 +43,12 @@ void SeasonLtUI::updatePreview()
 
     seasonPreview.setPixmap(seasonPixmap.scaled(game->getLt()->getWidth()/2,game->getLt()->getHeight()/2));
     gamePreview.setPixmap(gamePixmap.scaled(game->getLt()->getWidth()/2,game->getLt()->getHeight()/2));
+}
+
+void SeasonLtUI::updateRoster()
+{
+    disconnect(&playerSelector, SIGNAL(currentIndexChanged(int)), this, SLOT(updatePreview()));
+    HomeStatControl::updateRoster();
+    connect(&playerSelector, SIGNAL(currentIndexChanged(int)), this, SLOT(updatePreview()));
+    updatePreview();
 }

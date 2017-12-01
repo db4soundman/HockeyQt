@@ -27,6 +27,9 @@ PpCompUI::PpCompUI(HockeyGame* game):
     comparisonGraphic = game->getComparisonPreview();
     updatePreview();
     setLayout(myLayout);
+
+    connect(game->getAwayTeam(), SIGNAL(rosterChanged()), this, SLOT(updatePreview()));
+    connect(game->getHomeTeam(), SIGNAL(rosterChanged()), this, SLOT(updatePreview()));
 }
 
 void PpCompUI::updatePreview()

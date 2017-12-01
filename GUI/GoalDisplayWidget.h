@@ -7,6 +7,7 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QGridLayout>
+#include "HockeyTeam.h"
 
 class GoalDisplayWidget : public QWidget {
     Q_OBJECT
@@ -18,13 +19,15 @@ signals:
 protected:
     QGridLayout* createLayout();
 
-private slots:
+protected slots:
     void prepareToSendSignal();
+    void updateRoster();
 
 protected:
     QComboBox scorer, assist1, assist2;
     QLabel shooter, firstAssister, secondAssister;
     QPushButton show;
+    HockeyTeam* team;
 
 };
 

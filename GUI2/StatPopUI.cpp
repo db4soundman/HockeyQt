@@ -12,7 +12,8 @@ StatPopUI::StatPopUI(HockeyGame *game, bool phome):
     setLayout(myLayout);
     connect(&playerSelector, SIGNAL(currentIndexChanged(int)), this, SLOT(updateGamePreview()));
     connect(&playerSelector, SIGNAL(currentIndexChanged(int)), this, SLOT(updateSeasonPreview()));
-
+    HockeyTeam* team = home? game->getHomeTeam() : game->getAwayTeam();
+    connect(team, SIGNAL(rosterChanged()), this, SLOT(updateRoster()));
     updateSeasonPreview();
     updateGamePreview();
 }
@@ -25,4 +26,15 @@ void StatPopUI::updateSeasonPreview()
 void StatPopUI::updateGamePreview()
 {
     gamePreview.setText("GAME: " + game->getGamePopText(playerSelector.currentIndex(),home));
+}
+
+void StatPopUI::updateRoster()
+{
+    disconnect(&playerSelector, SIGNAL(currentIndexChanged(int)), this, SLOT(updateGamePreview()));
+    disconnect(&playerSelector, SIGNAL(currentIndexChanged(int)), this, SLOT(updateSeasonPreview()));
+    HomeStatControl::updateRoster();
+    connect(&playerSelector, SIGNAL(currentIndexChanged(int)), this, SLOT(updateGamePreview()));
+    connect(&playerSelector, SIGNAL(currentIndexChanged(int)), this, SLOT(updateSeasonPreview()));
+    updateSeasonPreview();
+    updateGamePreview();
 }

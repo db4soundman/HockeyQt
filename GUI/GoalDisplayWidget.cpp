@@ -2,6 +2,7 @@
 
 
 GoalDisplayWidget::GoalDisplayWidget(HockeyGame* game, bool homeTeam, bool standAlone) {
+    team = homeTeam ? game->getHomeTeam() : game->getAwayTeam();
     scorer.addItems( homeTeam ? game->getHomeTeam()->getGuiNames() :
                                 game->getAwayTeam()->getGuiNames());
     assist1.addItems( homeTeam ? game->getHomeTeam()->getGuiNames() :
@@ -28,6 +29,8 @@ GoalDisplayWidget::GoalDisplayWidget(HockeyGame* game, bool homeTeam, bool stand
     else
         connect(this, SIGNAL(showGoalText(int,int,int)),
                 game, SLOT(prepareAwayGoalText(int,int,int)));
+    if (standAlone)
+        connect(team, SIGNAL(rosterChanged()), this, SLOT(updateRoster()));
 }
 
 QGridLayout* GoalDisplayWidget::createLayout()
@@ -46,4 +49,16 @@ QGridLayout* GoalDisplayWidget::createLayout()
 void GoalDisplayWidget::prepareToSendSignal()
 {
     emit showGoalText(scorer.currentIndex(), assist1.currentIndex(), assist2.currentIndex());
+}
+
+void GoalDisplayWidget::updateRoster()
+{
+    scorer.clear();
+    assist1.clear();
+    assist2.clear();
+    scorer.addItems(team->getGuiNames());
+    assist1.addItems(team->getGuiNames());
+    assist2.addItems(team->getGuiNames());
+    assist1.addItem("UNASSISTED");
+    assist2.addItem("UNASSISTED");
 }

@@ -86,6 +86,7 @@ void SerialConsole::closeSerialPort()
     ui->actionConfigure->setEnabled(true);
     ui->statusBar->showMessage(tr("Disconnected"));
     data.clear();
+    firstData = true;
    // readTimer.stop();
     emit serialDisconnected();
 }
@@ -111,17 +112,15 @@ void SerialConsole::readData()
 {
     data.append(serial->readAll());
     if (firstData) {
-        if (data[0] != (char)1){
-            if(data.contains((char)1)) {
-                connect(serial, SIGNAL(readyRead()), this, SLOT(readData()));
-                disconnect(serial, SIGNAL(readyRead()), this, SLOT(readData()));
+        if (data.length()>=52) {
+            if (data[0] != (char)1){
+                console->putData("First data received was out of line. Correcting...: ");
+                console->putData(data);
                 data=data.remove(0, data.indexOf((char)1));
                 firstData = false;
             } else {
-                data.clear();
+                firstData = false;
             }
-        } else {
-            firstData = false;
         }
     } else {
         if (data.length()==52) {
@@ -140,8 +139,7 @@ void SerialConsole::readData()
          * to be not good. I think the system ought to catch up
          * if it gets in this scenario.
          */
-            console->putData("Read too much data: ");
-            console->putData(data);
+
             emit dataReceived(data.left(52));
             data = data.remove(0, 52);
 

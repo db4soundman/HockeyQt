@@ -6,6 +6,7 @@
 #include <QComboBox>
 #include <QPushButton>
 #include <QHBoxLayout>
+#include "HockeyTeam.h"
 class HomeStatControl : public QWidget {
     Q_OBJECT
 public:
@@ -23,16 +24,18 @@ protected:
     QHBoxLayout* getPopLayout();
     QHBoxLayout* getLowerThirdLayout();
 
-private slots:
+protected slots:
     void requestSeasonLt();
     void requestGameLt();
     void requestGameSb();
     void requestSeasonSb();
+    void updateRoster();
 
 protected:
     QComboBox playerSelector;
     QPushButton seasonLt, gameLt, seasonBar, gameBar;
     bool home;
+    HockeyTeam* team;
 };
 
 #endif // HOMESTATCONTROL_H

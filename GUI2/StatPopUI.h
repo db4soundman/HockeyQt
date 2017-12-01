@@ -14,6 +14,7 @@ public:
 public slots:
     void updateSeasonPreview();
     void updateGamePreview();
+    void updateRoster();
 
 private:
     HockeyGame* game;

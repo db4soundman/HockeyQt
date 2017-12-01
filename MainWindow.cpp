@@ -8,6 +8,7 @@
 #include <QFile>
 #include <QTextStream>
 #include <QStringList>
+#include <QFileDialog>
 
 MainWindow::MainWindow(HockeyGame* game, StandingsGraphic* graphic, CommercialGraphic* comGraphic,
                        NchcScoreboardGraphic* confSbGraphic, ScheduleGraphic *scheduleGraphic,
@@ -19,7 +20,8 @@ MainWindow::MainWindow(HockeyGame* game, StandingsGraphic* graphic, CommercialGr
       homePops(game,true), awayPops(game, false), homeLts(game, true),awayLts(game,false),
       sogUi(game), faceoffUi(game), customCompUi(game), clockControls(game, comGraphic, true),
       displayControls(game,graphic,comGraphic,confSbGraphic,scheduleGraphic,comparisonGraphic, pgg),
-      goalies(game), ppCompUi(game), gameStateUi(game), awaypgUi(pgg, game->getAwayTeam(), false), homepgUi(pgg, game->getHomeTeam(), true)
+      goalies(game), ppCompUi(game), gameStateUi(game), awaypgUi(pgg, game->getAwayTeam(), false), homepgUi(pgg, game->getHomeTeam(), true),
+      awayXmlHandler(game->getAwayTeam()), homeXmlHandler(game->getHomeTeam())
 
 {
     createAlternateContent();
@@ -92,6 +94,20 @@ void MainWindow::switchContent()
     treeView.setEnabled(mainContent.currentIndex() == 0);
 }
 
+void MainWindow::updateAwayRoster()
+{
+    QString file = QFileDialog::getOpenFileName(0, "Away File");
+    if (!file.isEmpty())
+        awayXmlHandler.parseFile(file, true);
+}
+
+void MainWindow::updateHomeRoster()
+{
+    QString file = QFileDialog::getOpenFileName(0, "Home File");
+    if (!file.isEmpty())
+        homeXmlHandler.parseFile(file, true);
+}
+
 void MainWindow::makeMenu(HockeyGame* game, SerialConsole* console, CommercialGraphic* comGraphic)
 {
 //    QMenu* nchcMenu = new QMenu("NCHC");
@@ -117,6 +133,9 @@ void MainWindow::makeMenu(HockeyGame* game, SerialConsole* console, CommercialGr
     awayMenu->addAction(toggleLogoBackground);
     connect(toggleLogoBackground, SIGNAL(toggled(bool)), game->getSb(), SLOT(toggleAwayLogoBg(bool)));
     connect(toggleLogoBackground, SIGNAL(toggled(bool)), comGraphic, SLOT(toggleAwayLogoBg(bool)));
+    QAction* awayTeamRoster = new QAction("Load Roster", this);
+    connect(awayTeamRoster, SIGNAL(triggered(bool)), this, SLOT(updateAwayRoster()));
+    awayMenu->addAction(awayTeamRoster);
 
     QMenu* homeMenu = new QMenu(game->getHomeName());
     QAction* homePlayerEditor = new QAction("Edit Player Stats", this);
@@ -127,6 +146,10 @@ void MainWindow::makeMenu(HockeyGame* game, SerialConsole* console, CommercialGr
     connect(homeTeamEdit, SIGNAL(triggered()), &homeEdit, SLOT(updateSpinBoxes()));
     connect(homeTeamEdit, SIGNAL(triggered()), &homeEdit, SLOT(show()));
     homeMenu->addAction(homeTeamEdit);
+
+    QAction* homeTeamRoster = new QAction("Load Roster", this);
+    connect(homeTeamRoster, SIGNAL(triggered(bool)), this, SLOT(updateHomeRoster()));
+    homeMenu->addAction(homeTeamRoster);
 //    QAction* scheduleEdit = new QAction("Schedule", this);
 //    connect(scheduleEdit, SIGNAL(triggered(bool)), &scheduleGui, SLOT(show()));
 //    homeMenu->addAction(scheduleEdit);

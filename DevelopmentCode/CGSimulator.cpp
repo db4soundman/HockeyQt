@@ -67,7 +67,8 @@ void CGSimulator::handleTimeout()
         a1.tick();
         a2.tick();
     }
-    QString output = " ";
+    char x = (char)1;
+    QString output(x);
     output += gameClock.toStringDebug().rightJustified(7,' ');
     output += clockStopped.isChecked() ? "s":" ";
     output += homeScore.text().rightJustified(2,'0');

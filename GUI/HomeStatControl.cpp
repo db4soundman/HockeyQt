@@ -4,6 +4,7 @@
 
 
 HomeStatControl::HomeStatControl(HockeyGame* game, bool phome, bool standAlone) : home(phome) {
+    team = home ? game->getHomeTeam() : game->getAwayTeam();
     playerSelector.addItems( home ? game->getHomeTeam()->getGuiNames() :
                                     game->getAwayTeam()->getGuiNames());
     seasonLt.setText("Season Lower Third");
@@ -25,6 +26,7 @@ HomeStatControl::HomeStatControl(HockeyGame* game, bool phome, bool standAlone) 
     connect(&gameBar, SIGNAL(clicked()), this, SLOT(requestGameSb()));
     connect(this, SIGNAL(requestGameSb(int, bool)), game, SLOT(gatherGameStatsSb(int, bool)));
     if (standAlone) {
+        connect(team, SIGNAL(rosterChanged()), this, SLOT(updateRoster()));
         setLayout(getFullLayout());
     }
 }
@@ -79,4 +81,10 @@ void HomeStatControl::requestGameSb()
 void HomeStatControl::requestSeasonSb()
 {
     emit requestSeasonSb(playerSelector.currentIndex(), home);
+}
+
+void HomeStatControl::updateRoster()
+{
+    playerSelector.clear();
+    playerSelector.addItems(team->getGuiNames());
 }

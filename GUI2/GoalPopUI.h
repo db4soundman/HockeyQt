@@ -12,6 +12,7 @@ public:
 
 private slots:
     void updatePreview();
+    void updateRoster();
 
 private:
 

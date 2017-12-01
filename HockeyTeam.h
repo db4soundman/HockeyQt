@@ -77,7 +77,7 @@ public:
     void clearPeriodData();
 
 signals:
-
+    void rosterChanged();
 
 public slots:
     void addPpg();

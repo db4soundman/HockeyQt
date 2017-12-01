@@ -26,10 +26,13 @@ private slots:
     void getAwaySb();
     void getAwaySeason();
     void getHomeSeason();
+    void updateAwayRoster();
+    void updateHomeRoster();
 
 private:
     QComboBox homeGoalie, awayGoalie;
     QPushButton awayLt, awaySB, homeLt, homeSB, awaySeason, homeSeason;
+    HockeyGame* game;
 
 };
 

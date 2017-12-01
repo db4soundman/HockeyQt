@@ -266,8 +266,9 @@ void HockeyPlayer::minusGa()
     gaToday--;
     shotsFacedToday--;
 }
-double HockeyPlayer::getSvPct() const
+double HockeyPlayer::getSvPct()
 {
+    calcSvPct();
     return svPct;
 }
 
