@@ -36,6 +36,7 @@
 #include "gamestateui.h"
 #include "PastGamesUI.h"
 #include "SeasonXMLHandler.h"
+#include "TextualRosterInput.h"
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
@@ -83,6 +84,8 @@ private:
     DisplayControls displayControls;
     GameStateUI gameStateUi;
     PastGamesUI awaypgUi, homepgUi;
+
+    TextualRosterInput awayTextInput, homeTextInput;
 
     SeasonXMLHandler homeXmlHandler, awayXmlHandler;
 

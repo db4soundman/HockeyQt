@@ -17,12 +17,14 @@ public:
     bool characters(const QString &str);
     bool fatalError(const QXmlParseException &exception);
 
+    static QString correctName(QString name);
+
 private:
     HockeyTeam* team;
     bool inPlayer, inTotals, inOpponent, foundGoalie;
     HockeyPlayer* currPlayer;
 
-    QString correctName(QString name);
+
 };
 
 #endif // SEASONXMLHANDLER_H
