@@ -21,7 +21,8 @@ MainWindow::MainWindow(HockeyGame* game, StandingsGraphic* graphic, CommercialGr
       sogUi(game), faceoffUi(game), customCompUi(game), clockControls(game, comGraphic, true),
       displayControls(game,graphic,comGraphic,confSbGraphic,scheduleGraphic,comparisonGraphic, pgg),
       goalies(game), ppCompUi(game), gameStateUi(game), awaypgUi(pgg, game->getAwayTeam(), false), homepgUi(pgg, game->getHomeTeam(), true),
-      awayXmlHandler(game->getAwayTeam()), homeXmlHandler(game->getHomeTeam())
+      awayXmlHandler(game->getAwayTeam()), homeXmlHandler(game->getHomeTeam()),
+      awayTextInput(game->getAwayTeam()), homeTextInput(game->getHomeTeam())
 
 {
     createAlternateContent();
@@ -136,6 +137,10 @@ void MainWindow::makeMenu(HockeyGame* game, SerialConsole* console, CommercialGr
     QAction* awayTeamRoster = new QAction("Load Roster", this);
     connect(awayTeamRoster, SIGNAL(triggered(bool)), this, SLOT(updateAwayRoster()));
     awayMenu->addAction(awayTeamRoster);
+    QAction* awayTeamRosterText = new QAction("Input Roster", this);
+    connect(awayTeamRosterText, SIGNAL(triggered(bool)), &awayTextInput, SLOT(show()));
+    awayMenu->addAction(awayTeamRosterText);
+
 
     QMenu* homeMenu = new QMenu(game->getHomeName());
     QAction* homePlayerEditor = new QAction("Edit Player Stats", this);

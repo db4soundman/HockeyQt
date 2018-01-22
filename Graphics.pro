@@ -22,7 +22,8 @@ INCLUDEPATH += GUI \
             Schedule \
             GUI2 \
             DevelopmentCode \
-            PastGames
+            PastGames \
+            TextualRoster
 
 SOURCES += main.cpp\
         MainWindow.cpp \
@@ -97,7 +98,8 @@ SOURCES += main.cpp\
     PeriodData.cpp \
     GameHistory.cpp \
     PastGames/PastGamesGraphic.cpp \
-    PastGames/PastGamesUI.cpp
+    PastGames/PastGamesUI.cpp \
+    TextualRoster/TextualRosterInput.cpp
 
 HEADERS  += MainWindow.h \
     Scoreboard.h \
@@ -172,7 +174,8 @@ HEADERS  += MainWindow.h \
     PeriodData.h \
     GameHistory.h \
     PastGames/PastGamesGraphic.h \
-    PastGames/PastGamesUI.h
+    PastGames/PastGamesUI.h \
+    TextualRoster/TextualRosterInput.h
 
 
 RESOURCES += \
