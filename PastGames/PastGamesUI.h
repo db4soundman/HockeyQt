@@ -22,11 +22,13 @@ signals:
 
 private slots:
     void prepareToShow();
+    void updateUi();
 
 private:
     QPushButton showButton;
     QSpinBox numToShow;
     bool home;
+    HockeyTeam* team;
 };
 
 #endif // PASTGAMESUI_H

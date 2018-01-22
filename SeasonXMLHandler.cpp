@@ -71,13 +71,13 @@ void SeasonXMLHandler::parseFile(QString filename, bool emitSignal)
             }
         }
 
-        QDomElement periods = doc.firstChildElement("periods");
+        QDomElement periods = doc.elementsByTagName("hkseas").item(0).firstChildElement("periods");
         for(int i = 0; i < periods.elementsByTagName("period").count(); i++) {
             QDomElement period = periods.elementsByTagName("period").item(i).toElement();
             team->addPeriod(PeriodData(period.attribute("ownscore"),period.attribute("oppscore")));
         }
 
-        QDomElement games = doc.firstChildElement("games");
+        QDomElement games = doc.elementsByTagName("hkseas").item(0).firstChildElement("games");
         for(int i = 0; i < games.elementsByTagName("game").count(); i++) {
             QDomElement game = games.elementsByTagName("game").item(i).toElement();
             team->addGame(GameHistory(game.attribute("oppname"),game.attribute("oppscore"),

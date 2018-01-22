@@ -26,16 +26,20 @@ public slots:
     void toggleShow();
     void hide();
     void receiveData(bool team, int num);
+    void updateAwayHistory();
+    void updateHomeHistory();
 
 private:
 
-    bool show, homeTeam;
+    bool show, isHomeTeam;
     QLinearGradient border, background, teamBg;
     QList<GameHistory> gameHistory, awayHistory, homeHistory;
     QPixmap homeLogo, awayLogo;
     QColor homeColor, awayColor;
     QString homeName, awayName;
     int numToShow;
+
+    HockeyTeam *awayTeam, *homeTeam;
 
 };
 

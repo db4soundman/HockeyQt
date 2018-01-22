@@ -11,6 +11,8 @@
 PastGamesGraphic::PastGamesGraphic(HockeyTeam *hTeam, HockeyTeam *aTeam, QGraphicsItem *parent): QGraphicsRectItem(parent)
 {
     setRect(0,0,WIDTH,HEIGHT);
+    awayTeam = aTeam;
+    homeTeam = hTeam;
     border.setStart(0,0);
     border.setFinalStop(0, HEIGHT);
     border.setColorAt(0, QColor(196, 213, 242));
@@ -38,7 +40,10 @@ PastGamesGraphic::PastGamesGraphic(HockeyTeam *hTeam, HockeyTeam *aTeam, QGraphi
     numToShow = 0;
     show = false;
 
-    homeTeam = true;
+    isHomeTeam = true;
+
+    connect(awayTeam, SIGNAL(rosterChanged()), this, SLOT(updateAwayHistory()));
+    connect(homeTeam, SIGNAL(rosterChanged()), this, SLOT(updateHomeHistory()));
 }
 
 void PastGamesGraphic::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -54,11 +59,11 @@ void PastGamesGraphic::paint(QPainter *painter, const QStyleOptionGraphicsItem *
         painter->fillRect(graphicRect, border);
         painter->fillRect(4,4, graphicRect.width()-8, graphicRect.height()-8, background);
         painter->fillRect(0,0, graphicRect.width(), 30, teamBg);
-        painter->drawPixmap(0,0, homeTeam ? homeLogo : awayLogo);
+        painter->drawPixmap(0,0, isHomeTeam ? homeLogo : awayLogo);
         QFont headerFont("Arial", 20, QFont::Bold);
         painter->setFont(headerFont);
         painter->setPen(QColor(255,255,255));
-        painter->drawText(0,0,graphicRect.width(),30, Qt::AlignCenter, homeTeam ? homeName : awayName);
+        painter->drawText(0,0,graphicRect.width(),30, Qt::AlignCenter, isHomeTeam ? homeName : awayName);
         painter->setPen(QColor(1,1,1));
         painter->fillRect(0,30, graphicRect.width(), 20, border);
         QFont font("Arial", 16, QFont::Bold);
@@ -103,8 +108,8 @@ void PastGamesGraphic::hide()
 void PastGamesGraphic::receiveData(bool team, int num)
 {
     //gameHistory=sched;
-    homeTeam = team;
-    QColor color = homeTeam ? homeColor:awayColor;
+    isHomeTeam = team;
+    QColor color = isHomeTeam ? homeColor:awayColor;
     int red, green, blue;
     red = -1*color.red() *NAME_GRADIENT_LEVEL + color.red();
     green = -1*color.green() *NAME_GRADIENT_LEVEL + color.green();
@@ -117,7 +122,17 @@ void PastGamesGraphic::receiveData(bool team, int num)
     teamBg.setColorAt(0, color);
     teamBg.setColorAt(1, end);
     numToShow = num;
-    gameHistory = homeTeam ? homeHistory : awayHistory;
+    gameHistory = isHomeTeam ? homeHistory : awayHistory;
 
     toggleShow();
+}
+
+void PastGamesGraphic::updateAwayHistory()
+{
+    awayHistory = awayTeam->getGameHistory();
+}
+
+void PastGamesGraphic::updateHomeHistory()
+{
+    homeHistory= homeTeam->getGameHistory();
 }
