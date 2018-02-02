@@ -21,6 +21,10 @@ public slots:
     void enableClockControls();
     void switchShowText();
 
+    void handleAutomatedIntermission();
+    void handleAutomatedFinal();
+    void handleAutomatedNewPeriod();
+
 private:
     //QLabel label;
     QPushButton run, reset, set, nextPd, prevPd, clock, intermission, final, penalty, showPenalties;

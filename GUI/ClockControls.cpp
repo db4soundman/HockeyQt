@@ -58,6 +58,10 @@ ClockControls::ClockControls(HockeyGame* game, CommercialGraphic* comGraphic, bo
     connect(game, SIGNAL(usingInternalClock()), this, SLOT(enableClockControls()));
     setLayout(myLayout);
 
+    connect(game, SIGNAL(automatedFinal()), this, SLOT(handleAutomatedFinal()));
+    connect(game, SIGNAL(automatedIntermission()), this, SLOT(handleAutomatedIntermission()));
+    connect(game, SIGNAL(automatedShowClock()), this, SLOT(handleAutomatedNewPeriod()));
+
     gameClock = game->getGameClock();
 }
 
@@ -89,4 +93,19 @@ void ClockControls::enableClockControls()
 void ClockControls::switchShowText()
 {
     showPenalties.setText(showPenalties.text() == "Penalty Clocks: On" ? "Penalty Clocks: Off"  : "Penalty Clocks: On");
+}
+
+void ClockControls::handleAutomatedIntermission()
+{
+    intermission.click();
+}
+
+void ClockControls::handleAutomatedFinal()
+{
+    final.click();
+}
+
+void ClockControls::handleAutomatedNewPeriod()
+{
+    clock.click();
 }

@@ -6,6 +6,8 @@
 #include "GraphicChooser.txt"
 #include "console.h"
 #include <algorithm>
+#include <QRegularExpression>
+
 
 HockeyGame::HockeyGame(QString awayName, QString homeName, QColor awayColor, QColor homeColor,
                        QString awayXML, QString homeXML, QString sponsor, QString announcers,
@@ -57,6 +59,9 @@ HockeyGame::HockeyGame(QString awayName, QString homeName, QColor awayColor, QCo
     SeasonXMLHandler roadHandler(awayTeam);
     roadHandler.parseFile(awayXML);
     awayTeam->addPlayer(empty);
+
+    firedPeriodChange = false;
+    waitingForPeriodStart = false;
 }
 
 void
@@ -625,6 +630,24 @@ void HockeyGame::parseAllSportCG(QByteArray data)
                 subAwaySOG();
             }
         }
+
+        if (stopped) {
+            if (!firedPeriodChange) {
+                QRegularExpression simpleForm("^0.0$");
+                if (gameClock.toString() == "00.0" || simpleForm.match(gameClock.toString()).hasMatch()) {
+                    firePeriodChange();
+                }
+            } else if (waitingForPeriodStart) {
+                QRegularExpression simpleForm("^0.0$");
+                if (gameClock.toString() != "00.0" && !simpleForm.match(gameClock.toString()).hasMatch()) {
+                    waitingForPeriodStart=false;
+                    emit automatedScoreboard();
+                }
+            }
+        } else {
+            firedPeriodChange = false;
+        }
+
         //toggleCgPenaltyClocks(!stopped);
     } catch (...) {
         serialConsole->getConsole()->putData(data);
@@ -896,6 +919,26 @@ void HockeyGame::deleteExpiredPenalties()
     }
     homePlayersOnIce = 5 - homePenalty.size();
     awayPlayersOnIce = 5 - awayPenalty.size();
+}
+
+void HockeyGame::triggerIntermission()
+{
+    emit automatedIntermission();
+}
+
+void HockeyGame::triggerFinal()
+{
+    emit automatedFinal();
+}
+
+void HockeyGame::triggerNewPeriod()
+{
+    emit automatedShowClock();
+}
+
+void HockeyGame::triggerCommercial()
+{
+    emit automatedCommercial();
 }
 
 ComparisonGraphic *HockeyGame::getComparisonPreview()
@@ -1188,4 +1231,54 @@ void HockeyGame::determinePpClockAllSport(QString clock)
         ppPos = 0;
     }
     sb.setSerialPowerPlay(ppPos,clock,description);
+}
+
+void HockeyGame::firePeriodChange()
+{
+    firedPeriodChange = true;
+    if (period == 0) {
+        emit automatedHide();
+        advancePeriod();
+        waitingForPeriodStart = true;
+    } else if (period < 3){
+        if (sb.getShowClock()) {
+            QTimer::singleShot(1000, this, SLOT(triggerIntermission()));
+            QTimer::singleShot(3000, this, SLOT(triggerCommercial()));
+        } else {
+            emit automatedHide();
+            waitingForPeriodStart = true;
+            advancePeriod();
+            QTimer::singleShot(500, this, SLOT(triggerNewPeriod()));
+        }
+    } else if (period == 3)  {
+        if (homeScore != awayScore) {
+            QTimer::singleShot(1000, this, SLOT(triggerFinal()));
+            QTimer::singleShot(3000, this, SLOT(triggerCommercial()));
+        } else {
+            if (sb.getShowClock()) {
+                QTimer::singleShot(1000, this, SLOT(triggerIntermission()));
+                QTimer::singleShot(3000, this, SLOT(triggerCommercial()));
+            } else {
+                emit automatedHide();
+                waitingForPeriodStart = true;
+                advancePeriod();
+                QTimer::singleShot(1000, this, SLOT(triggerNewPeriod()));
+            }
+        }
+    } else if (period < 6){
+        if (homeScore != awayScore) {
+            QTimer::singleShot(1000, this, SLOT(triggerFinal()));
+            QTimer::singleShot(3000, this, SLOT(triggerCommercial()));
+        } else {
+            if (sb.getShowClock()) {
+                QTimer::singleShot(1000, this, SLOT(triggerIntermission()));
+                QTimer::singleShot(3000, this, SLOT(triggerCommercial()));
+            } else {
+                emit automatedHide();
+                waitingForPeriodStart = true;
+                advancePeriod();
+                QTimer::singleShot(1000, this, SLOT(triggerNewPeriod()));
+            }
+        }
+    }
 }

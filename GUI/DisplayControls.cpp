@@ -68,6 +68,10 @@ DisplayControls::DisplayControls(HockeyGame* game, StandingsGraphic* graphic, Co
     connect(&hideButton, SIGNAL(clicked()), comparisonGraphic, SLOT(hideComparison()));
     connect(&hideButton, SIGNAL(clicked()), pastGamesGraphic, SLOT(hide()));
 
+    connect(game, SIGNAL(automatedCommercial()), &commericalButton, SLOT(click()));
+    connect(game, SIGNAL(automatedHide()), &hideButton, SLOT(click()));
+    connect(game, SIGNAL(automatedScoreboard()), &sbButton, SLOT(click()));
+
 }
 
 void DisplayControls::prepareCustomText() {

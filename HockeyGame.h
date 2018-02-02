@@ -162,9 +162,19 @@ signals:
     void usingAllSport();
     void usingInternalClock();
     void toggleShowPenalty();
+    void automatedIntermission();
+    void automatedShowClock();
+    void automatedFinal();
+    void automatedHide();
+    void automatedCommercial();
+    void automatedScoreboard();
 
 private slots:
     void deleteExpiredPenalties();
+    void triggerIntermission();
+    void triggerFinal();
+    void triggerNewPeriod();
+    void triggerCommercial();
 
 private:
     QString homeName, homeShortName, awayName, awayShortName, sponsor, announcers, timeEventHappened, homeRank,
@@ -190,6 +200,10 @@ private:
     void prepareSameStatComp(QList<QString> stats, QString statName, bool goLive=true);
     void triggerNewPenalty();
     void determinePpClockAllSport(QString clock="");
+    void firePeriodChange();
+
+
+    bool firedPeriodChange, waitingForPeriodStart;
 };
 
 #endif // HOCKEYGAME_H
