@@ -1,11 +1,12 @@
 #include "PenaltyControl.h"
 #include <QGridLayout>
+#include "MiamiAllAccessHockey.h"
 
 PenaltyControl::PenaltyControl(HockeyGame* game) {
     clockLayout = new QGridLayout();
     setTitle("Penalty Controls");
-    awayLabel.setText(game->getAwayTri() + " PENALTY");
-    homeLabel.setText(game->getHomeTri() + " PENALTY");
+    awayLabel.setText(MiamiAllAccessHockey::awaySchool.getShortName() + " PENALTY");
+    homeLabel.setText(MiamiAllAccessHockey::homeSchool.getShortName() + " PENALTY");
     ap2.setText("+ 2:00");
     ap4.setText("+ 4:00");
     ap5.setText("+ 5:00");

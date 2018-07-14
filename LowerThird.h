@@ -18,7 +18,7 @@ public:
 #ifdef GRADIENT_LOOK
     LowerThird(QColor awayColor, QColor homeColor, int screenWidth, QGraphicsItem* parent = 0);
 #else
-    LowerThird(QColor awayColor, QColor homeColor, int screenWidth, QPixmap pawayLogo, QGraphicsItem* parent = 0);
+    LowerThird(int screenWidth, QGraphicsItem* parent = 0);
 #endif
 
     void paint(QPainter * painter,

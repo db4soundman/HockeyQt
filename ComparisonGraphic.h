@@ -15,7 +15,7 @@
 class ComparisonGraphic : public QObject, public QGraphicsRectItem {
     Q_OBJECT
 public:
-    ComparisonGraphic(QColor awayColor, QColor homeColor, QPixmap pawayLogo, bool preview=false);
+    ComparisonGraphic(bool preview=false);
     void paint(QPainter * painter,
                const QStyleOptionGraphicsItem * option, QWidget * widget = 0);
 

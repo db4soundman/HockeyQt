@@ -33,9 +33,8 @@
 #define TOP_BAR_WIDTH (SCOREBOARD_WIDTH - 40)
 #define TOP_BAR_HEIGHT 39
 
-Scoreboard::Scoreboard(QColor awayCol, QColor homeCol, QString awayTeam, QString homeTeam,
-                       QString sponsorText, Clock* clock, QString pAwayRank, QString pHomeRank, QPixmap pawayLogo) :
-    homeColor(homeCol), awayColor(awayCol) {
+Scoreboard::Scoreboard(QString sponsorText, Clock* clock, QString pAwayRank, QString pHomeRank) :
+    homeColor(MiamiAllAccessHockey::homeSchool.getPrimaryColor()), awayColor(MiamiAllAccessHockey::awaySchool.getPrimaryColor()) {
     QFont font("Arial", 28, QFont::Bold);
     font.setCapitalization(QFont::SmallCaps);
     QFont sponsorFont("Arial", 20, QFont::Bold);
@@ -49,8 +48,8 @@ Scoreboard::Scoreboard(QColor awayCol, QColor homeCol, QString awayTeam, QString
     defaultSponsorText = sponsorFont;
     show = false;
     setRect(0,0,SCOREBOARD_WIDTH, TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT + TOP_BAR_HEIGHT + 5);
-    homeLogo = new QPixmap(":/images/M.png");
-    awayLogo = new QPixmap(pawayLogo);
+    homeLogo = new QPixmap(MiamiAllAccessHockey::homeSchool.getLogo());
+    awayLogo = new QPixmap(MiamiAllAccessHockey::awaySchool.getLogo());
     altAwayLogoBg = false;
     *homeLogo = homeLogo->scaledToHeight(TEAM_BOX_HEIGHT, Qt::SmoothTransformation);
     if (homeLogo->width() > LOGO_WIDTH)
@@ -63,8 +62,8 @@ Scoreboard::Scoreboard(QColor awayCol, QColor homeCol, QString awayTeam, QString
     awayLogoOffset = (TEAM_BOX_HEIGHT - awayLogo->height()) / 2;
 
     useClock = true;
-    awayName = new QGraphicsTextItem(awayTeam);
-    homeName = new QGraphicsTextItem(homeTeam);
+    awayName = new QGraphicsTextItem(MiamiAllAccessHockey::awaySchool.getFullName());
+    homeName = new QGraphicsTextItem(MiamiAllAccessHockey::homeSchool.getFullName());
     awayName->setFont(font);
     homeName->setFont(font);
     awayScore = new QGraphicsTextItem("0");

@@ -1,4 +1,6 @@
 #include "SetupPage.h"
+#include "MiamiAllAccessHockey.h"
+#include "School.h"
 #include <QGridLayout>
 #include <QFileDialog>
 #include <QColorDialog>
@@ -7,18 +9,15 @@
 #include <QMessageBox>
 
 
-SetupPage::SetupPage(QString* pAwayName, QString* pHomeName, QString* pAwayFile,
-                     QString* pHomeFile, QString* pSponsor, QString* pAnnouncer,
-                     QString* pAwayRank, QString* pHomeRank, QColor* pAwayColor,
-                     QColor* pHomeColor, QColor* pBg, QString* pStatCrew,
-                     bool *pUsingTricaster, QString* pawayLogo, QString* tricasterIp,
-                     QString* aSname, QString* hSname, int *portNum): homeColorPrev(16,16),
+SetupPage::SetupPage(QString* pAwayFile,QString* pHomeFile, QString* pSponsor, QString* pAnnouncer,
+                     QString* pAwayRank, QString* pHomeRank, QColor* pBg, QString* pStatCrew,
+                     bool *pUsingTricaster, QString* tricasterIp, int *portNum): homeColorPrev(16,16),
     awayColorPrev(16,16) {
+    homeColorPrev.fill(MiamiAllAccessHockey::homeSchool.getPrimaryColor());
+    awayColorPrev.fill(MiamiAllAccessHockey::awaySchool.getPrimaryColor());
     swatchSelector = new QComboBox();
     swatchSelector->addItem("1");
     swatchSelector->addItem("2");
-    homeColorPrev.fill(*pHomeColor);
-    awayColorPrev.fill(*pAwayColor);
     homeColorBox = new QLabel();
     awayColorBox = new QLabel();
     homeColorBox->setPixmap(homeColorPrev);
@@ -32,22 +31,15 @@ SetupPage::SetupPage(QString* pAwayName, QString* pHomeName, QString* pAwayFile,
     browseLogo.setText("Logo");
     profileDialog.setText("Load Profile");
     ipHelp.setText("How do I determine this?");
-    awayName = pAwayName;
-    homeName = pHomeName;
     awayFile = pAwayFile;
     homeFile = (pHomeFile);
     sponsor = (pSponsor);
     announcer = (pAnnouncer);
     awayRank = (pAwayRank);
     homeRank = (pHomeRank);
-    awayColor = (pAwayColor);
-    homeColor = pHomeColor;
     statCrew = pStatCrew;
-    awayShort = aSname;
-    homeShort = hSname;
     bg = pBg;
     usingTricaster = pUsingTricaster;
-    awayLogo = pawayLogo;
     this->tricasterIp = tricasterIp;
     port = portNum;
     QGridLayout* mainLayout = new QGridLayout();
@@ -109,9 +101,9 @@ SetupPage::SetupPage(QString* pAwayName, QString* pHomeName, QString* pAwayFile,
     connect(swatchSelector, SIGNAL(currentIndexChanged(int)), this, SLOT(applyProfile()));
     connect(&ipHelp, SIGNAL(clicked()), this, SLOT(showHelp()));
 
-    homeNameLine.setText(*homeName);
+    homeNameLine.setText(MiamiAllAccessHockey::homeSchool.getFullName());
     announcerLine.setText(*announcer);
-    homeShortLine.setText(*homeShort);
+    homeShortLine.setText(MiamiAllAccessHockey::homeSchool.getShortName());
     setTitle("Game Information");
     //connect(&profileSelector, SIGNAL(closed(Profile)), this, SLOT(applyProfile(Profile)));
 }
@@ -122,12 +114,12 @@ bool SetupPage::validatePage()
     *homeRank = homeRankLine.text();
     *sponsor = sponsorLine.text();
     *announcer = announcerLine.text();
-    *awayName = awayNameLine.text().toUpper();
-    *homeName = homeNameLine.text().toUpper();
+    MiamiAllAccessHockey::awaySchool.setFullName(awayNameLine.text().toUpper());
+    MiamiAllAccessHockey::homeSchool.setFullName(homeNameLine.text().toUpper());
     *usingTricaster = tricasterBox->isChecked();
     *tricasterIp = tricasterIpLine.text();
-    *awayShort = awayShortLine.text().toUpper();
-    *homeShort = homeShortLine.text().toUpper();
+    MiamiAllAccessHockey::awaySchool.setShortName(awayShortLine.text().toUpper());
+    MiamiAllAccessHockey::homeSchool.setShortName(homeShortLine.text().toUpper());
     *port = portSelector->currentIndex() + 7000;
     return true;
 }
@@ -155,9 +147,9 @@ void SetupPage::statCrewBrowse()
 
 void SetupPage::awayColorDiag()
 {
-    QColor temp = QColorDialog::getColor(*awayColor, 0, "Away Color");
+    QColor temp = QColorDialog::getColor(MiamiAllAccessHockey::awaySchool.getPrimaryColor(), 0, "Away Color");
     if (temp.isValid()) {
-        *awayColor = temp;
+        MiamiAllAccessHockey::awaySchool.setPrimaryColor(temp);
         awayColorPrev.fill(temp);
         awayColorBox->setPixmap(awayColorPrev);
     }
@@ -165,9 +157,9 @@ void SetupPage::awayColorDiag()
 
 void SetupPage::homeColorDiag()
 {
-    QColor temp = QColorDialog::getColor(*homeColor, 0, "Home Color");
+    QColor temp = QColorDialog::getColor(MiamiAllAccessHockey::homeSchool.getPrimaryColor(), 0, "Home Color");
     if (temp.isValid()) {
-        *homeColor = temp;
+        MiamiAllAccessHockey::homeSchool.setPrimaryColor(temp);
         homeColorPrev.fill(temp);
         homeColorBox->setPixmap(homeColorPrev);
 
@@ -183,8 +175,10 @@ void SetupPage::bgDiag()
 
 void SetupPage::logoBrowse() {
     QString file = QFileDialog::getOpenFileName(0, "Away Logo");
-    if (!file.isEmpty())
-        *awayLogo = file + "NOESPN";
+    if (!file.isEmpty()){
+        QPixmap p(file);
+        MiamiAllAccessHockey::awaySchool.setLogo(p);
+    }
 }
 
 void SetupPage::profileBrowse() {
@@ -224,16 +218,18 @@ void SetupPage::applyProfile()
     if (!activeProfile.getLogoPath().isEmpty()) {
         awayNameLine.setText(activeProfile.getFullName());
         QImage swatch(activeProfile.getSwatchPath());
+        School s (activeProfile,swatch,QPixmap::fromImage(MiamiAllAccessHockey::getTrimmedLogo(activeProfile.getLogoPath())));
+        QColor awayColor;
         switch (swatchSelector->currentIndex()) {
         case 0:
-            *awayColor = swatch.pixel(0,10);
+            awayColor = s.getPrimaryColor();
             break;
         default:
-            *awayColor = swatch.pixel(0,14);
+            awayColor = s.getSecondaryColor();
         }
-        awayColorPrev.fill(*awayColor);
+        awayColorPrev.fill(awayColor);
         awayColorBox->setPixmap(awayColorPrev);
-        *awayLogo = activeProfile.getLogoPath();
+        MiamiAllAccessHockey::awaySchool = s;
         awayShortLine.setText(activeProfile.getShortName());
     }
 }

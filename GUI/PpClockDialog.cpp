@@ -5,12 +5,13 @@
 #include <QPushButton>
 #include <QLabel>
 #include "ClockDialog.h"
+#include "MiamiAllAccessHockey.h"
 
 PpClockDialog::PpClockDialog(HockeyGame* game) {
     QVBoxLayout* mainLayout = new QVBoxLayout();
     QGridLayout* clocks = new QGridLayout();
-    clocks->addWidget(new QLabel(game->getAwayTri()), 0, 0);
-    clocks->addWidget(new QLabel(game->getHomeTri()), 0, 1);
+    clocks->addWidget(new QLabel(MiamiAllAccessHockey::awaySchool.getShortName()), 0, 0);
+    clocks->addWidget(new QLabel(MiamiAllAccessHockey::homeSchool.getShortName()), 0, 1);
 
     QList<Clock*> awayPenalties = game->getAwayPenalty();
     QList<Clock*> homePenalties = game->getHomePenalty();

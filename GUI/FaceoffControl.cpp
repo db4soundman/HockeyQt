@@ -1,13 +1,13 @@
 #include "FaceoffControl.h"
-
+#include "MiamiAllAccessHockey.h"
 
 
 FaceoffControl::FaceoffControl(HockeyGame *game, bool standAlone, QWidget *parent) : QWidget(parent)
 {
     awayFaceoffWins.setMinimum(0);
     homeFaceoffWins.setMinimum(0);
-    homeLabel.setText(game->getHomeTri());
-    awayLabel.setText(game->getAwayTri());
+    homeLabel.setText(MiamiAllAccessHockey::homeSchool.getShortName());
+    awayLabel.setText(MiamiAllAccessHockey::awaySchool.getShortName());
     show.setText("Show Comparison");
 
     if (standAlone) setLayout(getLayout());

@@ -16,7 +16,7 @@ public:
 #ifdef GRADIENT_LOOK
     CommercialGraphic(HockeyGame* game, int width, QString pawayLogo, QGraphicsItem *parent = 0);
 #else
-    CommercialGraphic(HockeyGame* game, QPixmap pawayLogo, QGraphicsItem *parent = 0);
+    CommercialGraphic(HockeyGame* game, QGraphicsItem *parent = 0);
 #endif
     void paint(QPainter * painter,
                const QStyleOptionGraphicsItem * option, QWidget * widget = 0);

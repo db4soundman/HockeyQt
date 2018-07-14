@@ -2,12 +2,13 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QLabel>
+#include "MiamiAllAccessHockey.h"
 
 Goalies::Goalies(HockeyGame* game) {
     this->game=game;
     QHBoxLayout* myLayout = new QHBoxLayout();
     QVBoxLayout* away = new QVBoxLayout();
-    away->addWidget(new QLabel(game->getAwayTri()));
+    away->addWidget(new QLabel(MiamiAllAccessHockey::awaySchool.getShortName()));
     awayGoalie.addItems(game->getAwayTeam()->getGuiNames());
     awayGoalie.addItem("EMPTY NET");
     away->addWidget(&awayGoalie);
@@ -19,7 +20,7 @@ Goalies::Goalies(HockeyGame* game) {
     awaySeason.setText("Season Lower Third");
 
     QVBoxLayout* home = new QVBoxLayout();
-    home->addWidget(new QLabel(game->getHomeTri()));
+    home->addWidget(new QLabel(MiamiAllAccessHockey::homeSchool.getShortName()));
     homeGoalie.addItems(game->getHomeTeam()->getGuiNames());
     homeGoalie.addItem("EMPTY NET");
     home->addWidget(&homeGoalie);

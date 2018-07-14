@@ -1,10 +1,10 @@
 #include "SogControl.h"
 #include <QString>
-
+#include "MiamiAllAccessHockey.h"
 
 SogControl::SogControl(HockeyGame* game, bool standAlone) {
-    awayName = game->getAwayTri();
-    homeName = game->getHomeTri();
+    awayName = MiamiAllAccessHockey::awaySchool.getShortName();
+    homeName = MiamiAllAccessHockey::homeSchool.getShortName();
     showTopBar.setText("Show Top Bar");
     showLt.setText("Show Lower Third");
     awayLabel.setText(awayName + " SOG: 0");

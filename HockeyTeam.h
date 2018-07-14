@@ -12,7 +12,7 @@
 class HockeyTeam : public QObject {
     Q_OBJECT
 public:
-    HockeyTeam(QString name, QColor color, QPixmap logo);
+    HockeyTeam();
     HockeyPlayer& getPlayer(const int i);
     HockeyPlayer& getPlayerByNumber(const QString i);
     void addPlayer(HockeyPlayer player);
@@ -58,15 +58,6 @@ public:
 
     QList<PeriodData> getPeriodData() const;
 
-    QColor getColor() const;
-    void setColor(const QColor &value);
-
-    QPixmap getLogo() const;
-    void setLogo(const QPixmap &value);
-
-    QString getName() const;
-    void setName(const QString &value);
-
     QList<GameHistory> getGameHistory() const;
     void setGameHistory(const QList<GameHistory> &value);
 
@@ -98,9 +89,9 @@ private:
     QList<PeriodData> periodData;
     QList<GameHistory> gameHistory;
 
-    QColor color;
-    QPixmap logo;
-    QString name;
+//    QColor color;
+//    QPixmap logo;
+//    QString name;
     HockeyPlayer dummy;
 };
 

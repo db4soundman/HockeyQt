@@ -42,6 +42,8 @@ public:
     int exec();
 
     static QImage getTrimmedLogo(QString filePath);
+    static School awaySchool;
+    static School homeSchool;
 
 private:
     QGraphicsView* tv, *previewSb, *previewLt;

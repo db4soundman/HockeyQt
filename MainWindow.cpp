@@ -9,6 +9,7 @@
 #include <QTextStream>
 #include <QStringList>
 #include <QFileDialog>
+#include "MiamiAllAccessHockey.h"
 
 MainWindow::MainWindow(HockeyGame* game, StandingsGraphic* graphic, CommercialGraphic* comGraphic,
                        NchcScoreboardGraphic* confSbGraphic, ScheduleGraphic *scheduleGraphic,
@@ -120,7 +121,7 @@ void MainWindow::makeMenu(HockeyGame* game, SerialConsole* console, CommercialGr
 //    nchcMenu->addAction(confSb);
 //    menuBar()->addMenu(nchcMenu);
 
-    QMenu* awayMenu = new QMenu(game->getAwayName());
+    QMenu* awayMenu = new QMenu(MiamiAllAccessHockey::awaySchool.getFullName());
     QAction* awayPlayerEditor = new QAction("Edit Player Stats", this);
     connect(awayPlayerEditor, SIGNAL(triggered()), &awayPlayerEdit, SLOT(updateSpinBoxes()));
     connect(awayPlayerEditor, SIGNAL(triggered()), &awayPlayerEdit, SLOT(show()));
@@ -142,7 +143,7 @@ void MainWindow::makeMenu(HockeyGame* game, SerialConsole* console, CommercialGr
     awayMenu->addAction(awayTeamRosterText);
 
 
-    QMenu* homeMenu = new QMenu(game->getHomeName());
+    QMenu* homeMenu = new QMenu(MiamiAllAccessHockey::homeSchool.getFullName());
     QAction* homePlayerEditor = new QAction("Edit Player Stats", this);
     connect(homePlayerEditor, SIGNAL(triggered()), &homePlayerEdit, SLOT(updateSpinBoxes()));
     connect(homePlayerEditor, SIGNAL(triggered()), &homePlayerEdit, SLOT(show()));
@@ -155,6 +156,10 @@ void MainWindow::makeMenu(HockeyGame* game, SerialConsole* console, CommercialGr
     QAction* homeTeamRoster = new QAction("Load Roster", this);
     connect(homeTeamRoster, SIGNAL(triggered(bool)), this, SLOT(updateHomeRoster()));
     homeMenu->addAction(homeTeamRoster);
+
+    QAction* homeTeamRosterText = new QAction("Input Roster", this);
+    connect(homeTeamRosterText, SIGNAL(triggered(bool)), &homeTextInput, SLOT(show()));
+    homeMenu->addAction(homeTeamRosterText);
 //    QAction* scheduleEdit = new QAction("Schedule", this);
 //    connect(scheduleEdit, SIGNAL(triggered(bool)), &scheduleGui, SLOT(show()));
 //    homeMenu->addAction(scheduleEdit);

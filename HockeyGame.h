@@ -14,15 +14,13 @@
 #include "ComparisonGraphic.h"
 #include <QSet>
 #include "CGSimulator.h"
-
+#include "School.h"
 
 class HockeyGame : public QObject {
     Q_OBJECT
 public:
-    HockeyGame(QString awayName, QString homeName, QColor awayColor, QColor homeColor,
-               QString awayXML, QString homeXML, QString sponsor, QString announcers,
-               QString awayRank, QString homeRank, int screenWidth, QPixmap awayLogo,
-               QString hsName, QString asName);
+    HockeyGame(QString awayXML, QString homeXML, QString sponsor, QString announcers,
+               QString awayRank, QString homeRank, int screenWidth);
 
     Scoreboard* getSb();
     LowerThird* getLt();
@@ -36,18 +34,11 @@ public:
     QString getAnnouncers() const;
     void setAnnouncers(const QString& value);
 
-    QString getHomeName() const;
-    void setHomeName(const QString& value);
-
-    QString getAwayName() const;
-    void setAwayName(const QString& value);
-
     HockeyTeam* getHomeTeam() const;
 
     HockeyTeam* getAwayTeam() const;
 
     Clock* getGameClock();
-
 
     QList<Clock*> getAwayPenalty() const;
     void setAwayPenalty(const QList<Clock*>& value);
@@ -60,12 +51,6 @@ public:
 
     QString getAwayRank() const;
     void setAwayRank(const QString& value);
-
-    QColor getHomeColor() const;
-    void setHomeColor(const QColor& value);
-
-    QColor getAwayColor() const;
-    void setAwayColor(const QColor& value);
 
     int getAwayScore() const;
     void setAwayScore(int value);
@@ -84,9 +69,6 @@ public:
 
     int getAwaySOG() const;
     void setAwaySOG(int value);
-
-    QString getAwayTri() const;
-    QString getHomeTri() const;
 
     QTimer* getTricasterRefresh();
 
@@ -177,14 +159,12 @@ private slots:
     void triggerCommercial();
 
 private:
-    QString homeName, homeShortName, awayName, awayShortName, sponsor, announcers, timeEventHappened, homeRank,
-    awayRank;
+    QString sponsor, announcers, timeEventHappened, homeRank, awayRank;
     int awayScore, homeScore, period, homeSOG, awaySOG, homePlayersOnIce, awayPlayersOnIce, penaltyIndex;
     Clock gameClock;
     QList<Clock*> awayPenalty, homePenalty;
     QTimer timer, tricasterRefresh, cgTimer;
     bool clockRunning, isFinal, useClock, penaltiesActive;
-    QColor homeColor, awayColor;
     HockeyTeam* homeTeam;
     HockeyTeam* awayTeam;
     Scoreboard sb;

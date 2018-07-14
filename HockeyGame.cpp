@@ -7,19 +7,17 @@
 #include "console.h"
 #include <algorithm>
 #include <QRegularExpression>
+#include "MiamiAllAccessHockey.h"
 
 
-HockeyGame::HockeyGame(QString awayName, QString homeName, QColor awayColor, QColor homeColor,
-                       QString awayXML, QString homeXML, QString sponsor, QString announcers,
-                       QString awayRank, QString homeRank, int screenWidth, QPixmap awayLogo, QString hsName, QString asName) :
-    awayName(awayName), homeName(homeName), sponsor(sponsor), announcers(announcers), awayColor(awayColor),
-    homeColor(homeColor), awayRank(awayRank), homeRank(homeRank),
-    sb(awayColor, homeColor, awayName, homeName, sponsor, &gameClock, awayRank, homeRank, awayLogo), homeShortName(hsName),
-    awayShortName(asName), comparisonPreview(awayColor, homeColor, awayLogo, true),
+HockeyGame::HockeyGame(QString awayXML, QString homeXML, QString sponsor, QString announcers,
+                       QString awayRank, QString homeRank, int screenWidth) :
+    sponsor(sponsor), announcers(announcers),awayRank(awayRank), homeRank(homeRank),
+    sb(sponsor, &gameClock, awayRank, homeRank), comparisonPreview(true),
     #ifdef GRADIENT_LOOK
     lt (awayColor, homeColor, screenWidth)
   #else
-    lt(awayColor, homeColor, screenWidth, awayLogo), previewLt(awayColor, homeColor, screenWidth, awayLogo)
+    lt(screenWidth), previewLt(screenWidth)
   #endif
 {
     useClock = true;
@@ -48,8 +46,8 @@ HockeyGame::HockeyGame(QString awayName, QString homeName, QColor awayColor, QCo
     connect(this, SIGNAL(penaltyChanged(int,Clock*,QString)), &sb, SLOT(preparePowerplayClock(int,Clock*,QString)));
     connect(this, SIGNAL(checkScoreboardPp()), this, SLOT(determinePpClockForScoreboard()));
     // Make teams...
-    homeTeam = new HockeyTeam(homeName, homeColor, QPixmap(":/images/M.png"));
-    awayTeam = new HockeyTeam(awayName, awayColor, awayLogo);
+    homeTeam = new HockeyTeam();
+    awayTeam = new HockeyTeam();
 
     SeasonXMLHandler handler(homeTeam);
     handler.parseFile(homeXML);
@@ -137,7 +135,9 @@ void HockeyGame::showSogComparison()
     QList<QString> stats;
     stats.append(QString::number(awaySOG));
     stats.append(QString::number(homeSOG));
-    comparisonGraphic->prepareStandardComp(getAwayTri(), getHomeTri(), stats, "Shots on Goal");
+    comparisonGraphic->prepareStandardComp(MiamiAllAccessHockey::awaySchool.getShortName(),
+                                           MiamiAllAccessHockey::homeSchool.getShortName(),
+                                           stats, "Shots on Goal");
 }
 
 QPixmap HockeyGame::getSogComparisonPreview()
@@ -145,7 +145,9 @@ QPixmap HockeyGame::getSogComparisonPreview()
     QList<QString> stats;
     stats.append(QString::number(awaySOG));
     stats.append(QString::number(homeSOG));
-    comparisonPreview.prepareStandardComp(getAwayTri(), getHomeTri(), stats, "Shots on Goal");
+    comparisonPreview.prepareStandardComp(MiamiAllAccessHockey::awaySchool.getShortName(),
+                                          MiamiAllAccessHockey::homeSchool.getShortName(),
+                                          stats, "Shots on Goal");
     QPixmap graphic(comparisonPreview.getWidth(), comparisonPreview.getHeight());
     graphic.fill(QColor(0,0,0,0));
     QPainter painter(&graphic);
@@ -166,7 +168,7 @@ HockeyGame::showAnnouncers() {
 QString HockeyGame::getSeasonPopText(int index, bool home)
 {
     HockeyPlayer& player = home ? getHomeTeam()->getPlayer(index) : getAwayTeam()->getPlayer(index);
-    QString text = player.getName() + " (" + (home ? getHomeTri() : getAwayTri()) +"): ";
+    QString text = player.getName() + " (" + (home ? MiamiAllAccessHockey::homeSchool.getShortName() : MiamiAllAccessHockey::awaySchool.getShortName()) +"): ";
     if (player.getGaavg() == "NG") {
         text += QString::number(player.getGoals() + player.getGoalsToday()) + " G, ";
         text += QString::number(player.getAssists() + player.getAssistsToday()) + " A, ";
@@ -184,8 +186,8 @@ QString HockeyGame::getGamePopText(int index, bool home)
 {
     HockeyPlayer& player = home ? getHomeTeam()->getPlayer(index) :
                                   getAwayTeam()->getPlayer(index);
-    QString text = home ? player.getName() + " (" + getHomeTri()+"): " :
-                          player.getName() + " (" + getAwayTri()+"): ";
+    QString text = home ? player.getName() + " (" + MiamiAllAccessHockey::homeSchool.getShortName()+"): " :
+                          player.getName() + " (" + MiamiAllAccessHockey::awaySchool.getShortName()+"): ";
     if (player.getGaavg() == "NG") {
         text += QString::number(player.getGoalsToday()) + " G, ";
         text += QString::number(player.getAssistsToday()) + " A, ";
@@ -339,7 +341,7 @@ QString HockeyGame::getGoalText(int scorer, int a1, int a2, bool home)
     HockeyPlayer& goalScorer = team->getPlayer(scorer);
     HockeyPlayer& ast1 = team->getPlayer(a1);
     HockeyPlayer& ast2 = team->getPlayer(a2);
-    QString text = (home ? getHomeTri() : getAwayTri()) + " GOAL: " + goalScorer.getName() + " ";
+    QString text = (home ? MiamiAllAccessHockey::homeSchool.getShortName() : MiamiAllAccessHockey::awaySchool.getShortName()) + " GOAL: " + goalScorer.getName() + " ";
     if (ast1.getName().toUpper() != "NO NAME") {
         text += "(" + ast1.getName().mid(ast1.getName().indexOf(" ")+1);
         if (ast2.getName().toUpper() != "NO NAME") {
@@ -369,7 +371,7 @@ void HockeyGame::prepareAwayGoalText(int scorer, int a1, int a2)
 QString HockeyGame::getPenaltyText(int pIndex, QString penalty, bool home)
 {
     HockeyTeam* team = home ? homeTeam: awayTeam;
-    return ((home ? getHomeTri() : getAwayTri()) + " PENALTY: " + team->getPlayer(pIndex).getName() + " ("
+    return ((home ? MiamiAllAccessHockey::homeSchool.getShortName() : MiamiAllAccessHockey::awaySchool.getShortName()) + " PENALTY: " + team->getPlayer(pIndex).getName() + " ("
             + penalty +") " + timeEventHappened);
 }
 
@@ -452,27 +454,6 @@ HockeyTeam* HockeyGame::getAwayTeam() const
 HockeyTeam* HockeyGame::getHomeTeam() const
 {
     return homeTeam;
-}
-
-
-QString HockeyGame::getAwayName() const
-{
-    return awayName;
-}
-
-void HockeyGame::setAwayName(const QString& value)
-{
-    awayName = value;
-}
-
-QString HockeyGame::getHomeName() const
-{
-    return homeName;
-}
-
-void HockeyGame::setHomeName(const QString& value)
-{
-    homeName = value;
 }
 
 QString HockeyGame::getAnnouncers() const
@@ -985,15 +966,6 @@ void HockeyGame::setAwaySOG(int value)
     emit awaySogChanged(awaySOG);
 }
 
-QString HockeyGame::getAwayTri() const
-{
-    return awayName.length() > 6 ? awayShortName : awayName;
-}
-
-QString HockeyGame::getHomeTri() const
-{
-    return homeName.length() > 6 ? homeShortName : homeName;
-}
 
 int HockeyGame::getHomeSOG() const
 {
@@ -1044,26 +1016,6 @@ int HockeyGame::getAwayScore() const
 void HockeyGame::setAwayScore(int value)
 {
     awayScore = value;
-}
-
-QColor HockeyGame::getAwayColor() const
-{
-    return awayColor;
-}
-
-void HockeyGame::setAwayColor(const QColor& value)
-{
-    awayColor = value;
-}
-
-QColor HockeyGame::getHomeColor() const
-{
-    return homeColor;
-}
-
-void HockeyGame::setHomeColor(const QColor& value)
-{
-    homeColor = value;
 }
 
 QString HockeyGame::getAwayRank() const
@@ -1170,10 +1122,10 @@ HockeyGame::getLowestPpClock() {
 void HockeyGame::prepareSameStatComp(QList<QString> stats, QString statName, bool goLive)
 {
     if (goLive) {
-        comparisonGraphic->prepareStandardComp(getAwayTri(), getHomeTri(), stats, statName);
+        comparisonGraphic->prepareStandardComp(MiamiAllAccessHockey::awaySchool.getShortName(), MiamiAllAccessHockey::homeSchool.getShortName(), stats, statName);
     }
     else {
-        comparisonPreview.prepareStandardComp(getAwayTri(), getHomeTri(), stats, statName);
+        comparisonPreview.prepareStandardComp(MiamiAllAccessHockey::awaySchool.getShortName(), MiamiAllAccessHockey::homeSchool.getShortName(), stats, statName);
     }
 }
 

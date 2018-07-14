@@ -1,11 +1,12 @@
 #include "GameInfo.h"
 #include <QGridLayout>
+#include "MiamiAllAccessHockey.h"
 
 GameInfo::GameInfo(HockeyGame* game) {
     QGridLayout* myLayout = new QGridLayout();
-    awayTeamName.setText(game->getAwayTri());
+    awayTeamName.setText(MiamiAllAccessHockey::awaySchool.getShortName());
     myLayout->addWidget(&awayTeamName, 0, 0);
-    homeTeamName.setText(game->getHomeTri());
+    homeTeamName.setText(MiamiAllAccessHockey::homeSchool.getShortName());
     myLayout->addWidget(&homeTeamName, 1, 0);
     awayTeamScore.setText("0");
     myLayout->addWidget(&awayTeamScore, 0, 1);

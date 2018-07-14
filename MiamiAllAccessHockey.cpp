@@ -1,4 +1,5 @@
 #include "MiamiAllAccessHockey.h"
+#include "School.h"
 #include <QStandardPaths>
 #include <QDir>
 #include <QFile>
@@ -10,6 +11,9 @@
 #include "SerialConsole.h"
 #include <QVBoxLayout>
 #include <QMessageBox>
+
+School MiamiAllAccessHockey::awaySchool = School();
+School MiamiAllAccessHockey::homeSchool = School();
 
 MiamiAllAccessHockey::MiamiAllAccessHockey(int& argc, char* argv[]) :
     QApplication (argc, argv) {
@@ -122,33 +126,32 @@ MiamiAllAccessHockey::exec() {
     // Make vars, create wizard.
     scene = new QGraphicsScene();
 
-    QString awayName, homeName, awayRank, homeRank, homeFile, awayFile, sponsor, announcer,
-            goalies, statcrewName, awayLogo, tricasterIp, awayShort, homeShort;
-    QColor awayColor, homeColor,  bg;
+    QString awayRank, homeRank, homeFile, awayFile, sponsor, announcer,
+            goalies, statcrewName, tricasterIp;
+    QColor bg;
     int pk, pkopp, ppg, ppopp, port;
+    MiamiAllAccessHockey::homeSchool = School::getSchoolFromESPN("MIAMI_OH");
+    homeSchool.setShortName("MIAMI");
+    homeSchool.setTitle("MIAMI");
+    homeSchool.setFullName("MIAMI");
     usingTricaster = true;
-    homeColor.setRgb(226, 24, 54);
+
     bg.setRgb(0,120,0);
     announcer = params.stringValue("ANNOUNCER");
     sponsor = params.stringValue("SPONSOR");
-    homeName = "MIAMI";
-    homeShort = "MIAMI";
     tricasterIp = params.stringValue("IP");
     QDesktopWidget desktop;
 
-    SetupWizard wizard(&awayName, &homeName, &awayFile, &homeFile, &sponsor,
-                       &announcer, &awayRank, &homeRank, &awayColor, &homeColor,
-                       &bg, &pk, &pkopp, &ppg, &ppopp, &goalies, &statcrewName, &usingTricaster, &awayLogo,
-                       &tricasterIp, &awayShort, &homeShort, &port);
+    SetupWizard wizard(&awayFile, &homeFile, &sponsor,
+                       &announcer, &awayRank, &homeRank, &bg, &pk, &pkopp, &ppg, &ppopp, &goalies, &statcrewName, &usingTricaster,
+                       &tricasterIp, &port);
     wizard.exec();
     QRect graphicsScreen = usingTricaster ? QRect(0,0,1920,1080) : desktop.screenGeometry(0);
-    QPixmap awayLogoImg = QPixmap::fromImage(getTrimmedLogo(awayLogo));
-    if (awayShort.trimmed().isEmpty()) {
-        awayShort = awayName;
+    if (MiamiAllAccessHockey::awaySchool.getShortName().isEmpty()) {
+        MiamiAllAccessHockey::awaySchool.setShortName(MiamiAllAccessHockey::awaySchool.getFullName());
     }
-    game = new HockeyGame(awayName, homeName, awayColor, homeColor,
-                          awayFile, homeFile, sponsor, announcer, awayRank,
-                          homeRank, graphicsScreen.width() + 1, awayLogoImg, homeShort, awayShort);
+    game = new HockeyGame(awayFile, homeFile, sponsor, announcer, awayRank,
+                          homeRank, graphicsScreen.width() + 1);
     if (usingTricaster)
         bg.setRgb(0,0,0);
 
@@ -175,12 +178,12 @@ MiamiAllAccessHockey::exec() {
     commercial = new CommercialGraphic(game, graphicsScreen.width(), awayLogo);
     game->getLt()->setX((graphicsScreen.width() / 2) - 214);
 #else
-    commercial = new CommercialGraphic(game, awayLogoImg);
+    commercial = new CommercialGraphic(game);
     commercial->setX(graphicsScreen.width() / 2 - 500);
     game->getLt()->setX((graphicsScreen.width() / 2) - 500);
 #endif
     scene->addItem(commercial);
-    comparisonGraphic = new ComparisonGraphic(awayColor, homeColor, awayLogoImg);
+    comparisonGraphic = new ComparisonGraphic();
     comparisonGraphic->setX((graphicsScreen.width() / 2) - 500);
     comparisonGraphic->setY(graphicsScreen.height() - 198);
     scene->addItem(comparisonGraphic);

@@ -1,13 +1,14 @@
 #include "ScoreControl.h"
 #include <QGridLayout>
+#include "MiamiAllAccessHockey.h"
 
 ScoreControl::ScoreControl(HockeyGame* game) {
     QGridLayout* myLayout = new QGridLayout();
     setTitle("Score Controls");
-    ag.setText(game->getAwayTri() + " +");
-    hg.setText(game->getHomeTri() + " +");
-    am.setText(game->getAwayTri() + " -");
-    hm.setText(game->getHomeTri() + " -");
+    ag.setText(MiamiAllAccessHockey::awaySchool.getShortName() + " +");
+    hg.setText(MiamiAllAccessHockey::homeSchool.getShortName() + " +");
+    am.setText(MiamiAllAccessHockey::awaySchool.getShortName() + " -");
+    hm.setText(MiamiAllAccessHockey::homeSchool.getShortName() + " -");
     myLayout->addWidget(&ag, 1, 0);
     myLayout->addWidget(&hg, 1, 1);
     myLayout->addWidget(&am, 2, 0);

@@ -20,9 +20,9 @@
 #define HOME_Y (AWAY_Y * 2 + RECT_HEIGHT - 1)
 #define GRAPHIC_HEIGHT 200
 
-CommercialGraphic::CommercialGraphic(HockeyGame* game, QPixmap pawayLogo, QGraphicsItem* parent) :
+CommercialGraphic::CommercialGraphic(HockeyGame* game,QGraphicsItem* parent) :
     QGraphicsRectItem(parent), blackBar(QPixmap(":/images/ppBar.png")),
-    homeLogo(QPixmap(":/images/M.png")) {
+    homeLogo(MiamiAllAccessHockey::homeSchool.getLogo()) {
     setRect(0,0,GRAPHIC_WIDTH, GRAPHIC_HEIGHT);
     useClock = true;
     hockeyGame = game;
@@ -36,19 +36,19 @@ CommercialGraphic::CommercialGraphic(HockeyGame* game, QPixmap pawayLogo, QGraph
 #endif
     //QPixmap pix(pawayLogo);
     networkLogo = MiamiAllAccessHockey::getImgFromResources(":/images/NCHCTV.png",50);
-    away = new QGraphicsTextItem(game->getAwayName());
+    away = new QGraphicsTextItem(MiamiAllAccessHockey::awaySchool.getFullName());
     away->setFont(font);
     checkAwayFont();
-    home = new QGraphicsTextItem(game->getHomeName());
+    home = new QGraphicsTextItem(MiamiAllAccessHockey::homeSchool.getFullName());
     home->setFont(font);
     altAwayLogoBg = false;
     descriptiveFont = sponsorFont;
-    prepareGradients(game->getAwayColor(), game->getHomeColor());
+    prepareGradients(MiamiAllAccessHockey::awaySchool.getPrimaryColor(), MiamiAllAccessHockey::homeSchool.getPrimaryColor());
     networkText = "NCHC.tv";
     clockStatus = SHOW_CLOCK;
     descriptiveFont.setCapitalization(QFont::SmallCaps);
     connect(game->getGameClock(), SIGNAL(clockUpdated()), this, SLOT(updateClock()));
-    awayLogo = new QPixmap(pawayLogo);
+    awayLogo = new QPixmap(MiamiAllAccessHockey::awaySchool.getLogo());
     if (awayLogo->height() > LOGO_HEIGHT) {
         *awayLogo = awayLogo->scaledToHeight(LOGO_HEIGHT, Qt::SmoothTransformation);
     }

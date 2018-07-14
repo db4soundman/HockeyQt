@@ -29,12 +29,12 @@ PastGamesGraphic::PastGamesGraphic(HockeyTeam *hTeam, HockeyTeam *aTeam, QGraphi
     //home = hTeam;
    // away = aTeam;
 
-    homeLogo = hTeam->getLogo().scaledToHeight(30, Qt::SmoothTransformation);
-    awayLogo = aTeam->getLogo().scaledToHeight(30, Qt::SmoothTransformation);
-    homeColor = hTeam->getColor();
-    awayColor = aTeam->getColor();
-    homeName = hTeam->getName();
-    awayName = aTeam->getName();
+    homeLogo = MiamiAllAccessHockey::homeSchool.getLogo().scaledToHeight(30, Qt::SmoothTransformation);
+    awayLogo = MiamiAllAccessHockey::awaySchool.getLogo().scaledToHeight(30, Qt::SmoothTransformation);
+    homeColor = MiamiAllAccessHockey::homeSchool.getPrimaryColor();
+    awayColor = MiamiAllAccessHockey::awaySchool.getPrimaryColor();
+    homeName = MiamiAllAccessHockey::homeSchool.getFullName();
+    awayName = MiamiAllAccessHockey::awaySchool.getFullName();
     awayHistory = aTeam->getGameHistory();
     homeHistory = hTeam->getGameHistory();
     numToShow = 0;

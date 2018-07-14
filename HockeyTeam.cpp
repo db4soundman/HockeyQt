@@ -1,11 +1,8 @@
 #include "HockeyTeam.h"
 
-HockeyTeam::HockeyTeam(QString name, QColor color, QPixmap logo) {
+HockeyTeam::HockeyTeam() {
     ppgToday = ppoppToday = pkToday = pkoppToday = 0;
     timeoutsLeft = 1;
-    this->name = name;
-    this->color = color;
-    this->logo = logo;
 }
 
 HockeyPlayer &HockeyTeam::getPlayer(const int i) {
@@ -91,35 +88,6 @@ void HockeyTeam::setGameHistory(const QList<GameHistory> &value)
     gameHistory = value;
 }
 
-QString HockeyTeam::getName() const
-{
-    return name;
-}
-
-void HockeyTeam::setName(const QString &value)
-{
-    name = value;
-}
-
-QPixmap HockeyTeam::getLogo() const
-{
-    return logo;
-}
-
-void HockeyTeam::setLogo(const QPixmap &value)
-{
-    logo = value;
-}
-
-QColor HockeyTeam::getColor() const
-{
-    return color;
-}
-
-void HockeyTeam::setColor(const QColor &value)
-{
-    color = value;
-}
 
 QList<PeriodData> HockeyTeam::getPeriodData() const
 {

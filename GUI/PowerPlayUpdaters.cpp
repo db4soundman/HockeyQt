@@ -1,8 +1,8 @@
 #include "PowerPlayUpdaters.h"
-
+#include "MiamiAllAccessHockey.h"
 PowerPlayUpdaters::PowerPlayUpdaters(HockeyGame* game, bool standAlone) {
-    awayLabel.setText(game->getAwayTri() + " Power Play");
-    homeLabel.setText(game->getHomeTri() + " Power Play");
+    awayLabel.setText(MiamiAllAccessHockey::awaySchool.getShortName() + " Power Play");
+    homeLabel.setText(MiamiAllAccessHockey::homeSchool.getShortName() + " Power Play");
     awayGoal.setText("GOAL");
     awayFail.setText("FAIL");
     homeGoal.setText("GOAL");

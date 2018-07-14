@@ -9,11 +9,11 @@
 
 class SetupWizard : public QWizard {
 public:
-    SetupWizard(QString* pAwayName, QString* pHomeName, QString* pAwayFile, QString* pHomeFile,
+    SetupWizard(QString* pAwayFile, QString* pHomeFile,
                 QString* pSponsor, QString* pAnnouncer, QString* pAwayRank, QString* pHomeRank,
-                QColor* pAwayColor, QColor* pHomeColor, QColor* pBg, int* pk, int* pkopp,
+                QColor* pBg, int* pk, int* pkopp,
                 int* ppg, int* ppopp, QString* goalies, QString* statcrewName, bool* usingTricaster,
-                QString *awayLogo, QString *tricasterIp, QString* aSname, QString* hSname, int *port);
+                QString *tricasterIp, int *port);
 
 private:
     SetupPage wizpage;

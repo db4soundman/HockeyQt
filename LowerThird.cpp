@@ -3,15 +3,15 @@
 #include <QStringRef>
 #include <QGraphicsScene>
 #include "GraphicChooser.txt"
-
+#include "MiamiAllAccessHockey.h"
 
 #define NAME_GRADIENT_LEVEL .3
 #define STAT_GRADIENT_LEVEL .3
 #define NAME_WIDTH 300
 #define BOX_HEIGHT 38
-LowerThird::LowerThird(QColor awayColor, QColor homeColor, int screenWidth, QPixmap pawayLogo, QGraphicsItem* parent) :
+LowerThird::LowerThird(int screenWidth, QGraphicsItem* parent) :
     name(""), number("number"), statFont("Arial", 22, QFont::Bold), nameFont("Arial", 28, QFont::Bold), labelFont("Arial", 18, QFont::Bold),
-    awayTeamMain(awayColor), homeTeamMain(homeColor) {
+    awayTeamMain(MiamiAllAccessHockey::awaySchool.getPrimaryColor()), homeTeamMain(MiamiAllAccessHockey::homeSchool.getPrimaryColor()) {
 #ifdef Q_OS_OSX
     statFont.setPointSize(36);
     nameFont.setPointSize(36);
@@ -37,8 +37,8 @@ LowerThird::LowerThird(QColor awayColor, QColor homeColor, int screenWidth, QPix
     statNames.append("");
     this->centerPoint = screenWidth / 2;
     show = false;
-    homeLogo = new QPixmap(":/images/M.png");
-    awayLogo = new QPixmap(pawayLogo);
+    homeLogo = new QPixmap(MiamiAllAccessHockey::homeSchool.getLogo());
+    awayLogo = new QPixmap(MiamiAllAccessHockey::awaySchool.getLogo());
 
     *homeLogo = homeLogo->scaledToHeight(BOX_HEIGHT, Qt::SmoothTransformation);
     *awayLogo = awayLogo->scaledToHeight(BOX_HEIGHT, Qt::SmoothTransformation);
