@@ -131,6 +131,7 @@ MiamiAllAccessHockey::exec() {
     QColor bg;
     int pk, pkopp, ppg, ppopp, port;
     MiamiAllAccessHockey::homeSchool = School::getSchoolFromESPN("MIAMI_OH");
+    MiamiAllAccessHockey::awaySchool = School::getSchoolFromESPN("DUKE");
     homeSchool.setShortName("MIAMI");
     homeSchool.setTitle("MIAMI");
     homeSchool.setFullName("MIAMI");

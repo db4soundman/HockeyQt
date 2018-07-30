@@ -112,14 +112,6 @@ void MainWindow::updateHomeRoster()
 
 void MainWindow::makeMenu(HockeyGame* game, SerialConsole* console, CommercialGraphic* comGraphic)
 {
-//    QMenu* nchcMenu = new QMenu("NCHC");
-//    QAction* standings = new QAction(QIcon(QPixmap(":/images/NCHCmenu.png")), "Edit Standings", NULL);
-//    nchcMenu->addAction(standings);
-//    connect(standings, SIGNAL(triggered()), &standingsPanel, SLOT(show()));
-//    QAction* confSb = new QAction(QIcon(QPixmap(":/images/NCHCmenu.png")), "NCHC Scoreboard", NULL);
-//    connect(confSb, SIGNAL(triggered()), &nchcGui, SLOT(show()));
-//    nchcMenu->addAction(confSb);
-//    menuBar()->addMenu(nchcMenu);
 
     QMenu* awayMenu = new QMenu(MiamiAllAccessHockey::awaySchool.getFullName());
     QAction* awayPlayerEditor = new QAction("Edit Player Stats", this);
@@ -130,11 +122,6 @@ void MainWindow::makeMenu(HockeyGame* game, SerialConsole* console, CommercialGr
     connect(awayTeamEdit, SIGNAL(triggered()), &awayEdit, SLOT(updateSpinBoxes()));
     connect(awayTeamEdit, SIGNAL(triggered()), &awayEdit, SLOT(show()));
     awayMenu->addAction(awayTeamEdit);
-    QAction* toggleLogoBackground = new QAction("Black Logo Background", this);
-    toggleLogoBackground->setCheckable(true);
-    awayMenu->addAction(toggleLogoBackground);
-    connect(toggleLogoBackground, SIGNAL(toggled(bool)), game->getSb(), SLOT(toggleAwayLogoBg(bool)));
-    connect(toggleLogoBackground, SIGNAL(toggled(bool)), comGraphic, SLOT(toggleAwayLogoBg(bool)));
     QAction* awayTeamRoster = new QAction("Load Roster", this);
     connect(awayTeamRoster, SIGNAL(triggered(bool)), this, SLOT(updateAwayRoster()));
     awayMenu->addAction(awayTeamRoster);

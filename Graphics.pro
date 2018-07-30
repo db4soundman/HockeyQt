@@ -100,7 +100,8 @@ SOURCES += main.cpp\
     PastGames/PastGamesGraphic.cpp \
     PastGames/PastGamesUI.cpp \
     TextualRoster/TextualRosterInput.cpp \
-    School.cpp
+    School.cpp \
+    Wizard/TeamSetupPage.cpp
 
 HEADERS  += MainWindow.h \
     Scoreboard.h \
@@ -177,7 +178,8 @@ HEADERS  += MainWindow.h \
     PastGames/PastGamesGraphic.h \
     PastGames/PastGamesUI.h \
     TextualRoster/TextualRosterInput.h \
-    School.h
+    School.h \
+    Wizard/TeamSetupPage.h
 
 
 RESOURCES += \

@@ -6,6 +6,7 @@
 #include <QColor>
 #include "SetupPage.h"
 #include "AwayTeamInfo.h"
+#include "TeamSetupPage.h"
 
 class SetupWizard : public QWizard {
 public:
@@ -18,6 +19,7 @@ public:
 private:
     SetupPage wizpage;
     AwayTeamInfo ati;
+    TeamSetupPage awayPage, homePage;
 };
 
 #endif // SETUPWIZARD_H
