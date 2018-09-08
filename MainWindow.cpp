@@ -13,14 +13,14 @@
 
 MainWindow::MainWindow(HockeyGame* game, StandingsGraphic* graphic, CommercialGraphic* comGraphic,
                        NchcScoreboardGraphic* confSbGraphic, ScheduleGraphic *scheduleGraphic,
-                       SerialConsole *serial, ComparisonGraphic *comparisonGraphic, PastGamesGraphic* pgg, QWidget *parent)
+                       SerialConsole *serial, ComparisonGraphic *comparisonGraphic, PastGamesGraphic* pgg, Ticker* ticker, QWidget *parent)
 
-    : QMainWindow(parent), panel(game, graphic, comGraphic, confSbGraphic, scheduleGraphic, comparisonGraphic), standingsPanel(graphic), nchcGui(confSbGraphic),
+    : QMainWindow(parent), panel(game, graphic, comGraphic, confSbGraphic, scheduleGraphic, comparisonGraphic), standingsPanel(graphic), nchcGui(confSbGraphic, ticker),
       awayPlayerEdit(game, false), homePlayerEdit(game, true), awayEdit(game->getAwayTeam()), homeEdit(game->getHomeTeam()),
       ltCreator(game->getLt()), compCreator(game), customLts(game->getLt(), game->getPreviewLt()),
       homePops(game,true), awayPops(game, false), homeLts(game, true),awayLts(game,false),
       sogUi(game), faceoffUi(game), customCompUi(game), clockControls(game, comGraphic, true),
-      displayControls(game,graphic,comGraphic,confSbGraphic,scheduleGraphic,comparisonGraphic, pgg),
+      displayControls(game,graphic,comGraphic,confSbGraphic,scheduleGraphic,comparisonGraphic, ticker, pgg),
       goalies(game), ppCompUi(game), gameStateUi(game), awaypgUi(pgg, game->getAwayTeam(), false), homepgUi(pgg, game->getHomeTeam(), true),
       awayXmlHandler(game->getAwayTeam()), homeXmlHandler(game->getHomeTeam()),
       awayTextInput(game->getAwayTeam()), homeTextInput(game->getHomeTeam())

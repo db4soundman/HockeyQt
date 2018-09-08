@@ -19,6 +19,7 @@
 #include <QWidget>
 #include "CGSimulator.h"
 #include "PastGamesGraphic.h"
+#include "Ticker.h"
 
 class MiamiAllAccessHockey : public QApplication {
 public:
@@ -60,6 +61,7 @@ private:
     PastGamesGraphic* pgg;
     Params params;
     QWidget* previewWindow;
+    Ticker ticker;
     bool usingTricaster;
 #ifdef DEBUG
     CGSimulator cgSimulator;

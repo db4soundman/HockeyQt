@@ -8,31 +8,32 @@
 #include <QDate>
 #include <QFileDialog>
 
-NchcScoreboardGui::NchcScoreboardGui(NchcScoreboardGraphic* grph) {
+NchcScoreboardGui::NchcScoreboardGui(NchcScoreboardGraphic* grph, Ticker *ticker) {
     graphic = grph;
+    this->ticker = ticker;
     QVBoxLayout* realLayout = new QVBoxLayout();
     QHBoxLayout* mainLayout = new QHBoxLayout();
     QHBoxLayout* labelLayout = new QHBoxLayout();
     QVBoxLayout* friday = new QVBoxLayout();
     QVBoxLayout* saturday = new QVBoxLayout();
-    fridayHeader.setText("Friday's Games");
-    saturdayHeader.setText("Saturday's Games");
+//    fridayHeader.setText("Friday's Games");
+//    saturdayHeader.setText("Saturday's Games");
     for (int i = 0; i < 4; i++) {
         NchcGameGui* fri = new NchcGameGui();
         NchcGameGui* sat = new NchcGameGui();
-        connect(fri, SIGNAL(awayNameUpdated(QString)),
-                sat, SLOT(updateAwayName(QString)));
-        connect(fri, SIGNAL(homeNameUpdated(QString)),
-                sat, SLOT(updateHomeName(QString)));
-        connect(fri, SIGNAL(confGameUpdated(bool)),
-                sat, SLOT(updateConfGame(bool)));
+//        connect(fri, SIGNAL(awayNameUpdated(QString)),
+//                sat, SLOT(updateAwayName(QString)));
+//        connect(fri, SIGNAL(homeNameUpdated(QString)),
+//                sat, SLOT(updateHomeName(QString)));
+//        connect(fri, SIGNAL(confGameUpdated(bool)),
+//                sat, SLOT(updateConfGame(bool)));
         friday->addWidget(fri);
         saturday->addWidget(sat);
         games.append(fri);
         games.append(sat);
     }
-    labelLayout->addWidget(&fridayHeader);
-    labelLayout->addWidget(&saturdayHeader);
+//    labelLayout->addWidget(&fridayHeader);
+//    labelLayout->addWidget(&saturdayHeader);
     mainLayout->addLayout(friday);
     mainLayout->addLayout(saturday);
     QHBoxLayout* buttonLayout = new QHBoxLayout();
@@ -47,7 +48,7 @@ NchcScoreboardGui::NchcScoreboardGui(NchcScoreboardGraphic* grph) {
     buttonLayout->addWidget(save);
     buttonLayout->addWidget(display);
     //buttonLayout->addWidget(submit);
-    realLayout->addLayout(labelLayout);
+//    realLayout->addLayout(labelLayout);
     realLayout->addLayout(mainLayout);
     realLayout->addLayout(buttonLayout);
     setLayout(realLayout);
@@ -121,8 +122,11 @@ void NchcScoreboardGui::submitAndShow()
         }
     }
     graphic->setFridayGames(friday);
+    ticker->setFridayGames(friday);
     graphic->setSaturdayGames(saturday);
+    ticker->setSaturdayGames(saturday);
     graphic->setLeftHeader(fridayHeader.text());
     graphic->setRightHeader(saturdayHeader.text());
-    graphic->showImg();
+    ticker->showTicker();
+   // graphic->showImg();
 }

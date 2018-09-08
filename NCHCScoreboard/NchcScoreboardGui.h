@@ -5,11 +5,12 @@
 #include <QLineEdit>
 #include "NchcGameGui.h"
 #include "NchcScoreboardGraphic.h"
+#include "Ticker.h"
 
 class NchcScoreboardGui : public QWidget {
     Q_OBJECT
 public:
-    NchcScoreboardGui(NchcScoreboardGraphic* grph);
+    NchcScoreboardGui(NchcScoreboardGraphic* grph, Ticker* ticker);
 
 private slots:
     void loadGames();
@@ -19,6 +20,7 @@ private slots:
 private:
     QList<NchcGameGui*> games;
     NchcScoreboardGraphic* graphic;
+    Ticker* ticker;
     QLineEdit fridayHeader, saturdayHeader;
 };
 

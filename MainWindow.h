@@ -37,13 +37,14 @@
 #include "PastGamesUI.h"
 #include "SeasonXMLHandler.h"
 #include "TextualRosterInput.h"
+#include "Ticker.h"
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
 public:
     MainWindow(HockeyGame* game, StandingsGraphic* graphic, CommercialGraphic* comGraphic,
                NchcScoreboardGraphic* confSbGraphic, ScheduleGraphic* scheduleGraphic, SerialConsole* serial, ComparisonGraphic* comparisonGraphic,
-               PastGamesGraphic *pgg, QWidget *parent = 0);
+               PastGamesGraphic *pgg, Ticker *ticker, QWidget *parent = 0);
     ~MainWindow();
 
     void connectWithCG(SerialConsole* con);

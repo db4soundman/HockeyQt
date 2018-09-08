@@ -195,6 +195,11 @@ MiamiAllAccessHockey::exec() {
     game->getSb()->setY(60 - 39);
     game->getSb()->setX((graphicsScreen.width() / 2) - (game->getSb()->getRealWidth()/2));
     commercial->setY(graphicsScreen.height() - 280);
+
+    ticker.setX(0);
+    ticker.setY(1080-ticker.rect().height());
+    scene->addItem(&ticker);
+
     //commercial->setX(460);
     tv = new QGraphicsView(scene);
 
@@ -214,7 +219,7 @@ MiamiAllAccessHockey::exec() {
         stats = new StatCrewScanner(game, statcrewName);
 
     SerialConsole con;
-    controlPanel = new MainWindow(game, &standings, commercial, &nchcScoreboard, &scheduleGraphic, &con, comparisonGraphic, pgg);
+    controlPanel = new MainWindow(game, &standings, commercial, &nchcScoreboard, &scheduleGraphic, &con, comparisonGraphic, pgg, &ticker);
     controlPanel->show();
     game->connectWithSerialHandler(&con);
 
