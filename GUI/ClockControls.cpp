@@ -30,7 +30,9 @@ ClockControls::ClockControls(HockeyGame* game, CommercialGraphic* comGraphic, bo
     if (dakMode) myLayout->addWidget(&showPenalties);
     myLayout->addSpacing(50);
     myLayout->addWidget(&useClock);
-    //main->addWidget(&statCrewControl);
+    myLayout->addWidget(&statCrewControl);
+//    statCrewUrl.setPlaceholderText("StatCrew URL");
+
 
     connect(&run, SIGNAL(clicked()), game, SLOT(toggleClock()));
     connect(game, SIGNAL(clockIsRunning(bool)),

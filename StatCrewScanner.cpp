@@ -6,7 +6,7 @@ StatCrewScanner::StatCrewScanner(HockeyGame* game, QString fileName)
     inGame = new QTimer();
     breakTime = new QTimer();
     breakTime->setInterval(1000 * 10);
-    statFile = fileName;
+    statFile = "http://sidearmstats.com/miamiohio/mhockey/1.xml";
     inGame->setInterval(1000 * 5);
     isActive = false;
     connect(inGame, SIGNAL(timeout()), this, SLOT(start()));
@@ -15,28 +15,30 @@ StatCrewScanner::StatCrewScanner(HockeyGame* game, QString fileName)
     connect(game, SIGNAL(clockIsRunning(bool)), this, SLOT(toggleScanner(bool)));
     connect(game, SIGNAL(toggleStatCrew()), this, SLOT(toggleEnabled()));
     connect(this, SIGNAL(statCrewStatus(bool)), game, SIGNAL(statusOfStatCrew(bool)));
-    enabled = true;
+    manager = new QNetworkAccessManager(this);
+    connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(fileIsReady(QNetworkReply*)) );
+    enabled = false;
 }
 
 void StatCrewScanner::toggleScanner() {
-    if (!isActive) {
-        inGame->start();
-    }
-    else {
-        inGame->stop();
-    }
+
 }
 
 void StatCrewScanner::run()
 {
     if (enabled)
-    updateStats();
+    getStats();
 }
 
 void StatCrewScanner::toggleEnabled()
 {
     enabled = !enabled;
     emit statCrewStatus(enabled);
+}
+
+void StatCrewScanner::getStats()
+{
+    manager->get(QNetworkRequest(QUrl(statFile)));
 }
 
 void StatCrewScanner::toggleScanner(int pd)
@@ -63,11 +65,12 @@ void StatCrewScanner::toggleScanner(bool clockStatus) {
     }
 }
 
-void StatCrewScanner::updateStats() {
-    QFile file(statFile);
+void StatCrewScanner::updateStats(QNetworkReply * reply) {
+//    QFile file(statFile);
     QXmlSimpleReader r;
     r.setContentHandler(statCrew);
     r.setErrorHandler(statCrew);
-    QXmlInputSource src(&file);
+    QXmlInputSource src;
+    src.setData(reply->readAll());
     r.parse(src);
 }

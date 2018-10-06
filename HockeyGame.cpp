@@ -535,6 +535,7 @@ void HockeyGame::parseAllSportCG(QByteArray data)
         int homeInTheBox = 0;
         QSet<int>awayTemp,homeTemp;
         bool penalty = false;
+        emit clockIsRunning(stopped);
         if (penaltiesActive || (!penaltiesActive && stopped)) {
             if (penA1){
                 awayInTheBox++;

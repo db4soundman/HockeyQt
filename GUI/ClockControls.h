@@ -5,6 +5,7 @@
 #include <QPushButton>
 #include <QLabel>
 #include <QCheckBox>
+#include <QLineEdit>
 #include "HockeyGame.h"
 #include "CommercialGraphic.h"
 #include "CheckboxWidget.h"
@@ -31,6 +32,7 @@ private:
     QCheckBox useClock;
     Clock* gameClock;
     CheckBoxWidget statCrewControl;
+    QLineEdit statCrewUrl;
 };
 
 #endif // CLOCKCONTROLS_H
