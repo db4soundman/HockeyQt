@@ -39,6 +39,9 @@ void TextualRosterInput::parseRoster()
             this->close();
             emit team->rosterChanged();
         }
+        HockeyPlayer empty;
+        empty.setName("No Name");
+        team->addPlayer(empty);
     } else if (nameNumber.match(rosterInput.toPlainText()).hasMatch()) {
         QRegularExpressionMatchIterator i = nameNumber.globalMatch(rosterInput.toPlainText());
         team->clearRoster();
@@ -51,6 +54,9 @@ void TextualRosterInput::parseRoster()
             this->close();
             emit team->rosterChanged();
         }
+        HockeyPlayer empty;
+        empty.setName("No Name");
+        team->addPlayer(empty);
     }
 }
 

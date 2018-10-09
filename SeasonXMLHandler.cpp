@@ -86,6 +86,9 @@ void SeasonXMLHandler::parseFile(QString filename, bool emitSignal)
         }
         file.close();
         if (emitSignal) {
+            HockeyPlayer empty;
+            empty.setName("No Name");
+            team->addPlayer(empty);
             emit team->rosterChanged();
         }
     } catch (...) {
