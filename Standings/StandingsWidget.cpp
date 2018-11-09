@@ -23,13 +23,13 @@ StandingsWidget::StandingsWidget(StandingsGraphic* graphic) {
     mainLayout->addWidget(new QLabel("Ties"), 0, 3);
     mainLayout->addWidget(new QLabel("SO/3x3 Wins"), 0, 4);
     QList<QStringList> data;
-//    QFile csv(MiamiAllAccessHockey::getAppDirPath() + "/standings.txt");
-//    csv.open(QIODevice::ReadWrite);
-//    QTextStream stream(&csv);
-//    while (!stream.atEnd()) {
-//        data.append(stream.readLine().split(','));
-//    }
-//    csv.close();
+    QFile csv(MiamiAllAccessHockey::getAppDirPath() + "/standings.txt");
+    csv.open(QIODevice::ReadWrite);
+    QTextStream stream(&csv);
+    while (!stream.atEnd()) {
+        data.append(stream.readLine().split(','));
+    }
+    csv.close();
 
     for (int i = 0; i < teams.size(); i++) {
         QComboBox* box = new QComboBox();
@@ -71,15 +71,15 @@ StandingsWidget::StandingsWidget(StandingsGraphic* graphic) {
 
 void StandingsWidget::saveStandings()
 {
-//    QFile csv(MiamiAllAccessHockey::getAppDirPath() + "/standings.txt");
-//    csv.open(QIODevice::ReadWrite);
-//    QTextStream stream(&csv);
-//    for (int i = 0; i < teamSelectors.size(); i++) {
-//        stream << teamSelectors[i]->currentText() << "," << wins[i]->value()
-//               << "," << losses[i]->value() << "," << ties[i]->value()
-//               << "," << shootoutWins[i]->value() << "\r\n";
-//    }
-//    csv.close();
+    QFile csv(MiamiAllAccessHockey::getAppDirPath() + "/standings.txt");
+    csv.open(QIODevice::ReadWrite|QIODevice::Truncate);
+    QTextStream stream(&csv);
+    for (int i = 0; i < teamSelectors.size(); i++) {
+        stream << teamSelectors[i]->currentText() << "," << wins[i]->value()
+               << "," << losses[i]->value() << "," << ties[i]->value()
+               << "," << shootoutWins[i]->value() << "\r\n";
+    }
+    csv.close();
 }
 
 void StandingsWidget::compileStandings()
