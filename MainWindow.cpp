@@ -23,7 +23,8 @@ MainWindow::MainWindow(HockeyGame* game, StandingsGraphic* graphic, CommercialGr
       displayControls(game,graphic,comGraphic,confSbGraphic,scheduleGraphic,comparisonGraphic, ticker, pgg),
       goalies(game), ppCompUi(game), gameStateUi(game), awaypgUi(pgg, game->getAwayTeam(), false), homepgUi(pgg, game->getHomeTeam(), true),
       awayXmlHandler(game->getAwayTeam()), homeXmlHandler(game->getHomeTeam()),
-      awayTextInput(game->getAwayTeam()), homeTextInput(game->getHomeTeam())
+      awayTextInput(game->getAwayTeam()), homeTextInput(game->getHomeTeam()),
+      homePenaltyUi(game, true), awayPenaltyUi(game, false)
 
 {
     createAlternateContent();
@@ -181,6 +182,8 @@ void MainWindow::makeMenu(HockeyGame* game, SerialConsole* console, CommercialGr
 void MainWindow::createAlternateContent()
 {
     alternateContent.addWidget(&gameStateUi);
+    alternateContent.addWidget(&awayPenaltyUi);
+    alternateContent.addWidget(&homePenaltyUi);
     alternateContent.addWidget(&awayPops);
     alternateContent.addWidget(&homePops);
     alternateContent.addWidget(&awayLts);
@@ -199,6 +202,8 @@ void MainWindow::createAlternateContent()
 
     int x = 0;
     modelMap.insert("Game State", x++);
+    modelMap.insert("Away Penalty", x++);
+    modelMap.insert("Home Penalty", x++);
     modelMap.insert("Away Pops", x++);
     modelMap.insert("Home Pops", x++);
     modelMap.insert("Away LTs", x++);

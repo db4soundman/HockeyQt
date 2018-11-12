@@ -102,7 +102,8 @@ SOURCES += main.cpp\
     TextualRoster/TextualRosterInput.cpp \
     School.cpp \
     Wizard/TeamSetupPage.cpp \
-    Ticker.cpp
+    Ticker.cpp \
+    GUI2/PenaltyUI.cpp
 
 HEADERS  += MainWindow.h \
     Scoreboard.h \
@@ -181,7 +182,8 @@ HEADERS  += MainWindow.h \
     TextualRoster/TextualRosterInput.h \
     School.h \
     Wizard/TeamSetupPage.h \
-    Ticker.h
+    Ticker.h \
+    GUI2/PenaltyUI.h
 
 
 RESOURCES += \

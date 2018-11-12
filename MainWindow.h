@@ -38,6 +38,7 @@
 #include "SeasonXMLHandler.h"
 #include "TextualRosterInput.h"
 #include "Ticker.h"
+#include "PenaltyUI.h"
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
@@ -80,6 +81,7 @@ private:
     ClockControls clockControls;
     Goalies goalies;
     PpCompUI ppCompUi;
+    PenaltyUI awayPenaltyUi, homePenaltyUi;
 
     QDockWidget leftDock, rightDock, topDock, bottomDock;
     DisplayControls displayControls;
