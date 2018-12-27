@@ -11,7 +11,7 @@
 class SetupWizard : public QWizard {
 public:
     SetupWizard(QString* pAwayFile, QString* pHomeFile,
-                QString* pSponsor, QString* pAnnouncer, QString* pAwayRank, QString* pHomeRank,
+                QString* pSponsor, QString* pAwayRank, QString* pHomeRank,
                 QColor* pBg, int* pk, int* pkopp,
                 int* ppg, int* ppopp, QString* goalies, QString* statcrewName, bool* usingTricaster,
                 QString *tricasterIp, int *port);

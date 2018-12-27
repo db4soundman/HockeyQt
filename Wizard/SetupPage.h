@@ -13,9 +13,9 @@
 class SetupPage : public QWizardPage {
     Q_OBJECT
 public:
-    SetupPage(QString* pSponsor, QString* pAnnouncer,
+    SetupPage(QString* pSponsor,
               QColor* pBg, QString* pStatCrew, bool *pUsingTricaster,
-              QString *tricasterIp,int* portNum);
+              QString *tricasterIp, int* portNum);
     bool validatePage();
 
 private slots:
@@ -24,10 +24,10 @@ private slots:
     void showHelp();
 
 private:
-    QString *sponsor, *announcer, *statCrew, *tricasterIp;
+    QString *sponsor, *statCrew, *tricasterIp;
     QColor *bg;
     QPushButton chooseBg, browseStatCrew, ipHelp;
-    QLineEdit sponsorLine, announcerLine, tricasterIpLine;
+    QLineEdit sponsorLine, announcer1,announcer2,announcer3,twitter1,twitter2,twitter3, hashtag, tricasterIpLine;
     QCheckBox* tricasterBox;
     QComboBox* portSelector;
     bool* usingTricaster;

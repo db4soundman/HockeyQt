@@ -13,18 +13,18 @@
 
 MainWindow::MainWindow(HockeyGame* game, StandingsGraphic* graphic, CommercialGraphic* comGraphic,
                        NchcScoreboardGraphic* confSbGraphic, ScheduleGraphic *scheduleGraphic,
-                       SerialConsole *serial, ComparisonGraphic *comparisonGraphic, PastGamesGraphic* pgg, Ticker* ticker, QWidget *parent)
+                       SerialConsole *serial, ComparisonGraphic *comparisonGraphic, PastGamesGraphic* pgg, Ticker* ticker, IdentifierL3rd *idL3rd, QWidget *parent)
 
-    : QMainWindow(parent), panel(game, graphic, comGraphic, confSbGraphic, scheduleGraphic, comparisonGraphic), standingsPanel(graphic), nchcGui(confSbGraphic, ticker),
+    : QMainWindow(parent), panel(game, comGraphic), standingsPanel(graphic), nchcGui(confSbGraphic, ticker),
       awayPlayerEdit(game, false), homePlayerEdit(game, true), awayEdit(game->getAwayTeam()), homeEdit(game->getHomeTeam()),
       ltCreator(game->getLt()), compCreator(game), customLts(game->getLt(), game->getPreviewLt()),
       homePops(game,true), awayPops(game, false), homeLts(game, true),awayLts(game,false),
       sogUi(game), faceoffUi(game), customCompUi(game), clockControls(game, comGraphic, true),
-      displayControls(game,graphic,comGraphic,confSbGraphic,scheduleGraphic,comparisonGraphic, ticker, pgg),
+      displayControls(game,graphic,comGraphic,confSbGraphic,scheduleGraphic,comparisonGraphic, ticker, idL3rd, pgg),
       goalies(game), ppCompUi(game), gameStateUi(game), awaypgUi(pgg, game->getAwayTeam(), false), homepgUi(pgg, game->getHomeTeam(), true),
       awayXmlHandler(game->getAwayTeam()), homeXmlHandler(game->getHomeTeam()),
       awayTextInput(game->getAwayTeam()), homeTextInput(game->getHomeTeam()),
-      homePenaltyUi(game, true), awayPenaltyUi(game, false)
+      homePenaltyUi(game, true), awayPenaltyUi(game, false), idWidget(idL3rd)
 
 {
     createAlternateContent();
@@ -189,6 +189,7 @@ void MainWindow::createAlternateContent()
     alternateContent.addWidget(&awayLts);
     alternateContent.addWidget(&homeLts);
     alternateContent.addWidget(&customLts);
+    alternateContent.addWidget(&idWidget);
     alternateContent.addWidget(&faceoffUi);
     alternateContent.addWidget(&sogUi);
     alternateContent.addWidget(&ppCompUi);
@@ -209,6 +210,7 @@ void MainWindow::createAlternateContent()
     modelMap.insert("Away LTs", x++);
     modelMap.insert("Home LTs", x++);
     modelMap.insert("Custom LTs", x++);
+    modelMap.insert("Identifiers", x++);
     modelMap.insert("Faceoff", x++);
     modelMap.insert("Shots On Goal", x++);
     modelMap.insert("Power play", x++);

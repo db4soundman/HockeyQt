@@ -12,6 +12,7 @@ Lower Thirds
   Away LTs
   Home LTs
   Custom LTs
+  Identifiers
 
 Comparisons
   Faceoff

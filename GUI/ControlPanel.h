@@ -23,8 +23,7 @@
 class ControlPanel : public QWidget {
     Q_OBJECT
 public:
-    ControlPanel(HockeyGame* game, StandingsGraphic* graphic, CommercialGraphic* comGraphic,
-                 NchcScoreboardGraphic* sbGraphic, ScheduleGraphic* schedGraphic, ComparisonGraphic* comparisonGraphic);
+    ControlPanel(HockeyGame* game, CommercialGraphic* comGraphic);
 
 private:
    // DisplayControls dispControls;

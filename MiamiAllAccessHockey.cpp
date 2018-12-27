@@ -11,6 +11,7 @@
 #include "SerialConsole.h"
 #include <QVBoxLayout>
 #include <QMessageBox>
+#include "globals.h"
 
 School MiamiAllAccessHockey::awaySchool = School();
 School MiamiAllAccessHockey::homeSchool = School();
@@ -126,7 +127,7 @@ MiamiAllAccessHockey::exec() {
     // Make vars, create wizard.
     scene = new QGraphicsScene();
 
-    QString awayRank, homeRank, homeFile, awayFile, sponsor, announcer,
+    QString awayRank, homeRank, homeFile, awayFile, sponsor,
             goalies, statcrewName, tricasterIp;
     QColor bg;
     int pk, pkopp, ppg, ppopp, port;
@@ -138,20 +139,21 @@ MiamiAllAccessHockey::exec() {
     usingTricaster = true;
 
     bg.setRgb(0,120,0);
-    announcer = params.stringValue("ANNOUNCER");
+    //announcer = params.stringValue("ANNOUNCER");
     sponsor = params.stringValue("SPONSOR");
     tricasterIp = params.stringValue("IP");
     QDesktopWidget desktop;
 
     SetupWizard wizard(&awayFile, &homeFile, &sponsor,
-                       &announcer, &awayRank, &homeRank, &bg, &pk, &pkopp, &ppg, &ppopp, &goalies, &statcrewName, &usingTricaster,
+                       &awayRank, &homeRank, &bg, &pk, &pkopp, &ppg, &ppopp, &goalies, &statcrewName, &usingTricaster,
                        &tricasterIp, &port);
     wizard.exec();
     QRect graphicsScreen = usingTricaster ? QRect(0,0,1920,1080) : desktop.screenGeometry(0);
     if (MiamiAllAccessHockey::awaySchool.getShortName().isEmpty()) {
         MiamiAllAccessHockey::awaySchool.setShortName(MiamiAllAccessHockey::awaySchool.getFullName());
     }
-    game = new HockeyGame(awayFile, homeFile, sponsor, announcer, awayRank,
+    Globals::hashtag = "#" + MiamiAllAccessHockey::awaySchool.getShortName() + "vs" + MiamiAllAccessHockey::homeSchool.getShortName();
+    game = new HockeyGame(awayFile, homeFile, sponsor, awayRank,
                           homeRank, graphicsScreen.width() + 1);
     if (usingTricaster)
         bg.setRgb(0,0,0);
@@ -200,6 +202,11 @@ MiamiAllAccessHockey::exec() {
     ticker.setY(1080-ticker.rect().height());
     scene->addItem(&ticker);
 
+    idGraphic.setX((1920 - idGraphic.getWidth())/2);
+    idGraphic.setY(900);
+    scene->addItem(&idGraphic);
+
+
     //commercial->setX(460);
     tv = new QGraphicsView(scene);
 
@@ -219,7 +226,7 @@ MiamiAllAccessHockey::exec() {
         stats = new StatCrewScanner(game, statcrewName);
 
     SerialConsole con;
-    controlPanel = new MainWindow(game, &standings, commercial, &nchcScoreboard, &scheduleGraphic, &con, comparisonGraphic, pgg, &ticker);
+    controlPanel = new MainWindow(game, &standings, commercial, &nchcScoreboard, &scheduleGraphic, &con, comparisonGraphic, pgg, &ticker, &idGraphic);
     controlPanel->show();
     game->connectWithSerialHandler(&con);
 

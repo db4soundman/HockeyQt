@@ -104,7 +104,9 @@ SOURCES += main.cpp\
     Wizard/TeamSetupPage.cpp \
     Ticker.cpp \
     GUI2/PenaltyUI.cpp \
-    identifierl3rd.cpp
+    identifierl3rd.cpp \
+    globals.cpp \
+    GUI/IdentifierWidget.cpp
 
 HEADERS  += MainWindow.h \
     Scoreboard.h \
@@ -185,7 +187,9 @@ HEADERS  += MainWindow.h \
     Wizard/TeamSetupPage.h \
     Ticker.h \
     GUI2/PenaltyUI.h \
-    identifierl3rd.h
+    identifierl3rd.h \
+    globals.h \
+    GUI/IdentifierWidget.h
 
 
 RESOURCES += \

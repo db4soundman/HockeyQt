@@ -77,7 +77,7 @@ private:
      Clock* clock;
      Clock* ppClock;
      QFont defaultSponsorText;
-     int homeRankOffset, awayRankOffset, homeLogoOffset, awayLogoOffset, pd;
+     int homeRankOffset, awayRankOffset, homeLogoOffset, awayLogoHeightOffset, awayLogoWidthOffset, pd;
      QString serialPpClock;
 
 };

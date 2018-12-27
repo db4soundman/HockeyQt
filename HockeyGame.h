@@ -19,7 +19,7 @@
 class HockeyGame : public QObject {
     Q_OBJECT
 public:
-    HockeyGame(QString awayXML, QString homeXML, QString sponsor, QString announcers,
+    HockeyGame(QString awayXML, QString homeXML, QString sponsor,
                QString awayRank, QString homeRank, int screenWidth);
 
     Scoreboard* getSb();
@@ -30,9 +30,6 @@ public:
 
     QString getSponsor() const;
     void setSponsor(const QString& value);
-
-    QString getAnnouncers() const;
-    void setAnnouncers(const QString& value);
 
     HockeyTeam* getHomeTeam() const;
 
@@ -159,7 +156,7 @@ private slots:
     void triggerCommercial();
 
 private:
-    QString sponsor, announcers, timeEventHappened, homeRank, awayRank;
+    QString sponsor, timeEventHappened, homeRank, awayRank;
     int awayScore, homeScore, period, homeSOG, awaySOG, homePlayersOnIce, awayPlayersOnIce, penaltyIndex;
     Clock gameClock;
     QList<Clock*> awayPenalty, homePenalty;

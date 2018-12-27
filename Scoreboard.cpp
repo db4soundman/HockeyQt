@@ -59,7 +59,8 @@ Scoreboard::Scoreboard(QString sponsorText, Clock* clock, QString pAwayRank, QSt
     *awayLogo = awayLogo->scaledToHeight(TEAM_BOX_HEIGHT, Qt::SmoothTransformation);
     if (awayLogo->width() > LOGO_WIDTH)
         *awayLogo = awayLogo->scaledToWidth(LOGO_WIDTH, Qt::SmoothTransformation);
-    awayLogoOffset = (TEAM_BOX_HEIGHT - awayLogo->height()) / 2;
+    awayLogoHeightOffset = (TEAM_BOX_HEIGHT - awayLogo->height()) / 2;
+    awayLogoWidthOffset = (LOGO_WIDTH - awayLogo->width()) / 2;
 
     useClock = true;
     awayName = new QGraphicsTextItem(MiamiAllAccessHockey::awaySchool.getFullName());
@@ -167,7 +168,7 @@ Scoreboard::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
         painter->fillRect(V_TEAM_BOX_STARTX, TOP_BAR_HEIGHT + TEAM_BOX_Y, TEAM_WIDTH, TEAM_BOX_HEIGHT, awayGradient );
         // Away logo
         painter->fillRect(V_TEAM_BOX_STARTX, TOP_BAR_HEIGHT + TEAM_BOX_Y, LOGO_WIDTH, TEAM_BOX_HEIGHT, awayLogoGradient);
-        painter->drawPixmap(V_TEAM_BOX_STARTX, TOP_BAR_HEIGHT + TEAM_BOX_Y + awayLogoOffset, *awayLogo);
+        painter->drawPixmap(V_TEAM_BOX_STARTX + awayLogoWidthOffset, TOP_BAR_HEIGHT + TEAM_BOX_Y + awayLogoHeightOffset, *awayLogo);
         painter->setOpacity(1);
         painter->setFont(awayRank->font());
         painter->setPen(QColor(255, 255, 255));

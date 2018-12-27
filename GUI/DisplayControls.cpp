@@ -4,7 +4,7 @@
 
 DisplayControls::DisplayControls(HockeyGame* game, StandingsGraphic* graphic, CommercialGraphic* comGraphic,
                                  NchcScoreboardGraphic* sbGraphic, ScheduleGraphic *schedGraphic,
-                                 ComparisonGraphic *comparisonGraphic, Ticker* ticker, PastGamesGraphic* pastGamesGraphic) {
+                                 ComparisonGraphic *comparisonGraphic, Ticker* ticker, IdentifierL3rd *idL3rd, PastGamesGraphic* pastGamesGraphic) {
     sponsorText = game->getSponsor();
     customtext.setReadOnly(false);
     customtext.setText("");
@@ -68,6 +68,7 @@ DisplayControls::DisplayControls(HockeyGame* game, StandingsGraphic* graphic, Co
     connect(&hideButton, SIGNAL(clicked()), comparisonGraphic, SLOT(hideComparison()));
     connect(&hideButton, SIGNAL(clicked()), pastGamesGraphic, SLOT(hide()));
     connect(&hideButton, SIGNAL(clicked()), ticker, SLOT(hideTicker()));
+    connect(&hideButton, SIGNAL(clicked()), idL3rd, SLOT(hideId()));
 
     connect(game, SIGNAL(automatedCommercial()), &commericalButton, SLOT(click()));
     connect(game, SIGNAL(automatedHide()), &hideButton, SLOT(click()));

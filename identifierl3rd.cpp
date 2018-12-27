@@ -11,7 +11,9 @@
 
 IdentifierL3rd::IdentifierL3rd()
 {
-    setRect(QRect(0,0,X, HEIGHT));
+    setRect(QRect(0,0,WIDTH, HEIGHT));
+    show=false;
+    prepareColors();
 }
 
 void IdentifierL3rd::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -21,7 +23,7 @@ void IdentifierL3rd::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
     if (show) {
         painter->fillRect(0,0,WIDTH,HEIGHT,secondaryGradient);
         painter->fillRect(1,1,WIDTH-2, NAME_HEIGHT-2, primaryGradient);
-        int numSections = max(names.size(), twitterData.size());
+        int numSections = std::max(names.size(), twitterData.size());
         int sectionWidth = WIDTH / numSections;
 
         painter->setPen(QColor(240,240,240));
@@ -41,7 +43,7 @@ void IdentifierL3rd::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
         painter->setPen(QColor(1,1,1));
         painter->setFont(QFont("Arial", 16));
         // Slot 1
-        painter->drawText(0,0,sectionWidth, NAME_HEIGHT, Qt::AlignCenter, twitterData[0]);
+        painter->drawText(0,NAME_HEIGHT,sectionWidth, TWITTER_HEIGHT, Qt::AlignCenter, twitterData[0]);
         // Slot 2
         if (twitterData.size() == 3) {
             painter->drawText(sectionWidth,NAME_HEIGHT,sectionWidth, TWITTER_HEIGHT, Qt::AlignCenter, twitterData[1]);

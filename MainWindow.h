@@ -39,13 +39,15 @@
 #include "TextualRosterInput.h"
 #include "Ticker.h"
 #include "PenaltyUI.h"
+#include "IdentifierWidget.h"
+#include "identifierl3rd.h"
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
 public:
     MainWindow(HockeyGame* game, StandingsGraphic* graphic, CommercialGraphic* comGraphic,
                NchcScoreboardGraphic* confSbGraphic, ScheduleGraphic* scheduleGraphic, SerialConsole* serial, ComparisonGraphic* comparisonGraphic,
-               PastGamesGraphic *pgg, Ticker *ticker, QWidget *parent = 0);
+               PastGamesGraphic *pgg, Ticker *ticker, IdentifierL3rd* idL3rd, QWidget *parent = 0);
     ~MainWindow();
 
     void connectWithCG(SerialConsole* con);
@@ -87,6 +89,7 @@ private:
     DisplayControls displayControls;
     GameStateUI gameStateUi;
     PastGamesUI awaypgUi, homepgUi;
+    IdentifierWidget idWidget;
 
     TextualRosterInput awayTextInput, homeTextInput;
 

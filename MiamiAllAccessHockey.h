@@ -62,6 +62,7 @@ private:
     Params params;
     QWidget* previewWindow;
     Ticker ticker;
+    IdentifierL3rd idGraphic;
     bool usingTricaster;
 #ifdef DEBUG
     CGSimulator cgSimulator;

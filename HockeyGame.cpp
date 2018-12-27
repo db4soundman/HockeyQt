@@ -8,11 +8,12 @@
 #include <algorithm>
 #include <QRegularExpression>
 #include "MiamiAllAccessHockey.h"
+#include "globals.h"
 
 
-HockeyGame::HockeyGame(QString awayXML, QString homeXML, QString sponsor, QString announcers,
+HockeyGame::HockeyGame(QString awayXML, QString homeXML, QString sponsor,
                        QString awayRank, QString homeRank, int screenWidth) :
-    sponsor(sponsor), announcers(announcers),awayRank(awayRank), homeRank(homeRank),
+    sponsor(sponsor),awayRank(awayRank), homeRank(homeRank),
     sb(sponsor, &gameClock, awayRank, homeRank), comparisonPreview(true),
     #ifdef GRADIENT_LOOK
     lt (awayColor, homeColor, screenWidth)
@@ -156,12 +157,17 @@ QPixmap HockeyGame::getSogComparisonPreview()
 }
 
 void
-HockeyGame::showAnnouncers() {
-    if (announcers.contains("and") || announcers.contains("&")) {
-        sb.changeTopBarText("Commentators: " + announcers);
-    }
-    else {
-        sb.changeTopBarText("Commentator: " + announcers);
+HockeyGame::showAnnouncers() {    
+    if (Globals::announcer2.isEmpty()) {
+        sb.changeTopBarText("Announcer: " + Globals::announcer1);
+    } else {
+        QString announcers = "Announcers: " + Globals::announcer1;
+        if (Globals::announcer3.isEmpty()) {
+            announcers += " and " + Globals::announcer2;
+        } else {
+            announcers += ", " + Globals::announcer2 + ", and " + Globals::announcer3;
+        }
+        sb.changeTopBarText(announcers);
     }
 }
 
@@ -454,16 +460,6 @@ HockeyTeam* HockeyGame::getAwayTeam() const
 HockeyTeam* HockeyGame::getHomeTeam() const
 {
     return homeTeam;
-}
-
-QString HockeyGame::getAnnouncers() const
-{
-    return announcers;
-}
-
-void HockeyGame::setAnnouncers(const QString& value)
-{
-    announcers = value;
 }
 
 QString HockeyGame::getSponsor() const
