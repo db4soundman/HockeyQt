@@ -8,6 +8,7 @@
 #include <QTextStream>
 #include <QMessageBox>
 #include "globals.h"
+#include "Params.h"
 
 SetupPage::SetupPage(QString* pSponsor, QColor* pBg, QString* pStatCrew,
                      bool *pUsingTricaster, QString* tricasterIp, int *portNum) {
@@ -57,6 +58,11 @@ SetupPage::SetupPage(QString* pSponsor, QColor* pBg, QString* pStatCrew,
     connect(&ipHelp, SIGNAL(clicked()), this, SLOT(showHelp()));
 
     setTitle("Game Information");
+    Params p((MiamiAllAccessHockey::getAppDirPath() + "/settings.txt").toStdString());
+    announcer1.setText(p.stringValue("ANNOUNCER1"));
+    announcer2.setText(p.stringValue("ANNOUNCER2"));
+    twitter1.setText(p.stringValue("ANNOUNCER1_TWITTER"));
+    twitter2.setText(p.stringValue("ANNOUNCER2_TWITTER"));
 }
 
 bool SetupPage::validatePage()

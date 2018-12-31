@@ -558,6 +558,7 @@ Scoreboard::toggleShowBoard() {
 void Scoreboard::togglePpClocks()
 {
     showPP = !showPP;
+    emit removeNoTransparencyZone(QRect(x() + V_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, 345, PP_BAR_HEIGHT));
     scene()->update(this->x(), this->y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT,
                     SCOREBOARD_WIDTH + 4 , PP_BAR_HEIGHT+1);
 }
@@ -568,6 +569,7 @@ Scoreboard::hideBoard() {
         show = false;
         emit removeTransparentField(x()+20, y(), TOP_BAR_WIDTH,TOP_BAR_HEIGHT);
         emit removeNoTransparencyZone(QRect(x() + V_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + TEAM_BOX_Y, TEAM_WIDTH, TEAM_BOX_HEIGHT));
+        emit removeNoTransparencyZone(QRect(x() + V_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, 345, PP_BAR_HEIGHT));
         scene()->update();
     }
 }
