@@ -549,8 +549,11 @@ int Scoreboard::getRealWidth()
 void
 Scoreboard::toggleShowBoard() {
     show = true;
-    if (useTransparency)
+    if (useTransparency) {
         emit transparentField(x()+20,y(),TOP_BAR_WIDTH,TOP_BAR_HEIGHT);
+        if(awayPP)
+            emit addNoTransparencyZone(QRect(x() + V_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, 345, PP_BAR_HEIGHT));
+    }
     emit addNoTransparencyZone(QRect(x() + V_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + TEAM_BOX_Y, TEAM_WIDTH, TEAM_BOX_HEIGHT));
     scene()->update();
 }
