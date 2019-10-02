@@ -121,7 +121,7 @@ Scoreboard::Scoreboard(QString sponsorText, Clock* clock, QString pAwayRank, QSt
 
     penalty = false;
     showPP = true;
-    sponsor = true;
+    sponsor = false;
     showPdAndClockFields = true;
     showClock = true;
     useTransparency = false;
@@ -145,7 +145,7 @@ Scoreboard::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     if (show) {
 
         //painter->setBrush(*(new QBrush(mainGradient)));
-        if (!useTransparency)
+        if (sponsor)
             //painter->drawPixmap(0,-49,SCOREBOARD_WIDTH,49, *topBar);
             painter->fillRect(20,0,TOP_BAR_WIDTH, TOP_BAR_HEIGHT, QBrush(QColor(20,20,20)));
         painter->fillRect(0,TOP_BAR_HEIGHT,SCOREBOARD_WIDTH, SCOREBOARD_HEIGHT,mainGradient);
@@ -495,6 +495,7 @@ Scoreboard::final() {
 void
 Scoreboard::changeTopBarText(QString text) {
     topBarText->setPlainText(text);
+    sponsor = true;
     int subtraction = 1;
     QFont f("Arial", 20, QFont::Bold);
     f.setCapitalization(QFont::SmallCaps);
@@ -509,23 +510,26 @@ Scoreboard::changeTopBarText(QString text) {
         QFontMetrics temp(topBarText->font());
         fontSize = temp;
     }
+    emit transparentField(x()+20,y(),TOP_BAR_WIDTH,TOP_BAR_HEIGHT);
     scene()->update(x()+20, y(),TOP_BAR_WIDTH,TOP_BAR_HEIGHT);
 }
 
 void
 Scoreboard::displaySponsor() {
-    topBarText->setPlainText(sponsorText);
-    int subtraction = 1;
-    topBarText->setFont(defaultSponsorText);
-    QFontMetrics fontSize(topBarText->font());
-    while (fontSize.width(sponsorText) > TOP_BAR_WIDTH - 10) {
-        QFont tempFont("Arial", defaultSponsorText.pointSize() - subtraction, QFont::Bold);
-        //topBarText->font().setPointSize(defaultSponsorText.pointSize()-subtraction);
-        subtraction++;
-        topBarText->setFont(tempFont);
-        QFontMetrics temp(topBarText->font());
-        fontSize = temp;
-    }
+//    topBarText->setPlainText(sponsorText);
+//    int subtraction = 1;
+//    topBarText->setFont(defaultSponsorText);
+//    QFontMetrics fontSize(topBarText->font());
+//    while (fontSize.width(sponsorText) > TOP_BAR_WIDTH - 10) {
+//        QFont tempFont("Arial", defaultSponsorText.pointSize() - subtraction, QFont::Bold);
+//        //topBarText->font().setPointSize(defaultSponsorText.pointSize()-subtraction);
+//        subtraction++;
+//        topBarText->setFont(tempFont);
+//        QFontMetrics temp(topBarText->font());
+//        fontSize = temp;
+//    }
+    sponsor = false;
+    emit removeTransparentField(x()+20, y(), TOP_BAR_WIDTH,TOP_BAR_HEIGHT);
     scene()->update(x()+20, y(), TOP_BAR_WIDTH,TOP_BAR_HEIGHT);
 }
 
@@ -550,7 +554,8 @@ void
 Scoreboard::toggleShowBoard() {
     show = true;
     if (useTransparency) {
-        emit transparentField(x()+20,y(),TOP_BAR_WIDTH,TOP_BAR_HEIGHT);
+        if (sponsor)
+            emit transparentField(x()+20,y(),TOP_BAR_WIDTH,TOP_BAR_HEIGHT);
         if(awayPP)
             emit addNoTransparencyZone(QRect(x() + V_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, 345, PP_BAR_HEIGHT));
     }

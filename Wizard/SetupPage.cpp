@@ -24,8 +24,8 @@ SetupPage::SetupPage(QString* pSponsor, QColor* pBg, QString* pStatCrew,
     QGridLayout* mainLayout = new QGridLayout();
     mainLayout->addWidget(&chooseBg, 4, 0);
     sponsorLine.setText(*sponsor);
-    mainLayout->addWidget(new QLabel("Sponsor:"), 5, 0);
-    mainLayout->addWidget(&sponsorLine, 5, 1);
+//    mainLayout->addWidget(new QLabel("Sponsor:"), 5, 0);
+//    mainLayout->addWidget(&sponsorLine, 5, 1);
     mainLayout->addWidget(new QLabel("Announcer 1(pxp)"), 6, 0);
     mainLayout->addWidget(&announcer1, 6, 1);
     mainLayout->addWidget(new QLabel("Announcer 2(color)"), 7, 0);

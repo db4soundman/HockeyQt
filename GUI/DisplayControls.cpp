@@ -16,7 +16,7 @@ DisplayControls::DisplayControls(HockeyGame* game, StandingsGraphic* graphic, Co
     fr->addWidget(&customtext, 1);
     customButton.setText("Custom Text");
     fr->addWidget(&customButton);
-    sponsorButton.setText("Sponsor");
+    sponsorButton.setText("Hide Stat Bar");
     fr->addWidget(&sponsorButton);
     announcersButton.setText("Announcers");
     fr->addWidget(&announcersButton);
