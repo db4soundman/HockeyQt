@@ -182,7 +182,7 @@ MiamiAllAccessHockey::exec() {
     game->getLt()->setX((graphicsScreen.width() / 2) - 214);
 #else
     commercial = new CommercialGraphic(game);
-    commercial->setX(graphicsScreen.width() / 2 - 500);
+    commercial->setX(graphicsScreen.width() / 2 - (commercial->getWidth() / 2));
     game->getLt()->setX((graphicsScreen.width() / 2) - 500);
 #endif
     scene->addItem(commercial);

@@ -21,6 +21,9 @@ public:
     void paint(QPainter * painter,
                const QStyleOptionGraphicsItem * option, QWidget * widget = 0);
 
+    int getWidth();
+    int getHeight();
+
 signals:
     void addNoTransparencyZone(QRect r);
     void removeNoTransparencyZone(QRect r);

@@ -10,15 +10,17 @@
 #define LOGO_HEIGHT 130
 #define BLACK_BAR_HEIGHT 30
 #define GRADIENT_LEVEL .4
-#define GRAPHIC_WIDTH 1000
+#define GRAPHIC_WIDTH 1100
 #define CLOCK_X 400
-#define CLOCK_WIDTH 200
+#define CLOCK_WIDTH 300
 #define SHOW_CLOCK 0
 #define INTERMISSION 1
 #define FINAL 2
 #define AWAY_Y 4
 #define HOME_Y (AWAY_Y * 2 + RECT_HEIGHT - 1)
 #define GRAPHIC_HEIGHT 200
+#define BORDER_THICKNESS 10
+#define SCORE_WIDTH 100
 
 CommercialGraphic::CommercialGraphic(HockeyGame* game,QGraphicsItem* parent) :
     QGraphicsRectItem(parent), blackBar(QPixmap(":/images/ppBar.png")),
@@ -29,13 +31,13 @@ CommercialGraphic::CommercialGraphic(HockeyGame* game,QGraphicsItem* parent) :
     show = false;
     inGame  = false;
     QFont font("Arial", 34, QFont::Bold);
-    QFont sponsorFont("Arial", 20, QFont::Bold);
+    QFont sponsorFont("Arial", 18, QFont::Bold);
 #ifdef Q_OS_OSX
     font.setPointSize(38);
     sponsorFont.setPointSize(14);
 #endif
     //QPixmap pix(pawayLogo);
-    networkLogo = MiamiAllAccessHockey::getImgFromResources(":/images/NCHCTV.png",50);
+    networkLogo = MiamiAllAccessHockey::getImgFromResources(":/images/NCHCTV.png",200, CLOCK_WIDTH-40);
     away = new QGraphicsTextItem(MiamiAllAccessHockey::awaySchool.getFullName());
     away->setFont(font);
     checkAwayFont();
@@ -65,19 +67,19 @@ void CommercialGraphic::paint(QPainter* painter, const QStyleOptionGraphicsItem*
                               QWidget* widget) {
     if (show){
         painter->fillRect(0, 0, GRAPHIC_WIDTH, GRAPHIC_HEIGHT, bgGradient);
-        painter->fillRect(10, 10, NAME_WIDTH, RECT_HEIGHT, awayTeamGradient);
-        painter->drawPixmap(10 + awayLogoWidthOffset, 10 + awayLogoHeightOffset, *awayLogo);
-        painter->fillRect(700, 10, NAME_WIDTH, RECT_HEIGHT, homeTeamGradient);
-        painter->drawPixmap(700 + homeLogoWidthOffset, 10, homeLogo);
-        painter->fillRect(300, 10, 100, RECT_HEIGHT, clockGradient);
-        painter->fillRect(600, 10, 100, RECT_HEIGHT, clockGradient);
+        painter->fillRect(BORDER_THICKNESS, 10, NAME_WIDTH, RECT_HEIGHT, awayTeamGradient);
+        painter->drawPixmap(BORDER_THICKNESS+ awayLogoWidthOffset, 10 + awayLogoHeightOffset, *awayLogo);
+        painter->fillRect(BORDER_THICKNESS + NAME_WIDTH + SCORE_WIDTH + CLOCK_WIDTH + SCORE_WIDTH, BORDER_THICKNESS, NAME_WIDTH, RECT_HEIGHT, homeTeamGradient);
+        painter->drawPixmap(BORDER_THICKNESS + NAME_WIDTH + SCORE_WIDTH + CLOCK_WIDTH + SCORE_WIDTH + homeLogoWidthOffset, BORDER_THICKNESS, homeLogo);
+        painter->fillRect(BORDER_THICKNESS + NAME_WIDTH, BORDER_THICKNESS, 100, RECT_HEIGHT, clockGradient);
+        painter->fillRect(BORDER_THICKNESS + NAME_WIDTH + SCORE_WIDTH + CLOCK_WIDTH, BORDER_THICKNESS, 100, RECT_HEIGHT, clockGradient);
 
         painter->setPen(QColor(255, 255, 255));
         painter->setFont(away->font());
-        painter->drawText(10, LOGO_HEIGHT+10, NAME_WIDTH, RECT_HEIGHT - LOGO_HEIGHT, Qt::AlignCenter, away->toPlainText());
+        painter->drawText(BORDER_THICKNESS, LOGO_HEIGHT+BORDER_THICKNESS, NAME_WIDTH, RECT_HEIGHT - LOGO_HEIGHT, Qt::AlignCenter, away->toPlainText());
         painter->setFont(home->font());
-        painter->drawText(700, LOGO_HEIGHT+10, NAME_WIDTH, RECT_HEIGHT - LOGO_HEIGHT, Qt::AlignCenter, home->toPlainText());
-        painter->drawPixmap(CLOCK_X + (200-networkLogo.width()) / 2, 10, networkLogo);
+        painter->drawText(BORDER_THICKNESS + NAME_WIDTH + SCORE_WIDTH + CLOCK_WIDTH + SCORE_WIDTH, LOGO_HEIGHT+BORDER_THICKNESS, NAME_WIDTH, RECT_HEIGHT - LOGO_HEIGHT, Qt::AlignCenter, home->toPlainText());
+        painter->drawPixmap(CLOCK_X + (CLOCK_WIDTH-networkLogo.width()) / 2, 10, networkLogo);
         painter->setFont(descriptiveFont);
         if (clockStatus == FINAL || period == "SHOOTOUT") {
             if (period.endsWith("OT")) {
@@ -88,19 +90,29 @@ void CommercialGraphic::paint(QPainter* painter, const QStyleOptionGraphicsItem*
         }
         else {
             if (clock == "INTERMISSION" && (period == "3RD" || period.endsWith("OT"))) {
-                painter->drawText(CLOCK_X,110, CLOCK_WIDTH, 50 , Qt::AlignCenter, "END OF");
-                painter->drawText(CLOCK_X,160, CLOCK_WIDTH, 40 , Qt::AlignCenter,
-                                  period.contains("OT") ? period : "REGULATION");
+                painter->drawText(CLOCK_X,110, CLOCK_WIDTH, 50 , Qt::AlignCenter, "END OF " + (period.contains("OT") ? period : "REGULATION"));
+//                painter->drawText(CLOCK_X,160, CLOCK_WIDTH, 40 , Qt::AlignCenter,
+//                                  period.contains("OT") ? period : "REGULATION");
             } else {
-                painter->drawText(CLOCK_X,110, CLOCK_WIDTH, 50 , Qt::AlignCenter, period);
-                painter->drawText(CLOCK_X,160, CLOCK_WIDTH, 40 , Qt::AlignCenter, clock);
+                painter->drawText(CLOCK_X,110, CLOCK_WIDTH, 50 , Qt::AlignCenter, period + " " + clock);
+//                painter->drawText(CLOCK_X,160, CLOCK_WIDTH, 40 , Qt::AlignCenter, clock);
             }
         }
         painter->setPen(QColor(41, 70, 91));
         painter->setFont(QFont("Arial", 60, QFont::Bold));
-        painter->drawText(300, 10, 100, RECT_HEIGHT, Qt::AlignCenter, awayScore);
-        painter->drawText(600, 10, 100, RECT_HEIGHT, Qt::AlignCenter, homeScore);
+        painter->drawText(BORDER_THICKNESS + NAME_WIDTH, BORDER_THICKNESS, SCORE_WIDTH, RECT_HEIGHT, Qt::AlignCenter, awayScore);
+        painter->drawText(BORDER_THICKNESS + NAME_WIDTH + CLOCK_WIDTH + SCORE_WIDTH, BORDER_THICKNESS, SCORE_WIDTH, RECT_HEIGHT, Qt::AlignCenter, homeScore);
     }
+}
+
+int CommercialGraphic::getWidth()
+{
+    return GRAPHIC_WIDTH;
+}
+
+int CommercialGraphic::getHeight()
+{
+    return GRAPHIC_HEIGHT;
 }
 
 void CommercialGraphic::prepareAndShow()
