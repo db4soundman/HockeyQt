@@ -3,6 +3,10 @@
 HockeyTeam::HockeyTeam() {
     ppgToday = ppoppToday = pkToday = pkoppToday = 0;
     timeoutsLeft = 1;
+    ppg = 0;
+    ppopp = 0;
+    pk=0;
+    pkopp=0;
 }
 
 HockeyPlayer &HockeyTeam::getPlayer(const int i) {
