@@ -63,6 +63,7 @@ SetupPage::SetupPage(QString* pSponsor, QColor* pBg, QString* pStatCrew,
     announcer2.setText(p.stringValue("ANNOUNCER2"));
     twitter1.setText(p.stringValue("ANNOUNCER1_TWITTER"));
     twitter2.setText(p.stringValue("ANNOUNCER2_TWITTER"));
+    portSelector->setCurrentIndex(p.intValue("NET_PORT")-1);
 }
 
 bool SetupPage::validatePage()
