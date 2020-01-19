@@ -174,7 +174,7 @@ Scoreboard::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
         painter->setPen(QColor(255, 255, 255));
         painter->drawText(V_TEAM_BOX_STARTX + LOGO_WIDTH, TOP_BAR_HEIGHT + TEAM_BOX_Y, awayRankOffset - LOGO_WIDTH, TEAM_BOX_HEIGHT, Qt::AlignCenter,  awayRank->toPlainText());
         painter->setFont(awayName->font());
-        painter->drawText(V_TEAM_BOX_STARTX + 3 + awayRankOffset, TOP_BAR_HEIGHT + TEAM_BOX_Y, TEAM_NAME_WIDTH, TEAM_BOX_HEIGHT, Qt::AlignVCenter, awayName->toPlainText());
+        painter->drawText(V_TEAM_BOX_STARTX + 10 + awayRankOffset, TOP_BAR_HEIGHT + TEAM_BOX_Y, TEAM_NAME_WIDTH, TEAM_BOX_HEIGHT, Qt::AlignVCenter, awayName->toPlainText());
         // Away Score
         painter->setFont(awayScore->font());
         painter->drawText(V_TEAM_BOX_STARTX + TEAM_NAME_WIDTH, TOP_BAR_HEIGHT + TEAM_BOX_Y, SCORE_WIDTH, TEAM_BOX_HEIGHT, Qt::AlignCenter, awayScore->toPlainText());
@@ -189,7 +189,7 @@ Scoreboard::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
         painter->setFont(homeRank->font());
         painter->drawText(H_TEAM_BOX_STARTX + LOGO_WIDTH, TOP_BAR_HEIGHT + TEAM_BOX_Y, homeRankOffset - LOGO_WIDTH, TEAM_BOX_HEIGHT, Qt::AlignCenter, homeRank->toPlainText());
         painter->setFont(homeName->font());
-        painter->drawText(H_TEAM_BOX_STARTX + 5 + homeRankOffset, TOP_BAR_HEIGHT + TEAM_BOX_Y, TEAM_NAME_WIDTH, TEAM_BOX_HEIGHT, Qt::AlignVCenter, homeName->toPlainText());
+        painter->drawText(H_TEAM_BOX_STARTX + 10 + homeRankOffset, TOP_BAR_HEIGHT + TEAM_BOX_Y, TEAM_NAME_WIDTH, TEAM_BOX_HEIGHT, Qt::AlignVCenter, homeName->toPlainText());
         // Home Score
         painter->setFont(homeScore->font());
         painter->drawText(H_TEAM_BOX_STARTX + TEAM_NAME_WIDTH, TOP_BAR_HEIGHT + TEAM_BOX_Y, SCORE_WIDTH, TEAM_BOX_HEIGHT, Qt::AlignCenter, homeScore->toPlainText());
