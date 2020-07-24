@@ -6,6 +6,7 @@
 #include "GraphicChooser.txt"
 #include "console.h"
 #include <algorithm>
+#include <math.h>
 #include <QRegularExpression>
 #include "MiamiAllAccessHockey.h"
 #include "globals.h"
@@ -1138,25 +1139,30 @@ void HockeyGame::determinePpClockAllSport(QString clock)
     QString description = "";
     QString num;
     if (period != 5) {
-        homePlayersOnIce = 5 - homePlayersInBox.size();
-        awayPlayersOnIce = 5 - awayPlayersInBox.size();
+        homePlayersOnIce = std::max(3,5 - homePlayersInBox.size());
+        awayPlayersOnIce = std::max(3,5 - awayPlayersInBox.size());
     } else {
         // This can vary based on # of penalties and whether the clock is running...
-        homePlayersOnIce = 3 + awayPlayersInBox.size() - homePlayersInBox.size();
-        awayPlayersOnIce = 3 + homePlayersInBox.size() - awayPlayersInBox.size();
+        homePlayersOnIce = std::max(3,3 + awayPlayersInBox.size() - homePlayersInBox.size());
+        awayPlayersOnIce = std::max(3,3 + homePlayersInBox.size() - awayPlayersInBox.size());
     }
 
     // Neutral
     if (homePlayersOnIce == awayPlayersOnIce && homePlayersOnIce < 5) {
         ppPos = 3;
-        num.setNum(homePlayersOnIce, 10);
-        description = num + "-ON-" + num;
+        if (period < 4) {
+            num.setNum(homePlayersOnIce, 10);
+            description = num + "-ON-" + num;
+        }
+        else {
+            description = "EVEN";
+        }
     }
     // home pp
     else if (homePlayersOnIce > awayPlayersOnIce) {
         ppPos = 2;
         // typical pp
-        if (awayPlayersOnIce == 4 && period != 5) {
+        if ((awayPlayersOnIce == 4 && period < 4) ||(homePlayersOnIce - awayPlayersOnIce == 1 && period > 3)) {
             description = "POWER PLAY";
         }
         else {
@@ -1168,7 +1174,7 @@ void HockeyGame::determinePpClockAllSport(QString clock)
     else if (awayPlayersOnIce > homePlayersOnIce){
         ppPos = 1;
         // typical pp
-        if (homePlayersOnIce == 4 && period != 5) {
+        if ((homePlayersOnIce == 4 && period < 4) || (awayPlayersOnIce - homePlayersOnIce == 1 && period > 3)) {
             description = "POWER PLAY";
         }
         else {
@@ -1214,7 +1220,7 @@ void HockeyGame::firePeriodChange()
                 QTimer::singleShot(1000, this, SLOT(triggerNewPeriod()));
             }
         }
-    } else if (period < 6){
+    } else if (period < 5){
         if (homeScore != awayScore) {
             QTimer::singleShot(1000, this, SLOT(triggerFinal()));
             QTimer::singleShot(3000, this, SLOT(triggerCommercial()));
@@ -1229,5 +1235,8 @@ void HockeyGame::firePeriodChange()
                 QTimer::singleShot(1000, this, SLOT(triggerNewPeriod()));
             }
         }
+    } else {
+        QTimer::singleShot(1000, this, SLOT(triggerFinal()));
+        QTimer::singleShot(3000, this, SLOT(triggerCommercial()));
     }
 }

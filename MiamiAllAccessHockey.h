@@ -1,6 +1,6 @@
 #ifndef MIAMIALLACCESSHOCKEY_H
 #define MIAMIALLACCESSHOCKEY_H
-//#define DEBUG
+#define DEBUG
 #include <QApplication>
 #include "HockeyGame.h"
 #include <QGraphicsView>
