@@ -1220,13 +1220,13 @@ void HockeyGame::firePeriodChange()
                 QTimer::singleShot(1000, this, SLOT(triggerNewPeriod()));
             }
         }
-    } else if (period < 5){
+    } else if (period == 4){
         if (homeScore != awayScore) {
             QTimer::singleShot(1000, this, SLOT(triggerFinal()));
             QTimer::singleShot(3000, this, SLOT(triggerCommercial()));
         } else {
             if (sb.getShowClock()) {
-                QTimer::singleShot(1000, this, SLOT(triggerIntermission()));
+                QTimer::singleShot(1000, this, SLOT(triggerFinal()));
                 QTimer::singleShot(3000, this, SLOT(triggerCommercial()));
             } else {
                 emit automatedHide();
