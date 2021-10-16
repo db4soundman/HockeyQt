@@ -47,6 +47,8 @@ HockeyGame::HockeyGame(QString awayXML, QString homeXML, QString sponsor,
     connect(this, SIGNAL(homeScoreChanged(int)), &sb, SLOT(updateHomeScore(int)));
     connect(this, SIGNAL(penaltyChanged(int,Clock*,QString)), &sb, SLOT(preparePowerplayClock(int,Clock*,QString)));
     connect(this, SIGNAL(checkScoreboardPp()), this, SLOT(determinePpClockForScoreboard()));
+    connect(this, SIGNAL(awaySogChanged(int)), &sb, SLOT(awaySogUpdated(int)));
+    connect(this, SIGNAL(homeSogChanged(int)), &sb, SLOT(homeSogUpdated(int)));
     // Make teams...
     homeTeam = new HockeyTeam();
     awayTeam = new HockeyTeam();
@@ -784,7 +786,7 @@ HockeyGame::determinePpClockForScoreboard() {
         ppPos = 2;
         // typical pp
         if (awayPlayersOnIce == 4) {
-            description = "POWER PLAY";
+            description = "PP";
         }
         else {
             description = QString::number(homePlayersOnIce) + "-ON-" +
@@ -796,7 +798,7 @@ HockeyGame::determinePpClockForScoreboard() {
         ppPos = 1;
         // typical pp
         if (homePlayersOnIce == 4) {
-            description = "POWER PLAY";
+            description = "PP";
         }
         else {
             description = QString::number(awayPlayersOnIce, 10) + "-ON-" +
@@ -1163,7 +1165,7 @@ void HockeyGame::determinePpClockAllSport(QString clock)
         ppPos = 2;
         // typical pp
         if ((awayPlayersOnIce == 4 && period < 4) ||(homePlayersOnIce - awayPlayersOnIce == 1 && period > 3)) {
-            description = "POWER PLAY";
+            description = "PP";
         }
         else {
             description = QString::number(homePlayersOnIce) + "-ON-" +
@@ -1175,7 +1177,7 @@ void HockeyGame::determinePpClockAllSport(QString clock)
         ppPos = 1;
         // typical pp
         if ((homePlayersOnIce == 4 && period < 4) || (awayPlayersOnIce - homePlayersOnIce == 1 && period > 3)) {
-            description = "POWER PLAY";
+            description = "PP";
         }
         else {
             description = QString::number(awayPlayersOnIce, 10) + "-ON-" +

@@ -54,8 +54,11 @@ public slots:
      void toggleAwayLogoBg(bool on);
      void usingAllSport();
      void usingInternalClocks();
+     void awaySogUpdated(int sog);
+     void homeSogUpdated(int sog);
 
 private:
+     void updateSog(bool isHome, int sog);
 
      QPixmap* homeLogo, *awayLogo;
      QPixmap nchctv;
@@ -77,9 +80,11 @@ private:
      Clock* clock;
      Clock* ppClock;
      QFont defaultSponsorText;
-     int homeRankOffset, awayRankOffset, homeLogoOffset, awayLogoHeightOffset, awayLogoWidthOffset, pd;
+     int homeRankOffset, awayRankOffset, homeLogoOffset, awayLogoHeightOffset, awayLogoWidthOffset, pd, hSog, aSog;
      QString serialPpClock;
 
+     QRect getAwayPPRectCoords();
+     QRect getClockRectCoords();
 };
 
 #endif

@@ -140,9 +140,6 @@ void CommercialGraphic::prepareAndShow()
         period = "OT";
         break;
     case 5:
-        period = "3x3OT";
-        break;
-    case 6:
         period = "SHOOTOUT";
         break;
     default:

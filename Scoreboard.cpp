@@ -17,21 +17,28 @@
 #define HOME_PP 2
 #define NEUTRAL 3
 #define TEAM_NAME_WIDTH 310
-#define SCOREBOARD_HEIGHT 44
 #define SCORE_WIDTH 78
-#define TEAM_WIDTH (TEAM_NAME_WIDTH + SCORE_WIDTH)
 #define RANK_WIDTH 30
 #define TEAM_BOX_Y 0
 #define TEAM_BOX_HEIGHT 44
-#define V_TEAM_BOX_STARTX 180
-#define H_TEAM_BOX_STARTX (V_TEAM_BOX_STARTX + TEAM_WIDTH + 5)
+#define V_TEAM_BOX_STARTY 0
+#define H_TEAM_BOX_STARTY V_TEAM_BOX_STARTY + TEAM_BOX_HEIGHT
 #define LOGO_WIDTH 50
-#define SCOREBOARD_WIDTH 1182
-#define CLOCK_FIELD_X (H_TEAM_BOX_STARTX + TEAM_WIDTH)
-#define CLOCK_FIELD_WIDTH 221
-#define PP_BAR_HEIGHT 38
-#define TOP_BAR_WIDTH (SCOREBOARD_WIDTH - 40)
-#define TOP_BAR_HEIGHT 39
+#define SOG_WIDTH 50
+#define CLOCK_FIELD_X 0
+#define CLOCK_FIELD_WIDTH 200
+#define TEAM_WIDTH (LOGO_WIDTH + SOG_WIDTH + SCORE_WIDTH)
+#define V_TEAM_BOX_STARTX CLOCK_FIELD_WIDTH
+#define H_TEAM_BOX_STARTX CLOCK_FIELD_WIDTH
+#define PP_BAR_HEIGHT TEAM_BOX_HEIGHT
+#define POP_BAR_WIDTH (SCOREBOARD_WIDTH - 40)
+#define POP_BAR_HEIGHT 39
+#define POP_BAR_X 0
+#define POP_BAR_Y 0
+#define V_TEAM_SOG_X (V_TEAM_BOX_STARTX + LOGO_WIDTH + SCORE_WIDTH)
+#define H_TEAM_SOG_X (V_TEAM_BOX_STARTX + LOGO_WIDTH + SCORE_WIDTH)
+#define SCOREBOARD_WIDTH (CLOCK_FIELD_WIDTH + LOGO_WIDTH + SCORE_WIDTH + SOG_WIDTH)
+#define SCOREBOARD_HEIGHT TEAM_BOX_HEIGHT * 2
 
 Scoreboard::Scoreboard(QString sponsorText, Clock* clock, QString pAwayRank, QString pHomeRank) :
     homeColor(MiamiAllAccessHockey::homeSchool.getPrimaryColor()), awayColor(MiamiAllAccessHockey::awaySchool.getPrimaryColor()) {
@@ -47,7 +54,7 @@ Scoreboard::Scoreboard(QString sponsorText, Clock* clock, QString pAwayRank, QSt
     nchctv = (MiamiAllAccessHockey::getImgFromResources(":/images/NCHCTV.png",42));
     defaultSponsorText = sponsorFont;
     show = false;
-    setRect(0,0,SCOREBOARD_WIDTH, TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT + TOP_BAR_HEIGHT + 5);
+    setRect(0,0,SCOREBOARD_WIDTH + CLOCK_FIELD_WIDTH, SCOREBOARD_HEIGHT + PP_BAR_HEIGHT + 5);
     homeLogo = new QPixmap(MiamiAllAccessHockey::homeSchool.getLogo());
     awayLogo = new QPixmap(MiamiAllAccessHockey::awaySchool.getLogo());
     altAwayLogoBg = false;
@@ -75,37 +82,41 @@ Scoreboard::Scoreboard(QString sponsorText, Clock* clock, QString pAwayRank, QSt
     this->sponsorText = sponsorText;
     topBarText->setFont(defaultSponsorText);
 
-    homeGradient.setStart(0, TOP_BAR_HEIGHT + TEAM_BOX_Y);
-    awayGradient.setStart(0, TOP_BAR_HEIGHT + TEAM_BOX_Y);
-    homeGradient.setFinalStop(0,TOP_BAR_HEIGHT + TEAM_BOX_HEIGHT);
-    awayGradient.setFinalStop(0,TOP_BAR_HEIGHT + TEAM_BOX_HEIGHT);
-    homeLogoGradient.setStart(0, TOP_BAR_HEIGHT + TEAM_BOX_Y);
-    awayLogoGradient.setStart(0, TOP_BAR_HEIGHT + TEAM_BOX_Y);
-    homeLogoGradient.setFinalStop(0,TOP_BAR_HEIGHT + TEAM_BOX_HEIGHT);
-    awayLogoGradient.setFinalStop(0,TOP_BAR_HEIGHT + TEAM_BOX_HEIGHT);
-    mainGradient.setStart(0,TOP_BAR_HEIGHT);
-    mainGradient.setFinalStop(0, TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT);
-    clockGradient.setStart(0,1 + TOP_BAR_HEIGHT);
-    clockGradient.setFinalStop(0, TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT - 2);
-    ppGradient.setStart(0, TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT);
-    ppGradient.setFinalStop(0, TOP_BAR_HEIGHT + 92);
-    scoreGradient.setStart(0, TOP_BAR_HEIGHT + TEAM_BOX_Y);
-    scoreGradient.setFinalStop(0, TOP_BAR_HEIGHT + TEAM_BOX_Y + 44);
+    homeGradient.setStart(0, H_TEAM_BOX_STARTY);
+    awayGradient.setStart(0, V_TEAM_BOX_STARTY);
+    homeGradient.setFinalStop(0 ,H_TEAM_BOX_STARTY + TEAM_BOX_HEIGHT);
+    awayGradient.setFinalStop(0, V_TEAM_BOX_STARTY + TEAM_BOX_HEIGHT);
+    homeLogoGradient.setStart(0, H_TEAM_BOX_STARTY);
+    awayLogoGradient.setStart(0, V_TEAM_BOX_STARTY);
+    homeLogoGradient.setFinalStop(0,H_TEAM_BOX_STARTY + TEAM_BOX_HEIGHT);
+    awayLogoGradient.setFinalStop(0,V_TEAM_BOX_STARTY + TEAM_BOX_HEIGHT);
+    mainGradient.setStart(0,0);
+    mainGradient.setFinalStop(0, SCOREBOARD_HEIGHT);
+
+//    clockGradient.setStart(0,1 + POP_BAR_HEIGHT);
+//    clockGradient.setFinalStop(0, POP_BAR_HEIGHT + SCOREBOARD_HEIGHT - 2);
+
+    ppGradient.setStart(0, POP_BAR_HEIGHT + SCOREBOARD_HEIGHT);
+    ppGradient.setFinalStop(0, POP_BAR_HEIGHT + 92);
+    scoreGradient.setStart(0, POP_BAR_HEIGHT + TEAM_BOX_Y);
+    scoreGradient.setFinalStop(0, POP_BAR_HEIGHT + TEAM_BOX_Y + 44);
     prepareColor();
     // penalty gradient
-    penaltyGradient.setStart(0, TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT);
-    penaltyGradient.setFinalStop(0, TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT + PP_BAR_HEIGHT);
-    awayPPGradient.setStart(0,TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT);
-    awayPPGradient.setFinalStop(0,PP_BAR_HEIGHT+TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT);
+    penaltyGradient.setStart(0, 0);
+    penaltyGradient.setFinalStop(0, SCOREBOARD_HEIGHT);
 
-    homePPGradient.setStart(0,TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT);
-    homePPGradient.setFinalStop(0,PP_BAR_HEIGHT+TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT);
+    awayPPGradient.setStart(0, 0);
+    awayPPGradient.setFinalStop(0, TEAM_BOX_HEIGHT);
 
-    neutralPPGradient.setStart(0,TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT);
-    neutralPPGradient.setFinalStop(0,PP_BAR_HEIGHT+TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT);
+    homePPGradient.setStart(0, H_TEAM_BOX_STARTY);
+    homePPGradient.setFinalStop(0, SCOREBOARD_HEIGHT);
+
+    neutralPPGradient.setStart(0, 0);
+    neutralPPGradient.setFinalStop(0, SCOREBOARD_HEIGHT);
 
 
     QFont rankFont("Arial", 14, QFont::Bold);
+    rankFont.setCapitalization(QFont::SmallCaps);
     awayRank = new QGraphicsTextItem(pAwayRank);
     homeRank = new QGraphicsTextItem(pHomeRank);
     awayRank->setFont(rankFont);
@@ -128,6 +139,8 @@ Scoreboard::Scoreboard(QString sponsorText, Clock* clock, QString pAwayRank, QSt
     awayPP = false;
     homePP = false;
     neutralPP = false;
+    hSog = 0;
+    aSog = 0;
 
     this->clock = clock;
     connect(clock, SIGNAL(clockUpdated()), this, SLOT(updateClock()));
@@ -144,109 +157,127 @@ Scoreboard::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     Q_UNUSED(widget);
     if (show) {
 
-        //painter->setBrush(*(new QBrush(mainGradient)));
-        if (sponsor)
-            //painter->drawPixmap(0,-49,SCOREBOARD_WIDTH,49, *topBar);
-            painter->fillRect(20,0,TOP_BAR_WIDTH, TOP_BAR_HEIGHT, QBrush(QColor(20,20,20)));
-        painter->fillRect(0,TOP_BAR_HEIGHT,SCOREBOARD_WIDTH, SCOREBOARD_HEIGHT,mainGradient);
-        painter->drawPixmap(2,TOP_BAR_HEIGHT,nchctv);
-        //Clock - Game time...draw clock first since default color is black
+        painter->fillRect(0, 0, SCOREBOARD_WIDTH, SCOREBOARD_HEIGHT, mainGradient);
+        painter->drawPixmap((CLOCK_FIELD_WIDTH - nchctv.width()) / 2, 0,nchctv);
+        //Clock -
         painter->setFont(homeName->font());
-        painter->setPen(QColor(230,230,230));
-        //painter->fillRect(CLOCK_FIELD_X, 1 + TOP_BAR_HEIGHT, CLOCK_FIELD_WIDTH,SCOREBOARD_HEIGHT-2, clockGradient);
+        painter->setPen(QColor(240,240,240));
+
         if (useClock && showPdAndClockFields) {
-            painter->drawText(CLOCK_FIELD_X + 10, TOP_BAR_HEIGHT, CLOCK_FIELD_WIDTH, SCOREBOARD_HEIGHT, Qt::AlignVCenter, period);
-            painter->drawText(CLOCK_FIELD_X, TOP_BAR_HEIGHT, CLOCK_FIELD_WIDTH-10, SCOREBOARD_HEIGHT, Qt::AlignRight | Qt::AlignVCenter,
+            painter->drawText(CLOCK_FIELD_X + 5, H_TEAM_BOX_STARTY, CLOCK_FIELD_WIDTH, TEAM_BOX_HEIGHT, Qt::AlignVCenter | Qt::AlignLeft, period);
+            painter->drawText(CLOCK_FIELD_X, H_TEAM_BOX_STARTY, CLOCK_FIELD_WIDTH - 5, TEAM_BOX_HEIGHT, Qt::AlignVCenter | Qt::AlignRight,
                               showClock? clock->toString() : "INT");
         }
         else {
-            painter->drawText(CLOCK_FIELD_X, TOP_BAR_HEIGHT, CLOCK_FIELD_WIDTH, SCOREBOARD_HEIGHT, Qt::AlignCenter, centeredTimeText);
+            painter->drawText(CLOCK_FIELD_X, H_TEAM_BOX_STARTY, CLOCK_FIELD_WIDTH, TEAM_BOX_HEIGHT, Qt::AlignCenter, centeredTimeText);
         }
         // Away text
-        painter->setPen(QColor(255,255,255));
+        painter->setPen(QColor(240,240,240));
         //painter->drawRect(V_TEAM_BOX_STARTX - 1, TEAM_BOX_Y - 1, TEAM_WIDTH + 1, TEAM_BOX_HEIGHT+1);
-        painter->fillRect(V_TEAM_BOX_STARTX, TOP_BAR_HEIGHT + TEAM_BOX_Y, TEAM_WIDTH, TEAM_BOX_HEIGHT, awayGradient );
+        painter->fillRect(V_TEAM_BOX_STARTX, V_TEAM_BOX_STARTY, TEAM_WIDTH, TEAM_BOX_HEIGHT, awayGradient);
         // Away logo
-        painter->fillRect(V_TEAM_BOX_STARTX, TOP_BAR_HEIGHT + TEAM_BOX_Y, LOGO_WIDTH, TEAM_BOX_HEIGHT, awayLogoGradient);
-        painter->drawPixmap(V_TEAM_BOX_STARTX + awayLogoWidthOffset, TOP_BAR_HEIGHT + TEAM_BOX_Y + awayLogoHeightOffset, *awayLogo);
-        painter->setOpacity(1);
-        painter->setFont(awayRank->font());
-        painter->setPen(QColor(255, 255, 255));
-        painter->drawText(V_TEAM_BOX_STARTX + LOGO_WIDTH, TOP_BAR_HEIGHT + TEAM_BOX_Y, awayRankOffset - LOGO_WIDTH, TEAM_BOX_HEIGHT, Qt::AlignCenter,  awayRank->toPlainText());
-        painter->setFont(awayName->font());
-        painter->drawText(V_TEAM_BOX_STARTX + 10 + awayRankOffset, TOP_BAR_HEIGHT + TEAM_BOX_Y, TEAM_NAME_WIDTH, TEAM_BOX_HEIGHT, Qt::AlignVCenter, awayName->toPlainText());
+        painter->fillRect(V_TEAM_BOX_STARTX, V_TEAM_BOX_STARTY, LOGO_WIDTH, TEAM_BOX_HEIGHT, awayLogoGradient);
+        painter->drawPixmap(V_TEAM_BOX_STARTX + awayLogoWidthOffset, V_TEAM_BOX_STARTY + awayLogoHeightOffset, *awayLogo);
+
+//        painter->setFont(awayRank->font());
+//        painter->setPen(QColor(240, 240, 240));
+//        painter->drawText(V_TEAM_BOX_STARTX + LOGO_WIDTH, POP_BAR_HEIGHT + TEAM_BOX_Y, awayRankOffset - LOGO_WIDTH, TEAM_BOX_HEIGHT, Qt::AlignCenter,  awayRank->toPlainText());
+//        painter->setFont(awayName->font());
+//        painter->drawText(V_TEAM_BOX_STARTX + 10 + awayRankOffset, POP_BAR_HEIGHT + TEAM_BOX_Y, TEAM_NAME_WIDTH, TEAM_BOX_HEIGHT, Qt::AlignVCenter, awayName->toPlainText());
+
+
         // Away Score
         painter->setFont(awayScore->font());
-        painter->drawText(V_TEAM_BOX_STARTX + TEAM_NAME_WIDTH, TOP_BAR_HEIGHT + TEAM_BOX_Y, SCORE_WIDTH, TEAM_BOX_HEIGHT, Qt::AlignCenter, awayScore->toPlainText());
+        painter->drawText(V_TEAM_BOX_STARTX + LOGO_WIDTH, V_TEAM_BOX_STARTY, SCORE_WIDTH, TEAM_BOX_HEIGHT, Qt::AlignCenter, awayScore->toPlainText());
+
 
         // Home Text
-        painter->setPen(QColor(255,255,255));
-        painter->fillRect(H_TEAM_BOX_STARTX, TOP_BAR_HEIGHT + TEAM_BOX_Y, TEAM_WIDTH, TEAM_BOX_HEIGHT, homeGradient);
-        painter->fillRect(H_TEAM_BOX_STARTX, TOP_BAR_HEIGHT + TEAM_BOX_Y, LOGO_WIDTH, TEAM_BOX_HEIGHT, homeLogoGradient);
+        painter->setPen(QColor(240,240,240));
+        painter->fillRect(H_TEAM_BOX_STARTX, H_TEAM_BOX_STARTY, TEAM_WIDTH, TEAM_BOX_HEIGHT, homeGradient);
+        painter->fillRect(H_TEAM_BOX_STARTX, H_TEAM_BOX_STARTY, LOGO_WIDTH, TEAM_BOX_HEIGHT, homeLogoGradient);
+
         // Home logo
-        painter->drawPixmap(H_TEAM_BOX_STARTX, TOP_BAR_HEIGHT + TEAM_BOX_Y + homeLogoOffset, *homeLogo);
-        painter->setOpacity(1);
-        painter->setFont(homeRank->font());
-        painter->drawText(H_TEAM_BOX_STARTX + LOGO_WIDTH, TOP_BAR_HEIGHT + TEAM_BOX_Y, homeRankOffset - LOGO_WIDTH, TEAM_BOX_HEIGHT, Qt::AlignCenter, homeRank->toPlainText());
-        painter->setFont(homeName->font());
-        painter->drawText(H_TEAM_BOX_STARTX + 10 + homeRankOffset, TOP_BAR_HEIGHT + TEAM_BOX_Y, TEAM_NAME_WIDTH, TEAM_BOX_HEIGHT, Qt::AlignVCenter, homeName->toPlainText());
+        painter->drawPixmap(H_TEAM_BOX_STARTX, H_TEAM_BOX_STARTY + homeLogoOffset, *homeLogo);
+
+//        painter->setFont(homeRank->font());
+//        painter->drawText(H_TEAM_BOX_STARTX + LOGO_WIDTH, POP_BAR_HEIGHT + TEAM_BOX_Y, homeRankOffset - LOGO_WIDTH, TEAM_BOX_HEIGHT, Qt::AlignCenter, homeRank->toPlainText());
+//        painter->setFont(homeName->font());
+//        painter->drawText(H_TEAM_BOX_STARTX + 10 + homeRankOffset, POP_BAR_HEIGHT + TEAM_BOX_Y, TEAM_NAME_WIDTH, TEAM_BOX_HEIGHT, Qt::AlignVCenter, homeName->toPlainText());
+
         // Home Score
         painter->setFont(homeScore->font());
-        painter->drawText(H_TEAM_BOX_STARTX + TEAM_NAME_WIDTH, TOP_BAR_HEIGHT + TEAM_BOX_Y, SCORE_WIDTH, TEAM_BOX_HEIGHT, Qt::AlignCenter, homeScore->toPlainText());
+        painter->drawText(H_TEAM_BOX_STARTX + LOGO_WIDTH, H_TEAM_BOX_STARTY, SCORE_WIDTH, TEAM_BOX_HEIGHT, Qt::AlignCenter, homeScore->toPlainText());
+
+        // SOG BG
+        painter->fillRect(V_TEAM_SOG_X, V_TEAM_BOX_STARTY, SOG_WIDTH, SCOREBOARD_HEIGHT, QColor(1,1,1,80));
+
+        // Away SOG
+        painter->setFont(awayRank->font());
+        painter->drawText(V_TEAM_SOG_X, V_TEAM_BOX_STARTY, SOG_WIDTH, TEAM_BOX_HEIGHT, Qt::AlignCenter, QString::number(aSog));
+
+        // Home SOG
+        painter->setFont(awayRank->font());
+        painter->drawText(H_TEAM_SOG_X, H_TEAM_BOX_STARTY, SOG_WIDTH, TEAM_BOX_HEIGHT, Qt::AlignCenter, QString::number(hSog));
+
+        // SOG Label
+        painter->drawText(H_TEAM_SOG_X, V_TEAM_BOX_STARTY, SOG_WIDTH, SCOREBOARD_HEIGHT*23/24, Qt::AlignCenter, "sog");
+
+
         if (sponsor) {
+            painter->fillRect(20,0,POP_BAR_WIDTH, POP_BAR_HEIGHT, QBrush(QColor(20,20,20)));
             //StatBarText
             painter->setPen(QColor(255, 255, 255));
             painter->setFont(topBarText->font());
-            painter->drawText(20,0,TOP_BAR_WIDTH,TOP_BAR_HEIGHT, Qt::AlignCenter, topBarText->toPlainText());
+            painter->drawText(20,0,POP_BAR_WIDTH,POP_BAR_HEIGHT, Qt::AlignCenter, topBarText->toPlainText());
         }
 
         if (showPP) {
             painter->setFont(defaultSponsorText);
             // Away ppbar
             if(awayPP) {
-                painter->fillRect(V_TEAM_BOX_STARTX, TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, 345, PP_BAR_HEIGHT, awayPPGradient);
+                painter->fillRect(SCOREBOARD_WIDTH, V_TEAM_BOX_STARTY, CLOCK_FIELD_WIDTH, PP_BAR_HEIGHT, awayGradient);
                 painter->setPen(QColor(196, 213, 242));
-                painter->drawRect(V_TEAM_BOX_STARTX, TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, 345, PP_BAR_HEIGHT);
+                painter->drawRect(SCOREBOARD_WIDTH, V_TEAM_BOX_STARTY, CLOCK_FIELD_WIDTH, PP_BAR_HEIGHT);
                 painter->setPen(QColor(230,230,230));
                 //painter->drawPixmap(V_TEAM_BOX_STARTX - 3,SCOREBOARD_HEIGHT, *ppBar);
-                painter->drawText(V_TEAM_BOX_STARTX + 5, TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, 345, PP_BAR_HEIGHT, Qt::AlignLeft | Qt::AlignVCenter, ppDescription);
+                painter->drawText(SCOREBOARD_WIDTH + 5, V_TEAM_BOX_STARTY, CLOCK_FIELD_WIDTH, PP_BAR_HEIGHT, Qt::AlignLeft | Qt::AlignVCenter, ppDescription);
                 if (useClock)
-                    painter->drawText(V_TEAM_BOX_STARTX, TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, 331, PP_BAR_HEIGHT,
+                    painter->drawText(SCOREBOARD_WIDTH, V_TEAM_BOX_STARTY, CLOCK_FIELD_WIDTH - 5, PP_BAR_HEIGHT,
                                       Qt::AlignRight | Qt::AlignVCenter, serialPP? serialPpClock : ppClock->toStringPP());
             }
             //Home ppbar
             else if (homePP) {
-                painter->fillRect(H_TEAM_BOX_STARTX, TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, 345, PP_BAR_HEIGHT, homePPGradient);
+                painter->fillRect(SCOREBOARD_WIDTH, H_TEAM_BOX_STARTY, CLOCK_FIELD_WIDTH, PP_BAR_HEIGHT, homeGradient);
                 painter->setPen(QColor(196, 213, 242));
-                painter->drawRect(H_TEAM_BOX_STARTX, TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, 345, PP_BAR_HEIGHT);
+                painter->drawRect(SCOREBOARD_WIDTH, H_TEAM_BOX_STARTY, CLOCK_FIELD_WIDTH, PP_BAR_HEIGHT);
                 painter->setPen(QColor(230,230,230));
-                painter->drawText(H_TEAM_BOX_STARTX + 4, TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, 345, PP_BAR_HEIGHT, Qt::AlignLeft | Qt::AlignVCenter, ppDescription);
+                painter->drawText(SCOREBOARD_WIDTH + 5, H_TEAM_BOX_STARTY, CLOCK_FIELD_WIDTH, PP_BAR_HEIGHT, Qt::AlignLeft | Qt::AlignVCenter, ppDescription);
                 if (useClock)
-                    painter->drawText(H_TEAM_BOX_STARTX + 4, TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, 331, PP_BAR_HEIGHT,
+                    painter->drawText(SCOREBOARD_WIDTH, H_TEAM_BOX_STARTY, CLOCK_FIELD_WIDTH - 5, PP_BAR_HEIGHT,
                                       Qt::AlignRight | Qt::AlignVCenter, serialPP? serialPpClock : ppClock->toStringPP());
             }
             //Neutral
             else if (neutralPP){
-                painter->fillRect(CLOCK_FIELD_X, TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, CLOCK_FIELD_WIDTH, PP_BAR_HEIGHT, neutralPPGradient);
+                painter->fillRect(SCOREBOARD_WIDTH, SCOREBOARD_HEIGHT/4, CLOCK_FIELD_WIDTH, PP_BAR_HEIGHT, neutralPPGradient);
                 painter->setPen(QColor(196, 213, 242));
-                painter->drawRect(CLOCK_FIELD_X, TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, CLOCK_FIELD_WIDTH, PP_BAR_HEIGHT);
+                painter->drawRect(SCOREBOARD_WIDTH, SCOREBOARD_HEIGHT/4, CLOCK_FIELD_WIDTH, PP_BAR_HEIGHT);
                 painter->setPen(QColor(230,230,230));
-                painter->drawText(CLOCK_FIELD_X + 8, TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, CLOCK_FIELD_WIDTH, PP_BAR_HEIGHT, Qt::AlignLeft | Qt::AlignVCenter, ppDescription);
+                painter->drawText(SCOREBOARD_WIDTH + 5, SCOREBOARD_HEIGHT/4, CLOCK_FIELD_WIDTH, PP_BAR_HEIGHT, Qt::AlignLeft | Qt::AlignVCenter, ppDescription);
                 if (useClock)
-                    painter->drawText(CLOCK_FIELD_X, TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT,  CLOCK_FIELD_WIDTH - 10, PP_BAR_HEIGHT,
+                    painter->drawText(SCOREBOARD_WIDTH, SCOREBOARD_HEIGHT/4,  CLOCK_FIELD_WIDTH - 5, PP_BAR_HEIGHT,
                                       Qt::AlignRight | Qt::AlignVCenter, serialPP? serialPpClock : ppClock->toStringPP());
             }
         }
 
         if (penalty) {
             // Penalty Indicator
-            painter->fillRect(CLOCK_FIELD_X,TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, CLOCK_FIELD_WIDTH - 10, PP_BAR_HEIGHT, penaltyGradient);
+            painter->fillRect(CLOCK_FIELD_X, SCOREBOARD_HEIGHT, CLOCK_FIELD_WIDTH, PP_BAR_HEIGHT, penaltyGradient);
             painter->setPen(QColor(1,1,1));
             painter->setFont(defaultSponsorText);
-            painter->drawText(CLOCK_FIELD_X, TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT,CLOCK_FIELD_WIDTH - 10,PP_BAR_HEIGHT, Qt::AlignCenter, "PENALTY");
+            painter->drawText(CLOCK_FIELD_X, SCOREBOARD_HEIGHT, CLOCK_FIELD_WIDTH, PP_BAR_HEIGHT, Qt::AlignCenter, "PENALTY");
         }
         painter->setPen(QColor(196, 213, 242));
-        painter->drawRect(0,TOP_BAR_HEIGHT,SCOREBOARD_WIDTH, SCOREBOARD_HEIGHT);
+        painter->drawRect(0,0,SCOREBOARD_WIDTH, SCOREBOARD_HEIGHT);
         painter->setPen(QColor(255, 255, 255));
 
     }
@@ -370,15 +401,15 @@ Scoreboard::togglePenalty() {
 
 void
 Scoreboard::updateClock() {
-    scene()->update(this->x() + CLOCK_FIELD_X, this->y() + TOP_BAR_HEIGHT + 3, 242, 50);
+    scene()->update(this->x() + CLOCK_FIELD_X, this->y() + H_TEAM_BOX_STARTY, CLOCK_FIELD_WIDTH, TEAM_BOX_HEIGHT);
     if (awayPP) {
-        scene()->update(this->x() + V_TEAM_BOX_STARTX - 3, this->y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, 350, PP_BAR_HEIGHT);
+        scene()->update(this->x() + SCOREBOARD_WIDTH, this->y() + V_TEAM_BOX_STARTY, CLOCK_FIELD_WIDTH, TEAM_BOX_HEIGHT);
     }
     else if (homePP) {
-        scene()->update(this->x() + H_TEAM_BOX_STARTX + 4, this->y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, 350, PP_BAR_HEIGHT);
+        scene()->update(this->x() + SCOREBOARD_WIDTH, this->y() + H_TEAM_BOX_STARTY, CLOCK_FIELD_WIDTH, TEAM_BOX_HEIGHT);
     }
     else if (neutralPP) {
-        scene()->update(this->x() + CLOCK_FIELD_X, this->y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, CLOCK_FIELD_WIDTH + 4, PP_BAR_HEIGHT);
+        scene()->update(this->x() + SCOREBOARD_WIDTH, this->y() + SCOREBOARD_HEIGHT/4, CLOCK_FIELD_WIDTH, TEAM_BOX_HEIGHT);
     }
 }
 
@@ -393,27 +424,32 @@ Scoreboard::preparePowerplayClock(int pos, Clock *clock, QString description) {
         switch (pos) {
         case AWAY_PP:
             awayPP = true;
-            emit removeNoTransparencyZone(QRect(x() + V_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, 345, PP_BAR_HEIGHT));
-            emit addNoTransparencyZone(QRect(x() + V_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, 345, PP_BAR_HEIGHT));
+            emit removeNoTransparencyZone(getAwayPPRectCoords());
+            emit addNoTransparencyZone(getAwayPPRectCoords());
             break;
         case HOME_PP:
-            emit removeNoTransparencyZone(QRect(x() + V_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, 345, PP_BAR_HEIGHT));
+            emit removeNoTransparencyZone(getAwayPPRectCoords());
             homePP = true;
             break;
         case NEUTRAL:
-            emit removeNoTransparencyZone(QRect(x() + V_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, 345, PP_BAR_HEIGHT));
+            emit removeNoTransparencyZone(getAwayPPRectCoords());
             neutralPP = true;
             break;
         default:
-            emit removeNoTransparencyZone(QRect(x() + V_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, 345, PP_BAR_HEIGHT));
+            emit removeNoTransparencyZone(getAwayPPRectCoords());
             break;
         }
     } else {
-        emit removeNoTransparencyZone(QRect(x() + V_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, 345, PP_BAR_HEIGHT));
+        emit removeNoTransparencyZone(getAwayPPRectCoords());
     }
     ppDescription = description;
-    scene()->update(this->x(), this->y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT,
-                    SCOREBOARD_WIDTH + 4, PP_BAR_HEIGHT+1);
+    scene()->update(this->x() + SCOREBOARD_WIDTH, this->y() + V_TEAM_BOX_STARTY,
+                    CLOCK_FIELD_WIDTH, SCOREBOARD_HEIGHT);
+}
+
+QRect
+Scoreboard::getAwayPPRectCoords() {
+    return QRect(x() + SCOREBOARD_WIDTH, y() + V_TEAM_BOX_STARTY, CLOCK_FIELD_WIDTH, TEAM_BOX_HEIGHT);
 }
 
 void
@@ -461,7 +497,7 @@ Scoreboard::updatePeriod(int pd) {
         }
         break;
     case 5:
-        centeredTimeText = "SHOOTOUT";
+        centeredTimeText = "SO";
         showPdAndClockFields = false;
         break;
     default:
@@ -469,20 +505,25 @@ Scoreboard::updatePeriod(int pd) {
         showPdAndClockFields = false;
         break;
     }
-    scene()->update(x() + CLOCK_FIELD_X, y() + TOP_BAR_HEIGHT, CLOCK_FIELD_WIDTH, SCOREBOARD_HEIGHT);
+    scene()->update(getClockRectCoords());
+}
+
+QRect
+Scoreboard::getClockRectCoords() {
+    return QRect(x() + CLOCK_FIELD_X, y() + H_TEAM_BOX_STARTY, CLOCK_FIELD_WIDTH, TEAM_BOX_HEIGHT);
 }
 
 void
 Scoreboard::showPd() {
     showPdAndClockFields = true;
-    scene()->update(x() + CLOCK_FIELD_X, y() + TOP_BAR_HEIGHT, CLOCK_FIELD_WIDTH, SCOREBOARD_HEIGHT);
+    scene()->update(getClockRectCoords());
 }
 
 void
 Scoreboard::final() {
     showPdAndClockFields = false;
     centeredTimeText = "FINAL";
-    scene()->update(x() + CLOCK_FIELD_X, y() + TOP_BAR_HEIGHT, CLOCK_FIELD_WIDTH, SCOREBOARD_HEIGHT);
+    scene()->update(getClockRectCoords());
 }
 
 void
@@ -495,7 +536,7 @@ Scoreboard::changeTopBarText(QString text) {
     topBarText->setFont(f);
     topBarText->font().setCapitalization(QFont::SmallCaps);
     QFontMetrics fontSize(topBarText->font());
-    while (fontSize.width(text) > TOP_BAR_WIDTH - 10) {
+    while (fontSize.width(text) > POP_BAR_WIDTH - 10) {
         QFont tempFont("Arial", defaultSponsorText.pointSize() - subtraction, QFont::Bold);
         tempFont.setCapitalization(QFont::SmallCaps);
         subtraction++;
@@ -503,8 +544,8 @@ Scoreboard::changeTopBarText(QString text) {
         QFontMetrics temp(topBarText->font());
         fontSize = temp;
     }
-    emit transparentField(x()+20,y(),TOP_BAR_WIDTH,TOP_BAR_HEIGHT);
-    scene()->update(x()+20, y(),TOP_BAR_WIDTH,TOP_BAR_HEIGHT);
+    emit transparentField(x()+20,y(),POP_BAR_WIDTH,POP_BAR_HEIGHT);
+    scene()->update(x()+20, y(),POP_BAR_WIDTH,POP_BAR_HEIGHT);
 }
 
 void
@@ -513,7 +554,7 @@ Scoreboard::displaySponsor() {
 //    int subtraction = 1;
 //    topBarText->setFont(defaultSponsorText);
 //    QFontMetrics fontSize(topBarText->font());
-//    while (fontSize.width(sponsorText) > TOP_BAR_WIDTH - 10) {
+//    while (fontSize.width(sponsorText) > POP_BAR_WIDTH - 10) {
 //        QFont tempFont("Arial", defaultSponsorText.pointSize() - subtraction, QFont::Bold);
 //        //topBarText->font().setPointSize(defaultSponsorText.pointSize()-subtraction);
 //        subtraction++;
@@ -522,8 +563,8 @@ Scoreboard::displaySponsor() {
 //        fontSize = temp;
 //    }
     sponsor = false;
-    emit removeTransparentField(x()+20, y(), TOP_BAR_WIDTH,TOP_BAR_HEIGHT);
-    scene()->update(x()+20, y(), TOP_BAR_WIDTH,TOP_BAR_HEIGHT);
+    emit removeTransparentField(x()+20, y(), POP_BAR_WIDTH,POP_BAR_HEIGHT);
+    scene()->update(x()+20, y(), POP_BAR_WIDTH,POP_BAR_HEIGHT);
 }
 
 
@@ -539,7 +580,7 @@ void Scoreboard::setUseTransparency(bool value)
 
 int Scoreboard::getRealWidth()
 {
-    return SCOREBOARD_WIDTH;
+    return SCOREBOARD_WIDTH + CLOCK_FIELD_WIDTH;
 }
 
 
@@ -548,30 +589,30 @@ Scoreboard::toggleShowBoard() {
     show = true;
     if (useTransparency) {
         if (sponsor)
-            emit transparentField(x()+20,y(),TOP_BAR_WIDTH,TOP_BAR_HEIGHT);
+            emit transparentField(x()+20,y(),POP_BAR_WIDTH,POP_BAR_HEIGHT);
         if(awayPP)
-            emit addNoTransparencyZone(QRect(x() + V_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, 345, PP_BAR_HEIGHT));
+            emit addNoTransparencyZone(getAwayPPRectCoords());
     }
-    emit addNoTransparencyZone(QRect(x() + V_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + TEAM_BOX_Y, TEAM_WIDTH, TEAM_BOX_HEIGHT));
+    emit addNoTransparencyZone(QRect(x() + V_TEAM_BOX_STARTX, y() + V_TEAM_BOX_STARTY, TEAM_WIDTH, TEAM_BOX_HEIGHT));
     scene()->update();
 }
 
 void Scoreboard::togglePpClocks()
 {
     showPP = !showPP;
-    emit removeNoTransparencyZone(QRect(x() + V_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, 345, PP_BAR_HEIGHT));
-    scene()->update(this->x(), this->y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT,
-                    SCOREBOARD_WIDTH + 4 , PP_BAR_HEIGHT+1);
+    emit removeNoTransparencyZone(getAwayPPRectCoords());
+    scene()->update(this->x() + SCOREBOARD_WIDTH, this->y(),
+                    CLOCK_FIELD_WIDTH, SCOREBOARD_HEIGHT);
 }
 
 void
 Scoreboard::hideBoard() {
     if (show) {
         show = false;
-        emit removeTransparentField(x()+20, y(), TOP_BAR_WIDTH,TOP_BAR_HEIGHT);
-        emit removeNoTransparencyZone(QRect(x() + V_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + TEAM_BOX_Y, TEAM_WIDTH, TEAM_BOX_HEIGHT));
-        emit removeNoTransparencyZone(QRect(x() + V_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, 345, PP_BAR_HEIGHT));
-        //emit removeNoTransparencyZone(QRect(x() + V_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, 345, PP_BAR_HEIGHT));
+        emit removeTransparentField(x()+20, y(), POP_BAR_WIDTH,POP_BAR_HEIGHT);
+        emit removeNoTransparencyZone(QRect(x() + V_TEAM_BOX_STARTX, y() + V_TEAM_BOX_STARTY, TEAM_WIDTH, TEAM_BOX_HEIGHT));
+        emit removeNoTransparencyZone(getAwayPPRectCoords());
+        //emit removeNoTransparencyZone(QRect(x() + V_TEAM_BOX_STARTX, y() + POP_BAR_HEIGHT + SCOREBOARD_HEIGHT, 345, PP_BAR_HEIGHT));
         scene()->update();
     }
 }
@@ -585,7 +626,7 @@ Scoreboard::intermission() {
     else {
        centeredTimeText = period + " " + "INT";
     }
-    scene()->update(x() + CLOCK_FIELD_X, y() + TOP_BAR_HEIGHT, CLOCK_FIELD_WIDTH, SCOREBOARD_HEIGHT);
+    scene()->update(getClockRectCoords());
 }
 
 void
@@ -597,7 +638,7 @@ Scoreboard::displayClock() {
         updatePeriod(pd);
     }
     showClock = true;
-    scene()->update(x() + CLOCK_FIELD_X, y() + TOP_BAR_HEIGHT, CLOCK_FIELD_WIDTH, SCOREBOARD_HEIGHT);
+    scene()->update(x() + CLOCK_FIELD_X, y() + H_TEAM_BOX_STARTY, CLOCK_FIELD_WIDTH, TEAM_BOX_HEIGHT);
 }
 
 void Scoreboard::changeUseClock(bool uc)
@@ -610,7 +651,7 @@ void Scoreboard::toggleAwayLogoBg(bool on)
 {
     altAwayLogoBg = on;
     if (show) {
-        scene()->update(this->x(), this->y(), SCOREBOARD_WIDTH, SCOREBOARD_HEIGHT + TOP_BAR_HEIGHT);
+        scene()->update(this->x(), this->y(), SCOREBOARD_WIDTH, SCOREBOARD_HEIGHT);
     }
 }
 
@@ -622,6 +663,27 @@ void Scoreboard::usingAllSport()
 void Scoreboard::usingInternalClocks()
 {
     serialPP = false;
+}
+
+void Scoreboard::awaySogUpdated(int sog)
+{
+    updateSog(false, sog);
+}
+
+void Scoreboard::homeSogUpdated(int sog)
+{
+    updateSog(true, sog);
+}
+
+void Scoreboard::updateSog(bool isHome, int sog)
+{
+    if (isHome) {
+        hSog = sog;
+    }
+    else {
+        aSog = sog;
+    }
+    scene()->update(x() + V_TEAM_BOX_STARTX + TEAM_WIDTH - SOG_WIDTH, y() + V_TEAM_BOX_STARTY, SOG_WIDTH, SCOREBOARD_HEIGHT);
 }
 
 bool Scoreboard::getShowClock() const
@@ -638,27 +700,28 @@ void Scoreboard::setSerialPowerPlay(int pos, QString clock, QString description)
         switch (pos) {
         case AWAY_PP:
             awayPP = true;
-            emit removeNoTransparencyZone(QRect(x() + V_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, 345, PP_BAR_HEIGHT));
-            if (show) emit addNoTransparencyZone(QRect(x() + V_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, 345, PP_BAR_HEIGHT));
+            emit removeNoTransparencyZone(getAwayPPRectCoords());
+            if (show) emit addNoTransparencyZone(getAwayPPRectCoords());
             break;
         case HOME_PP:
-            emit removeNoTransparencyZone(QRect(x() + V_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, 345, PP_BAR_HEIGHT));
+            emit removeNoTransparencyZone(getAwayPPRectCoords());
             homePP = true;
             break;
         case NEUTRAL:
-            emit removeNoTransparencyZone(QRect(x() + V_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, 345, PP_BAR_HEIGHT));
+            emit removeNoTransparencyZone(getAwayPPRectCoords());
             neutralPP = true;
             break;
         default:
-            emit removeNoTransparencyZone(QRect(x() + V_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, 345, PP_BAR_HEIGHT));
+            emit removeNoTransparencyZone(getAwayPPRectCoords());
             break;
         }
     } else {
-        emit removeNoTransparencyZone(QRect(x() + V_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, 345, PP_BAR_HEIGHT));
+        emit removeNoTransparencyZone(getAwayPPRectCoords());
     }
     ppDescription = description;
     serialPpClock = clock;
-    scene()->update(this->x(), this->y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT,
-                    SCOREBOARD_WIDTH + 4, PP_BAR_HEIGHT+1);
+    scene()->update(this->x() + SCOREBOARD_WIDTH, this->y(),
+                    CLOCK_FIELD_WIDTH, SCOREBOARD_HEIGHT);
 
 }
+

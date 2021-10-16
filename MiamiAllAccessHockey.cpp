@@ -195,7 +195,7 @@ MiamiAllAccessHockey::exec() {
     scheduleGraphic.setY(650);
     game->getLt()->setY(graphicsScreen.height() - 160);
     game->getSb()->setY(60 - 39);
-    game->getSb()->setX((graphicsScreen.width() / 2) - (game->getSb()->getRealWidth()/2));
+    game->getSb()->setX(100);
     commercial->setY(graphicsScreen.height() - 280);
 
     ticker.setX(0);

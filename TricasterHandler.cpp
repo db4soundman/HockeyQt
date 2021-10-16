@@ -55,7 +55,7 @@ void TricasterHandler::updatePortion(QList<QRectF> rects)
                 QColor pixel = view.pixel(j, k);
                 ignoreAlpha = false;
                 // Does the graphic actually want to be keyed out?
-                for (QRect r: noTransparencyZones) {
+                for (QRect r: qAsConst(noTransparencyZones)) {
                     if (r.contains(j, k)) {
                         ignoreAlpha = true;
                         break;
