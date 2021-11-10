@@ -9,12 +9,13 @@
 #include <QPixmap>
 #include <QLabel>
 #include <QComboBox>
+#include <QSpinBox>
 #include "Profile.h"
 class TeamSetupPage: public QWizardPage {
     Q_OBJECT
 public:
     TeamSetupPage(bool home, QString* pAwayFile,
-                  QString* pAwayRank);
+                  QString* pAwayRank, int* pk, int* pkopp, int* ppg, int* ppopp);
     bool validatePage();
 
 private slots:
@@ -32,6 +33,8 @@ private:
     QComboBox* swatchSelector;
     QLabel *colorBox, logoBox;
     Profile activeProfile;
+    QSpinBox pkInput, pkoppInput, ppgInput, ppoppInput;
+    int *pkAddr, *pkoppAddr, *ppgAddr, *ppoppAddr;
     bool isHome;
 };
 

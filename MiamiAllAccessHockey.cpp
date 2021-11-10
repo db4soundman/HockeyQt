@@ -130,7 +130,7 @@ MiamiAllAccessHockey::exec() {
     QString awayRank, homeRank, homeFile, awayFile, sponsor,
             goalies, statcrewName, tricasterIp;
     QColor bg;
-    int pk, pkopp, ppg, ppopp, port;
+    int pk, pkopp, ppg, ppopp, port, hpk, hpkopp, hppg, hppopp;
     MiamiAllAccessHockey::homeSchool = School::getSchoolFromESPN("MIAMI_OH");
     MiamiAllAccessHockey::awaySchool = School::getSchoolFromESPN("DUKE");
     homeSchool.setShortName("MIAMI");
@@ -146,7 +146,7 @@ MiamiAllAccessHockey::exec() {
 
     SetupWizard wizard(&awayFile, &homeFile, &sponsor,
                        &awayRank, &homeRank, &bg, &pk, &pkopp, &ppg, &ppopp, &goalies, &statcrewName, &usingTricaster,
-                       &tricasterIp, &port);
+                       &tricasterIp, &port, &hpk, &hpkopp, &hppg, &hppopp);
     wizard.exec();
     QRect graphicsScreen = usingTricaster ? QRect(0,0,1920,1080) : desktop.screenGeometry(0);
     if (MiamiAllAccessHockey::awaySchool.getShortName().isEmpty()) {
@@ -165,6 +165,13 @@ MiamiAllAccessHockey::exec() {
         team->setPpg(ppg);
         team->setPpopp(ppopp);
         team->setGoalies(goalies);
+    }
+    if (homeFile.isEmpty()) {
+        HockeyTeam* team = game->getHomeTeam();
+        team->setPk(hpk);
+        team->setPkopp(hpkopp);
+        team->setPpg(hppg);
+        team->setPpopp(hppopp);
     }
     pgg = new PastGamesGraphic(game->getHomeTeam(), game->getAwayTeam());
     pgg->setX(100);

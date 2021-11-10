@@ -14,11 +14,11 @@ public:
                 QString* pSponsor, QString* pAwayRank, QString* pHomeRank,
                 QColor* pBg, int* pk, int* pkopp,
                 int* ppg, int* ppopp, QString* goalies, QString* statcrewName, bool* usingTricaster,
-                QString *tricasterIp, int *port);
+                QString *tricasterIp, int *port, int* hpk, int* hpkopp,int* hppg, int* hppopp);
 
 private:
     SetupPage wizpage;
-    AwayTeamInfo ati;
+//    AwayTeamInfo ati;
     TeamSetupPage awayPage, homePage;
 };
 
