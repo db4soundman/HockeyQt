@@ -242,7 +242,7 @@ MiamiAllAccessHockey::exec() {
         layout->addWidget(previewSb);
         previewLt = new QGraphicsView(scene);
         previewLt->setBackgroundBrush(QColor(100,100,100));
-        previewLt->setSceneRect(300, 700, game->getSb()->getRealWidth(), 400);
+        previewLt->setSceneRect(300, 700, commercial->getWidth(), 400);
         layout->addWidget(previewLt);
         previewWindow->setLayout(layout);
         previewWindow->setWindowTitle("Graphic View");

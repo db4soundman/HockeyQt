@@ -26,12 +26,11 @@
 #define LOGO_WIDTH 50
 #define SOG_WIDTH 50
 #define CLOCK_FIELD_X 0
-#define CLOCK_FIELD_WIDTH 200
+#define CLOCK_FIELD_WIDTH 178
 #define TEAM_WIDTH (LOGO_WIDTH + SOG_WIDTH + SCORE_WIDTH)
 #define V_TEAM_BOX_STARTX CLOCK_FIELD_WIDTH
 #define H_TEAM_BOX_STARTX CLOCK_FIELD_WIDTH
 #define PP_BAR_HEIGHT TEAM_BOX_HEIGHT
-#define POP_BAR_WIDTH (SCOREBOARD_WIDTH - 40)
 #define POP_BAR_HEIGHT 39
 #define POP_BAR_X 0
 #define POP_BAR_Y 0
@@ -39,6 +38,7 @@
 #define H_TEAM_SOG_X (V_TEAM_BOX_STARTX + LOGO_WIDTH + SCORE_WIDTH)
 #define SCOREBOARD_WIDTH (CLOCK_FIELD_WIDTH + LOGO_WIDTH + SCORE_WIDTH + SOG_WIDTH)
 #define SCOREBOARD_HEIGHT TEAM_BOX_HEIGHT * 2
+#define POP_BAR_WIDTH SCOREBOARD_WIDTH + CLOCK_FIELD_WIDTH
 
 Scoreboard::Scoreboard(QString sponsorText, Clock* clock, QString pAwayRank, QString pHomeRank) :
     homeColor(MiamiAllAccessHockey::homeSchool.getPrimaryColor()), awayColor(MiamiAllAccessHockey::awaySchool.getPrimaryColor()) {
@@ -51,7 +51,7 @@ Scoreboard::Scoreboard(QString sponsorText, Clock* clock, QString pAwayRank, QSt
     sponsorFont.setPointSize(28);
 #endif
 
-    nchctv = (MiamiAllAccessHockey::getImgFromResources(":/images/NCHCTV.png",42));
+    nchctv = (MiamiAllAccessHockey::getImgFromResources(":/images/NCHCTV.png",42, CLOCK_FIELD_WIDTH));
     defaultSponsorText = sponsorFont;
     show = false;
     setRect(0,0,SCOREBOARD_WIDTH + CLOCK_FIELD_WIDTH, SCOREBOARD_HEIGHT + PP_BAR_HEIGHT + 5);
@@ -102,8 +102,8 @@ Scoreboard::Scoreboard(QString sponsorText, Clock* clock, QString pAwayRank, QSt
     scoreGradient.setFinalStop(0, POP_BAR_HEIGHT + TEAM_BOX_Y + 44);
     prepareColor();
     // penalty gradient
-    penaltyGradient.setStart(0, 0);
-    penaltyGradient.setFinalStop(0, SCOREBOARD_HEIGHT);
+    penaltyGradient.setStart(0, SCOREBOARD_HEIGHT);
+    penaltyGradient.setFinalStop(0, SCOREBOARD_HEIGHT + PP_BAR_HEIGHT);
 
     awayPPGradient.setStart(0, 0);
     awayPPGradient.setFinalStop(0, TEAM_BOX_HEIGHT);
@@ -160,7 +160,7 @@ Scoreboard::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
         painter->fillRect(0, 0, SCOREBOARD_WIDTH, SCOREBOARD_HEIGHT, mainGradient);
         painter->drawPixmap((CLOCK_FIELD_WIDTH - nchctv.width()) / 2, 0,nchctv);
         //Clock -
-        painter->setFont(homeName->font());
+        painter->setFont(defaultSponsorText);
         painter->setPen(QColor(240,240,240));
 
         if (useClock && showPdAndClockFields) {
@@ -222,14 +222,22 @@ Scoreboard::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
         // SOG Label
         painter->drawText(H_TEAM_SOG_X, V_TEAM_BOX_STARTY, SOG_WIDTH, SCOREBOARD_HEIGHT*23/24, Qt::AlignCenter, "sog");
 
+        if (penalty) {
+            // Penalty Indicator
+            painter->fillRect(CLOCK_FIELD_X, SCOREBOARD_HEIGHT, CLOCK_FIELD_WIDTH, PP_BAR_HEIGHT, penaltyGradient);
+            painter->setPen(QColor(1,1,1));
+            painter->setFont(defaultSponsorText);
+            painter->drawText(CLOCK_FIELD_X, SCOREBOARD_HEIGHT, CLOCK_FIELD_WIDTH, PP_BAR_HEIGHT, Qt::AlignCenter, "PENALTY");
+        }
 
         if (sponsor) {
-            painter->fillRect(20,0,POP_BAR_WIDTH, POP_BAR_HEIGHT, QBrush(QColor(20,20,20)));
+            painter->fillRect(0,SCOREBOARD_HEIGHT,POP_BAR_WIDTH, POP_BAR_HEIGHT, QBrush(QColor(20,20,20)));
             //StatBarText
             painter->setPen(QColor(255, 255, 255));
             painter->setFont(topBarText->font());
-            painter->drawText(20,0,POP_BAR_WIDTH,POP_BAR_HEIGHT, Qt::AlignCenter, topBarText->toPlainText());
+            painter->drawText(0,SCOREBOARD_HEIGHT,POP_BAR_WIDTH, POP_BAR_HEIGHT, Qt::AlignCenter, topBarText->toPlainText());
         }
+
 
         if (showPP) {
             painter->setFont(defaultSponsorText);
@@ -269,13 +277,6 @@ Scoreboard::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
             }
         }
 
-        if (penalty) {
-            // Penalty Indicator
-            painter->fillRect(CLOCK_FIELD_X, SCOREBOARD_HEIGHT, CLOCK_FIELD_WIDTH, PP_BAR_HEIGHT, penaltyGradient);
-            painter->setPen(QColor(1,1,1));
-            painter->setFont(defaultSponsorText);
-            painter->drawText(CLOCK_FIELD_X, SCOREBOARD_HEIGHT, CLOCK_FIELD_WIDTH, PP_BAR_HEIGHT, Qt::AlignCenter, "PENALTY");
-        }
         painter->setPen(QColor(196, 213, 242));
         painter->drawRect(0,0,SCOREBOARD_WIDTH, SCOREBOARD_HEIGHT);
         painter->setPen(QColor(255, 255, 255));
@@ -544,8 +545,8 @@ Scoreboard::changeTopBarText(QString text) {
         QFontMetrics temp(topBarText->font());
         fontSize = temp;
     }
-    emit transparentField(x()+20,y(),POP_BAR_WIDTH,POP_BAR_HEIGHT);
-    scene()->update(x()+20, y(),POP_BAR_WIDTH,POP_BAR_HEIGHT);
+//    emit transparentField(x()+20,y(),POP_BAR_WIDTH,POP_BAR_HEIGHT);
+    scene()->update(x(), y() + SCOREBOARD_HEIGHT,POP_BAR_WIDTH,POP_BAR_HEIGHT);
 }
 
 void
@@ -564,7 +565,7 @@ Scoreboard::displaySponsor() {
 //    }
     sponsor = false;
     emit removeTransparentField(x()+20, y(), POP_BAR_WIDTH,POP_BAR_HEIGHT);
-    scene()->update(x()+20, y(), POP_BAR_WIDTH,POP_BAR_HEIGHT);
+    scene()->update(x() + 0, y() + SCOREBOARD_HEIGHT,POP_BAR_WIDTH, POP_BAR_HEIGHT);
 }
 
 
@@ -588,8 +589,8 @@ void
 Scoreboard::toggleShowBoard() {
     show = true;
     if (useTransparency) {
-        if (sponsor)
-            emit transparentField(x()+20,y(),POP_BAR_WIDTH,POP_BAR_HEIGHT);
+//        if (sponsor)
+//            emit transparentField(x()+20,y(),POP_BAR_WIDTH,POP_BAR_HEIGHT);
         if(awayPP)
             emit addNoTransparencyZone(getAwayPPRectCoords());
     }
