@@ -20,11 +20,11 @@ void Ticker::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QW
         painter->fillRect(100, 2, WIDTH - 200, 44, QColor(1,1,1));
         painter->setFont(resizeText());
         painter->setPen(QColor(255,255,255));
-        painter->drawText(100, 2, 300, 44, Qt::AlignCenter, games[index].getAway());
-        painter->drawText(400, 2, 100, 44, Qt::AlignCenter, games[index].getAwayScore());
-        painter->drawText(500, 2, 300, 44, Qt::AlignCenter, games[index].getHome());
-        painter->drawText(800, 2, 100, 44, Qt::AlignCenter, games[index].getHomeScore());
-        painter->drawText(900, 2, 300, 44, Qt::AlignCenter, games[index].getTimeAndPd());
+        painter->drawText(100, 2, 400, 44, Qt::AlignCenter, games[index].getAway());
+        painter->drawText(500, 2, 100, 44, Qt::AlignCenter, games[index].getAwayScore());
+        painter->drawText(600, 2, 400, 44, Qt::AlignCenter, games[index].getHome());
+        painter->drawText(1000, 2, 100, 44, Qt::AlignCenter, games[index].getHomeScore());
+        painter->drawText(1100, 2, 300, 44, Qt::AlignCenter, games[index].getTimeAndPd());
     }
 }
 

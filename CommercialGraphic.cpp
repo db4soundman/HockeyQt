@@ -31,7 +31,7 @@ CommercialGraphic::CommercialGraphic(HockeyGame* game,QGraphicsItem* parent) :
     show = false;
     inGame  = false;
     QFont font("Arial", 34, QFont::Bold);
-    QFont sponsorFont("Arial", 18, QFont::Bold);
+    QFont sponsorFont("Arial", 24, QFont::Bold);
 #ifdef Q_OS_OSX
     font.setPointSize(38);
     sponsorFont.setPointSize(14);
@@ -90,11 +90,13 @@ void CommercialGraphic::paint(QPainter* painter, const QStyleOptionGraphicsItem*
         }
         else {
             if (clock == "INTERMISSION" && (period == "3RD" || period.endsWith("OT"))) {
-                painter->drawText(CLOCK_X,110, CLOCK_WIDTH, 50 , Qt::AlignCenter, "END OF " + (period.contains("OT") ? period : "REGULATION"));
+                painter->drawText(CLOCK_X,100, CLOCK_WIDTH, 40 , Qt::AlignCenter, "END OF");
+                painter->drawText(CLOCK_X,140, CLOCK_WIDTH, 40 , Qt::AlignCenter, (period.contains("OT") ? period : "REGULATION"));
 //                painter->drawText(CLOCK_X,160, CLOCK_WIDTH, 40 , Qt::AlignCenter,
 //                                  period.contains("OT") ? period : "REGULATION");
             } else {
-                painter->drawText(CLOCK_X,110, CLOCK_WIDTH, 50 , Qt::AlignCenter, period + " " + clock);
+                painter->drawText(CLOCK_X,100, CLOCK_WIDTH, 40 , Qt::AlignCenter, period);
+                painter->drawText(CLOCK_X,140, CLOCK_WIDTH, 40 , Qt::AlignCenter, clock);
 //                painter->drawText(CLOCK_X,160, CLOCK_WIDTH, 40 , Qt::AlignCenter, clock);
             }
         }
