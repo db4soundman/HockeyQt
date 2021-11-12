@@ -6,11 +6,12 @@
 #include <QColorDialog>
 #include <QStandardPaths>
 #include <QTextStream>
+#include <QFormLayout>
 #include <QMessageBox>
 
 
 TeamSetupPage::TeamSetupPage(bool home, QString* pAwayFile,
-                     QString* pAwayRank): colorPrev(32,32), isHome(home), logoPrev(50,50) {
+                     QString* pAwayRank, int *pk, int *pkopp, int *ppg, int *ppopp): colorPrev(32,32), isHome(home), logoPrev(50,50) {
     colorPrev.fill(!isHome ? MiamiAllAccessHockey::awaySchool.getPrimaryColor() : MiamiAllAccessHockey::homeSchool.getPrimaryColor());
     logoPrev = !isHome ? MiamiAllAccessHockey::awaySchool.getLogo().scaledToWidth(50) : MiamiAllAccessHockey::homeSchool.getLogo().scaledToWidth(50);
     nameLine.setText(isHome? MiamiAllAccessHockey::homeSchool.getTitle() : MiamiAllAccessHockey::awaySchool.getTitle());
@@ -27,6 +28,10 @@ TeamSetupPage::TeamSetupPage(bool home, QString* pAwayFile,
     logoBox.setPixmap(logoPrev);
     file = pAwayFile;
     rank = pAwayRank;
+    pkAddr = pk;
+    pkoppAddr = pkopp;
+    ppgAddr = ppg;
+    ppoppAddr = ppopp;
 
     QGridLayout* mainLayout = new QGridLayout();
     mainLayout->addWidget(new QLabel("Team Name:"), 0, 0);
@@ -46,6 +51,18 @@ TeamSetupPage::TeamSetupPage(bool home, QString* pAwayFile,
     mainLayout->addWidget(&shortLine, 0, 12);
 
     mainLayout->addWidget(&logoBox,1,0);
+
+    pkInput.setMaximum(1000);
+    pkoppInput.setMaximum(1000);
+    ppgInput.setMaximum(1000);
+    ppoppInput.setMaximum(1000);
+    QFormLayout* formLayout = new QFormLayout();
+    formLayout->addRow(new QLabel("Pk"), &pkInput);
+    formLayout->addRow("Pk Opp", &pkoppInput);
+    formLayout->addRow("PP Goals", &ppgInput);
+    formLayout->addRow("PP Opp", &ppoppInput);
+
+    mainLayout->addLayout(formLayout,2,0,1,11);
 
     setLayout(mainLayout);
 
@@ -69,6 +86,10 @@ bool TeamSetupPage::validatePage()
         MiamiAllAccessHockey::homeSchool.setFullName(nameLine.text().toUpper());
         MiamiAllAccessHockey::homeSchool.setShortName(shortLine.text().toUpper());
     }
+    *ppgAddr = ppgInput.value();
+    *ppoppAddr = ppoppInput.value();
+    *pkAddr = pkInput.value();
+    *pkoppAddr = pkoppInput.value();
     return true;
 }
 

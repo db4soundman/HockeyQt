@@ -5,12 +5,13 @@ SetupWizard::SetupWizard(QString* pAwayFile,
                          QString* pAwayRank, QString* pHomeRank, QColor* pBg, int* pk, int* pkopp,
                          int* ppg, int* ppopp, QString* goalies, QString* statcrewName,
                          bool *usingTricaster, QString* tricasterIp,
-                         int* port) : awayPage(false, pAwayFile, pAwayRank), homePage(true, pHomeFile, pHomeRank),
+                         int* port, int* hpk, int* hpkopp,int* hppg, int* hppopp) : awayPage(false, pAwayFile, pAwayRank, pk, pkopp, ppg, ppopp),
+    homePage(true, pHomeFile, pHomeRank, hpk, hpkopp, hppg, hppopp),
     wizpage(pSponsor, pBg, statcrewName,
-            usingTricaster, tricasterIp, port),
-    ati (pk, pkopp, ppg, ppopp, goalies){
+            usingTricaster, tricasterIp, port)
+    {
     addPage(&awayPage);
     addPage(&homePage);
     addPage(&wizpage);
-    addPage(&ati);
+//    addPage(&ati);
 }
