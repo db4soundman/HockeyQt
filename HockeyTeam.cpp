@@ -28,6 +28,7 @@ HockeyPlayer& HockeyTeam::getPlayerByNumber(const QString num)
 void
 HockeyTeam::addPlayer(HockeyPlayer player) {
     roster.append(player);
+    std::sort(roster.begin(), roster.end());
 }
 
 void HockeyTeam::addPeriod(PeriodData pd)

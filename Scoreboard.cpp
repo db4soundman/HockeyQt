@@ -445,7 +445,7 @@ Scoreboard::preparePowerplayClock(int pos, Clock *clock, QString description) {
     }
     ppDescription = description;
     scene()->update(this->x() + SCOREBOARD_WIDTH, this->y() + V_TEAM_BOX_STARTY,
-                    CLOCK_FIELD_WIDTH, SCOREBOARD_HEIGHT);
+                    CLOCK_FIELD_WIDTH + 10, SCOREBOARD_HEIGHT + 10);
 }
 
 QRect
@@ -721,8 +721,8 @@ void Scoreboard::setSerialPowerPlay(int pos, QString clock, QString description)
     }
     ppDescription = description;
     serialPpClock = clock;
-    scene()->update(this->x() + SCOREBOARD_WIDTH, this->y(),
-                    CLOCK_FIELD_WIDTH, SCOREBOARD_HEIGHT);
+    scene()->update(this->x() + SCOREBOARD_WIDTH, this->y() + V_TEAM_BOX_STARTY,
+                    CLOCK_FIELD_WIDTH + 10, SCOREBOARD_HEIGHT + 10);
 
 }
 

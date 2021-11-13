@@ -62,6 +62,11 @@ HockeyPlayer &HockeyPlayer::operator =(const HockeyPlayer &p)
     return *this;
 }
 
+bool HockeyPlayer::operator<(HockeyPlayer &rhs)
+{
+    return uni.toInt() < rhs.getUni().toInt();
+}
+
 QString HockeyPlayer::getName() const {
     return name;
 }

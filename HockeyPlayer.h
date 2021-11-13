@@ -9,6 +9,7 @@ public:
     HockeyPlayer();
     HockeyPlayer(const HockeyPlayer& p);
     HockeyPlayer& operator = (const HockeyPlayer& p);
+    bool operator< (HockeyPlayer& rhs);
 
     QString getName() const;
     void setName(const QString& value);
