@@ -27,6 +27,7 @@ INCLUDEPATH += GUI \
 
 SOURCES += main.cpp\
         MainWindow.cpp \
+    NDITricasterHandler.cpp \
     Scoreboard.cpp \
     LowerThird.cpp \
     Clock.cpp \
@@ -68,7 +69,7 @@ SOURCES += main.cpp\
     LowerThirdCreator.cpp \
     GameXmlUpdater.cpp \
     StatCrewScanner.cpp \
-    TricasterHandler.cpp \
+#    TricasterHandler.cpp \
     Profiles/Profile.cpp \
     GUI/CheckboxWidget.cpp \
     SerialHandler/console.cpp \
@@ -109,6 +110,17 @@ SOURCES += main.cpp\
     GUI/IdentifierWidget.cpp
 
 HEADERS  += MainWindow.h \
+    NDITricasterHandler.h \
+    Processing.NDI.DynamicLoad.h \
+    Processing.NDI.Find.h \
+    Processing.NDI.FrameSync.h \
+    Processing.NDI.Lib.cplusplus.h \
+    Processing.NDI.Lib.h \
+    Processing.NDI.Send.h \
+    Processing.NDI.compat.h \
+    Processing.NDI.deprecated.h \
+    Processing.NDI.structs.h \
+    Processing.NDI.utilities.h \
     Scoreboard.h \
     LowerThird.h \
     Clock.h \
@@ -150,7 +162,7 @@ HEADERS  += MainWindow.h \
     LowerThirdCreator.h \
     GameXmlUpdater.h \
     StatCrewScanner.h \
-    TricasterHandler.h \
+#    TricasterHandler.h \
     AirSend_api.h \
     Profiles/Profile.h \
     GUI/CheckboxWidget.h \
@@ -198,7 +210,7 @@ RESOURCES += \
 
 INCLUDEPATH += $$PWD/
 DEPENDPATH += $$PWD/
-unix|win32: LIBS += -L$$PWD/ -lProcessingAirSendx86
+#unix|win32: LIBS += -L$$PWD/ -lProcessingAirSendx86
 
 DISTFILES += \
     GraphicChooser.txt
@@ -207,3 +219,8 @@ FORMS += \
     SerialHandler/SerialConsole.ui \
     SerialHandler/settingsdialog.ui \
     TreeView.ui
+
+win32: LIBS += -L$$PWD/./ -lProcessing.NDI.Lib.x64
+
+INCLUDEPATH += $$PWD/.
+DEPENDPATH += $$PWD/.

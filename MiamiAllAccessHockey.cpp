@@ -1,4 +1,5 @@
 #include "MiamiAllAccessHockey.h"
+#include "Processing.NDI.Lib.h"
 #include "School.h"
 #include <QStandardPaths>
 #include <QDir>
@@ -123,7 +124,10 @@ MiamiAllAccessHockey::checkAppDirectory() {
 int
 MiamiAllAccessHockey::exec() {
     checkAppDirectory();
-
+    NDIlib_send_create_t tricaster_ndi;
+    tricaster_ndi.p_ndi_name = "NCHC.tv Gfx";
+    tricaster_ndi.p_groups = NULL;
+    NDIlib_send_instance_t tricaster_sender = NDIlib_send_create(&tricaster_ndi);
     // Make vars, create wizard.
     scene = new QGraphicsScene();
 
@@ -202,7 +206,7 @@ MiamiAllAccessHockey::exec() {
     scheduleGraphic.setY(650);
     game->getLt()->setY(graphicsScreen.height() - 160);
     game->getSb()->setY(60 - 39);
-    game->getSb()->setX(100);
+    game->getSb()->setX((graphicsScreen.width() / 2) - (game->getSb()->getRealWidth()/2));
     commercial->setY(graphicsScreen.height() - 280);
 
     ticker.setX(0);
@@ -242,7 +246,7 @@ MiamiAllAccessHockey::exec() {
     else {
         previewWindow = new QWidget();
         QVBoxLayout* layout = new QVBoxLayout();
-        tricaster = new TricasterHandler(tricasterIp, port, tv, bg);
+        tricaster = new NDITricasterHandler(tv, bg, &tricaster_sender);
         previewSb = new QGraphicsView(scene);
         previewSb->setBackgroundBrush(QColor(100,100,100));
         previewSb->setSceneRect(game->getSb()->x(), game->getSb()->y(), game->getSb()->getRealWidth(), 150);
@@ -271,6 +275,7 @@ MiamiAllAccessHockey::exec() {
         connect(comparisonGraphic,SIGNAL(removeNoTransparencyZone(QRect)), tricaster, SLOT(removeNoTransparencyZone(QRect)));
         connect(pgg, SIGNAL(addNoTransparencyZone(QRect)), tricaster, SLOT(addNoTransparencyZone(QRect)));
         connect(pgg,SIGNAL(removeNoTransparencyZone(QRect)), tricaster, SLOT(removeNoTransparencyZone(QRect)));
+        connect(this, SIGNAL(aboutToQuit()), tricaster, SLOT(closing()));
     }
 
     con.show();

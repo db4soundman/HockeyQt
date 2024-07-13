@@ -42,11 +42,11 @@ SetupPage::SetupPage(QString* pSponsor, QColor* pBg, QString* pStatCrew,
     tricasterBox->setChecked(true);
     mainLayout->addWidget(tricasterBox, 9, 0);
     tricasterIpLine.setText(*tricasterIp);
-    mainLayout->addWidget(&tricasterIpLine, 9, 1);
-    mainLayout->addWidget(&ipHelp,9, 2);
-    mainLayout->addWidget(new QLabel("Net Input"),9, 3);
+//    mainLayout->addWidget(&tricasterIpLine, 9, 1);
+//    mainLayout->addWidget(&ipHelp,9, 2);
+//    mainLayout->addWidget(new QLabel("Net Input"),9, 3);
     portSelector = new QComboBox();
-    mainLayout->addWidget(portSelector,9, 4);
+//    mainLayout->addWidget(portSelector,9, 4);
 
     portSelector->addItem("1");
     portSelector->addItem("2");

@@ -786,7 +786,7 @@ HockeyGame::determinePpClockForScoreboard() {
         ppPos = 2;
         // typical pp
         if (awayPlayersOnIce == 4) {
-            description = "PP";
+            description = "POWER PLAY";
         }
         else {
             description = QString::number(homePlayersOnIce) + "-ON-" +
@@ -798,7 +798,7 @@ HockeyGame::determinePpClockForScoreboard() {
         ppPos = 1;
         // typical pp
         if (homePlayersOnIce == 4) {
-            description = "PP";
+            description = "POWER PLAY";
         }
         else {
             description = QString::number(awayPlayersOnIce, 10) + "-ON-" +
@@ -1165,7 +1165,7 @@ void HockeyGame::determinePpClockAllSport(QString clock)
         ppPos = 2;
         // typical pp
         if ((awayPlayersOnIce == 4 && period < 4) ||(homePlayersOnIce - awayPlayersOnIce == 1 && period > 3)) {
-            description = "PP";
+            description = "POWER PLAY";
         }
         else {
             description = QString::number(homePlayersOnIce) + "-ON-" +
@@ -1177,7 +1177,7 @@ void HockeyGame::determinePpClockAllSport(QString clock)
         ppPos = 1;
         // typical pp
         if ((homePlayersOnIce == 4 && period < 4) || (awayPlayersOnIce - homePlayersOnIce == 1 && period > 3)) {
-            description = "PP";
+            description = "POWER PLAY";
         }
         else {
             description = QString::number(awayPlayersOnIce, 10) + "-ON-" +

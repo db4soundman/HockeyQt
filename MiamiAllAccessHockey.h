@@ -1,6 +1,6 @@
 #ifndef MIAMIALLACCESSHOCKEY_H
 #define MIAMIALLACCESSHOCKEY_H
-//#define DEBUG
+#define DEBUG
 #include <QApplication>
 #include "HockeyGame.h"
 #include <QGraphicsView>
@@ -10,7 +10,7 @@
 #include "CommercialGraphic.h"
 #include "NchcScoreboardGraphic.h"
 #include "StatCrewScanner.h"
-#include "TricasterHandler.h"
+#include "NDITricasterHandler.h"
 #include "schedulegraphic.h"
 #include "Params.h"
 #include "ComparisonGraphic.h"
@@ -57,7 +57,7 @@ private:
     CommercialGraphic* commercial;
     ComparisonGraphic* comparisonGraphic;
     StatCrewScanner* stats;
-    TricasterHandler* tricaster;
+    NDITricasterHandler* tricaster;
     PastGamesGraphic* pgg;
     Params params;
     QWidget* previewWindow;
