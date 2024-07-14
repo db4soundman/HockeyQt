@@ -4,6 +4,7 @@
 #include <QTextStream>
 #include <QStandardPaths>
 #include "MiamiAllAccessHockey.h"
+#include "Params.h"
 
 School::School()
 {
@@ -96,20 +97,13 @@ void School::setSecondaryLogoBg(const QColor &value)
 School
 School::getSchoolFromESPN(QString imsName)
 {
-     QFile csv(QStandardPaths::writableLocation(QStandardPaths::PicturesLocation)+"/IMS Images/Profiles.csv");
-     Profile activeProfile;
-     csv.open(QIODevice::ReadOnly);
-     QTextStream stream(&csv);
-     while (!stream.atEnd()) {
-         QStringList data = stream.readLine().split(',');
-         if (data[4] == imsName) {
-             Profile p(data[1], data[2], data[3], data[0], QStandardPaths::writableLocation(QStandardPaths::PicturesLocation)+"/IMS Images/Logos_Keyable/"+data[4]+".PNG",
-                     QStandardPaths::writableLocation(QStandardPaths::PicturesLocation)+"/IMS Images/Swatches/"+data[4]+".PNG");
-             activeProfile = p;
-             csv.close();
-             break;
-         }
-     }
+    Params params = Params((MiamiAllAccessHockey::getAppDirPath() + "/settings.txt").toStdString());
+    Profile activeProfile;
+    QString logoDir = params.isDefined("LOGOS_DIR") ? params.stringValue("LOGOS_DIR") : QStandardPaths::writableLocation(QStandardPaths::PicturesLocation)+"/IMS Images/Logos_Keyable/";
+    QString swatchDir = params.isDefined("SWATCH_DIR") ? params.stringValue("SWATCH_DIR") : QStandardPaths::writableLocation(QStandardPaths::PicturesLocation)+"/IMS Images/Swatches/";
+    Profile p("", "", "", "", logoDir + imsName+".PNG",swatchDir + imsName + ".PNG");
+        activeProfile = p;
+
      if (!activeProfile.getLogoPath().isEmpty()) {
          QImage swatch(activeProfile.getSwatchPath());
          return School(activeProfile,swatch,QPixmap::fromImage(MiamiAllAccessHockey::getTrimmedLogo(activeProfile.getLogoPath())));
@@ -177,13 +171,13 @@ void School::setTitle(const QString &value)
     title = value;
 }
 
-School
-School::getSwatchFromESPN(QString imsName)
-{
-    QImage swatch(QStandardPaths::writableLocation(QStandardPaths::PicturesLocation)+"/IMS Images/Swatches/"+imsName+".PNG");
-    return School("Not a School",swatch.pixel(0,10),swatch.pixel(0,14),
-                  QPixmap::fromImage(MiamiAllAccessHockey::getTrimmedLogo(QStandardPaths::writableLocation(QStandardPaths::PicturesLocation)+"/IMS Images/Logos_Keyable/"+imsName+".PNG")));
-}
+//School
+//School::getSwatchFromESPN(QString imsName)
+//{
+//    QImage swatch(QStandardPaths::writableLocation(QStandardPaths::PicturesLocation)+"/IMS Images/Swatches/"+imsName+".PNG");
+//    return School("Not a School",swatch.pixel(0,10),swatch.pixel(0,14),
+//                  QPixmap::fromImage(MiamiAllAccessHockey::getTrimmedLogo(QStandardPaths::writableLocation(QStandardPaths::PicturesLocation)+"/IMS Images/Logos_Keyable/"+imsName+".PNG")));
+//}
 
 //void
 //School::createSchools(QStringList schoolNames)

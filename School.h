@@ -33,7 +33,7 @@ public:
     void setSecondaryLogoBg(const QColor &value);
 
     //static void createSchools(QStringList schoolNames);
-    static School getSwatchFromESPN(QString imsName);
+//    static School getSwatchFromESPN(QString imsName);
     static School getSchoolFromESPN(QString imsName);
 
     QString getSwatchPath() const;

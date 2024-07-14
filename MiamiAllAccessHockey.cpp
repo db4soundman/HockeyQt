@@ -136,10 +136,13 @@ MiamiAllAccessHockey::exec() {
     QColor bg;
     int pk, pkopp, ppg, ppopp, port, hpk, hpkopp, hppg, hppopp;
     MiamiAllAccessHockey::homeSchool = School::getSchoolFromESPN("MIAMI_OH");
-    MiamiAllAccessHockey::awaySchool = School::getSchoolFromESPN("DUKE");
+    MiamiAllAccessHockey::awaySchool = School::getSchoolFromESPN("WESTERN_MICHIGAN");
     homeSchool.setShortName("MIAMI");
     homeSchool.setTitle("MIAMI");
     homeSchool.setFullName("MIAMI");
+    awaySchool.setShortName("WMU");
+    awaySchool.setTitle("W. MICHIGAN");
+    awaySchool.setFullName("W. MICHIGAN");
     usingTricaster = true;
 
     bg.setRgb(0,120,0);
