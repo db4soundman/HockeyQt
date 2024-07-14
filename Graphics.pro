@@ -220,7 +220,8 @@ FORMS += \
     SerialHandler/settingsdialog.ui \
     TreeView.ui
 
-win32: LIBS += -L$$PWD/./ -lProcessing.NDI.Lib.x64
+#win32: LIBS += -L$$PWD/./ -lProcessing.NDI.Lib.x64
+win32: LIBS += -L$$PWD/./ -lProcessing.NDI.Lib.x86
 
 INCLUDEPATH += $$PWD/.
 DEPENDPATH += $$PWD/.

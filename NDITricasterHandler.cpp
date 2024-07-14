@@ -36,13 +36,16 @@ NDITricasterHandler::NDITricasterHandler(QGraphicsView *view, QColor pAlphaBlack
 #endif
 }
 NDITricasterHandler::~NDITricasterHandler() {
-//    AirSend_Destroy(tricaster);
+    done = true;
+    while(this->isRunning()) {
+        sleep(1);
+    }
 }
 
 
 void NDITricasterHandler::updatePortion(QList<QRectF> rects)
 {
-    QPixmap img = QPixmap::grabWidget(screen);
+    QPixmap img = screen->grab();
     view = img.toImage();
     bool redrawAlpha = false;
     bool ignoreAlpha = false;
@@ -78,7 +81,7 @@ void NDITricasterHandler::updatePortion(QList<QRectF> rects)
     }
     if (redrawAlpha)
         drawTransparentRectangle();
-    start();
+//    start();
 }
 
 void NDITricasterHandler::addAlphaRect(int x, int y, int w, int h)

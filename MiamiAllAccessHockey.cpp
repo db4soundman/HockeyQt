@@ -276,6 +276,7 @@ MiamiAllAccessHockey::exec() {
         connect(pgg, SIGNAL(addNoTransparencyZone(QRect)), tricaster, SLOT(addNoTransparencyZone(QRect)));
         connect(pgg,SIGNAL(removeNoTransparencyZone(QRect)), tricaster, SLOT(removeNoTransparencyZone(QRect)));
         connect(this, SIGNAL(aboutToQuit()), tricaster, SLOT(closing()));
+        tricaster->start();
     }
 
     con.show();
