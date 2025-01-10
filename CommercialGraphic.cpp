@@ -4,6 +4,7 @@
 #include "GraphicChooser.txt"
 #include <QGraphicsScene>
 #include "MiamiAllAccessHockey.h"
+#include "globals.h"
 
 #define NAME_WIDTH 290
 #define RECT_HEIGHT 180
@@ -23,8 +24,7 @@
 #define SCORE_WIDTH 100
 
 CommercialGraphic::CommercialGraphic(HockeyGame* game,QGraphicsItem* parent) :
-    QGraphicsRectItem(parent), blackBar(QPixmap(":/images/ppBar.png")),
-    homeLogo(MiamiAllAccessHockey::homeSchool.getLogo()) {
+    QGraphicsRectItem(parent), homeLogo(MiamiAllAccessHockey::homeSchool.getLogo()) {
     setRect(0,0,GRAPHIC_WIDTH, GRAPHIC_HEIGHT);
     useClock = true;
     hockeyGame = game;
@@ -37,7 +37,7 @@ CommercialGraphic::CommercialGraphic(HockeyGame* game,QGraphicsItem* parent) :
     sponsorFont.setPointSize(14);
 #endif
     //QPixmap pix(pawayLogo);
-    networkLogo = MiamiAllAccessHockey::getImgFromResources(":/images/NCHCTV.png",200, CLOCK_WIDTH-40);
+    networkLogo = MiamiAllAccessHockey::getImgFromResources(Globals::networkLogoPath,200, CLOCK_WIDTH-40);
     away = new QGraphicsTextItem(MiamiAllAccessHockey::awaySchool.getFullName());
     away->setFont(font);
     checkAwayFont();
@@ -100,7 +100,11 @@ void CommercialGraphic::paint(QPainter* painter, const QStyleOptionGraphicsItem*
 //                painter->drawText(CLOCK_X,160, CLOCK_WIDTH, 40 , Qt::AlignCenter, clock);
             }
         }
-        painter->setPen(QColor(41, 70, 91));
+        if (Globals::onTv) {
+            painter->setPen(Globals::tvBrandingTop);
+        } else {
+            painter->setPen(Globals::nchcBrandingTop);
+        }
         painter->setFont(QFont("Arial", 60, QFont::Bold));
         painter->drawText(BORDER_THICKNESS + NAME_WIDTH, BORDER_THICKNESS, SCORE_WIDTH, RECT_HEIGHT, Qt::AlignCenter, awayScore);
         painter->drawText(BORDER_THICKNESS + NAME_WIDTH + CLOCK_WIDTH + SCORE_WIDTH, BORDER_THICKNESS, SCORE_WIDTH, RECT_HEIGHT, Qt::AlignCenter, homeScore);
@@ -122,7 +126,9 @@ void CommercialGraphic::prepareAndShow()
     awayScore = QString::number(hockeyGame->getAwayScore());
     homeScore = QString::number(hockeyGame->getHomeScore());
     emit addNoTransparencyZone(QRect(x() + 10, y() + 10, NAME_WIDTH, RECT_HEIGHT));
-
+    if (Globals::onTv) {
+        emit addNoTransparencyZone(QRect(x() + CLOCK_X + (CLOCK_WIDTH-networkLogo.width()) / 2, y() + 10, networkLogo.width(), networkLogo.height()));
+    }
     switch (hockeyGame->getPeriod()) {
     case 0:
         inGame = false;
@@ -203,6 +209,9 @@ void CommercialGraphic::hide()
     if (show) {
         show = false;
         emit removeNoTransparencyZone(QRect(x() + 10, y() + 10, NAME_WIDTH, RECT_HEIGHT));
+        if (Globals::onTv) {
+            emit removeNoTransparencyZone(QRect(x() + CLOCK_X + (CLOCK_WIDTH-networkLogo.width()) / 2, y() + 10, networkLogo.width(), networkLogo.height()));
+        }
         scene()->update();
     }
 }
@@ -264,8 +273,13 @@ void CommercialGraphic::prepareGradients(QColor awayColor, QColor homeColor)
     bgGradient.setStart(0,0);
     bgGradient.setFinalStop(0, GRAPHIC_HEIGHT);
 
-    bgGradient.setColorAt(0, QColor(41, 70, 91));
-    bgGradient.setColorAt(1, QColor(23, 41, 53));
+    if (Globals::onTv) {
+        bgGradient.setColorAt(0, Globals::tvBrandingTop);
+        bgGradient.setColorAt(1, Globals::tvBrandingBottom);
+    } else {
+        bgGradient.setColorAt(0, Globals::nchcBrandingTop);
+        bgGradient.setColorAt(1, Globals::nchcBrandingBottom);
+    }
     //bgGradient.setColorAt(.5, QColor(50,50,50));
 }
 

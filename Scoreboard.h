@@ -73,14 +73,14 @@ private:
      QString ppDescription, period, centeredTimeText, sponsorText;
      QLinearGradient homeGradient, homeLogoGradient, awayGradient, awayLogoGradient, penaltyGradient, mainGradient, clockGradient, ppGradient, scoreGradient, bgGradient, homePPGradient, awayPPGradient, neutralPPGradient;
      bool awayPP, homePP, neutralPP, penalty, sponsor, useClock, altAwayLogoBg, serialPP,
-     scoreText, showPP, show, showPdAndClockFields, showClock, useTransparency;
+     scoreText, showPP, show, showPdAndClockFields, showClock, useTransparency, onTv;
 
      void prepareColor();
      void prepareAwayName();
      Clock* clock;
      Clock* ppClock;
      QFont defaultSponsorText;
-     int homeRankOffset, awayRankOffset, homeLogoOffset, awayLogoHeightOffset, awayLogoWidthOffset, pd, hSog, aSog;
+     int homeRankOffset, awayRankOffset, homeLogoOffset, awayLogoHeightOffset, awayLogoWidthOffset, pd, hSog, aSog, networkLogoWidthOffset, networkLogoHeightOffset;
      QString serialPpClock;
 
      QRect getAwayPPRectCoords();

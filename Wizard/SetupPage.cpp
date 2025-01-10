@@ -1,6 +1,7 @@
 #include "SetupPage.h"
 #include "MiamiAllAccessHockey.h"
 #include "School.h"
+#include <QMessageBox>
 #include <QGridLayout>
 #include <QFileDialog>
 #include <QColorDialog>
@@ -21,6 +22,19 @@ SetupPage::SetupPage(QString* pSponsor, QColor* pBg, QString* pStatCrew,
     usingTricaster = pUsingTricaster;
     this->tricasterIp = tricasterIp;
     port = portNum;
+
+    onNchc.setText("NCHC.TV");
+    onNchc.setChecked(true);
+
+    onTv.setText("TV Broadcast");
+    onTv.setChecked(false);
+
+    networkLogoFilePath.setText("");
+
+    networkModeButtonGroup.addButton(&onNchc);
+    networkModeButtonGroup.addButton(&onTv);
+    networkLogoBrowse.setText("Select TV Network Logo");
+
     QGridLayout* mainLayout = new QGridLayout();
     mainLayout->addWidget(&chooseBg, 4, 0);
     sponsorLine.setText(*sponsor);
@@ -41,12 +55,20 @@ SetupPage::SetupPage(QString* pSponsor, QColor* pBg, QString* pStatCrew,
     tricasterBox = new QCheckBox("Using Tricaster");
     tricasterBox->setChecked(true);
     mainLayout->addWidget(tricasterBox, 9, 0);
+
+    mainLayout->addWidget(&onNchc, 10,0);
+    mainLayout->addWidget(&onTv, 11,0);
+    mainLayout->addWidget(&networkLogoBrowse,11,1);
+    mainLayout->addWidget(&networkLogoFilePath, 11, 2);
+
     tricasterIpLine.setText(*tricasterIp);
 //    mainLayout->addWidget(&tricasterIpLine, 9, 1);
 //    mainLayout->addWidget(&ipHelp,9, 2);
 //    mainLayout->addWidget(new QLabel("Net Input"),9, 3);
     portSelector = new QComboBox();
 //    mainLayout->addWidget(portSelector,9, 4);
+
+
 
     portSelector->addItem("1");
     portSelector->addItem("2");
@@ -56,6 +78,7 @@ SetupPage::SetupPage(QString* pSponsor, QColor* pBg, QString* pStatCrew,
     connect(&chooseBg, SIGNAL(clicked()), this, SLOT(bgDiag()));
     connect(&browseStatCrew, SIGNAL(clicked()), this, SLOT(statCrewBrowse()));
     connect(&ipHelp, SIGNAL(clicked()), this, SLOT(showHelp()));
+    connect(&networkLogoBrowse, SIGNAL(clicked()), this, SLOT(networkLogoFileBrowse()));
 
     setTitle("Game Information");
     Params p((MiamiAllAccessHockey::getAppDirPath() + "/settings.txt").toStdString());
@@ -78,6 +101,14 @@ bool SetupPage::validatePage()
     *usingTricaster = tricasterBox->isChecked();
     *tricasterIp = tricasterIpLine.text();
     *port = portSelector->currentIndex() + 7000;
+    Globals::onTv = onTv.isChecked();
+    if (onTv.isChecked() && networkLogoFilePath.text().trimmed().isEmpty()) {
+        QMessageBox msg;
+        msg.setText("You must select a logo when the game is on TV");
+        msg.exec();
+        return false;
+    }
+    Globals::networkLogoPath = networkLogoFilePath.text();
     return true;
 }
 
@@ -87,6 +118,14 @@ void SetupPage::statCrewBrowse()
     if (!file.isEmpty())
         *statCrew = file;
 }
+
+void SetupPage::networkLogoFileBrowse()
+{
+    QString file = QFileDialog::getOpenFileName(0, "Network Logo");
+    if (!file.isEmpty())
+        networkLogoFilePath.setText(file);
+}
+
 
 void SetupPage::bgDiag()
 {

@@ -5,6 +5,7 @@
 #include <QGraphicsScene>
 #include <algorithm>
 #include "MiamiAllAccessHockey.h"
+#include "globals.h"
 
 #define NAME_GRADIENT_LEVEL .4
 #define STAT_GRADIENT_LEVEL .4
@@ -201,9 +202,13 @@ void ComparisonGraphic::prepareColors()
 {
     int red, green, blue;
 
-    bgGradient.setColorAt(0, QColor(41, 70, 91));
-    bgGradient.setColorAt(1, QColor(23, 41, 53));
-
+    if (Globals::onTv) {
+        bgGradient.setColorAt(0, Globals::tvBrandingTop);
+        bgGradient.setColorAt(1, Globals::tvBrandingBottom);
+    } else {
+        bgGradient.setColorAt(0, Globals::nchcBrandingTop);
+        bgGradient.setColorAt(1, Globals::nchcBrandingBottom);
+    }
 
     red = -1*homeTeamMain.red() *STAT_GRADIENT_LEVEL + homeTeamMain.red();
     green = -1*homeTeamMain.green() *STAT_GRADIENT_LEVEL + homeTeamMain.green();

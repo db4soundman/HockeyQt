@@ -2,6 +2,7 @@
 #include <QFontMetrics>
 #include <QStringRef>
 #include <QGraphicsScene>
+#include "globals.h"
 #include "GraphicChooser.txt"
 #include "MiamiAllAccessHockey.h"
 
@@ -229,8 +230,13 @@ void LowerThird::prepareColors() {
     if (end == QColor(0,0,0))
         end = QColor(1,1,1);
    // statGradient.setColorAt(.5, stats);
-    statGradient.setColorAt(1, QColor(23, 41, 53));
-    statGradient.setColorAt(0, QColor(41, 70, 91));
+    if (Globals::onTv) {
+        statGradient.setColorAt(0, Globals::tvBrandingTop);
+        statGradient.setColorAt(1, Globals::tvBrandingBottom);
+    } else {
+        statGradient.setColorAt(0, Globals::nchcBrandingTop);
+        statGradient.setColorAt(1, Globals::nchcBrandingBottom);
+    }
 }
 
 void

@@ -39,7 +39,7 @@ public slots:
     void toggleAwayLogoBg(bool on);
 
 private:
-    QPixmap blackBar, networkLogo;
+    QPixmap networkLogo;
     QLinearGradient homeTeamGradient, awayTeamGradient, clockGradient, bgGradient;
     HockeyGame* hockeyGame;
     bool show, inGame, useClock, altAwayLogoBg;
