@@ -429,29 +429,29 @@ Scoreboard::preparePowerplayClock(int pos, Clock *clock, QString description) {
         case AWAY_PP:
             awayPP = true;
             // TODO move the removes to top of func?
-            emit removeNoTransparencyZone(QRect(x() + V_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, 345, PP_BAR_HEIGHT));
-            emit removeNoTransparencyZone(QRect(x() + H_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, 345, PP_BAR_HEIGHT));
-            emit addNoTransparencyZone(QRect(x() + V_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, 345, PP_BAR_HEIGHT));
+            emit removeNoTransparencyZone(QRect(x() + V_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, TEAM_NAME_WIDTH - (Globals::onTv ? 5:0), PP_BAR_HEIGHT));
+            emit removeNoTransparencyZone(QRect(x() + H_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, TEAM_NAME_WIDTH - (Globals::onTv ? 5:0), PP_BAR_HEIGHT));
+            emit addNoTransparencyZone(QRect(x() + V_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, TEAM_NAME_WIDTH - (Globals::onTv ? 5:0), PP_BAR_HEIGHT));
             break;
         case HOME_PP:
-            emit removeNoTransparencyZone(QRect(x() + V_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, 345, PP_BAR_HEIGHT));
-            emit removeNoTransparencyZone(QRect(x() + H_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, 345, PP_BAR_HEIGHT));
-            emit addNoTransparencyZone(QRect(x() + H_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, 345, PP_BAR_HEIGHT));
+            emit removeNoTransparencyZone(QRect(x() + V_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, TEAM_NAME_WIDTH - (Globals::onTv ? 5:0), PP_BAR_HEIGHT));
+            emit removeNoTransparencyZone(QRect(x() + H_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, TEAM_NAME_WIDTH - (Globals::onTv ? 5:0), PP_BAR_HEIGHT));
+            emit addNoTransparencyZone(QRect(x() + H_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, TEAM_NAME_WIDTH - (Globals::onTv ? 5:0), PP_BAR_HEIGHT));
             homePP = true;
             break;
         case NEUTRAL:
-            emit removeNoTransparencyZone(QRect(x() + H_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, 345, PP_BAR_HEIGHT));
-            emit removeNoTransparencyZone(QRect(x() + V_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, 345, PP_BAR_HEIGHT));
+            emit removeNoTransparencyZone(QRect(x() + H_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, TEAM_NAME_WIDTH - (Globals::onTv ? 5:0), PP_BAR_HEIGHT));
+            emit removeNoTransparencyZone(QRect(x() + V_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, TEAM_NAME_WIDTH - (Globals::onTv ? 5:0), PP_BAR_HEIGHT));
             neutralPP = true;
             break;
         default:
-            emit removeNoTransparencyZone(QRect(x() + H_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, 345, PP_BAR_HEIGHT));
-            emit removeNoTransparencyZone(QRect(x() + V_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, 345, PP_BAR_HEIGHT));
+            emit removeNoTransparencyZone(QRect(x() + H_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, TEAM_NAME_WIDTH - (Globals::onTv ? 5:0), PP_BAR_HEIGHT));
+            emit removeNoTransparencyZone(QRect(x() + V_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, TEAM_NAME_WIDTH - (Globals::onTv ? 5:0), PP_BAR_HEIGHT));
             break;
         }
     } else {
-        emit removeNoTransparencyZone(QRect(x() + H_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, 345, PP_BAR_HEIGHT));
-        emit removeNoTransparencyZone(QRect(x() + V_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, 345, PP_BAR_HEIGHT));
+        emit removeNoTransparencyZone(QRect(x() + H_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, TEAM_NAME_WIDTH - (Globals::onTv ? 5:0), PP_BAR_HEIGHT));
+        emit removeNoTransparencyZone(QRect(x() + V_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, TEAM_NAME_WIDTH - (Globals::onTv ? 5:0), PP_BAR_HEIGHT));
     }
     ppDescription = description;
     scene()->update(this->x(), this->y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT,
@@ -460,7 +460,7 @@ Scoreboard::preparePowerplayClock(int pos, Clock *clock, QString description) {
 
 QRect
 Scoreboard::getAwayPPRectCoords() {
-    return QRect(x() + V_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, 345, PP_BAR_HEIGHT);
+    return QRect(x() + V_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, TEAM_NAME_WIDTH - (Globals::onTv ? 5:0), PP_BAR_HEIGHT);
 }
 
 
@@ -607,14 +607,17 @@ Scoreboard::toggleShowBoard() {
     }
     emit addNoTransparencyZone(QRect(x() + V_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + TEAM_BOX_Y, TEAM_WIDTH, TEAM_BOX_HEIGHT));
     emit addNoTransparencyZone(QRect(x(), y() + TOP_BAR_HEIGHT + TEAM_BOX_Y, V_TEAM_BOX_STARTX, TEAM_BOX_HEIGHT));
+    // Away SOG flag
+    emit addNoTransparencyZone(QRect(x() + V_TEAM_BOX_STARTX + TEAM_NAME_WIDTH, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, TEAM_WIDTH - TEAM_NAME_WIDTH, PP_BAR_HEIGHT));
     scene()->update();
 }
 
 void Scoreboard::togglePpClocks()
 {
     showPP = !showPP;
-    emit removeNoTransparencyZone(QRect(x() + V_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, 345, PP_BAR_HEIGHT));
-    emit removeNoTransparencyZone(QRect(x() + H_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, 345, PP_BAR_HEIGHT));
+    emit removeNoTransparencyZone(QRect(x() + V_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, TEAM_NAME_WIDTH - (Globals::onTv ? 5:0), PP_BAR_HEIGHT));
+    emit removeNoTransparencyZone(QRect(x() + H_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, TEAM_NAME_WIDTH - (Globals::onTv ? 5:0), PP_BAR_HEIGHT));
+
     scene()->update(this->x(), this->y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT,
                     SCOREBOARD_WIDTH + 4 , PP_BAR_HEIGHT+1);
 }
@@ -625,9 +628,10 @@ Scoreboard::hideBoard() {
         show = false;
         emit removeTransparentField(x()+20, y(), TOP_BAR_WIDTH,TOP_BAR_HEIGHT);
         emit removeNoTransparencyZone(QRect(x() + V_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + TEAM_BOX_Y, TEAM_WIDTH, TEAM_BOX_HEIGHT));
-        emit removeNoTransparencyZone(QRect(x() + V_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, 345, PP_BAR_HEIGHT));
+        emit removeNoTransparencyZone(QRect(x() + V_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, TEAM_NAME_WIDTH - (Globals::onTv ? 5:0), PP_BAR_HEIGHT));
         emit removeNoTransparencyZone(QRect(x(), y() + TOP_BAR_HEIGHT + TEAM_BOX_Y, V_TEAM_BOX_STARTX, TEAM_BOX_HEIGHT));
-        emit removeNoTransparencyZone(QRect(x() + H_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, 345, PP_BAR_HEIGHT));
+        emit removeNoTransparencyZone(QRect(x() + H_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, TEAM_NAME_WIDTH - (Globals::onTv ? 5:0), PP_BAR_HEIGHT));
+        emit removeNoTransparencyZone(QRect(x() + V_TEAM_BOX_STARTX + TEAM_NAME_WIDTH, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, TEAM_WIDTH - TEAM_NAME_WIDTH, PP_BAR_HEIGHT));
         //emit removeNoTransparencyZone(QRect(x() + V_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, 345, PP_BAR_HEIGHT));
         scene()->update();
     }

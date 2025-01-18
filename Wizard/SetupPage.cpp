@@ -108,7 +108,11 @@ bool SetupPage::validatePage()
         msg.exec();
         return false;
     }
-    Globals::networkLogoPath = networkLogoFilePath.text();
+    if (!onTv.isChecked()) {
+        Globals::networkLogoPath = ":/images/NCHCTV.png";
+    } else {
+        Globals::networkLogoPath = networkLogoFilePath.text();
+    }
     return true;
 }
 
