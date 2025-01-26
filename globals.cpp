@@ -18,8 +18,8 @@ QColor Globals::white = QColor(240,240,240);
 QColor Globals::nchcBrandingTop = QColor(41, 70, 91);
 QColor Globals::nchcBrandingBottom = QColor(23, 41, 53);
 
-QColor Globals::tvBrandingTop = QColor(20, 20, 20);
-QColor Globals::tvBrandingBottom = QColor(5, 5, 5);
+QColor Globals::tvBrandingTop = QColor(40, 40, 40);
+QColor Globals::tvBrandingBottom = QColor(20, 20, 20);
 
 bool Globals::onTv = false;
 
