@@ -44,7 +44,9 @@ Scoreboard::Scoreboard(QString sponsorText, Clock* clock, QString pAwayRank, QSt
     font.setPointSize(40);
     sponsorFont.setPointSize(28);
 #endif
-    nchctv = (MiamiAllAccessHockey::getImgFromResources(Globals::networkLogoPath, 42, V_TEAM_BOX_STARTX));
+    nchctv = Globals::networkLogoPath.contains("ims images",Qt::CaseInsensitive) ?
+                (MiamiAllAccessHockey::getImgFromESPN(Globals::networkLogoPath, 42, V_TEAM_BOX_STARTX - 20)) :
+                (MiamiAllAccessHockey::getImgFromResources(Globals::networkLogoPath, 42, V_TEAM_BOX_STARTX - 20));
     networkLogoHeightOffset = (42 - nchctv.height()) / 2;
     networkLogoWidthOffset = (V_TEAM_BOX_STARTX - nchctv.width()) / 2;
     defaultSponsorText = sponsorFont;
@@ -209,10 +211,8 @@ Scoreboard::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
             painter->setFont(defaultSponsorText);
             // Away ppbar
             if(awayPP) {
-                painter->fillRect(V_TEAM_BOX_STARTX, TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, TEAM_NAME_WIDTH - (Globals::onTv ? 5:0), PP_BAR_HEIGHT, awayPPGradient);
+                painter->fillRect(V_TEAM_BOX_STARTX, TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, TEAM_NAME_WIDTH - 5, PP_BAR_HEIGHT, awayPPGradient);
                 painter->setPen(QColor(196, 213, 242));
-                if (!Globals::onTv)
-                    painter->drawRect(V_TEAM_BOX_STARTX, TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, TEAM_NAME_WIDTH, PP_BAR_HEIGHT);
                 painter->setPen(QColor(230,230,230));
                 //painter->drawPixmap(V_TEAM_BOX_STARTX - 3,SCOREBOARD_HEIGHT, *ppBar);
                 painter->drawText(V_TEAM_BOX_STARTX + 5, TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, TEAM_NAME_WIDTH, PP_BAR_HEIGHT, Qt::AlignLeft | Qt::AlignVCenter, ppDescription);
@@ -222,10 +222,8 @@ Scoreboard::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
             }
             //Home ppbar
             else if (homePP) {
-                painter->fillRect(H_TEAM_BOX_STARTX, TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, TEAM_NAME_WIDTH - (Globals::onTv ? 5:0), PP_BAR_HEIGHT, homePPGradient);
+                painter->fillRect(H_TEAM_BOX_STARTX, TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, TEAM_NAME_WIDTH - 5, PP_BAR_HEIGHT, homePPGradient);
                 painter->setPen(QColor(196, 213, 242));
-                if (!Globals::onTv)
-                    painter->drawRect(H_TEAM_BOX_STARTX, TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, TEAM_NAME_WIDTH, PP_BAR_HEIGHT);
                 painter->setPen(QColor(230,230,230));
                 painter->drawText(H_TEAM_BOX_STARTX + 4, TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, TEAM_NAME_WIDTH, PP_BAR_HEIGHT, Qt::AlignLeft | Qt::AlignVCenter, ppDescription);
                 if (useClock)
@@ -236,8 +234,6 @@ Scoreboard::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
             else if (neutralPP){
                 painter->fillRect(CLOCK_FIELD_X, TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, CLOCK_FIELD_WIDTH, PP_BAR_HEIGHT, neutralPPGradient);
                 painter->setPen(QColor(196, 213, 242));
-                if (!Globals::onTv)
-                    painter->drawRect(CLOCK_FIELD_X, TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, CLOCK_FIELD_WIDTH, PP_BAR_HEIGHT);
                 painter->setPen(QColor(230,230,230));
                 painter->drawText(CLOCK_FIELD_X + 8, TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, CLOCK_FIELD_WIDTH, PP_BAR_HEIGHT, Qt::AlignLeft | Qt::AlignVCenter, ppDescription);
                 if (useClock)
@@ -248,19 +244,16 @@ Scoreboard::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 
         if (penalty) {
             // Penalty Indicator
-            painter->fillRect(CLOCK_FIELD_X,TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, CLOCK_FIELD_WIDTH - 10, PP_BAR_HEIGHT, penaltyGradient);
+            painter->fillRect(CLOCK_FIELD_X,TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, CLOCK_FIELD_WIDTH, PP_BAR_HEIGHT, penaltyGradient);
             painter->setPen(QColor(1,1,1));
             painter->setFont(defaultSponsorText);
-            painter->drawText(CLOCK_FIELD_X, TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT,CLOCK_FIELD_WIDTH - 10,PP_BAR_HEIGHT, Qt::AlignCenter, "PENALTY");
+            painter->drawText(CLOCK_FIELD_X, TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT,CLOCK_FIELD_WIDTH,PP_BAR_HEIGHT, Qt::AlignCenter, "PENALTY");
         }
 
         painter->setFont(homeRank->font());
         // Away SOG
 
         painter->fillRect(V_TEAM_BOX_STARTX + TEAM_NAME_WIDTH, TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, TEAM_WIDTH - TEAM_NAME_WIDTH, PP_BAR_HEIGHT, awayPPGradient);
-        painter->setPen(QColor(196, 213, 242));
-        if (!Globals::onTv)
-            painter->drawRect(V_TEAM_BOX_STARTX + TEAM_NAME_WIDTH, TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, TEAM_WIDTH - TEAM_NAME_WIDTH, PP_BAR_HEIGHT);
         painter->setPen(QColor(230,230,230));
         //painter->drawPixmap(V_TEAM_BOX_STARTX - 3,SCOREBOARD_HEIGHT, *ppBar);
         painter->drawText(V_TEAM_BOX_STARTX + TEAM_NAME_WIDTH, TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, TEAM_WIDTH - TEAM_NAME_WIDTH, PP_BAR_HEIGHT, Qt::AlignCenter, "shots " + QString::number(aSog));
@@ -268,15 +261,8 @@ Scoreboard::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
         //Home SOG
 
         painter->fillRect(H_TEAM_BOX_STARTX+ TEAM_NAME_WIDTH, TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, TEAM_WIDTH - TEAM_NAME_WIDTH, PP_BAR_HEIGHT, homePPGradient);
-        painter->setPen(QColor(196, 213, 242));
-        if (!Globals::onTv)
-            painter->drawRect(H_TEAM_BOX_STARTX+ TEAM_NAME_WIDTH, TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, TEAM_WIDTH - TEAM_NAME_WIDTH, PP_BAR_HEIGHT);
         painter->setPen(QColor(230,230,230));
         painter->drawText(H_TEAM_BOX_STARTX+ TEAM_NAME_WIDTH, TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, TEAM_WIDTH - TEAM_NAME_WIDTH, PP_BAR_HEIGHT, Qt::AlignCenter, "shots " + QString::number(hSog));
-
-
-        if (!Globals::onTv)
-           painter->drawRect(0,TOP_BAR_HEIGHT,SCOREBOARD_WIDTH, SCOREBOARD_HEIGHT);
         painter->setPen(QColor(255, 255, 255));
 
     }
@@ -429,29 +415,29 @@ Scoreboard::preparePowerplayClock(int pos, Clock *clock, QString description) {
         case AWAY_PP:
             awayPP = true;
             // TODO move the removes to top of func?
-            emit removeNoTransparencyZone(QRect(x() + V_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, TEAM_NAME_WIDTH - (Globals::onTv ? 5:0), PP_BAR_HEIGHT));
-            emit removeNoTransparencyZone(QRect(x() + H_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, TEAM_NAME_WIDTH - (Globals::onTv ? 5:0), PP_BAR_HEIGHT));
-            emit addNoTransparencyZone(QRect(x() + V_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, TEAM_NAME_WIDTH - (Globals::onTv ? 5:0), PP_BAR_HEIGHT));
+            emit removeNoTransparencyZone(QRect(x() + V_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, TEAM_NAME_WIDTH - 5, PP_BAR_HEIGHT));
+            emit removeNoTransparencyZone(QRect(x() + H_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, TEAM_NAME_WIDTH - 5, PP_BAR_HEIGHT));
+            emit addNoTransparencyZone(QRect(x() + V_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, TEAM_NAME_WIDTH - 5, PP_BAR_HEIGHT));
             break;
         case HOME_PP:
-            emit removeNoTransparencyZone(QRect(x() + V_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, TEAM_NAME_WIDTH - (Globals::onTv ? 5:0), PP_BAR_HEIGHT));
-            emit removeNoTransparencyZone(QRect(x() + H_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, TEAM_NAME_WIDTH - (Globals::onTv ? 5:0), PP_BAR_HEIGHT));
-            emit addNoTransparencyZone(QRect(x() + H_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, TEAM_NAME_WIDTH - (Globals::onTv ? 5:0), PP_BAR_HEIGHT));
+            emit removeNoTransparencyZone(QRect(x() + V_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, TEAM_NAME_WIDTH - 5, PP_BAR_HEIGHT));
+            emit removeNoTransparencyZone(QRect(x() + H_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, TEAM_NAME_WIDTH - 5, PP_BAR_HEIGHT));
+            emit addNoTransparencyZone(QRect(x() + H_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, TEAM_NAME_WIDTH - 5, PP_BAR_HEIGHT));
             homePP = true;
             break;
         case NEUTRAL:
-            emit removeNoTransparencyZone(QRect(x() + H_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, TEAM_NAME_WIDTH - (Globals::onTv ? 5:0), PP_BAR_HEIGHT));
-            emit removeNoTransparencyZone(QRect(x() + V_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, TEAM_NAME_WIDTH - (Globals::onTv ? 5:0), PP_BAR_HEIGHT));
+            emit removeNoTransparencyZone(QRect(x() + H_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, TEAM_NAME_WIDTH - 5, PP_BAR_HEIGHT));
+            emit removeNoTransparencyZone(QRect(x() + V_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, TEAM_NAME_WIDTH - 5, PP_BAR_HEIGHT));
             neutralPP = true;
             break;
         default:
-            emit removeNoTransparencyZone(QRect(x() + H_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, TEAM_NAME_WIDTH - (Globals::onTv ? 5:0), PP_BAR_HEIGHT));
-            emit removeNoTransparencyZone(QRect(x() + V_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, TEAM_NAME_WIDTH - (Globals::onTv ? 5:0), PP_BAR_HEIGHT));
+            emit removeNoTransparencyZone(QRect(x() + H_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, TEAM_NAME_WIDTH - 5, PP_BAR_HEIGHT));
+            emit removeNoTransparencyZone(QRect(x() + V_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, TEAM_NAME_WIDTH - 5, PP_BAR_HEIGHT));
             break;
         }
     } else {
-        emit removeNoTransparencyZone(QRect(x() + H_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, TEAM_NAME_WIDTH - (Globals::onTv ? 5:0), PP_BAR_HEIGHT));
-        emit removeNoTransparencyZone(QRect(x() + V_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, TEAM_NAME_WIDTH - (Globals::onTv ? 5:0), PP_BAR_HEIGHT));
+        emit removeNoTransparencyZone(QRect(x() + H_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, TEAM_NAME_WIDTH - 5, PP_BAR_HEIGHT));
+        emit removeNoTransparencyZone(QRect(x() + V_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, TEAM_NAME_WIDTH - 5, PP_BAR_HEIGHT));
     }
     ppDescription = description;
     scene()->update(this->x(), this->y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT,
@@ -460,7 +446,7 @@ Scoreboard::preparePowerplayClock(int pos, Clock *clock, QString description) {
 
 QRect
 Scoreboard::getAwayPPRectCoords() {
-    return QRect(x() + V_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, TEAM_NAME_WIDTH - (Globals::onTv ? 5:0), PP_BAR_HEIGHT);
+    return QRect(x() + V_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, TEAM_NAME_WIDTH - 5, PP_BAR_HEIGHT);
 }
 
 
@@ -615,8 +601,8 @@ Scoreboard::toggleShowBoard() {
 void Scoreboard::togglePpClocks()
 {
     showPP = !showPP;
-    emit removeNoTransparencyZone(QRect(x() + V_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, TEAM_NAME_WIDTH - (Globals::onTv ? 5:0), PP_BAR_HEIGHT));
-    emit removeNoTransparencyZone(QRect(x() + H_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, TEAM_NAME_WIDTH - (Globals::onTv ? 5:0), PP_BAR_HEIGHT));
+    emit removeNoTransparencyZone(QRect(x() + V_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, TEAM_NAME_WIDTH - 5, PP_BAR_HEIGHT));
+    emit removeNoTransparencyZone(QRect(x() + H_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, TEAM_NAME_WIDTH - 5, PP_BAR_HEIGHT));
 
     scene()->update(this->x(), this->y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT,
                     SCOREBOARD_WIDTH + 4 , PP_BAR_HEIGHT+1);
@@ -628,9 +614,9 @@ Scoreboard::hideBoard() {
         show = false;
         emit removeTransparentField(x()+20, y(), TOP_BAR_WIDTH,TOP_BAR_HEIGHT);
         emit removeNoTransparencyZone(QRect(x() + V_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + TEAM_BOX_Y, TEAM_WIDTH, TEAM_BOX_HEIGHT));
-        emit removeNoTransparencyZone(QRect(x() + V_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, TEAM_NAME_WIDTH - (Globals::onTv ? 5:0), PP_BAR_HEIGHT));
+        emit removeNoTransparencyZone(QRect(x() + V_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, TEAM_NAME_WIDTH - 5, PP_BAR_HEIGHT));
         emit removeNoTransparencyZone(QRect(x(), y() + TOP_BAR_HEIGHT + TEAM_BOX_Y, V_TEAM_BOX_STARTX, TEAM_BOX_HEIGHT));
-        emit removeNoTransparencyZone(QRect(x() + H_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, TEAM_NAME_WIDTH - (Globals::onTv ? 5:0), PP_BAR_HEIGHT));
+        emit removeNoTransparencyZone(QRect(x() + H_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, TEAM_NAME_WIDTH - 5, PP_BAR_HEIGHT));
         emit removeNoTransparencyZone(QRect(x() + V_TEAM_BOX_STARTX + TEAM_NAME_WIDTH, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, TEAM_WIDTH - TEAM_NAME_WIDTH, PP_BAR_HEIGHT));
         //emit removeNoTransparencyZone(QRect(x() + V_TEAM_BOX_STARTX, y() + TOP_BAR_HEIGHT + SCOREBOARD_HEIGHT, 345, PP_BAR_HEIGHT));
         scene()->update();

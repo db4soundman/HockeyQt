@@ -64,6 +64,7 @@ HockeyGame::HockeyGame(QString awayXML, QString homeXML, QString sponsor,
 
     firedPeriodChange = false;
     waitingForPeriodStart = false;
+    newPenaltyCreated = false;
 }
 
 void
@@ -574,7 +575,15 @@ void HockeyGame::parseAllSportCG(QByteArray data)
                 // There were active penalties, but not anymore
             }
             penaltiesActive = penalty;
-            determinePpClockAllSport(penClock);
+            if (stopped && newPenaltyCreated) {
+                sb.setSerialPowerPlay(0,"","");
+            }
+            else if (!stopped) {
+                determinePpClockAllSport(penClock);
+            }
+        }
+        if (!stopped) {
+            newPenaltyCreated = false;
         }
         gameClock.setClock(clock);
         if (homeScore != homeScoreS) {
@@ -1133,6 +1142,7 @@ void HockeyGame::triggerNewPenalty()
 {
     timeEventHappened = period > 3 ? gameClock.getTimeSinceOtStarted() :
                                      gameClock.getTimeSincePdStarted();
+    newPenaltyCreated = true;
 }
 
 void HockeyGame::determinePpClockAllSport(QString clock)

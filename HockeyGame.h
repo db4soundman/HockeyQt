@@ -161,7 +161,7 @@ private:
     Clock gameClock;
     QList<Clock*> awayPenalty, homePenalty;
     QTimer timer, tricasterRefresh, cgTimer;
-    bool clockRunning, isFinal, useClock, penaltiesActive;
+    bool clockRunning, isFinal, useClock, penaltiesActive, newPenaltyCreated;
     HockeyTeam* homeTeam;
     HockeyTeam* awayTeam;
     Scoreboard sb;

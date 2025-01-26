@@ -37,7 +37,9 @@ CommercialGraphic::CommercialGraphic(HockeyGame* game,QGraphicsItem* parent) :
     sponsorFont.setPointSize(14);
 #endif
     //QPixmap pix(pawayLogo);
-    networkLogo = MiamiAllAccessHockey::getImgFromResources(Globals::networkLogoPath,200, CLOCK_WIDTH-40);
+    networkLogo =Globals::networkLogoPath.contains("ims images",Qt::CaseInsensitive) ?
+                MiamiAllAccessHockey::getImgFromESPN(Globals::networkLogoPath,90, CLOCK_WIDTH-40) :
+                MiamiAllAccessHockey::getImgFromResources(Globals::networkLogoPath,90, CLOCK_WIDTH-40);
     away = new QGraphicsTextItem(MiamiAllAccessHockey::awaySchool.getFullName());
     away->setFont(font);
     checkAwayFont();
@@ -79,7 +81,7 @@ void CommercialGraphic::paint(QPainter* painter, const QStyleOptionGraphicsItem*
         painter->drawText(BORDER_THICKNESS, LOGO_HEIGHT+BORDER_THICKNESS, NAME_WIDTH, RECT_HEIGHT - LOGO_HEIGHT, Qt::AlignCenter, away->toPlainText());
         painter->setFont(home->font());
         painter->drawText(BORDER_THICKNESS + NAME_WIDTH + SCORE_WIDTH + CLOCK_WIDTH + SCORE_WIDTH, LOGO_HEIGHT+BORDER_THICKNESS, NAME_WIDTH, RECT_HEIGHT - LOGO_HEIGHT, Qt::AlignCenter, home->toPlainText());
-        painter->drawPixmap(CLOCK_X + (CLOCK_WIDTH-networkLogo.width()) / 2, 10, networkLogo);
+        painter->drawPixmap(CLOCK_X + (CLOCK_WIDTH-networkLogo.width()) / 2, 10 + ((90-networkLogo.height()) / 2), networkLogo);
         painter->setFont(descriptiveFont);
         if (clockStatus == FINAL || period == "SHOOTOUT") {
             if (period.endsWith("OT")) {
